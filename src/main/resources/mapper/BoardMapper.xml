@@ -50,4 +50,22 @@
         WHERE BRD_SEQ = #{brdSeq}
     </update>
 
+    <insert id="insertFile" parameterType="org.mtf.sok.domain.FileDTO">
+        INSERT INTO TB_FILE (
+            REF_TABLE, REF_SEQ, ORG_FILE_NM, SAVE_FILE_NM,
+            FILE_PATH, FILE_SIZE, FILE_EXT, REG_DT, DEL_YN
+        ) VALUES (
+                     #{refTable}, #{refSeq}, #{orgFileNm}, #{saveFileNm},
+                     #{filePath}, #{fileSize}, #{fileExt}, NOW(), 'N'
+                 )
+    </insert>
+
+    <select id="selectFiles" parameterType="org.mtf.sok.domain.FileDTO" resultType="org.mtf.sok.domain.FileDTO">
+        SELECT * FROM TB_FILE
+        WHERE REF_TABLE = #{refTable}
+          AND REF_SEQ = #{refSeq}
+          AND DEL_YN = 'N'
+        ORDER BY FILE_SEQ ASC
+    </select>
+
 </mapper>

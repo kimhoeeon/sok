@@ -2,6 +2,7 @@ package org.mtf.sok.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.mtf.sok.domain.BoardDTO;
+import org.mtf.sok.domain.FileDTO;
 
 import java.util.List;
 
@@ -18,4 +19,10 @@ public interface BoardMapper {
     void deleteBoard(Long brdSeq);
 
     void updateViewCnt(Long brdSeq);
+
+    // 첨부파일 저장 및 조회
+    void insertFile(FileDTO file);
+
+    List<FileDTO> selectFiles(FileDTO params);
+
 }
