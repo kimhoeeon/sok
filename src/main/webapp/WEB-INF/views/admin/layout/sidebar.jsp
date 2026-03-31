@@ -41,7 +41,7 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu show" id="collapseMenuManage">
-                <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="#">함께하는 사람들 관리</a>
+                <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="/admin/people/list">함께하는 사람들 관리</a>
                 <a class="nav-link ${param.menuId eq 'notice' ? 'active text-white' : ''}" href="/admin/notice/list">공지사항 관리</a>
                 <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="#">경영공시 관리</a>
                 <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-white' : ''}" href="#">입찰정보 관리</a>
