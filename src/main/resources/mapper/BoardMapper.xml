@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.AdminMapper">
+
+    <select id="findAdminById" resultType="org.mtf.sok.domain.AdminDTO">
+        SELECT MBR_SEQ,
+               MBR_ID,
+               MBR_PW,
+               MBR_NM,
+               MBR_ROLE
+        FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId}
+          AND MBR_ROLE = 'ADMIN'
+          AND WITHDRAW_YN = 'N'
+    </select>
+
+    <select id="findAllowedIps" resultType="string">
+        SELECT ALLOW_IP
+        FROM TB_ADMIN_IP
+        WHERE MBR_SEQ = #{mbrSeq}
+    </select>
+
+</mapper>
