@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mtf.sok.mapper.AdminMapper">
+<mapper namespace="org.mtf.sok.mapper.BoardMapper">
 
-    <select id="findAdminById" resultType="org.mtf.sok.domain.AdminDTO">
-        SELECT MBR_SEQ,
-               MBR_ID,
-               MBR_PW,
-               MBR_NM,
-               MBR_ROLE
-        FROM TB_MEMBER
-        WHERE MBR_ID = #{mbrId}
-          AND MBR_ROLE = 'ADMIN'
-          AND WITHDRAW_YN = 'N'
+    <select id="selectBoardList" resultType="org.mtf.sok.domain.BoardDTO">
+        SELECT BRD_SEQ, BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, VIEW_CNT, REG_DT
+        FROM TB_BOARD
+        WHERE DEL_YN = 'N'
+        AND BRD_TYPE = #{brdType}
+        <if test="title != null and title != ''">
+            AND TITLE LIKE CONCAT('%', #{title}, '%')
+        </if>
+        ORDER BY IS_NOTICE DESC, BRD_SEQ DESC
     </select>
 
-    <select id="findAllowedIps" resultType="string">
-        SELECT ALLOW_IP
-        FROM TB_ADMIN_IP
-        WHERE MBR_SEQ = #{mbrSeq}
+    <select id="selectBoard" resultType="org.mtf.sok.domain.BoardDTO">
+        SELECT *
+        FROM TB_BOARD
+        WHERE BRD_SEQ = #{brdSeq}
+          AND DEL_YN = 'N'
     </select>
+
+    <insert id="insertBoard" parameterType="org.mtf.sok.domain.BoardDTO" useGeneratedKeys="true" keyProperty="brdSeq">
+        INSERT INTO TB_BOARD (BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, CONTENT, YOUTUBE_URL, REG_ID, REG_DT)
+        VALUES (#{brdType}, #{category}, #{isNotice}, #{title}, #{content}, #{youtubeUrl}, #{regId}, NOW())
+    </insert>
+
+    <update id="updateBoard" parameterType="org.mtf.sok.domain.BoardDTO">
+        UPDATE TB_BOARD
+        SET CATEGORY    = #{category},
+            IS_NOTICE   = #{isNotice},
+            TITLE       = #{title},
+            CONTENT     = #{content},
+            YOUTUBE_URL = #{youtubeUrl},
+            MOD_ID      = #{modId},
+            MOD_DT      = NOW()
+        WHERE BRD_SEQ = #{brdSeq}
+    </update>
+
+    <update id="deleteBoard">
+        UPDATE TB_BOARD
+        SET DEL_YN = 'Y',
+            MOD_DT = NOW()
+        WHERE BRD_SEQ = #{brdSeq}
+    </update>
+
+    <update id="updateViewCnt">
+        UPDATE TB_BOARD
+        SET VIEW_CNT = VIEW_CNT + 1
+        WHERE BRD_SEQ = #{brdSeq}
+    </update>
 
 </mapper>

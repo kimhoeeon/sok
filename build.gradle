@@ -1,17 +1,17 @@
 plugins {
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version '4.0.5'
-    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'org.mtf'
 version = '0.0.1-SNAPSHOT'
-description = 'sok'
+sourceCompatibility = '1.8'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
     }
 }
 
@@ -20,10 +20,30 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat-runtime'
+    // 1. Spring Boot Web (웹 애플리케이션 코어)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 2. MyBatis (데이터베이스 매퍼)
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+
+    // 3. MariaDB Driver (데이터베이스 연결용 드라이버)
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.9'
+
+    // 4. JSP 렌더링을 위한 톰캣 엔진 (로컬 개발 환경 내장 톰캣용)
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    // 5. JSTL (JSP 표준 태그 라이브러리)
+    implementation 'javax.servlet:jstl:1.2'
+
+    // 6. 외장 Tomcat 8.5 호스팅 배포를 위한 설정 (WAR 배포 시 내장 톰캣과 충돌 방지)
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    // 7. Lombok (Getter, Setter, toString 자동 생성 등 편의성)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 8. Test (테스트 코드 작성용)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {

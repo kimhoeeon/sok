@@ -1,60 +1,68 @@
 package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.AdminDTO;
-import org.mtf.sok.service.AdminService;
-import org.mtf.sok.util.RequestUtils;
+import org.mtf.sok.domain.BoardDTO;
+import org.mtf.sok.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/admin/notice")
+public class NoticeController {
 
     @Autowired
-    private AdminService adminService;
+    private BoardMapper boardMapper;
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "admin/login";
+    @GetMapping("/list")
+    public String list(@RequestParam(required = false) String title, Model model) {
+        BoardDTO params = new BoardDTO();
+        params.setBrdType("NOTICE");
+        params.setTitle(title);
+
+        List<BoardDTO> list = boardMapper.selectBoardList(params);
+        model.addAttribute("list", list);
+        model.addAttribute("searchTitle", title);
+
+        return "admin/notice/list";
     }
 
-    @PostMapping("/loginProc")
-    public String loginProc(@RequestParam String mbrId,
-                            @RequestParam String mbrPw,
-                            HttpServletRequest request,
-                            RedirectAttributes rttr) {
-
-        String clientIp = RequestUtils.getClientIp(request);
-
-        try {
-            AdminDTO admin = adminService.loginCheck(mbrId, mbrPw, clientIp);
-            HttpSession session = request.getSession();
-            session.setAttribute("adminLogin", admin);
-
-            return "redirect:/admin/main";
-
-        } catch (Exception e) {
-            rttr.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/admin/login";
+    @GetMapping("/form")
+    public String form(@RequestParam(required = false) Long brdSeq, Model model) {
+        BoardDTO notice = new BoardDTO();
+        if (brdSeq != null) {
+            notice = boardMapper.selectBoard(brdSeq);
+        } else {
+            notice.setIsNotice("N"); // 기본값 세팅
         }
+        model.addAttribute("notice", notice);
+        return "admin/notice/form";
     }
 
-    @GetMapping("/main")
-    public String adminMain() {
-        return "admin/main";
+    @PostMapping("/save")
+    public String save(BoardDTO board, HttpSession session) {
+        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+
+        board.setBrdType("NOTICE");
+        if (board.getIsNotice() == null) board.setIsNotice("N");
+
+        if (board.getBrdSeq() != null) {
+            board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
+            boardMapper.updateBoard(board);
+        } else {
+            board.setRegId(admin != null ? admin.getMbrId() : "SYSTEM");
+            boardMapper.insertBoard(board);
+        }
+        return "redirect:/admin/notice/list";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/admin/login";
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long brdSeq) {
+        boardMapper.deleteBoard(brdSeq);
+        return "redirect:/admin/notice/list";
     }
 }

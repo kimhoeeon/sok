@@ -1,16 +1,21 @@
 package org.mtf.sok.domain;
 
 import lombok.Data;
-import java.util.List;
+import java.util.Date;
 
 @Data
-public class AdminDTO {
-    private Long mbrSeq;
-    private String mbrId;
-    private String mbrPw;
-    private String mbrNm;
-    private String mbrRole;
-
-    // 허용된 IP 목록을 문자열 리스트로 단순화
-    private List<String> allowedIpList;
+public class BoardDTO {
+    private Long brdSeq;
+    private String brdType;
+    private String category;
+    private String isNotice;
+    private String title;
+    private String content;
+    private String youtubeUrl;
+    private Integer viewCnt;
+    private String regId;
+    private Date regDt;
+    private String modId;
+    private Date modDt;
+    private String delYn;
 }
