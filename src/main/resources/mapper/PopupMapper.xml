@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.PopupMapper">
+
+    <select id="selectPopupList" resultType="org.mtf.sok.domain.PopupDTO">
+        SELECT POP_SEQ, TITLE, START_DT, END_DT, USE_YN, REG_DT
+        FROM TB_POPUP
+        WHERE DEL_YN = 'N'
+        <if test="title != null and title != ''">
+            AND TITLE LIKE CONCAT('%', #{title}, '%')
+        </if>
+        ORDER BY POP_SEQ DESC
+    </select>
+
+    <select id="selectPopup" resultType="org.mtf.sok.domain.PopupDTO">
+        SELECT * FROM TB_POPUP
+        WHERE POP_SEQ = #{popSeq} AND DEL_YN = 'N'
+    </select>
+
+    <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO" useGeneratedKeys="true" keyProperty="popSeq">
+        INSERT INTO TB_POPUP (TITLE, START_DT, END_DT, USE_YN, REG_ID, REG_DT)
+        VALUES (#{title}, #{startDt}, #{endDt}, #{useYn}, #{regId}, NOW())
+    </insert>
+
+    <update id="updatePopup" parameterType="org.mtf.sok.domain.PopupDTO">
+        UPDATE TB_POPUP
+        SET TITLE = #{title},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            USE_YN = #{useYn},
+            MOD_ID = #{modId},
+            MOD_DT = NOW()
+        WHERE POP_SEQ = #{popSeq}
+    </update>
+
+    <update id="deletePopup">
+        UPDATE TB_POPUP SET DEL_YN = 'Y', MOD_DT = NOW() WHERE POP_SEQ = #{popSeq}
+    </update>
+
+</mapper>

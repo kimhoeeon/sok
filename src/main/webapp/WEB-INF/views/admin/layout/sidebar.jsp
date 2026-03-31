@@ -2,15 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-    .sidebar { width: 280px; flex-shrink: 0; overflow-y: auto; }
-    .sidebar::-webkit-scrollbar { width: 6px; }
-    .sidebar::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 10px; }
-    .sidebar-menu .nav-link { color: #a1a5b7; padding: 10px 15px; border-radius: 8px; font-size: 15px; transition: all 0.3s; margin-bottom: 2px; }
+    /* 사이드바 전용 추가 스타일 */
+    .sidebar { width: 260px; flex-shrink: 0; overflow-y: auto; }
+    .sidebar::-webkit-scrollbar { width: 5px; }
+    .sidebar::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.15); border-radius: 10px; }
+
+    /* 1 Depth 메뉴 폰트 */
+    .sidebar-menu .nav-link { color: #a1a5b7; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.3s; margin-bottom: 2px; }
     .sidebar-menu .nav-link:hover, .sidebar-menu .nav-link.active { background: rgba(255,255,255,0.05); color: #fff; }
-    .sidebar-menu .nav-link.active i { color: #39ff14; text-shadow: 0 0 10px rgba(57, 255, 20, 0.7); }
-    .collapse-menu { padding-left: 25px; }
-    .collapse-menu .nav-link { font-size: 14px; padding: 8px 15px; margin-bottom: 2px; }
-    .collapse-menu-depth3 { padding-left: 20px; }
+    /* 활성화된 메뉴의 아이콘 색상도 화이트로 차분하게 변경 */
+    .sidebar-menu .nav-link.active i { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); }
+
+    /* 2~3 Depth 하위 메뉴 폰트 */
+    .collapse-menu { padding-left: 20px; }
+    .collapse-menu .nav-link { font-size: 13px; font-weight: 400; padding: 8px 15px; margin-bottom: 2px; }
+    .collapse-menu-depth3 { padding-left: 15px; }
 </style>
 
 <div class="sidebar premium-dark-card d-flex flex-column p-3 border-end" style="border-color: rgba(255,255,255,0.05) !important; border-radius: 0;">
@@ -22,6 +28,7 @@
     </div>
 
     <ul class="nav flex-column mb-auto sidebar-menu gap-1">
+
         <li class="nav-item">
             <a class="nav-link ${param.menuId eq 'main' ? 'active' : ''}" href="/admin/main">
                 <i class="bi bi-speedometer2 me-2"></i> 방문 통계 대시보드
@@ -29,11 +36,11 @@
         </li>
 
         <li class="nav-item mt-2">
-            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseMenuManage" role="button" aria-expanded="${param.menuGroup eq 'menu' ? 'true' : 'false'}">
+            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseMenuManage" role="button" aria-expanded="true">
                 <span><i class="bi bi-grid me-2"></i> 메뉴별 관리</span>
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
-            <div class="collapse collapse-menu ${param.menuGroup eq 'menu' ? 'show' : ''}" id="collapseMenuManage">
+            <div class="collapse collapse-menu show" id="collapseMenuManage">
                 <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="#">함께하는 사람들 관리</a>
                 <a class="nav-link ${param.menuId eq 'notice' ? 'active text-white' : ''}" href="/admin/notice/list">공지사항 관리</a>
                 <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="#">경영공시 관리</a>
@@ -43,30 +50,32 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseHomeManage" role="button" aria-expanded="${param.menuGroup eq 'home' ? 'true' : 'false'}">
+            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseHomeManage" role="button" aria-expanded="true">
                 <span><i class="bi bi-pc-display me-2"></i> 홈페이지 관리</span>
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
-            <div class="collapse collapse-menu ${param.menuGroup eq 'home' ? 'show' : ''}" id="collapseHomeManage">
-                <a class="nav-link ${param.menuId eq 'popup' ? 'active text-white' : ''}" href="#">팝업 관리</a>
+            <div class="collapse collapse-menu show" id="collapseHomeManage">
+                <a class="nav-link ${param.menuId eq 'popup' ? 'active text-white' : ''}" href="/admin/popup/list">팝업 관리</a>
                 <a class="nav-link ${param.menuId eq 'inquiry' ? 'active text-white' : ''}" href="#">홈페이지 요청/문의 관리</a>
             </div>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseJoinManage" role="button" aria-expanded="${param.menuGroup eq 'join' ? 'true' : 'false'}">
+            <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseJoinManage" role="button" aria-expanded="true">
                 <span><i class="bi bi-clipboard-check me-2"></i> 신청·참여 관리</span>
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
-            <div class="collapse collapse-menu ${param.menuGroup eq 'join' ? 'show' : ''}" id="collapseJoinManage">
-                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseSponsor" role="button" aria-expanded="${param.subMenuGroup eq 'sponsor' ? 'true' : 'false'}">
+            <div class="collapse collapse-menu show" id="collapseJoinManage">
+
+                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseSponsor" role="button" aria-expanded="true">
                     <span>후원 관리</span>
                     <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                 </a>
-                <div class="collapse collapse-menu-depth3 ${param.subMenuGroup eq 'sponsor' ? 'show' : ''}" id="collapseSponsor">
+                <div class="collapse collapse-menu-depth3 show" id="collapseSponsor">
                     <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-white' : ''}" href="#">- 가입자 목록</a>
                     <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-white' : ''}" href="#">- 기부금 목록</a>
                 </div>
+
                 <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-white' : ''}" href="#">자원봉사 관리</a>
                 <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-white' : ''}" href="#">증명서 신청 관리</a>
             </div>

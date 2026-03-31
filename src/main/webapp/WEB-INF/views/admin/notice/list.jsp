@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="menuGroup" value="menu" scope="request" /> <c:set var="currentMenu" value="notice" scope="request" /> <%@ include file="../layout/header.jsp" %>
+<c:set var="menuGroup" value="menu" scope="request" />
+<c:set var="currentMenu" value="notice" scope="request" />
+<%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">공지사항 관리</h3>

@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-/* 최상단: 네온 발광 효과 변수 선언 */
+/* 최상단: 발광 효과 변수 선언 (눈이 편안한 소프트 톤으로 변경) */
 :root {
-    --neon-glow: 0 0 10px rgba(57, 255, 20, 0.7);
+    --neon-glow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 /* 1. 기본 배경 및 폰트 */
@@ -10,6 +10,8 @@ body {
     background-color: #151521;
     color: #ffffff;
     font-family: 'Malgun Gothic', sans-serif;
+    font-size: 14px;
+    letter-spacing: -0.3px;
 }
 
 /* 2. 프리미엄 다크 카드 레이아웃 */
@@ -29,36 +31,37 @@ body {
     border-radius: 12px;
 }
 
-/* 4. 네온 텍스트 및 아이콘 효과 */
+/* 4. 텍스트 및 아이콘 효과 (부드러운 화이트/라이트그레이 톤으로 변경) */
 .neon-icon {
-    color: #39ff14;
+    color: #ffffff;
     text-shadow: var(--neon-glow);
 }
 
 .neon-text {
-    color: #39ff14 !important;
-    text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    color: #ffffff !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-/* 5. 검색바 스타일 (테두리 살리고 포커스 시 네온 발광) */
+/* 5. 검색바 스타일 */
 .dark-search-bar {
     background-color: #151521 !important;
     border: 1px solid #474761 !important;
     color: #ffffff !important;
+    font-size: 13.5px !important;
 }
 
 .dark-search-bar:focus {
     background-color: #151521 !important;
     color: #ffffff !important;
-    border-color: #39ff14 !important;
-    box-shadow: 0 0 8px rgba(57, 255, 20, 0.6) !important;
+    border-color: #6c757d !important; /* 포커스 시 은은한 회색 테두리 */
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1) !important;
 }
 
 .dark-search-bar::placeholder {
     color: #6c757d !important;
 }
 
-/* 6. 테이블 호버 시 하얀색 배경 뜨는 버그 교정 */
+/* 6. 테이블 및 리스트 스타일 */
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: rgba(255, 255, 255, 0.05) !important;
     color: #ffffff !important;
@@ -67,25 +70,31 @@ body {
 .table {
     color: #a1a5b7;
     border-color: #2b2b40;
+    font-size: 13.5px;
 }
 
 .table thead th {
     color: #ffffff;
     font-weight: 600;
     border-bottom-width: 1px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
-/* 7. 버튼 및 호버 효과 */
+/* 7. 버튼 및 호버 효과 (SOK 브랜드 레드 계열로 차분하고 고급스럽게 변경) */
 .btn-neon {
-    background-color: #39ff14;
-    color: #000000;
+    background-color: #e61938; /* SOK 대표 레드 */
+    color: #ffffff;
     font-weight: bold;
     border: none;
+    box-shadow: 0 4px 10px rgba(230, 25, 56, 0.2); /* 은은한 붉은 그림자 */
+    transition: all 0.3s ease;
 }
 
 .btn-neon:hover {
-    background-color: #32d612;
-    color: #000000;
+    background-color: #cc1631; /* 호버 시 살짝 어두운 레드 */
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(230, 25, 56, 0.4);
 }
 
 .hover-glow:hover {
