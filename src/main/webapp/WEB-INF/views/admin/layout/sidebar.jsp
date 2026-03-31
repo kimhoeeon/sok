@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-    /* 사이드바 전용 추가 스타일 */
     .sidebar { width: 280px; flex-shrink: 0; overflow-y: auto; }
     .sidebar::-webkit-scrollbar { width: 6px; }
     .sidebar::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 10px; }
@@ -11,7 +10,6 @@
     .sidebar-menu .nav-link.active i { color: #39ff14; text-shadow: 0 0 10px rgba(57, 255, 20, 0.7); }
     .collapse-menu { padding-left: 25px; }
     .collapse-menu .nav-link { font-size: 14px; padding: 8px 15px; margin-bottom: 2px; }
-    /* 3-Depth 메뉴용 패딩 */
     .collapse-menu-depth3 { padding-left: 20px; }
 </style>
 
@@ -24,7 +22,6 @@
     </div>
 
     <ul class="nav flex-column mb-auto sidebar-menu gap-1">
-
         <li class="nav-item">
             <a class="nav-link ${param.menuId eq 'main' ? 'active' : ''}" href="/admin/main">
                 <i class="bi bi-speedometer2 me-2"></i> 방문 통계 대시보드
@@ -62,7 +59,6 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu ${param.menuGroup eq 'join' ? 'show' : ''}" id="collapseJoinManage">
-
                 <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseSponsor" role="button" aria-expanded="${param.subMenuGroup eq 'sponsor' ? 'true' : 'false'}">
                     <span>후원 관리</span>
                     <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
@@ -71,7 +67,6 @@
                     <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-white' : ''}" href="#">- 가입자 목록</a>
                     <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-white' : ''}" href="#">- 기부금 목록</a>
                 </div>
-
                 <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-white' : ''}" href="#">자원봉사 관리</a>
                 <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-white' : ''}" href="#">증명서 신청 관리</a>
             </div>
