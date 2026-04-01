@@ -57,7 +57,8 @@ public class BiddingController {
             board.setFileList(boardMapper.selectFiles(fileParams));
         }
 
-        model.addAttribute("board", board);
+        // ★ [수정됨] form.jsp의 ${bidding.xxx} 변수명과 일치시키기 위해 "bidding"으로 담아줌
+        model.addAttribute("bidding", board);
         return "admin/bidding/form";
     }
 
@@ -109,12 +110,12 @@ public class BiddingController {
             }
         }
 
-        // ★ [수정됨] 카테고리 파라미터(category: 진행중/마감) 누락 방지 추가
         if (isUpdate) {
             rttr.addAttribute("pageNum", board.getPageNum());
             rttr.addAttribute("amount", board.getAmount());
-            rttr.addAttribute("category", board.getCategory()); // 상태 필터 유지
+            rttr.addAttribute("category", board.getCategory());
             rttr.addAttribute("searchKeyword", board.getSearchKeyword());
+            // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
         } else {
             rttr.addAttribute("pageNum", 1);
             rttr.addAttribute("amount", board.getAmount());
@@ -127,11 +128,11 @@ public class BiddingController {
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
         boardMapper.deleteBoard(brdSeq);
 
-        // ★ [수정됨] 카테고리 파라미터(category: 진행중/마감) 누락 방지 추가
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
-        rttr.addAttribute("category", params.getCategory()); // 상태 필터 유지
+        rttr.addAttribute("category", params.getCategory());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+        // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
 
         return "redirect:/admin/bidding/list";
     }

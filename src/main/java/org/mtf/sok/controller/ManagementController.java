@@ -57,7 +57,8 @@ public class ManagementController {
             board.setFileList(boardMapper.selectFiles(fileParams));
         }
 
-        model.addAttribute("board", board);
+        // ★ [수정됨] form.jsp의 ${management.xxx} 변수명과 일치시키기 위해 "management"로 담아줌
+        model.addAttribute("management", board);
         return "admin/management/form";
     }
 
@@ -109,16 +110,15 @@ public class ManagementController {
             }
         }
 
-        // ★ [수정됨] 카테고리 파라미터(category) 누락 방지 추가
         if (isUpdate) {
             rttr.addAttribute("pageNum", board.getPageNum());
             rttr.addAttribute("amount", board.getAmount());
-            rttr.addAttribute("category", board.getCategory()); // 카테고리 필터 유지
+            rttr.addAttribute("category", board.getCategory());
             rttr.addAttribute("searchKeyword", board.getSearchKeyword());
+            // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
         } else {
             rttr.addAttribute("pageNum", 1);
             rttr.addAttribute("amount", board.getAmount());
-            // 신규 등록 시에는 보통 검색조건을 리셋하고 1페이지로 가는 것이 자연스럽습니다.
         }
 
         return "redirect:/admin/management/list";
@@ -128,11 +128,11 @@ public class ManagementController {
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
         boardMapper.deleteBoard(brdSeq);
 
-        // ★ [수정됨] 카테고리 파라미터(category) 누락 방지 추가
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
-        rttr.addAttribute("category", params.getCategory()); // 카테고리 필터 유지
+        rttr.addAttribute("category", params.getCategory());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+        // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
 
         return "redirect:/admin/management/list";
     }
