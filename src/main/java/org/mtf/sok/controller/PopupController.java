@@ -25,7 +25,7 @@ public class PopupController {
     private PopupMapper popupMapper;
 
     @Autowired
-    private BoardMapper boardMapper; // 첨부파일(TB_FILE) 처리를 위해 의존성 주입
+    private BoardMapper boardMapper;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -36,31 +36,38 @@ public class PopupController {
         params.setTitle(title);
 
         List<PopupDTO> list = popupMapper.selectPopupList(params);
+
+        // 고도화: 목록에서 썸네일을 보여주기 위해 각 팝업별 파일 정보 매칭
+        for (PopupDTO popup : list) {
+            FileDTO fileParams = new FileDTO();
+            fileParams.setRefTable("TB_POPUP");
+            fileParams.setRefSeq(popup.getPopSeq());
+            List<FileDTO> files = boardMapper.selectFiles(fileParams);
+            if (files != null && !files.isEmpty()) {
+                popup.setPopupImage(files.get(0));
+            }
+        }
+
         model.addAttribute("list", list);
         model.addAttribute("searchTitle", title);
-
         return "admin/popup/list";
     }
 
     @GetMapping("/form")
     public String form(@RequestParam(required = false) Long popSeq, Model model) {
         PopupDTO popup = new PopupDTO();
-
         if (popSeq != null) {
             popup = popupMapper.selectPopup(popSeq);
-
-            // 기존 팝업 이미지가 있는지 TB_FILE에서 조회
             FileDTO fileParams = new FileDTO();
             fileParams.setRefTable("TB_POPUP");
             fileParams.setRefSeq(popSeq);
             List<FileDTO> files = boardMapper.selectFiles(fileParams);
-            if(files != null && !files.isEmpty()) {
+            if (files != null && !files.isEmpty()) {
                 popup.setPopupImage(files.get(0));
             }
         } else {
-            popup.setUseYn("Y"); // 기본값 세팅
+            popup.setUseYn("Y");
         }
-
         model.addAttribute("popup", popup);
         return "admin/popup/form";
     }
@@ -68,50 +75,42 @@ public class PopupController {
     @PostMapping("/save")
     public String save(PopupDTO popup, HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-
         if (popup.getUseYn() == null) popup.setUseYn("N");
 
-        // 1. 팝업 기본 정보 저장
         if (popup.getPopSeq() != null) {
-            popup.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
+            popup.setModId(admin.getMbrId());
             popupMapper.updatePopup(popup);
         } else {
-            popup.setRegId(admin != null ? admin.getMbrId() : "SYSTEM");
-            popupMapper.insertPopup(popup); // popSeq 반환됨
+            popup.setRegId(admin.getMbrId());
+            popupMapper.insertPopup(popup);
         }
 
-        // 2. 팝업 이미지 업로드 처리 (TB_FILE 연동)
-        MultipartFile uploadFile = popup.getUploadFile();
-        if (uploadFile != null && !uploadFile.isEmpty()) {
+        // 이미지 처리
+        MultipartFile file = popup.getUploadFile();
+        if (file != null && !file.isEmpty()) {
             try {
                 String savePath = uploadDir + "popup/";
                 File folder = new File(savePath);
                 if (!folder.exists()) folder.mkdirs();
 
-                String originalFileName = uploadFile.getOriginalFilename();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-                String savedFileName = UUID.randomUUID().toString() + ext;
+                String orgName = file.getOriginalFilename();
+                String ext = orgName.substring(orgName.lastIndexOf("."));
+                String saveName = UUID.randomUUID().toString() + ext;
 
-                File targetFile = new File(savePath + savedFileName);
-                uploadFile.transferTo(targetFile);
+                file.transferTo(new File(savePath + saveName));
 
                 FileDTO fileDTO = new FileDTO();
                 fileDTO.setRefTable("TB_POPUP");
                 fileDTO.setRefSeq(popup.getPopSeq());
-                fileDTO.setOrgFileNm(originalFileName);
-                fileDTO.setSaveFileNm(savedFileName);
-                fileDTO.setFilePath("/upload/popup/" + savedFileName);
-                fileDTO.setFileSize(uploadFile.getSize());
+                fileDTO.setOrgFileNm(orgName);
+                fileDTO.setSaveFileNm(saveName);
+                fileDTO.setFilePath("/upload/popup/" + saveName);
+                fileDTO.setFileSize(file.getSize());
                 fileDTO.setFileExt(ext);
 
-                // 기존 이미지가 있다면 삭제 상태로 변경하는 로직이 필요하나, 우선 Insert 처리
                 boardMapper.insertFile(fileDTO);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
         }
-
         return "redirect:/admin/popup/list";
     }
 

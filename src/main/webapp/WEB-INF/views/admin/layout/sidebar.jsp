@@ -43,9 +43,9 @@
             <div class="collapse collapse-menu show" id="collapseMenuManage">
                 <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="/admin/people/list">함께하는 사람들 관리</a>
                 <a class="nav-link ${param.menuId eq 'notice' ? 'active text-white' : ''}" href="/admin/notice/list">공지사항 관리</a>
-                <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="#">경영공시 관리</a>
-                <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-white' : ''}" href="#">입찰정보 관리</a>
-                <a class="nav-link ${param.menuId eq 'report' ? 'active text-white' : ''}" href="#">활동보고서 관리</a>
+                <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="/admin/management/list">경영공시 관리</a>
+                <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-white' : ''}" href="/admin/bidding/list">입찰정보 관리</a>
+                <a class="nav-link ${param.menuId eq 'report' ? 'active text-white' : ''}" href="/admin/report/list">활동보고서 관리</a>
             </div>
         </li>
 
@@ -72,12 +72,12 @@
                     <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                 </a>
                 <div class="collapse collapse-menu-depth3 show" id="collapseSponsor">
-                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-white' : ''}" href="#">- 가입자 목록</a>
-                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-white' : ''}" href="#">- 기부금 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-white' : ''}" href="/admin/sponsor/member/list">- 가입자 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-white' : ''}" href="/admin/sponsor/donate/list">- 기부금 목록</a>
                 </div>
 
-                <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-white' : ''}" href="#">자원봉사 관리</a>
-                <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-white' : ''}" href="#">증명서 신청 관리</a>
+                <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-white' : ''}" href="/admin/volunteer/list">자원봉사 관리</a>
+                <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-white' : ''}" href="/admin/certificate/list">증명서 신청 관리</a>
             </div>
         </li>
     </ul>

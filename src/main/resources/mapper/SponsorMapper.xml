@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.SponsorMapper">
+
+    <select id="selectMemberList" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT
+        M.*,
+        COALESCE(D.CNT, 0) AS totalDonateCnt,
+        COALESCE(D.AMT, 0) AS totalDonateAmt
+        FROM TB_MEMBER M
+        LEFT JOIN (
+        SELECT MBR_SEQ, COUNT(PAY_SEQ) AS CNT, SUM(PAY_AMT) AS AMT
+        FROM TB_DONATION_PAYMENT
+        WHERE PAY_STATUS = 'DONE'
+        GROUP BY MBR_SEQ
+        ) D ON M.MBR_SEQ = D.MBR_SEQ
+        WHERE M.MBR_ROLE = 'USER'
+        <if test="mbrType != null and mbrType != ''">
+            AND M.MBR_TYPE = #{mbrType}
+        </if>
+        <if test="isDonor != null and isDonor != ''">
+            AND M.IS_DONOR = #{isDonor}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (M.MBR_NM LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR M.MBR_ID LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR M.EMAIL LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+        ORDER BY M.JOIN_DT DESC
+    </select>
+
+    <select id="selectMember" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER WHERE MBR_SEQ = #{mbrSeq}
+    </select>
+
+    <update id="updateMember" parameterType="org.mtf.sok.domain.MemberDTO">
+        UPDATE TB_MEMBER
+        SET PHONE = #{phone},
+            EMAIL = #{email},
+            MANAGER_NM = #{managerNm},
+            MANAGER_POS = #{managerPos}
+        WHERE MBR_SEQ = #{mbrSeq}
+    </update>
+
+    <select id="selectDonationList" resultType="org.mtf.sok.domain.DonationDTO">
+        SELECT D.*, M.MBR_NM, M.MBR_ID, M.PHONE
+        FROM TB_DONATION_PAYMENT D
+        LEFT JOIN TB_MEMBER M ON D.MBR_SEQ = M.MBR_SEQ
+        WHERE 1=1
+        <if test="payType != null and payType != ''">
+            AND D.PAY_TYPE = #{payType}
+        </if>
+        <if test="searchStatus != null and searchStatus != ''">
+            AND D.PAY_STATUS = #{searchStatus}
+        </if>
+        ORDER BY D.REG_DT DESC
+    </select>
+
+    <select id="selectDonation" resultType="org.mtf.sok.domain.DonationDTO">
+        SELECT D.*, M.MBR_NM, M.MBR_ID, M.PHONE
+        FROM TB_DONATION_PAYMENT D
+                 LEFT JOIN TB_MEMBER M ON D.MBR_SEQ = M.MBR_SEQ
+        WHERE D.PAY_SEQ = #{paySeq}
+    </select>
+
+    <select id="selectDonationByMember" resultType="org.mtf.sok.domain.DonationDTO">
+        SELECT * FROM TB_DONATION_PAYMENT
+        WHERE MBR_SEQ = #{mbrSeq}
+        ORDER BY REG_DT DESC
+    </select>
+
+    <update id="updateDonationStatus" parameterType="org.mtf.sok.domain.DonationDTO">
+        UPDATE TB_DONATION_PAYMENT
+        SET PAY_STATUS = #{payStatus},
+        <if test="payStatus == 'CANCEL'">
+            CANCEL_DT = NOW(), CANCEL_RSN = #{cancelRsn}
+        </if>
+        <if test="payStatus == 'REFUND'">
+            REFUND_DT = NOW(), REFUND_RSN = #{refundRsn}
+        </if>
+        WHERE PAY_SEQ = #{paySeq}
+    </update>
+
+</mapper>

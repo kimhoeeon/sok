@@ -10,7 +10,6 @@ public class PopupDTO {
     private Long popSeq;
     private String title;
 
-    // HTML5 datetime-local 타입과 매핑하기 위한 포맷 설정
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startDt;
 
@@ -24,9 +23,15 @@ public class PopupDTO {
     private Date modDt;
     private String delYn;
 
-    // 폼에서 업로드되는 팝업 이미지 파일 (DB 매핑 X)
     private MultipartFile uploadFile;
+    private FileDTO popupImage; // TB_FILE 연동 정보
 
-    // DB에서 조회된 팝업 이미지 정보 (TB_FILE 매핑)
-    private FileDTO popupImage;
+    // 관리자 고도화를 위한 상태 값 (가상 필드)
+    public String getDisplayStatus() {
+        Date now = new Date();
+        if ("N".equals(this.useYn)) return "사용안함";
+        if (now.before(this.startDt)) return "게시예정";
+        if (now.after(this.endDt)) return "게시종료";
+        return "게시중";
+    }
 }

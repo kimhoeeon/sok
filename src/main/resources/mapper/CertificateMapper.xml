@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.CertificateMapper">
+
+    <select id="selectCertificateList" resultType="org.mtf.sok.domain.CertificateDTO">
+        SELECT * FROM TB_CERTIFICATE_APPLY
+        WHERE DEL_YN = 'N'
+        <if test="searchType != null and searchType != ''">
+            AND CERT_TYPE = #{searchType}
+        </if>
+        <if test="searchStatus != null and searchStatus != ''">
+            AND ISSUE_STATUS = #{searchStatus}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (APPLY_NM LIKE CONCAT('%', #{searchKeyword}, '%') OR PHONE LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+        ORDER BY REG_DT DESC
+    </select>
+
+    <select id="selectCertificate" resultType="org.mtf.sok.domain.CertificateDTO">
+        SELECT * FROM TB_CERTIFICATE_APPLY
+        WHERE CERT_SEQ = #{certSeq} AND DEL_YN = 'N'
+    </select>
+
+    <update id="updateCertificateStatus" parameterType="org.mtf.sok.domain.CertificateDTO">
+        UPDATE TB_CERTIFICATE_APPLY
+        SET ISSUE_STATUS = #{issueStatus},
+        <choose>
+            <when test="issueStatus == 'DONE'">
+                ISSUE_DT = NOW(), REJECT_RSN = NULL
+            </when>
+            <when test="issueStatus == 'REJECT'">
+                REJECT_RSN = #{rejectRsn}, ISSUE_DT = NULL
+            </when>
+            <otherwise>
+                REJECT_RSN = NULL, ISSUE_DT = NULL
+            </otherwise>
+        </choose>
+        WHERE CERT_SEQ = #{certSeq}
+    </update>
+
+    <update id="deleteCertificate">
+        UPDATE TB_CERTIFICATE_APPLY SET DEL_YN = 'Y' WHERE CERT_SEQ = #{certSeq}
+    </update>
+
+</mapper>
