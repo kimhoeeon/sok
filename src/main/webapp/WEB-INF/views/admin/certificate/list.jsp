@@ -8,6 +8,9 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">증명서 발급 신청 관리</h3>
+    <button type="button" class="btn btn-success px-4 fw-bold" onclick="downloadExcel()">
+        <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
+    </button>
 </div>
 
 <div class="premium-dark-card p-4">
@@ -115,6 +118,19 @@
     function searchData() {
         document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
+    }
+
+    // ★ [스토리보드 요건] 엑셀 다운로드 스크립트 추가
+    function downloadExcel() {
+        var form = document.getElementById('searchForm');
+        var originalAction = form.action; // 원래 action 보존 (/admin/certificate/list)
+
+        // action을 엑셀 다운로드용으로 변경 후 전송
+        form.action = '/admin/certificate/excel';
+        form.submit();
+
+        // 전송 후 다시 원래 action으로 복구 (이후 일반 검색을 위해)
+        form.action = originalAction;
     }
 </script>
 <%@ include file="../layout/footer.jsp" %>

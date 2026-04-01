@@ -3,12 +3,16 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.PageDTO; // ★ [페이징 추가]
 import org.mtf.sok.domain.VolunteerDTO;
 import org.mtf.sok.mapper.VolunteerMapper;
+import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; // ★ [페이징 추가]
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -67,5 +71,30 @@ public class VolunteerController {
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
         return "redirect:/admin/volunteer/list";
+    }
+
+    @GetMapping("/excel")
+    public void downloadExcel(@ModelAttribute VolunteerDTO params, HttpServletResponse response) throws Exception {
+        params.setPageNum(1);
+        params.setAmount(1000000); // 대용량 추출
+
+        List<VolunteerDTO> list = volunteerMapper.selectVolunteerList(params);
+        List<String> headers = Arrays.asList("연번", "지원분야", "신청 행사명", "신청자(단체)명", "연락처", "참여인원", "참여빈도", "개인정보동의", "신청일시");
+        List<List<Object>> data = new ArrayList<>();
+
+        for (VolunteerDTO vol : list) {
+            List<Object> row = new ArrayList<>();
+            row.add(vol.getVolSeq());
+            row.add(vol.getSupportArea());
+            row.add(vol.getEventNm());
+            row.add(vol.getApplyNm());
+            row.add(vol.getPhone());
+            row.add(vol.getApplyCnt() + "명");
+            row.add("ONCE".equals(vol.getFreqType()) ? "1회성" : "정기/수시");
+            row.add(vol.getAgreeYn());
+            row.add(vol.getRegDt()); // Date 객체 그대로 전달
+            data.add(row);
+        }
+        ExcelUtils.download(response, "자원봉사_신청_내역", headers, data);
     }
 }

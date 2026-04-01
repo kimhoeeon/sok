@@ -8,7 +8,12 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">홈페이지 요청/문의 관리 <span class="badge bg-secondary ms-2" style="font-size: 13px;">유지보수 티켓</span></h3>
-    <a href="/admin/dev/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 새 요청 등록</a>
+    <div>
+        <button type="button" class="btn btn-success px-4 fw-bold me-2" onclick="downloadExcel()">
+            <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
+        </button>
+        <a href="/admin/dev/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 새 요청 등록</a>
+    </div>
 </div>
 
 <div class="row g-3 mb-4">
@@ -186,6 +191,15 @@
     function searchData() {
         document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
+    }
+
+    // ★ [엑셀 다운로드 함수 추가]
+    function downloadExcel() {
+        var form = document.getElementById('searchForm');
+        var originalAction = form.action;
+        form.action = '/admin/dev/excel';
+        form.submit();
+        form.action = originalAction;
     }
 </script>
 

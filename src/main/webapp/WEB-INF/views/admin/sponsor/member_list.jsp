@@ -8,6 +8,9 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">후원자(회원) 관리</h3>
+    <button type="button" class="btn btn-success px-4 fw-bold" onclick="downloadExcel()">
+        <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
+    </button>
 </div>
 
 <div class="premium-dark-card p-4">
@@ -108,6 +111,15 @@
     function searchData() {
         document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
+    }
+
+    // ★ [엑셀 다운로드 함수 추가]
+    function downloadExcel() {
+        var form = document.getElementById('searchForm');
+        var originalAction = form.action;
+        form.action = '/admin/sponsor/member/excel';
+        form.submit();
+        form.action = originalAction;
     }
 </script>
 <%@ include file="../layout/footer.jsp" %>

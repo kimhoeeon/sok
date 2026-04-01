@@ -4,6 +4,7 @@ import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.DevMapper;
 import org.mtf.sok.service.BizppurioService;
+import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -186,5 +190,35 @@ public class DevController {
                 }
             }
         }
+    }
+
+    @GetMapping("/excel")
+    public void downloadExcel(@ModelAttribute DevRequestDTO params, HttpServletResponse response) throws Exception {
+        params.setPageNum(1); params.setAmount(1000000);
+
+        List<DevRequestDTO> list = devMapper.selectRequestList(params);
+        List<String> headers = Arrays.asList("티켓번호", "요청유형", "긴급여부", "요청제목", "처리상태", "작성자", "등록일시");
+        List<List<Object>> data = new ArrayList<>();
+
+        for (DevRequestDTO req : list) {
+            List<Object> row = new ArrayList<>();
+            row.add(req.getReqSeq());
+            row.add(req.getReqType());
+            row.add(req.getUrgency());
+            row.add(req.getTitle());
+
+            String status = req.getStatus();
+            if ("WAITING".equals(status)) status = "접수대기";
+            else if ("PROCESS".equals(status)) status = "진행중";
+            else if ("DISCUSS".equals(status)) status = "논의필요";
+            else if ("DONE".equals(status)) status = "처리완료";
+            else if ("REJECT".equals(status)) status = "처리불가";
+            row.add(status);
+
+            row.add(req.getRegId());
+            row.add(req.getRegDt());
+            data.add(row);
+        }
+        ExcelUtils.download(response, "유지보수_요청_내역", headers, data);
     }
 }
