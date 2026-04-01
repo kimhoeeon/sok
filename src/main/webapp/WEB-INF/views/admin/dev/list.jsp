@@ -15,25 +15,25 @@
     <div class="col-md-3">
         <div class="p-3 rounded text-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);">
             <span class="text-muted d-block mb-1" style="font-size: 13px;">전체 누적 티켓</span>
-            <h3 class="text-white fw-bold m-0">${statusCount.totalCnt} <small class="fs-6 text-muted">건</small></h3>
+            <h3 class="text-white fw-bold m-0">${empty statusCount.totalCnt ? 0 : statusCount.totalCnt} <small class="fs-6 text-muted">건</small></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="p-3 rounded text-center" style="background: rgba(255, 193, 7, 0.05); border: 1px solid rgba(255, 193, 7, 0.2);">
             <span class="text-warning d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-hourglass-split me-1"></i>접수 / 대기중</span>
-            <h3 class="text-white fw-bold m-0">${statusCount.waitCnt} <small class="fs-6 text-muted">건</small></h3>
+            <h3 class="text-white fw-bold m-0">${empty statusCount.waitCnt ? 0 : statusCount.waitCnt} <small class="fs-6 text-muted">건</small></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="p-3 rounded text-center" style="background: rgba(13, 110, 253, 0.05); border: 1px solid rgba(13, 110, 253, 0.2);">
             <span class="text-primary d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-tools me-1"></i>처리 진행중</span>
-            <h3 class="text-white fw-bold m-0">${statusCount.processCnt} <small class="fs-6 text-muted">건</small></h3>
+            <h3 class="text-white fw-bold m-0">${empty statusCount.processCnt ? 0 : statusCount.processCnt} <small class="fs-6 text-muted">건</small></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="p-3 rounded text-center" style="background: rgba(25, 135, 84, 0.05); border: 1px solid rgba(25, 135, 84, 0.2);">
             <span class="text-success d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-check-circle-fill me-1"></i>처리 완료</span>
-            <h3 class="text-white fw-bold m-0">${statusCount.doneCnt} <small class="fs-6 text-muted">건</small></h3>
+            <h3 class="text-white fw-bold m-0">${empty statusCount.doneCnt ? 0 : statusCount.doneCnt} <small class="fs-6 text-muted">건</small></h3>
         </div>
     </div>
 </div>
@@ -42,6 +42,7 @@
     <form id="searchForm" action="/admin/dev/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
         <div class="input-group shadow-sm" style="max-width: 700px;">
+
             <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
                 <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                 <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
@@ -70,53 +71,68 @@
 
     <div class="table-responsive">
         <table class="table table-hover align-middle text-center">
+
             <thead>
                 <tr>
                     <th width="6%" class="text-white border-bottom border-secondary">티켓번호</th>
                     <th width="10%" class="text-white border-bottom border-secondary">유형</th>
                     <th width="8%" class="text-white border-bottom border-secondary">긴급</th>
+
                     <th class="text-white border-bottom border-secondary">요청 제목</th>
                     <th width="12%" class="text-white border-bottom border-secondary">처리 상태</th>
                     <th width="12%" class="text-white border-bottom border-secondary">작성자</th>
                     <th width="12%" class="text-white border-bottom border-secondary">등록일시</th>
+
                 </tr>
             </thead>
             <tbody>
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr><td colspan="7" class="py-5 text-muted border-secondary">등록된 유지보수 요청 내역이 없습니다.</td></tr>
+
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
                             <tr>
+
                                 <td class="border-secondary text-muted">#${item.reqSeq}</td>
                                 <td class="border-secondary"><span class="badge bg-secondary">${item.reqType}</span></td>
                                 <td class="border-secondary">
+
                                     <c:if test="${item.urgency eq 'Y'}">
                                         <i class="bi bi-exclamation-triangle-fill text-danger fs-5" title="긴급 요청"></i>
+
                                     </c:if>
                                 </td>
                                 <td class="text-start border-secondary">
+
                                     <a href="/admin/dev/detail?reqSeq=${item.reqSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
                                         ${item.title}
                                     </a>
+
                                     <c:if test="${item.commentCnt > 0}">
                                         <span class="badge bg-info text-dark ms-2 rounded-pill"><i class="bi bi-chat-dots-fill me-1"></i>${item.commentCnt}</span>
+
                                     </c:if>
                                 </td>
                                 <td class="border-secondary">
+
                                     <c:choose>
                                         <c:when test="${item.status eq 'WAITING'}"><span class="badge bg-warning text-dark">접수대기</span></c:when>
+
                                         <c:when test="${item.status eq 'PROCESS'}"><span class="badge bg-primary">진행중</span></c:when>
                                         <c:when test="${item.status eq 'DISCUSS'}"><span class="badge" style="background-color: #ff99e2; color: #000;">논의필요</span></c:when>
                                         <c:when test="${item.status eq 'DONE'}"><span class="badge bg-success">처리완료</span></c:when>
                                         <c:when test="${item.status eq 'REJECT'}"><span class="badge bg-danger">처리불가</span></c:when>
+
                                     </c:choose>
                                 </td>
                                 <td class="border-secondary text-muted">${item.regId}</td>
+
                                 <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                             </tr>
                         </c:forEach>
+
                     </c:otherwise>
                 </c:choose>
             </tbody>
@@ -127,18 +143,21 @@
         <div class="d-flex justify-content-center mt-5">
             <ul class="pagination pagination-dark m-0">
                 <c:if test="${pageMaker.prev}">
+
                     <li class="page-item">
                         <a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a>
                     </li>
                 </c:if>
 
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+
                     <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
                         <a class="page-link" href="javascript:goPage(${num})">${num}</a>
                     </li>
                 </c:forEach>
 
                 <c:if test="${pageMaker.next}">
+
                     <li class="page-item">
                         <a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i class="bi bi-chevron-right"></i></a>
                     </li>
