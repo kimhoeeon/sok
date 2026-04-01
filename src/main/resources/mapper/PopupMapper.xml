@@ -2,19 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.PopupMapper">
 
+    <sql id="popupSearchCondition">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+        </if>
+    </sql>
+
     <select id="selectPopupList" resultType="org.mtf.sok.domain.PopupDTO">
         SELECT POP_SEQ, TITLE, START_DT, END_DT, USE_YN, REG_DT
         FROM TB_POPUP
         WHERE DEL_YN = 'N'
-        <if test="title != null and title != ''">
-            AND TITLE LIKE CONCAT('%', #{title}, '%')
-        </if>
+        <include refid="popupSearchCondition"/>
         ORDER BY POP_SEQ DESC
+        LIMIT #{offset}, #{amount}
+    </select>
+
+    <select id="selectPopupTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_POPUP
+        WHERE DEL_YN = 'N'
+        <include refid="popupSearchCondition"/>
     </select>
 
     <select id="selectPopup" resultType="org.mtf.sok.domain.PopupDTO">
-        SELECT * FROM TB_POPUP
-        WHERE POP_SEQ = #{popSeq} AND DEL_YN = 'N'
+        SELECT *
+        FROM TB_POPUP
+        WHERE POP_SEQ = #{popSeq}
+          AND DEL_YN = 'N'
     </select>
 
     <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO" useGeneratedKeys="true" keyProperty="popSeq">
@@ -24,17 +38,20 @@
 
     <update id="updatePopup" parameterType="org.mtf.sok.domain.PopupDTO">
         UPDATE TB_POPUP
-        SET TITLE = #{title},
+        SET TITLE    = #{title},
             START_DT = #{startDt},
-            END_DT = #{endDt},
-            USE_YN = #{useYn},
-            MOD_ID = #{modId},
-            MOD_DT = NOW()
+            END_DT   = #{endDt},
+            USE_YN   = #{useYn},
+            MOD_ID   = #{modId},
+            MOD_DT   = NOW()
         WHERE POP_SEQ = #{popSeq}
     </update>
 
     <update id="deletePopup">
-        UPDATE TB_POPUP SET DEL_YN = 'Y', MOD_DT = NOW() WHERE POP_SEQ = #{popSeq}
+        UPDATE TB_POPUP
+        SET DEL_YN = 'Y',
+            MOD_DT = NOW()
+        WHERE POP_SEQ = #{popSeq}
     </update>
 
 </mapper>

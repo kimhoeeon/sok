@@ -14,4 +14,6 @@ public interface CertificateMapper {
     void updateCertificateStatus(CertificateDTO certificate);
 
     void deleteCertificate(Long certSeq);
+
+    int selectCertificateTotalCount(CertificateDTO params);
 }

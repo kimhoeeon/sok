@@ -9,6 +9,8 @@ import java.util.List;
 public interface PopupMapper {
     List<PopupDTO> selectPopupList(PopupDTO params);
 
+    int selectPopupTotalCount(PopupDTO params);
+
     PopupDTO selectPopup(Long popSeq);
 
     void insertPopup(PopupDTO popup);
@@ -16,4 +18,5 @@ public interface PopupMapper {
     void updatePopup(PopupDTO popup);
 
     void deletePopup(Long popSeq);
+
 }

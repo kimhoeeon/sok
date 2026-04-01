@@ -1,10 +1,13 @@
 package org.mtf.sok.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.Date;
 
 @Data
-public class CertificateDTO {
+@EqualsAndHashCode(callSuper = false)
+public class CertificateDTO extends Criteria{
     private Long certSeq;
     private String certType;    // 선수등록, 봉사활동, 경기실적, 대회참가
     private String issueStatus; // WAIT(대기), ING(발급중), DONE(발급완료), REJECT(거절)
