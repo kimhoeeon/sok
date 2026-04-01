@@ -12,10 +12,24 @@
 </div>
 
 <div class="premium-dark-card p-4">
-    <form action="/admin/notice/list" method="get" class="d-flex justify-content-end mb-4">
-        <div class="input-group w-50 shadow-sm">
-            <input type="text" name="title" class="form-control dark-search-bar" placeholder="검색할 제목을 입력하세요" value="${searchTitle}">
-            <button class="btn btn-secondary" type="submit" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
+    <form id="searchForm" action="/admin/notice/list" method="get" class="d-flex justify-content-end mb-4">
+        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+
+        <div class="input-group shadow-sm" style="max-width: 600px;">
+            <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
+                <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
+                <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
+                <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
+            </select>
+
+            <select name="searchType" class="form-select dark-search-bar border-start-0" style="max-width: 120px;">
+                <option value="all" ${params.searchType eq 'all' ? 'selected' : ''}>전체</option>
+                <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>제목</option>
+                <option value="content" ${params.searchType eq 'content' ? 'selected' : ''}>내용</option>
+            </select>
+
+            <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="검색어 입력" value="${params.searchKeyword}">
+            <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
@@ -48,7 +62,11 @@
                                     <c:if test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:if>
                                 </td>
                                 <td class="text-start border-secondary">
-                                    <a href="/admin/notice/form?brdSeq=${item.brdSeq}" class="text-white text-decoration-none fw-bold">${item.title}</a>
+                                    <a href="/admin/notice/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
+                                        <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">중요</span></c:if>
+                                        ${item.title}
+                                    </a>
+                                    <c:if test="${not empty item.fileList}"><i class="bi bi-paperclip text-muted ms-1"></i></c:if>
                                 </td>
                                 <td class="border-secondary">${item.viewCnt}</td>
                                 <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
@@ -66,6 +84,35 @@
             </tbody>
         </table>
     </div>
+
+    <c:if test="${pageMaker.total > 0}">
+        <div class="d-flex justify-content-center mt-5">
+            <ul class="pagination pagination-dark m-0">
+                <c:if test="${pageMaker.prev}">
+                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a></li>
+                </c:if>
+                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                    <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+                        <a class="page-link" href="javascript:goPage(${num})">${num}</a>
+                    </li>
+                </c:forEach>
+                <c:if test="${pageMaker.next}">
+                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i class="bi bi-chevron-right"></i></a></li>
+                </c:if>
+            </ul>
+        </div>
+    </c:if>
 </div>
+
+<script>
+    function goPage(pageNum) {
+        document.getElementById('searchForm').pageNum.value = pageNum;
+        document.getElementById('searchForm').submit();
+    }
+    function searchData() {
+        document.getElementById('searchForm').pageNum.value = 1;
+        document.getElementById('searchForm').submit();
+    }
+</script>
 
 <%@ include file="../layout/footer.jsp" %>

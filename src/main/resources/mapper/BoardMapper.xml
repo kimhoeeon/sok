@@ -2,15 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.BoardMapper">
 
-    <select id="selectBoardList" resultType="org.mtf.sok.domain.BoardDTO">
-        SELECT BRD_SEQ, BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, VIEW_CNT, REG_DT
-        FROM TB_BOARD
-        WHERE DEL_YN = 'N'
-        AND BRD_TYPE = #{brdType}
-        <if test="title != null and title != ''">
-            AND TITLE LIKE CONCAT('%', #{title}, '%')
+    <sql id="boardSearchCondition">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'title'">
+                    AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'content'">
+                    AND CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <otherwise>
+                    AND (TITLE LIKE CONCAT('%', #{searchKeyword}, '%') OR CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+                </otherwise>
+            </choose>
         </if>
-        ORDER BY IS_NOTICE DESC, BRD_SEQ DESC
+    </sql>
+
+    <select id="selectBoardList" resultType="org.mtf.sok.domain.BoardDTO">
+        SELECT * FROM TB_BOARD
+        WHERE BRD_TYPE = #{brdType} AND DEL_YN = 'N'
+        <include refid="boardSearchCondition"/>
+        ORDER BY IS_NOTICE DESC, REG_DT DESC
+        LIMIT #{offset}, #{amount} </select>
+
+    <select id="selectBoardTotalCount" resultType="int">
+        SELECT COUNT(*) FROM TB_BOARD
+        WHERE BRD_TYPE = #{brdType} AND DEL_YN = 'N'
+        <include refid="boardSearchCondition"/>
     </select>
 
     <select id="selectBoard" resultType="org.mtf.sok.domain.BoardDTO">

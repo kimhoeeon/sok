@@ -8,7 +8,9 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">유지보수 티켓 상세</h3>
-    <a href="/admin/dev/list" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <a href="/admin/dev/list?pageNum=${params.pageNum}&amount=${params.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
+        <i class="bi bi-list"></i> 목록으로
+    </a>
 </div>
 
 <div class="row g-4 mb-4">

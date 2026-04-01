@@ -10,6 +10,8 @@ import java.util.List;
 public interface BoardMapper {
     List<BoardDTO> selectBoardList(BoardDTO params);
 
+    int selectBoardTotalCount(BoardDTO params);
+
     BoardDTO selectBoard(Long brdSeq);
 
     void insertBoard(BoardDTO board);

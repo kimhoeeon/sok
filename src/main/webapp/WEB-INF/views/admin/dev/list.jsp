@@ -39,8 +39,15 @@
 </div>
 
 <div class="premium-dark-card p-4">
-    <form action="/admin/dev/list" method="get" class="d-flex justify-content-end mb-4">
-        <div class="input-group shadow-sm" style="max-width: 600px;">
+    <form id="searchForm" action="/admin/dev/list" method="get" class="d-flex justify-content-end mb-4">
+        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+        <div class="input-group shadow-sm" style="max-width: 700px;">
+            <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
+                <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
+                <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
+                <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
+            </select>
+
             <select name="searchType" class="form-select dark-search-bar" style="max-width: 140px;">
                 <option value="">전체 유형</option>
                 <option value="기능오류" ${params.searchType eq '기능오류' ? 'selected' : ''}>기능오류</option>
@@ -57,7 +64,7 @@
                 <option value="REJECT" ${params.searchStatus eq 'REJECT' ? 'selected' : ''}>처리 불가</option>
             </select>
             <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="제목 검색" value="${params.searchKeyword}">
-            <button class="btn btn-secondary border-start-0" type="submit" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
+            <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
@@ -90,7 +97,7 @@
                                     </c:if>
                                 </td>
                                 <td class="text-start border-secondary">
-                                    <a href="/admin/dev/detail?reqSeq=${item.reqSeq}" class="text-white text-decoration-none fw-bold hover-glow">
+                                    <a href="/admin/dev/detail?reqSeq=${item.reqSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
                                         ${item.title}
                                     </a>
                                     <c:if test="${item.commentCnt > 0}">
@@ -115,6 +122,52 @@
             </tbody>
         </table>
     </div>
+
+    <c:if test="${pageMaker.total > 0}">
+        <div class="d-flex justify-content-center mt-5">
+            <ul class="pagination pagination-dark m-0">
+                <c:if test="${pageMaker.prev}">
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a>
+                    </li>
+                </c:if>
+
+                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                    <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+                        <a class="page-link" href="javascript:goPage(${num})">${num}</a>
+                    </li>
+                </c:forEach>
+
+                <c:if test="${pageMaker.next}">
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i class="bi bi-chevron-right"></i></a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+    </c:if>
+
 </div>
+
+<style>
+    /* 다크 테마용 페이징 커스텀 스타일 */
+    .pagination-dark .page-link { background-color: #1e1e2d; border-color: #474761; color: #a1a5b7; border-radius: 4px; margin: 0 3px;}
+    .pagination-dark .page-link:hover { background-color: #2b2b40; color: #fff; }
+    .pagination-dark .page-item.active .page-link { background-color: #39ff14; border-color: #39ff14; color: #000; font-weight: bold; }
+</style>
+
+<script>
+    // 페이지 번호 클릭 시 이동
+    function goPage(pageNum) {
+        document.getElementById('searchForm').pageNum.value = pageNum;
+        document.getElementById('searchForm').submit();
+    }
+
+    // 새롭게 검색 버튼 클릭 시 무조건 1페이지부터 다시 조회
+    function searchData() {
+        document.getElementById('searchForm').pageNum.value = 1;
+        document.getElementById('searchForm').submit();
+    }
+</script>
 
 <%@ include file="../layout/footer.jsp" %>

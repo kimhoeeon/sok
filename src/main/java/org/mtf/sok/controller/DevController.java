@@ -83,16 +83,14 @@ public class DevController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam Long reqSeq, Model model, HttpSession session) {
+    public String detail(@RequestParam Long reqSeq, @ModelAttribute("params") DevRequestDTO params, Model model, HttpSession session) {
         DevRequestDTO request = devMapper.selectRequest(reqSeq);
 
-        // 1. 요청글 첨부파일 조회
         FileDTO reqFileParams = new FileDTO();
         reqFileParams.setRefTable("TB_DEV_REQUEST");
         reqFileParams.setRefSeq(reqSeq);
         request.setFileList(boardMapper.selectFiles(reqFileParams));
 
-        // 2. 댓글 리스트 및 댓글별 첨부파일 조회
         List<DevCommentDTO> comments = devMapper.selectCommentList(reqSeq);
         for(DevCommentDTO comment : comments) {
             FileDTO cmtFileParams = new FileDTO();
@@ -103,7 +101,7 @@ public class DevController {
 
         model.addAttribute("request", request);
         model.addAttribute("comments", comments);
-        model.addAttribute("isDeveloper", isDeveloper(session)); // JSP 뷰 제어용 플래그
+        model.addAttribute("isDeveloper", isDeveloper(session));
 
         return "admin/dev/detail";
     }

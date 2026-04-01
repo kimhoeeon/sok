@@ -3,6 +3,7 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
+import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,27 +28,39 @@ public class NoticeController {
     private String uploadDir;
 
     @GetMapping("/list")
-    public String list(@RequestParam(required = false) String title, Model model) {
-        BoardDTO params = new BoardDTO();
-        params.setBrdType("NOTICE");
-        params.setTitle(title);
+    public String list(@ModelAttribute BoardDTO params, Model model) {
+        params.setBrdType("NOTICE"); // 통합 게시판 중 공지사항만 조회
 
+        // 페이징 처리 및 목록 조회
         List<BoardDTO> list = boardMapper.selectBoardList(params);
-        model.addAttribute("list", list);
-        model.addAttribute("searchTitle", title);
+        int total = boardMapper.selectBoardTotalCount(params);
+        PageDTO pageMaker = new PageDTO(params, total);
 
+        model.addAttribute("list", list);
+        model.addAttribute("pageMaker", pageMaker);
+        model.addAttribute("params", params); // 검색/페이징 상태 유지용
         return "admin/notice/list";
     }
 
     @GetMapping("/form")
-    public String form(@RequestParam(required = false) Long brdSeq, Model model) {
-        BoardDTO notice = new BoardDTO();
+    public String form(@RequestParam(required = false) Long brdSeq,
+                       @ModelAttribute("params") BoardDTO params,
+                       Model model) {
+        BoardDTO board = new BoardDTO();
+
+        // 글 수정/상세 보기일 경우 데이터 조회
         if (brdSeq != null) {
-            notice = boardMapper.selectBoard(brdSeq);
+            board = boardMapper.selectBoard(brdSeq);
+            // 첨부파일 조회
+            FileDTO fileParams = new FileDTO();
+            fileParams.setRefTable("TB_BOARD");
+            fileParams.setRefSeq(brdSeq);
+            board.setFileList(boardMapper.selectFiles(fileParams));
         } else {
-            notice.setIsNotice("N"); // 기본값 세팅
+            board.setIsNotice("N"); // 기본값 세팅
         }
-        model.addAttribute("notice", notice);
+
+        model.addAttribute("board", board);
         return "admin/notice/form";
     }
 
