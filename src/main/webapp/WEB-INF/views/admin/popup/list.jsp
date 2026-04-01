@@ -7,7 +7,7 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">팝업 관리 (고도화)</h3>
+    <h3 class="fw-bold text-white">팝업 관리</h3>
     <a href="/admin/popup/form" class="btn btn-neon px-4"><i class="bi bi-plus-lg"></i> 새 팝업 등록</a>
 </div>
 

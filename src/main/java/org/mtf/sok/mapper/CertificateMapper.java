@@ -9,11 +9,12 @@ import java.util.List;
 public interface CertificateMapper {
     List<CertificateDTO> selectCertificateList(CertificateDTO params);
 
+    int selectCertificateTotalCount(CertificateDTO params);
+
     CertificateDTO selectCertificate(Long certSeq);
 
     void updateCertificateStatus(CertificateDTO certificate);
 
     void deleteCertificate(Long certSeq);
 
-    int selectCertificateTotalCount(CertificateDTO params);
 }

@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.CertificateMapper">
 
-    <select id="selectCertificateList" resultType="org.mtf.sok.domain.CertificateDTO">
-        SELECT * FROM TB_CERTIFICATE_APPLY
-        WHERE DEL_YN = 'N'
+    <sql id="certSearchCondition">
         <if test="searchType != null and searchType != ''">
             AND CERT_TYPE = #{searchType}
         </if>
@@ -14,12 +12,27 @@
         <if test="searchKeyword != null and searchKeyword != ''">
             AND (APPLY_NM LIKE CONCAT('%', #{searchKeyword}, '%') OR PHONE LIKE CONCAT('%', #{searchKeyword}, '%'))
         </if>
+    </sql>
+
+    <select id="selectCertificateList" resultType="org.mtf.sok.domain.CertificateDTO">
+        SELECT * FROM TB_CERTIFICATE_APPLY
+        WHERE DEL_YN = 'N'
+        <include refid="certSearchCondition"/>
         ORDER BY REG_DT DESC
+        LIMIT #{offset}, #{amount}
+    </select>
+
+    <select id="selectCertificateTotalCount" resultType="int">
+        SELECT COUNT(*) FROM TB_CERTIFICATE_APPLY
+        WHERE DEL_YN = 'N'
+        <include refid="certSearchCondition"/>
     </select>
 
     <select id="selectCertificate" resultType="org.mtf.sok.domain.CertificateDTO">
-        SELECT * FROM TB_CERTIFICATE_APPLY
-        WHERE CERT_SEQ = #{certSeq} AND DEL_YN = 'N'
+        SELECT *
+        FROM TB_CERTIFICATE_APPLY
+        WHERE CERT_SEQ = #{certSeq}
+          AND DEL_YN = 'N'
     </select>
 
     <update id="updateCertificateStatus" parameterType="org.mtf.sok.domain.CertificateDTO">
@@ -40,7 +53,9 @@
     </update>
 
     <update id="deleteCertificate">
-        UPDATE TB_CERTIFICATE_APPLY SET DEL_YN = 'Y' WHERE CERT_SEQ = #{certSeq}
+        UPDATE TB_CERTIFICATE_APPLY
+        SET DEL_YN = 'Y'
+        WHERE CERT_SEQ = #{certSeq}
     </update>
 
 </mapper>
