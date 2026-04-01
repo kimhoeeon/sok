@@ -77,7 +77,7 @@ public class BizppurioService {
         }
     }
 
-    // [고도화 추가] 개발사가 상태/예정일을 변경했을 때 발주사(SOK)에게 알림 발송
+    // 개발사가 상태/예정일을 변경했을 때 발주사(SOK)에게 알림 발송
     public void sendStatusChangeAlertEmail(DevRequestDTO request) {
         String targetEmail = "sok_admin@sokorea.or.kr"; // 발주사(SOK) 메인 담당자 이메일
         String subject = "[SOK 유지보수] '" + request.getTitle() + "' 티켓의 상태가 업데이트되었습니다.";

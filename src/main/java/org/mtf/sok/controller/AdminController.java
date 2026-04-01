@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -33,7 +34,13 @@ public class AdminController {
 
     // 로그인 페이지 이동
     @GetMapping("/login")
-    public String loginForm(HttpSession session) {
+    public String loginForm(HttpSession session, HttpServletResponse response) {
+
+        // 브라우저 캐시(BFCache) 완전 차단 헤더 설정
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
         // 이미 로그인된 상태면 메인으로 리다이렉트
         if (session.getAttribute("adminLogin") != null) {
             return "redirect:/admin/main";

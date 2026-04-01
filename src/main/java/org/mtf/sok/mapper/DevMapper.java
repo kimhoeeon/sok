@@ -27,6 +27,6 @@ public interface DevMapper {
 
     void deleteComment(Long cmtSeq);
 
-    // [고도화 추가] 상태별 티켓 개수 통계
+    // 상태별 티켓 개수 통계
     Map<String, Object> selectRequestStatusCount();
 }

@@ -156,7 +156,7 @@
                             <i class="bi bi-person text-muted"></i>
                         </span>
                     <input type="text" class="form-control dark-search-bar border-start-0" id="mbrId" name="mbrId"
-                           placeholder="아이디를 입력하세요" autocomplete="off" style="padding-left: 10px;">
+                           placeholder="아이디를 입력하세요" autocomplete="off">
                 </div>
             </div>
 
@@ -167,7 +167,7 @@
                             <i class="bi bi-lock text-muted"></i>
                         </span>
                     <input type="password" class="form-control dark-search-bar border-start-0" id="mbrPw" name="mbrPw"
-                           placeholder="비밀번호를 입력하세요" style="padding-left: 10px;">
+                           placeholder="비밀번호를 입력하세요">
                 </div>
             </div>
 
@@ -178,5 +178,16 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 뒤로 가기(BFCache)로 페이지가 로딩된 경우 감지하여 강제 새로고침
+        window.onpageshow = function(event) {
+            // event.persisted: 브라우저 캐시에서 페이지를 로드했는지 여부 (사파리/파이어폭스 등)
+            // window.performance.navigation.type == 2: 뒤로가기/앞으로가기로 진입했는지 여부 (크롬 등)
+            if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+                window.location.reload();
+                // 새로고침 되면 Controller를 다시 타게 되고, 세션이 있으므로 즉시 /admin/main으로 튕겨냅니다.
+            }
+        };
+    </script>
 </body>
 </html>
