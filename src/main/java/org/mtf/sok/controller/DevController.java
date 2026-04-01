@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -66,7 +67,7 @@ public class DevController {
     @PostMapping("/saveRequest")
     public String saveRequest(DevRequestDTO request, HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        request.setRegId(admin != null ? admin.getMbrId() : "SOK_ADMIN");
+        request.setRegId(admin != null ? admin.getMbrId() : "sokadmin");
         if (request.getUrgency() == null) request.setUrgency("N");
 
         devMapper.insertRequest(request);
@@ -107,38 +108,50 @@ public class DevController {
     }
 
     @PostMapping("/updateStatus")
-    public String updateStatus(DevRequestDTO request, HttpSession session) {
-        // 개발사만 상태 변경 가능
+    public String updateStatus(DevRequestDTO request, HttpSession session, RedirectAttributes rttr) {
         if (isDeveloper(session)) {
             AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
             request.setModId(admin.getMbrId());
             devMapper.updateRequestStatus(request);
 
-            // 상태가 변경되었으므로 최신화된 데이터를 다시 조회하여 발주사(SOK)에 알림 메일 발송
             DevRequestDTO updatedReq = devMapper.selectRequest(request.getReqSeq());
             bizppurioService.sendStatusChangeAlertEmail(updatedReq);
         }
-        return "redirect:/admin/dev/detail?reqSeq=" + request.getReqSeq();
+
+        // ★ [수정됨] 처리 후 돌아갈 때 파라미터를 달고 가도록 세팅
+        rttr.addAttribute("reqSeq", request.getReqSeq());
+        rttr.addAttribute("pageNum", request.getPageNum());
+        rttr.addAttribute("amount", request.getAmount());
+        rttr.addAttribute("searchType", request.getSearchType());
+        rttr.addAttribute("searchStatus", request.getSearchStatus());
+        rttr.addAttribute("searchKeyword", request.getSearchKeyword());
+
+        return "redirect:/admin/dev/detail";
     }
 
     @PostMapping("/saveComment")
-    public String saveComment(DevCommentDTO comment, HttpSession session) {
+    public String saveComment(DevCommentDTO comment, @ModelAttribute DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        String writerId = admin != null ? admin.getMbrId() : "SOK_ADMIN";
+        String writerId = admin != null ? admin.getMbrId() : "sokadmin";
         comment.setRegId(writerId);
 
         devMapper.insertComment(comment);
-
-        // 댓글 첨부파일 처리 (TB_FILE 연동 - REF_TABLE: TB_DEV_COMMENT)
         uploadFiles(comment.getUploadFiles(), "TB_DEV_COMMENT", comment.getCmtSeq());
 
-        // ★ [메일 연동] 발주사가 댓글을 작성했을 경우 개발사 담당자에게 메일 발송 ★
         if (!isDeveloper(session)) {
             DevRequestDTO parentRequest = devMapper.selectRequest(comment.getReqSeq());
             bizppurioService.sendCommentAlertEmail(parentRequest, comment.getContent(), writerId);
         }
 
-        return "redirect:/admin/dev/detail?reqSeq=" + comment.getReqSeq();
+        // ★ [수정됨] 처리 후 돌아갈 때 파라미터를 달고 가도록 세팅
+        rttr.addAttribute("reqSeq", comment.getReqSeq());
+        rttr.addAttribute("pageNum", params.getPageNum());
+        rttr.addAttribute("amount", params.getAmount());
+        rttr.addAttribute("searchType", params.getSearchType());
+        rttr.addAttribute("searchStatus", params.getSearchStatus());
+        rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+
+        return "redirect:/admin/dev/detail";
     }
 
     // 파일 업로드 공통 내부 헬퍼

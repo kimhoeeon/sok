@@ -71,9 +71,13 @@
                                 <td class="border-secondary">${item.viewCnt}</td>
                                 <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td class="border-secondary">
-                                    <a href="/admin/notice/form?brdSeq=${item.brdSeq}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="/admin/notice/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/admin/notice/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제 후 복구가 어렵습니다. 정말 삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
+                                        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+                                        <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+                                        <input type="hidden" name="searchType" value="${params.searchType}">
+                                        <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
                                     </form>
                                 </td>

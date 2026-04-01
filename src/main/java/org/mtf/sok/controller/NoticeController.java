@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -65,24 +66,22 @@ public class NoticeController {
     }
 
     @PostMapping("/save")
-    public String save(BoardDTO board, HttpSession session) {
+    public String save(BoardDTO board, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
 
         board.setBrdType("NOTICE");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
-        // 1. 게시글 정보 먼저 Insert 또는 Update (brdSeq 확보)
         if (board.getBrdSeq() != null) {
             board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
             boardMapper.updateBoard(board);
         } else {
             board.setRegId(admin != null ? admin.getMbrId() : "SYSTEM");
-            boardMapper.insertBoard(board); // 이 때 useGeneratedKeys 설정으로 board 객체에 brdSeq가 담김
+            boardMapper.insertBoard(board);
         }
 
-        // 2. 다중 첨부파일 물리적 저장 및 DB 기록 (TB_FILE 활용)
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
-            String savePath = uploadDir + "notice/"; // 게시판별 폴더 분리
+            String savePath = uploadDir + "notice/";
             File folder = new File(savePath);
             if (!folder.exists()) folder.mkdirs();
 
@@ -93,33 +92,45 @@ public class NoticeController {
                         String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
                         String savedFileName = UUID.randomUUID().toString() + ext;
 
-                        // 물리적 파일 저장
                         File targetFile = new File(savePath + savedFileName);
                         file.transferTo(targetFile);
 
-                        // 통합 첨부파일 DB 정보 저장
                         FileDTO fileDTO = new FileDTO();
-                        fileDTO.setRefTable("TB_BOARD");           // 참조 테이블명 고정
-                        fileDTO.setRefSeq(board.getBrdSeq());      // 방금 저장된 게시글 일련번호
+                        fileDTO.setRefTable("TB_BOARD");
+                        fileDTO.setRefSeq(board.getBrdSeq());
                         fileDTO.setOrgFileNm(originalFileName);
                         fileDTO.setSaveFileNm(savedFileName);
                         fileDTO.setFilePath("/upload/notice/" + savedFileName);
                         fileDTO.setFileSize(file.getSize());
                         fileDTO.setFileExt(ext);
 
-                        boardMapper.insertFile(fileDTO); // TB_FILE 에 저장
+                        boardMapper.insertFile(fileDTO);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
+
+        // ★ [수정됨] 저장/수정 완료 후 다시 원래 페이지 목록으로 돌아가도록 파라미터 세팅
+        rttr.addAttribute("pageNum", board.getPageNum());
+        rttr.addAttribute("amount", board.getAmount());
+        rttr.addAttribute("searchType", board.getSearchType());
+        rttr.addAttribute("searchKeyword", board.getSearchKeyword());
+
         return "redirect:/admin/notice/list";
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam Long brdSeq) {
+    public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
         boardMapper.deleteBoard(brdSeq);
+
+        // ★ [수정됨] 삭제 후 다시 원래 페이지 목록으로 돌아가도록 파라미터 세팅
+        rttr.addAttribute("pageNum", params.getPageNum());
+        rttr.addAttribute("amount", params.getAmount());
+        rttr.addAttribute("searchType", params.getSearchType());
+        rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+
         return "redirect:/admin/notice/list";
     }
 }

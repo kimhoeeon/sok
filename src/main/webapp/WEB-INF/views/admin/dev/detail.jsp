@@ -77,6 +77,12 @@
                 <h6 class="text-danger fw-bold mb-3"><i class="bi bi-tools me-1"></i> [개발사 전용] 진행 상태 업데이트</h6>
                 <form action="/admin/dev/updateStatus" method="post">
                     <input type="hidden" name="reqSeq" value="${request.reqSeq}">
+                    <input type="hidden" name="pageNum" value="${params.pageNum}">
+                    <input type="hidden" name="amount" value="${params.amount}">
+                    <input type="hidden" name="searchType" value="${params.searchType}">
+                    <input type="hidden" name="searchStatus" value="${params.searchStatus}">
+                    <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+
                     <div class="mb-3">
                         <label class="text-white mb-2" style="font-size: 13px;">상태 변경</label>
                         <select name="status" class="form-select dark-search-bar border-danger">
@@ -141,6 +147,12 @@
         <h6 class="text-white fw-bold mb-3">새 코멘트 남기기 (알림 메일 발송)</h6>
         <form action="/admin/dev/saveComment" method="post" enctype="multipart/form-data">
             <input type="hidden" name="reqSeq" value="${request.reqSeq}">
+            <input type="hidden" name="pageNum" value="${params.pageNum}">
+            <input type="hidden" name="amount" value="${params.amount}">
+            <input type="hidden" name="searchType" value="${params.searchType}">
+            <input type="hidden" name="searchStatus" value="${params.searchStatus}">
+            <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+
             <textarea name="content" class="form-control dark-search-bar mb-3" rows="4" required placeholder="진행 상황 피드백이나 추가 요청 사항을 작성해 주세요."></textarea>
 
             <div class="d-flex justify-content-between align-items-center">
