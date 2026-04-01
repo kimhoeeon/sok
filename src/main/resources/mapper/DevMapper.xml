@@ -56,4 +56,13 @@
         UPDATE TB_DEV_COMMENT SET DEL_YN = 'Y' WHERE CMT_SEQ = #{cmtSeq}
     </update>
 
+    <select id="selectRequestStatusCount" resultType="java.util.Map">
+        SELECT
+            COUNT(REQ_SEQ) AS totalCnt,
+            SUM(CASE WHEN STATUS = 'WAITING' THEN 1 ELSE 0 END) AS waitCnt,
+            SUM(CASE WHEN STATUS = 'PROCESS' THEN 1 ELSE 0 END) AS processCnt,
+            SUM(CASE WHEN STATUS = 'DONE' THEN 1 ELSE 0 END) AS doneCnt
+        FROM TB_DEV_REQUEST
+        WHERE DEL_YN = 'N'
+    </select>
 </mapper>

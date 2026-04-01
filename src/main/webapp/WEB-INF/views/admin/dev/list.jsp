@@ -11,6 +11,33 @@
     <a href="/admin/dev/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 새 요청 등록</a>
 </div>
 
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="p-3 rounded text-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);">
+            <span class="text-muted d-block mb-1" style="font-size: 13px;">전체 누적 티켓</span>
+            <h3 class="text-white fw-bold m-0">${statusCount.totalCnt} <small class="fs-6 text-muted">건</small></h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 rounded text-center" style="background: rgba(255, 193, 7, 0.05); border: 1px solid rgba(255, 193, 7, 0.2);">
+            <span class="text-warning d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-hourglass-split me-1"></i>접수 / 대기중</span>
+            <h3 class="text-white fw-bold m-0">${statusCount.waitCnt} <small class="fs-6 text-muted">건</small></h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 rounded text-center" style="background: rgba(13, 110, 253, 0.05); border: 1px solid rgba(13, 110, 253, 0.2);">
+            <span class="text-primary d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-tools me-1"></i>처리 진행중</span>
+            <h3 class="text-white fw-bold m-0">${statusCount.processCnt} <small class="fs-6 text-muted">건</small></h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 rounded text-center" style="background: rgba(25, 135, 84, 0.05); border: 1px solid rgba(25, 135, 84, 0.2);">
+            <span class="text-success d-block mb-1 fw-bold" style="font-size: 13px;"><i class="bi bi-check-circle-fill me-1"></i>처리 완료</span>
+            <h3 class="text-white fw-bold m-0">${statusCount.doneCnt} <small class="fs-6 text-muted">건</small></h3>
+        </div>
+    </div>
+</div>
+
 <div class="premium-dark-card p-4">
     <form action="/admin/dev/list" method="get" class="d-flex justify-content-end mb-4">
         <div class="input-group shadow-sm" style="max-width: 600px;">

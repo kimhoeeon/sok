@@ -48,6 +48,7 @@ public class DevController {
     public String list(@ModelAttribute DevRequestDTO params, Model model) {
         model.addAttribute("list", devMapper.selectRequestList(params));
         model.addAttribute("params", params);
+        model.addAttribute("statusCount", devMapper.selectRequestStatusCount());
         return "admin/dev/list";
     }
 
@@ -109,6 +110,10 @@ public class DevController {
             AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
             request.setModId(admin.getMbrId());
             devMapper.updateRequestStatus(request);
+
+            // [고도화 추가] 상태가 변경되었으므로 최신화된 데이터를 다시 조회하여 발주사(SOK)에 알림 메일 발송
+            DevRequestDTO updatedReq = devMapper.selectRequest(request.getReqSeq());
+            bizppurioService.sendStatusChangeAlertEmail(updatedReq);
         }
         return "redirect:/admin/dev/detail?reqSeq=" + request.getReqSeq();
     }

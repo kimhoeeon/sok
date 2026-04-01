@@ -2,126 +2,265 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:set var="menuGroup" value="main" scope="request" />
 <c:set var="currentMenu" value="main" scope="request" />
 <%@ include file="layout/header.jsp" %>
 
-<div class="d-flex justify-content-between align-items-center mb-5">
-    <div>
-        <h3 class="fw-bold text-white mb-1">대시보드</h3>
-        <span class="text-muted">SOK 홈페이지 통합 통계 현황</span>
-    </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<div class="row g-4 mb-5">
-    <div class="col-md-3">
-        <div class="premium-dark-card p-4 h-100 d-flex flex-column justify-content-center position-relative overflow-hidden">
-            <div class="position-absolute opacity-25" style="right: -10px; bottom: -15px;">
-                <i class="bi bi-person-check-fill" style="font-size: 6rem; color: #444;"></i>
-            </div>
-            <span class="text-muted fw-bold mb-2">당일 순 방문자 (명)</span>
-            <h2 class="text-white fw-bolder m-0 neon-text">2,136</h2>
-        </div>
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h3 class="fw-bold text-white mb-1">통합 운영 현황</h3>
+        <p class="text-muted mb-0">SOK 공식 홈페이지의 데이터 및 시스템 상태를 실시간으로 확인합니다.</p>
     </div>
-    <div class="col-md-3">
-        <div class="premium-dark-card p-4 h-100 d-flex flex-column justify-content-center position-relative overflow-hidden">
-            <div class="position-absolute opacity-25" style="right: -10px; bottom: -15px;">
-                <i class="bi bi-people-fill" style="font-size: 6rem; color: #444;"></i>
-            </div>
-            <span class="text-muted fw-bold mb-2">당일 총 방문자 (명)</span>
-            <h2 class="text-white fw-bolder m-0">4,565</h2>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="premium-dark-card p-4 h-100 d-flex flex-column justify-content-center position-relative overflow-hidden">
-            <div class="position-absolute opacity-25" style="right: -10px; bottom: -15px;">
-                <i class="bi bi-heart-fill" style="font-size: 6rem; color: #ff99e2;"></i>
-            </div>
-            <span class="text-muted fw-bold mb-2">누적 후원자 (명)</span>
-            <h2 class="fw-bolder m-0" style="color: #ff99e2;">125</h2>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="premium-dark-card p-4 h-100 d-flex flex-column justify-content-center position-relative overflow-hidden">
-            <div class="position-absolute opacity-25" style="right: -10px; bottom: -15px;">
-                <i class="bi bi-piggy-bank-fill" style="font-size: 6rem; color: #e61938;"></i>
-            </div>
-            <span class="text-muted fw-bold mb-2">누적 후원액 (원)</span>
-            <h2 class="fw-bolder m-0" style="color: #e61938;">125,000,000</h2>
+    <div class="col-md-4 text-end">
+        <div class="d-inline-flex align-items-center p-2 px-3 rounded glassmorphism-box border border-danger" style="transform: scale(0.9); transform-origin: right;">
+            <i class="bi bi-exclamation-octagon text-danger me-2"></i>
+            <span class="text-muted me-2" style="font-size: 12px;">미처리 유지보수 티켓</span>
+            <span class="text-danger fw-bold fs-5">${summary.waitTicketCnt}</span>
         </div>
     </div>
 </div>
 
-<div class="row g-4">
-    <div class="col-md-6">
-        <div class="premium-dark-card p-5 h-100">
-            <h5 class="fw-bold mb-4 text-white"><i class="bi bi-graph-up-arrow me-2 text-success"></i> 상위 조회 페이지 TOP 5</h5>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th width="15%" class="text-white border-bottom border-secondary">순위</th>
-                            <th class="text-white border-bottom border-secondary">페이지명</th>
-                            <th width="20%" class="text-white border-bottom border-secondary text-end">조회수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border-secondary"><span class="badge bg-danger">1</span></td>
-                            <td class="text-white fw-bold border-secondary">홈 (Home)</td>
-                            <td class="text-end pe-4 border-secondary">1,245</td>
-                        </tr>
-                        <tr>
-                            <td class="border-secondary"><span class="badge bg-warning text-dark">2</span></td>
-                            <td class="text-white fw-bold border-secondary">함께하는 사람들</td>
-                            <td class="text-end pe-4 border-secondary">982</td>
-                        </tr>
-                        <tr>
-                            <td class="border-secondary"><span class="badge bg-secondary">3</span></td>
-                            <td class="text-white fw-bold border-secondary">후원하기</td>
-                            <td class="text-end pe-4 border-secondary">843</td>
-                        </tr>
-                        <tr>
-                            <td class="border-secondary"><span class="badge" style="background-color:#2b2b40;">4</span></td>
-                            <td class="text-white fw-bold border-secondary">공지사항</td>
-                            <td class="text-end pe-4 border-secondary">512</td>
-                        </tr>
-                        <tr>
-                            <td class="border-secondary"><span class="badge" style="background-color:#2b2b40;">5</span></td>
-                            <td class="text-white fw-bold border-secondary">자원봉사 신청</td>
-                            <td class="text-end pe-4 border-secondary">420</td>
-                        </tr>
-                    </tbody>
-                </table>
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="premium-dark-card p-4 h-100 border-0 shadow-sm">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted d-block mb-1" style="font-size: 13px;">오늘 방문자</span>
+                    <h2 class="text-success fw-bold mb-0"><fmt:formatNumber value="${summary.todayVisitor}" pattern="#,###"/> <small class="fs-6 opacity-50">명</small></h2>
+                </div>
+                <div class="p-3 bg-success bg-opacity-10 rounded-circle"><i class="bi bi-person-walking text-success fs-3"></i></div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="premium-dark-card p-5 h-100 glassmorphism-box border-0" style="background: linear-gradient(145deg, rgba(30,30,45,0.8) 0%, rgba(21,21,33,0.9) 100%);">
-            <h5 class="fw-bold mb-4 text-white"><i class="bi bi-cpu me-2 text-info"></i> 시스템 상태</h5>
-            <div class="d-flex align-items-center mb-4">
-                <i class="bi bi-circle-fill text-success me-3" style="font-size: 10px; text-shadow: 0 0 10px #39ff14;"></i>
-                <div class="flex-grow-1">
-                    <span class="fw-bold text-white d-block">서버 연결 상태</span>
-                    <span class="text-muted fs-7">정상 가동 중 (Uptime: 45 Days)</span>
+    <div class="col-xl-3 col-md-6">
+        <div class="premium-dark-card p-4 h-100 border-0 shadow-sm">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted d-block mb-1" style="font-size: 13px;">누적 방문자</span>
+                    <h2 class="text-white fw-bold mb-0"><fmt:formatNumber value="${summary.totalVisitor}" pattern="#,###"/> <small class="fs-6 opacity-50">명</small></h2>
                 </div>
+                <div class="p-3 bg-secondary bg-opacity-25 rounded-circle"><i class="bi bi-people-fill text-light fs-3"></i></div>
             </div>
-            <div class="d-flex align-items-center mb-4">
-                <i class="bi bi-circle-fill text-success me-3" style="font-size: 10px; text-shadow: 0 0 10px #39ff14;"></i>
-                <div class="flex-grow-1">
-                    <span class="fw-bold text-white d-block">DB 통신 상태</span>
-                    <span class="text-muted fs-7">응답 속도: 12ms</span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="premium-dark-card p-4 h-100 border-0 shadow-sm">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted d-block mb-1" style="font-size: 13px;">누적 후원자</span>
+                    <h2 class="text-primary fw-bold mb-0"><fmt:formatNumber value="${summary.totalDonorCnt}" pattern="#,###"/> <small class="fs-6 opacity-50">명</small></h2>
                 </div>
+                <div class="p-3 bg-primary bg-opacity-10 rounded-circle"><i class="bi bi-person-heart text-primary fs-3"></i></div>
             </div>
-            <div class="d-flex align-items-center">
-                <i class="bi bi-circle-fill text-success me-3" style="font-size: 10px; text-shadow: 0 0 10px #39ff14;"></i>
-                <div class="flex-grow-1">
-                    <span class="fw-bold text-white d-block">토스페이먼츠 연동</span>
-                    <span class="text-muted fs-7">정상 연결됨</span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="premium-dark-card p-4 h-100 border-0 shadow-sm">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted d-block mb-1" style="font-size: 13px;">누적 후원액</span>
+                    <h2 class="fw-bold mb-0" style="color: #ff99e2;"><fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/> <small class="fs-6 opacity-50">원</small></h2>
                 </div>
+                <div class="p-3 bg-danger bg-opacity-10 rounded-circle"><i class="bi bi-piggy-bank-fill text-danger fs-3"></i></div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row g-4 mb-4">
+    <div class="col-xl-8">
+        <div class="premium-dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold text-white m-0"><i class="bi bi-activity me-2 text-success"></i>방문자 현황</h5>
+                <div class="btn-group btn-group-sm shadow-sm">
+                    <button type="button" class="btn btn-outline-secondary active" onclick="loadVisitorChart('DAY', this)">일별</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="loadVisitorChart('WEEK', this)">주별</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="loadVisitorChart('MONTH', this)">월별</button>
+                </div>
+            </div>
+            <div id="visitorLineChart" style="height: 320px;"></div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="premium-dark-card p-4 h-100 d-flex flex-column">
+            <h5 class="fw-bold text-white mb-4"><i class="bi bi-fire me-2 text-danger"></i>인기 페이지 TOP 5</h5>
+            <div class="list-group list-group-flush bg-transparent mt-2 flex-grow-1 d-flex flex-column">
+                <c:choose>
+                    <c:when test="${empty topPages}">
+                        <div class="d-flex flex-grow-1 justify-content-center align-items-center text-muted" style="min-height: 250px;">
+                            <div class="text-center">
+                                <i class="bi bi-bar-chart-line fs-1 d-block mb-2 opacity-50"></i>
+                                조회된 통계 데이터가 없습니다.
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="page" items="${topPages}" varStatus="status">
+                            <div class="list-group-item bg-transparent border-secondary border-opacity-25 d-flex justify-content-between align-items-center px-0 py-3">
+                                <div class="text-truncate" style="max-width: 75%;">
+                                    <span class="badge bg-dark text-muted me-2" style="width: 25px;">${status.count}</span>
+                                    <span class="text-white" style="font-size: 14px;">${page.TITLE}</span>
+                                </div>
+                                <span class="badge bg-secondary rounded-pill fw-normal" style="font-size: 11px;">${page.VIEW_CNT} Hit</span>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-xl-8">
+        <div class="premium-dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold text-white m-0"><i class="bi bi-journal-check me-2 text-warning"></i>신청/참여 현황</h5>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-outline-secondary active" onclick="loadApplyChart('DAY', this)">일별</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="loadApplyChart('WEEK', this)">주별</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="loadApplyChart('MONTH', this)">월별</button>
+                </div>
+            </div>
+            <div id="applyBarChart" style="height: 320px;"></div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="premium-dark-card p-4 h-100">
+            <h5 class="fw-bold text-white mb-4"><i class="bi bi-server me-2 text-info"></i>JVM & 웹 서버 상태</h5>
+            <div class="mb-4 p-3 rounded" style="background: rgba(0,0,0,0.2);">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted" style="font-size: 13px;">호스팅 환경</span>
+                    <span class="text-white fw-bold" style="font-size: 13px;">Cafe24 Tomcat JSP</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted" style="font-size: 13px;">DB 연결상태</span>
+                    <c:choose>
+                        <c:when test="${dbStatus}">
+                            <span class="text-success fw-bold" style="font-size: 13px;"><i class="bi bi-check-circle-fill me-1"></i>정상 (Active)</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="text-danger fw-bold" style="font-size: 13px;"><i class="bi bi-x-circle-fill me-1"></i>연결 실패</span>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted" style="font-size: 13px;">서버 구동 시간</span>
+                    <span class="text-warning fw-bold" style="font-size: 13px;"><i class="bi bi-clock-history me-1"></i>${jvmUptime}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted" style="font-size: 13px;">Java 버전</span>
+                    <span class="text-info fw-bold" style="font-size: 13px;">v ${javaVersion}</span>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <label class="text-muted" style="font-size: 12px;"><i class="bi bi-memory me-1"></i>자바 힙 메모리 (JVM Memory)</label>
+                    <span class="text-white fw-bold" style="font-size: 12px;">${jvmUsage}% (${jvmUsedMB}MB / ${jvmTotalMB}MB)</span>
+                </div>
+                <div class="progress" style="height: 10px; background: rgba(255,255,255,0.05);">
+                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: ${jvmUsage}%"></div>
+                </div>
+                <small class="text-muted d-block mt-3 lh-base" style="font-size: 11.5px;">※ 공용 서버의 전체 리소스가 아닌, 현재 SOK 애플리케이션(JVM)에 할당된 실제 메모리 기준입니다.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="premium-dark-card p-4 mb-0 shadow-sm">
+    <h5 class="fw-bold text-white mb-4"><i class="bi bi-lightning-charge-fill me-2 text-warning"></i>빠른 업무 이동 (Quick Links)</h5>
+    <div class="row g-3 text-center">
+        <c:set var="links" value="notice,sponsor/donate,volunteer,certificate,popup,dev" />
+        <c:set var="linkNames" value="공지 등록,후원 관리,봉사 관리,증명서 발급,팝업 설정,유지보수" />
+        <c:set var="linkIcons" value="megaphone,credit-card,person-check,file-earmark-check,window-stack,headset" />
+
+        <c:forTokens items="${links}" delims="," var="link" varStatus="st">
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="/admin/${link}/list" class="d-block p-4 rounded glassmorphism-box text-decoration-none hover-glow transition-all">
+                    <i class="bi bi-${linkIcons.split(',')[st.index]} fs-1 d-block mb-2 text-white"></i>
+                    <span class="text-muted" style="font-size: 13px;">${linkNames.split(',')[st.index]}</span>
+                </a>
+            </div>
+        </c:forTokens>
+    </div>
+</div>
+
+<script>
+    var visitorChart, applyChart;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initCharts();
+        loadVisitorChart('DAY');
+        loadApplyChart('DAY');
+    });
+
+    function initCharts() {
+        var commonOptions = {
+            chart: { height: 320, toolbar: {show:false}, background:'transparent' },
+            theme: { mode: 'dark' },
+            noData: {
+                text: '수집된 통계 데이터가 없습니다.',
+                align: 'center', verticalAlign: 'middle',
+                style: { color: '#a1a5b7', fontSize: '14px' }
+            }
+        };
+
+        visitorChart = new ApexCharts(document.querySelector("#visitorLineChart"), {
+            ...commonOptions,
+            series: [],
+            chart: { ...commonOptions.chart, type: 'area' },
+            colors: ['#39ff14'],
+            stroke: { curve: 'smooth', width: 3 },
+            fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.05 } }
+        });
+        visitorChart.render();
+
+        applyChart = new ApexCharts(document.querySelector("#applyBarChart"), {
+            ...commonOptions,
+            series: [],
+            chart: { ...commonOptions.chart, type: 'bar', stacked: false },
+            colors: ['#ff99e2', '#009ef7'],
+            plotOptions: { bar: { borderRadius: 4, columnWidth: '45%' } }
+        });
+        applyChart.render();
+    }
+
+    function loadVisitorChart(period, btn) {
+        if(btn) setActive(btn);
+        $.get("/admin/api/stats/visitor?period=" + period, function(data) {
+            if(!data || data.length === 0) {
+                visitorChart.updateSeries([]);
+            } else {
+                visitorChart.updateSeries([{ name: '방문자 수', data: data.map(item => item.cnt) }]);
+                visitorChart.updateOptions({ xaxis: { categories: data.map(item => item.label) } });
+            }
+        });
+    }
+
+    function loadApplyChart(period, btn) {
+        if(btn) setActive(btn);
+        $.get("/admin/api/stats/apply?period=" + period, function(data) {
+            if(!data || data.length === 0) {
+                applyChart.updateSeries([]);
+            } else {
+                applyChart.updateSeries([
+                    { name: '후원 신청', data: data.map(item => item.donateCnt) },
+                    { name: '자원봉사 신청', data: data.map(item => item.volCnt) }
+                ]);
+                applyChart.updateOptions({ xaxis: { categories: data.map(item => item.label) } });
+            }
+        });
+    }
+
+    function setActive(btn) {
+        $(btn).parent().find('.btn').removeClass('active');
+        $(btn).addClass('active');
+    }
+</script>
 
 <%@ include file="layout/footer.jsp" %>

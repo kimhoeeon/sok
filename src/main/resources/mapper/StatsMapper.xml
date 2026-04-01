@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.StatsMapper">
+
+    <select id="checkDbConnection" resultType="int">
+        SELECT 1
+    </select>
+
+    <select id="selectSummaryStats" resultType="java.util.Map">
+        SELECT (SELECT COUNT(*) FROM TB_MEMBER WHERE IS_DONOR = 'Y' AND WITHDRAW_YN = 'N')         AS totalDonorCnt,
+               (SELECT IFNULL(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonationAmt,
+               (SELECT COUNT(*) FROM TB_DEV_REQUEST WHERE STATUS = 'WAITING' AND DEL_YN = 'N')     AS waitTicketCnt,
+               (SELECT COUNT(*) FROM TB_VISIT_LOG WHERE DATE(VISIT_DT) = CURDATE())                AS todayVisitor,
+               (SELECT COUNT(*) FROM TB_VISIT_LOG)                                                 AS totalVisitor
+        FROM DUAL
+    </select>
+
+    <select id="selectTopPages" resultType="java.util.Map">
+        SELECT TITLE, VIEW_CNT, BRD_TYPE
+        FROM TB_BOARD
+        WHERE DEL_YN = 'N'
+        ORDER BY VIEW_CNT DESC
+        LIMIT 5
+    </select>
+
+    <select id="selectVisitorTrend" resultType="java.util.Map">
+        <choose>
+            <when test="periodType == 'DAY'">
+                SELECT CAST(DATE_FORMAT(VISIT_DT, '%m-%d') AS CHAR) as label, COUNT(*) as cnt
+                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                GROUP BY label ORDER BY label
+            </when>
+            <when test="periodType == 'MONTH'">
+                SELECT CAST(DATE_FORMAT(VISIT_DT, '%Y-%m') AS CHAR) as label, COUNT(*) as cnt
+                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                GROUP BY label ORDER BY label
+            </when>
+            <otherwise>
+                SELECT CAST(DATE_FORMAT(VISIT_DT, '%u주차') AS CHAR) as label, COUNT(*) as cnt
+                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 8 WEEK)
+                GROUP BY label ORDER BY label
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectApplyTrend" resultType="java.util.Map">
+        SELECT T.label,
+        SUM(CASE WHEN T.type = 'DONATE' THEN 1 ELSE 0 END) as donateCnt,
+        SUM(CASE WHEN T.type = 'VOL' THEN 1 ELSE 0 END) as volCnt
+        FROM (
+        SELECT CAST(DATE_FORMAT(REG_DT,
+        <choose>
+            <when test="periodType == 'DAY'">'%m-%d'</when>
+            <when test="periodType == 'MONTH'">'%Y-%m'</when>
+            <otherwise>'%u주차'</otherwise>
+        </choose>
+        ) AS CHAR) as label, 'DONATE' as type FROM TB_DONATION_PAYMENT
+        UNION ALL
+        SELECT CAST(DATE_FORMAT(REG_DT,
+        <choose>
+            <when test="periodType == 'DAY'">'%m-%d'</when>
+            <when test="periodType == 'MONTH'">'%Y-%m'</when>
+            <otherwise>'%u주차'</otherwise>
+        </choose>
+        ) AS CHAR) as label, 'VOL' as type FROM TB_VOLUNTEER_APPLY
+        ) T
+        GROUP BY label ORDER BY label LIMIT 10
+    </select>
+
+    <insert id="insertVisitLog">
+        INSERT INTO TB_VISIT_LOG (VISIT_IP, USER_AGENT)
+        VALUES (#{visitIp}, #{userAgent})
+    </insert>
+
+</mapper>

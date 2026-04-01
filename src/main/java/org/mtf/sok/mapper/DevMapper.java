@@ -5,6 +5,7 @@ import org.mtf.sok.domain.DevCommentDTO;
 import org.mtf.sok.domain.DevRequestDTO;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DevMapper {
@@ -25,4 +26,7 @@ public interface DevMapper {
     void insertComment(DevCommentDTO comment);
 
     void deleteComment(Long cmtSeq);
+
+    // [고도화 추가] 상태별 티켓 개수 통계
+    Map<String, Object> selectRequestStatusCount();
 }

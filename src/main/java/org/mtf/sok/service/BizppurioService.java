@@ -76,4 +76,30 @@ public class BizppurioService {
             e.printStackTrace();
         }
     }
+
+    // [고도화 추가] 개발사가 상태/예정일을 변경했을 때 발주사(SOK)에게 알림 발송
+    public void sendStatusChangeAlertEmail(DevRequestDTO request) {
+        String targetEmail = "sok_admin@sokorea.or.kr"; // 발주사(SOK) 메인 담당자 이메일
+        String subject = "[SOK 유지보수] '" + request.getTitle() + "' 티켓의 상태가 업데이트되었습니다.";
+
+        String statusStr = convertStatusToKorean(request.getStatus());
+        String dueDtStr = request.getDueDt() != null ? request.getDueDt().toString() : "미정";
+
+        String body = String.format("요청하신 유지보수 티켓의 진행 상태가 업데이트되었습니다.\n\n- 현재 상태: %s\n- 완료 예정일: %s\n\n관리자 시스템에 접속하여 확인해 주세요.",
+                statusStr, dueDtStr);
+
+        sendBizppurioMail(targetEmail, subject, body);
+    }
+
+    private String convertStatusToKorean(String status) {
+        if(status == null) return "상태 미상";
+        switch(status) {
+            case "WAITING": return "접수 대기";
+            case "PROCESS": return "처리 진행중";
+            case "DISCUSS": return "논의 필요";
+            case "DONE": return "처리 완료";
+            case "REJECT": return "처리 불가";
+            default: return status;
+        }
+    }
 }
