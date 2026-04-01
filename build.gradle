@@ -28,6 +28,8 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl:1.2'
+    // [보안 고도화] BCrypt 암호화 사용을 위한 Spring Security 추가
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // 2. Database (MariaDB & MyBatis)
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
