@@ -136,14 +136,14 @@ public class AdminController {
         return fixBase64Label(list);
     }
 
-    // [핵심 해결 로직] DB에서 byte[] 로 넘어와 Base64로 인코딩되는 현상을 Java에서 강제 문자열 변환
+    // [핵심 해결 로직] Key 대소문자 상관없이 Map 안에 있는 모든 byte[]를 String으로 강제 변환
     private List<Map<String, Object>> fixBase64Label(List<Map<String, Object>> list) {
         for (Map<String, Object> map : list) {
-            Object label = map.get("label");
-            if (label instanceof byte[]) {
-                map.put("label", new String((byte[]) label));
-            } else if (label != null) {
-                map.put("label", String.valueOf(label));
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                // MyBatis가 어떤 Key 이름으로 반환하든 값이 byte[] (이진 데이터)이면 문자열로 덮어씀
+                if (entry.getValue() instanceof byte[]) {
+                    map.put(entry.getKey(), new String((byte[]) entry.getValue()));
+                }
             }
         }
         return list;

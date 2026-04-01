@@ -236,8 +236,8 @@
             if(!data || data.length === 0) {
                 visitorChart.updateSeries([]);
             } else {
-                visitorChart.updateSeries([{ name: '방문자 수', data: data.map(item => item.cnt) }]);
-                visitorChart.updateOptions({ xaxis: { categories: data.map(item => item.label) } });
+                visitorChart.updateSeries([{ name: '방문자 수', data: data.map(item => item.cnt || item.CNT) }]);
+                visitorChart.updateOptions({ xaxis: { categories: data.map(item => item.label || item.LABEL) } });
             }
         });
     }
@@ -249,10 +249,10 @@
                 applyChart.updateSeries([]);
             } else {
                 applyChart.updateSeries([
-                    { name: '후원 신청', data: data.map(item => item.donateCnt) },
-                    { name: '자원봉사 신청', data: data.map(item => item.volCnt) }
+                    { name: '후원 신청', data: data.map(item => item.donateCnt || item.DONATECNT) },
+                    { name: '자원봉사 신청', data: data.map(item => item.volCnt || item.VOLCNT) }
                 ]);
-                applyChart.updateOptions({ xaxis: { categories: data.map(item => item.label) } });
+                applyChart.updateOptions({ xaxis: { categories: data.map(item => item.label || item.LABEL) } });
             }
         });
     }

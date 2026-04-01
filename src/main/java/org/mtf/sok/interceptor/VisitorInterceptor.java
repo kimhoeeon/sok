@@ -39,7 +39,6 @@ public class VisitorInterceptor implements HandlerInterceptor {
 
             // 로그를 남겼으므로 세션에 플래그 설정 (중복 카운트 방지)
             session.setAttribute("hasVisited", true);
-            session.setMaxInactiveInterval(60 * 60); // 1시간(3600초) 동안 중복 카운트 안 함
         }
 
         return true;
