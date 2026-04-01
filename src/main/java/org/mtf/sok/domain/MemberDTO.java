@@ -1,11 +1,13 @@
 package org.mtf.sok.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class MemberDTO {
+@EqualsAndHashCode(callSuper = false) // ★ [페이징 추가/수정]
+public class MemberDTO extends Criteria { // ★ [페이징 추가/수정] Criteria 상속
     private Long mbrSeq;
     private String mbrId;
     private String mbrPw;

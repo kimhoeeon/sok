@@ -8,19 +8,23 @@ import java.util.List;
 
 @Mapper
 public interface SponsorMapper {
-    // 가입자(회원) 관리
+    // 1. 회원(후원자) 관련
     List<MemberDTO> selectMemberList(MemberDTO params);
+
+    int selectMemberTotalCount(MemberDTO params); // ★ [페이징 추가/수정]
 
     MemberDTO selectMember(Long mbrSeq);
 
     void updateMember(MemberDTO member);
 
-    // 기부금(후원) 관리
+    // 2. 기부금(결제) 관련
     List<DonationDTO> selectDonationList(DonationDTO params);
+
+    int selectDonationTotalCount(DonationDTO params); // ★ [페이징 추가/수정]
 
     DonationDTO selectDonation(Long paySeq);
 
-    List<DonationDTO> selectDonationByMember(Long mbrSeq); // 특정 회원의 결제 내역
+    List<DonationDTO> selectDonationByMember(Long mbrSeq);
 
-    void updateDonationStatus(DonationDTO donation);       // 취소/환불 상태 변경
+    void updateDonationStatus(DonationDTO donation);
 }

@@ -1,11 +1,13 @@
 package org.mtf.sok.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class DonationDTO {
+@EqualsAndHashCode(callSuper = false) // ★ [페이징 추가/수정]
+public class DonationDTO extends Criteria { // ★ [페이징 추가/수정] Criteria 상속
     private Long paySeq;
     private Long mbrSeq;
     private String orderId;
