@@ -29,4 +29,6 @@ public interface DevMapper {
 
     // 상태별 티켓 개수 통계
     Map<String, Object> selectRequestStatusCount();
+
+    int selectRequestTotalCount(DevRequestDTO params);
 }

@@ -1,9 +1,6 @@
 package org.mtf.sok.controller;
 
-import org.mtf.sok.domain.AdminDTO;
-import org.mtf.sok.domain.DevCommentDTO;
-import org.mtf.sok.domain.DevRequestDTO;
-import org.mtf.sok.domain.FileDTO;
+import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.DevMapper;
 import org.mtf.sok.service.BizppurioService;
@@ -43,9 +40,20 @@ public class DevController {
 
     @GetMapping("/list")
     public String list(@ModelAttribute DevRequestDTO params, Model model) {
-        model.addAttribute("list", devMapper.selectRequestList(params));
+        // 1. 페이징 처리 및 데이터 조회
+        List<DevRequestDTO> list = devMapper.selectRequestList(params);
+        int total = devMapper.selectRequestTotalCount(params);
+
+        // 2. 화면에 그려줄 페이지 버튼 계산 객체 생성
+        PageDTO pageMaker = new PageDTO(params, total);
+
+        model.addAttribute("list", list);
+        model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
+
+        // 기존 대시보드 통계 데이터 유지
         model.addAttribute("statusCount", devMapper.selectRequestStatusCount());
+
         return "admin/dev/list";
     }
 

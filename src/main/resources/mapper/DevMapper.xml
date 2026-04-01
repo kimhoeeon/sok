@@ -2,11 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.DevMapper">
 
-    <select id="selectRequestList" resultType="org.mtf.sok.domain.DevRequestDTO">
-        SELECT R.*,
-        (SELECT COUNT(*) FROM TB_DEV_COMMENT C WHERE C.REQ_SEQ = R.REQ_SEQ AND C.DEL_YN = 'N') AS commentCnt
-        FROM TB_DEV_REQUEST R
-        WHERE R.DEL_YN = 'N'
+    <sql id="searchCondition">
         <if test="searchType != null and searchType != ''">
             AND R.REQ_TYPE = #{searchType}
         </if>
@@ -16,7 +12,23 @@
         <if test="searchKeyword != null and searchKeyword != ''">
             AND R.TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
         </if>
+    </sql>
+
+    <select id="selectRequestList" resultType="org.mtf.sok.domain.DevRequestDTO">
+        SELECT R.*,
+        (SELECT COUNT(*) FROM TB_DEV_COMMENT C WHERE C.REQ_SEQ = R.REQ_SEQ AND C.DEL_YN = 'N') AS commentCnt
+        FROM TB_DEV_REQUEST R
+        WHERE R.DEL_YN = 'N'
+        <include refid="searchCondition"/>
         ORDER BY R.REG_DT DESC
+        LIMIT #{offset}, #{amount}
+    </select>
+
+    <select id="selectRequestTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_DEV_REQUEST R
+        WHERE R.DEL_YN = 'N'
+        <include refid="searchCondition"/>
     </select>
 
     <select id="selectRequest" resultType="org.mtf.sok.domain.DevRequestDTO">

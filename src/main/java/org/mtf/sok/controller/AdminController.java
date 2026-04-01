@@ -90,20 +90,27 @@ public class AdminController {
             return "redirect:/admin/login";
         }
 
-        // 1. DB 실제 연결 상태 체크
         boolean dbStatus = false;
         try {
-            if(statsMapper.checkDbConnection() == 1) dbStatus = true;
+            // 1. DB 핑(Ping) 테스트
+            if (statsMapper.checkDbConnection() == 1) {
+                dbStatus = true;
+
+                // DB가 정상일 때만 통계 데이터를 조회하여 담음
+                model.addAttribute("summary", statsMapper.selectSummaryStats());
+                model.addAttribute("topPages", statsMapper.selectTopPages());
+            }
         } catch (Exception e) {
+            // DB가 다운되었을 경우, 에러를 삼키고 빈 데이터를 넘겨 화면 렌더링을 보호함 (500 에러 방지)
             dbStatus = false;
+            model.addAttribute("summary", new java.util.HashMap<>());
+            model.addAttribute("topPages", new java.util.ArrayList<>());
+            System.err.println("대시보드 로딩 중 DB 연결 실패: " + e.getMessage());
         }
+
         model.addAttribute("dbStatus", dbStatus);
 
-        // 2. DB 실제 요약 통계 및 TOP 5 연동
-        model.addAttribute("summary", statsMapper.selectSummaryStats());
-        model.addAttribute("topPages", statsMapper.selectTopPages());
-
-        // 3. JVM 메모리 상태
+        // 3. JVM 메모리 상태 (DB가 죽어도 웹 서버가 살아있으면 정상 출력됨 ★)
         Runtime runtime = Runtime.getRuntime();
         long totalMem = runtime.totalMemory();
         long freeMem = runtime.freeMemory();
@@ -115,7 +122,7 @@ public class AdminController {
         model.addAttribute("jvmUsedMB", usedMem / (1024 * 1024));
 
         // 4. 서버 가동 시간(Uptime) 및 Java 버전
-        RuntimeMXBean runtimeBean = ManagementFactory.getRuntimeMXBean();
+        java.lang.management.RuntimeMXBean runtimeBean = java.lang.management.ManagementFactory.getRuntimeMXBean();
         long uptimeHours = runtimeBean.getUptime() / (1000 * 60 * 60);
         long uptimeDays = uptimeHours / 24;
         String uptimeStr = uptimeDays > 0 ? uptimeDays + "일 " + (uptimeHours % 24) + "시간" : uptimeHours + "시간";
