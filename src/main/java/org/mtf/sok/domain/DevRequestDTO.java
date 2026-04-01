@@ -33,4 +33,6 @@ public class DevRequestDTO extends Criteria {
     private String searchType;
     private String searchStatus;
     private String searchKeyword;
+
+    private List<Long> reqSeqs;
 }

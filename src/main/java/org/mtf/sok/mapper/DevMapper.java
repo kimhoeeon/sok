@@ -31,4 +31,6 @@ public interface DevMapper {
     Map<String, Object> selectRequestStatusCount();
 
     int selectRequestTotalCount(DevRequestDTO params);
+
+    void updateDevRequestBatch(DevRequestDTO request);
 }

@@ -77,4 +77,17 @@
         FROM TB_DEV_REQUEST
         WHERE DEL_YN = 'N'
     </select>
+
+    <update id="updateDevRequestBatch" parameterType="org.mtf.sok.domain.DevRequestDTO">
+        UPDATE TB_DEV_REQUEST
+        SET STATUS = #{status},
+        DUE_DT = #{dueDt},
+        MOD_ID = #{modId},
+        MOD_DT = NOW()
+        WHERE REQ_SEQ IN
+        <foreach item="seq" collection="reqSeqs" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+    </update>
+
 </mapper>

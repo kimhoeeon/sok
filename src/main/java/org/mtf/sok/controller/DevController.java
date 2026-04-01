@@ -221,4 +221,29 @@ public class DevController {
         }
         ExcelUtils.download(response, "유지보수_요청_내역", headers, data);
     }
+
+    @PostMapping("/batchUpdate")
+    public String batchUpdate(DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
+        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+
+        if (admin != null) {
+            params.setModId(admin.getMbrId());
+        } else {
+            params.setModId("SYSTEM");
+        }
+
+        // 체크된 대상이 존재할 경우에만 일괄 업데이트 실행
+        if (params.getReqSeqs() != null && !params.getReqSeqs().isEmpty()) {
+            devMapper.updateDevRequestBatch(params);
+        }
+
+        // 업데이트 후 검색 및 페이징 상태 유지
+        rttr.addAttribute("pageNum", params.getPageNum());
+        rttr.addAttribute("amount", params.getAmount());
+        rttr.addAttribute("searchType", params.getSearchType());
+        rttr.addAttribute("searchStatus", params.getSearchStatus());
+        rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+
+        return "redirect:/admin/dev/list";
+    }
 }
