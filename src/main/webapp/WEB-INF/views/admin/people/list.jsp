@@ -12,17 +12,26 @@
 </div>
 
 <div class="premium-dark-card p-4">
-    <form action="/admin/people/list" method="get" class="d-flex justify-content-end mb-4">
-        <div class="input-group w-50 shadow-sm">
-            <select name="category" class="form-select dark-search-bar" style="max-width: 150px;">
-                <option value="">전체 분류</option>
-                <option value="임원진" ${searchCategory eq '임원진' ? 'selected' : ''}>임원진</option>
-                <option value="홍보대사" ${searchCategory eq '홍보대사' ? 'selected' : ''}>홍보대사</option>
-                <option value="스포츠선수" ${searchCategory eq '스포츠선수' ? 'selected' : ''}>스포츠선수</option>
-                <option value="문화예술인" ${searchCategory eq '문화예술인' ? 'selected' : ''}>문화예술인</option>
+    <form id="searchForm" action="/admin/people/list" method="get" class="d-flex justify-content-end mb-4">
+        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+
+        <div class="input-group shadow-sm" style="max-width: 600px;">
+            <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
+                <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
+                <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
+                <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
             </select>
-            <input type="text" name="title" class="form-control dark-search-bar" placeholder="이름 또는 직책 검색" value="${searchTitle}">
-            <button class="btn btn-secondary" type="submit" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
+
+            <select name="category" class="form-select dark-search-bar border-start-0" style="max-width: 150px;">
+                <option value="">전체 분류</option>
+                <option value="임원진" ${params.category eq '임원진' ? 'selected' : ''}>임원진</option>
+                <option value="홍보대사" ${params.category eq '홍보대사' ? 'selected' : ''}>홍보대사</option>
+                <option value="스포츠선수" ${params.category eq '스포츠선수' ? 'selected' : ''}>스포츠선수</option>
+                <option value="문화예술인" ${params.category eq '문화예술인' ? 'selected' : ''}>문화예술인</option>
+            </select>
+
+            <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="이름 또는 직책 검색" value="${params.searchKeyword}">
+            <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
@@ -51,14 +60,21 @@
                                 <td class="border-secondary">${item.brdSeq}</td>
                                 <td class="border-secondary"><span class="badge bg-secondary">${item.category}</span></td>
                                 <td class="text-start border-secondary">
-                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}" class="text-white text-decoration-none fw-bold">${item.title}</a>
+                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
+                                        <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">메인</span></c:if>
+                                        ${item.title}
+                                    </a>
                                 </td>
                                 <td class="border-secondary">${item.viewCnt}</td>
                                 <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td class="border-secondary">
-                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/admin/people/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
+                                        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+                                        <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+                                        <input type="hidden" name="category" value="${params.category}">
+                                        <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
                                     </form>
                                 </td>
@@ -69,6 +85,35 @@
             </tbody>
         </table>
     </div>
+
+    <c:if test="${pageMaker.total > 0}">
+        <div class="d-flex justify-content-center mt-5">
+            <ul class="pagination pagination-dark m-0">
+                <c:if test="${pageMaker.prev}">
+                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a></li>
+                </c:if>
+                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                    <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
+                        <a class="page-link" href="javascript:goPage(${num})">${num}</a>
+                    </li>
+                </c:forEach>
+                <c:if test="${pageMaker.next}">
+                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i class="bi bi-chevron-right"></i></a></li>
+                </c:if>
+            </ul>
+        </div>
+    </c:if>
 </div>
+
+<script>
+    function goPage(pageNum) {
+        document.getElementById('searchForm').pageNum.value = pageNum;
+        document.getElementById('searchForm').submit();
+    }
+    function searchData() {
+        document.getElementById('searchForm').pageNum.value = 1;
+        document.getElementById('searchForm').submit();
+    }
+</script>
 
 <%@ include file="../layout/footer.jsp" %>

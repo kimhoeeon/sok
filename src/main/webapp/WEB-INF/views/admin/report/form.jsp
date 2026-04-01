@@ -20,12 +20,16 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">활동보고서 ${empty report.brdSeq ? '등록' : '수정'}</h3>
-    <a href="/admin/report/list" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
+    <a href="/admin/report/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
 <div class="premium-dark-card p-4">
     <form action="/admin/report/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${report.brdSeq}">
+
+        <input type="hidden" name="pageNum" value="${params.pageNum}">
+        <input type="hidden" name="amount" value="${params.amount}">
+        <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
 
         <div class="row mb-4 glassmorphism-box p-3">
             <div class="col-md-12 mb-3">
