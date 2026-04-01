@@ -35,13 +35,10 @@ public class DevController {
     @Value("${file.upload.dir}")
     private String uploadDir;
 
-    // 현재 관리자가 개발사인지 발주사인지 체크하는 내부 헬퍼 (아이디나 Role을 기준으로 분기)
+    // 현재 관리자가 개발사인지 발주사인지 체크하는 내부 헬퍼
     private boolean isDeveloper(HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        if (admin != null && "agency_dev".equals(admin.getMbrId())) {
-            return true; // 예: 개발사 전용 계정일 경우 true
-        }
-        return false;
+        return admin != null && "meetingfan".equals(admin.getMbrId());
     }
 
     @GetMapping("/list")

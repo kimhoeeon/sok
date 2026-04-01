@@ -113,8 +113,8 @@
                 <c:forEach var="cmt" items="${comments}">
                     <div class="p-4 rounded mb-3" style="background: rgba(255,255,255,0.03); border: 1px solid #474761;">
                         <div class="d-flex justify-content-between mb-3">
-                            <span class="fw-bold ${cmt.regId eq 'agency_dev' ? 'text-primary' : 'text-success'}">
-                                <i class="bi ${cmt.regId eq 'agency_dev' ? 'bi-braces-asterisk' : 'bi-person-circle'} me-1"></i> ${cmt.regId}
+                            <span class="fw-bold ${cmt.regId eq 'meetingfan' ? 'text-primary' : 'text-success'}">
+                                <i class="bi ${cmt.regId eq 'meetingfan' ? 'bi-braces-asterisk' : 'bi-person-circle'} me-1"></i> ${cmt.regId}
                             </span>
                             <span class="text-muted" style="font-size: 12px;"><fmt:formatDate value="${cmt.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
                         </div>
