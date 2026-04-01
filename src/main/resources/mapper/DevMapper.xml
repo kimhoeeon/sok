@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.DevMapper">
+
+    <select id="selectRequestList" resultType="org.mtf.sok.domain.DevRequestDTO">
+        SELECT R.*,
+        (SELECT COUNT(*) FROM TB_DEV_COMMENT C WHERE C.REQ_SEQ = R.REQ_SEQ AND C.DEL_YN = 'N') AS commentCnt
+        FROM TB_DEV_REQUEST R
+        WHERE R.DEL_YN = 'N'
+        <if test="searchType != null and searchType != ''">
+            AND R.REQ_TYPE = #{searchType}
+        </if>
+        <if test="searchStatus != null and searchStatus != ''">
+            AND R.STATUS = #{searchStatus}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND R.TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+        </if>
+        ORDER BY R.REG_DT DESC
+    </select>
+
+    <select id="selectRequest" resultType="org.mtf.sok.domain.DevRequestDTO">
+        SELECT * FROM TB_DEV_REQUEST WHERE REQ_SEQ = #{reqSeq} AND DEL_YN = 'N'
+    </select>
+
+    <insert id="insertRequest" parameterType="org.mtf.sok.domain.DevRequestDTO" useGeneratedKeys="true" keyProperty="reqSeq">
+        INSERT INTO TB_DEV_REQUEST (REQ_TYPE, TITLE, CONTENT, URGENCY, REG_ID)
+        VALUES (#{reqType}, #{title}, #{content}, #{urgency}, #{regId})
+    </insert>
+
+    <update id="updateRequestStatus" parameterType="org.mtf.sok.domain.DevRequestDTO">
+        UPDATE TB_DEV_REQUEST
+        SET STATUS = #{status},
+            DUE_DT = #{dueDt},
+            MOD_ID = #{modId},
+            MOD_DT = NOW()
+        WHERE REQ_SEQ = #{reqSeq}
+    </update>
+
+    <update id="deleteRequest">
+        UPDATE TB_DEV_REQUEST SET DEL_YN = 'Y', MOD_DT = NOW() WHERE REQ_SEQ = #{reqSeq}
+    </update>
+
+    <select id="selectCommentList" resultType="org.mtf.sok.domain.DevCommentDTO">
+        SELECT * FROM TB_DEV_COMMENT
+        WHERE REQ_SEQ = #{reqSeq} AND DEL_YN = 'N'
+        ORDER BY REG_DT ASC
+    </select>
+
+    <insert id="insertComment" parameterType="org.mtf.sok.domain.DevCommentDTO" useGeneratedKeys="true" keyProperty="cmtSeq">
+        INSERT INTO TB_DEV_COMMENT (REQ_SEQ, CONTENT, REG_ID)
+        VALUES (#{reqSeq}, #{content}, #{regId})
+    </insert>
+
+    <update id="deleteComment">
+        UPDATE TB_DEV_COMMENT SET DEL_YN = 'Y' WHERE CMT_SEQ = #{cmtSeq}
+    </update>
+
+</mapper>
