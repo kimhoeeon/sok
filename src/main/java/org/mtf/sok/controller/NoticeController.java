@@ -69,10 +69,13 @@ public class NoticeController {
     public String save(BoardDTO board, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
 
+        // ★ [UX 고도화] 수정인지 신규 등록인지 판별하는 플래그
+        boolean isUpdate = (board.getBrdSeq() != null);
+
         board.setBrdType("NOTICE");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
-        if (board.getBrdSeq() != null) {
+        if (isUpdate) {
             board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
             boardMapper.updateBoard(board);
         } else {
@@ -112,11 +115,19 @@ public class NoticeController {
             }
         }
 
-        // ★ [수정됨] 저장/수정 완료 후 다시 원래 페이지 목록으로 돌아가도록 파라미터 세팅
-        rttr.addAttribute("pageNum", board.getPageNum());
-        rttr.addAttribute("amount", board.getAmount());
-        rttr.addAttribute("searchType", board.getSearchType());
-        rttr.addAttribute("searchKeyword", board.getSearchKeyword());
+        // ★ [UX 고도화] 상황에 맞는 지능형 Redirect 처리
+        if (isUpdate) {
+            // 글 수정 시: 내가 작업하던 원래 페이지 번호와 검색어 상태를 그대로 유지
+            rttr.addAttribute("pageNum", board.getPageNum());
+            rttr.addAttribute("amount", board.getAmount());
+            rttr.addAttribute("searchType", board.getSearchType());
+            rttr.addAttribute("searchKeyword", board.getSearchKeyword());
+        } else {
+            // 신규 등록 시: 방금 쓴 글을 확인할 수 있도록 무조건 1페이지로 이동 (검색어 초기화)
+            rttr.addAttribute("pageNum", 1);
+            // 단, 사용자가 보기 개수를 50개로 설정해 두었다면 그 설정(amount)은 유지해 주는 센스!
+            rttr.addAttribute("amount", board.getAmount());
+        }
 
         return "redirect:/admin/notice/list";
     }
