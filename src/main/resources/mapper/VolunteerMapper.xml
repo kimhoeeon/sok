@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.VolunteerMapper">
 
-    <select id="selectVolunteerList" resultType="org.mtf.sok.domain.VolunteerDTO">
-        SELECT * FROM TB_VOLUNTEER_APPLY
-        WHERE DEL_YN = 'N'
+    <sql id="volSearchCondition">
         <if test="searchSupportArea != null and searchSupportArea != ''">
             AND SUPPORT_AREA = #{searchSupportArea}
         </if>
@@ -12,18 +10,33 @@
             AND (APPLY_NM LIKE CONCAT('%', #{searchKeyword}, '%')
             OR EVENT_NM LIKE CONCAT('%', #{searchKeyword}, '%'))
         </if>
+    </sql>
+
+    <select id="selectVolunteerList" resultType="org.mtf.sok.domain.VolunteerDTO">
+        SELECT * FROM TB_VOLUNTEER_APPLY
+        WHERE DEL_YN = 'N'
+        <include refid="volSearchCondition"/>
         ORDER BY REG_DT DESC
+        LIMIT #{offset}, #{amount}
+    </select>
+
+    <select id="selectVolunteerTotalCount" resultType="int">
+        SELECT COUNT(*) FROM TB_VOLUNTEER_APPLY
+        WHERE DEL_YN = 'N'
+        <include refid="volSearchCondition"/>
     </select>
 
     <select id="selectVolunteer" resultType="org.mtf.sok.domain.VolunteerDTO">
-        SELECT * FROM TB_VOLUNTEER_APPLY
-        WHERE VOL_SEQ = #{volSeq} AND DEL_YN = 'N'
+        SELECT *
+        FROM TB_VOLUNTEER_APPLY
+        WHERE VOL_SEQ = #{volSeq}
+          AND DEL_YN = 'N'
     </select>
 
     <update id="updateVolunteer" parameterType="org.mtf.sok.domain.VolunteerDTO">
         UPDATE TB_VOLUNTEER_APPLY
-        SET APPLY_NM = #{applyNm},
-            PHONE = #{phone},
+        SET APPLY_NM  = #{applyNm},
+            PHONE     = #{phone},
             APPLY_CNT = #{applyCnt},
             FREQ_TYPE = #{freqType}
         WHERE VOL_SEQ = #{volSeq}

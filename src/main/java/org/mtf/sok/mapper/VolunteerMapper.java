@@ -9,6 +9,8 @@ import java.util.List;
 public interface VolunteerMapper {
     List<VolunteerDTO> selectVolunteerList(VolunteerDTO params);
 
+    int selectVolunteerTotalCount(VolunteerDTO params);
+
     VolunteerDTO selectVolunteer(Long volSeq);
 
     void updateVolunteer(VolunteerDTO volunteer);

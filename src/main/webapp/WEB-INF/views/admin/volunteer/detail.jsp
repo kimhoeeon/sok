@@ -8,7 +8,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">자원봉사 신청 상세정보</h3>
-    <a href="/admin/volunteer/list" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <a href="/admin/volunteer/list?pageNum=${params.pageNum}&amount=${params.amount}&searchSupportArea=${params.searchSupportArea}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
 <div class="row g-4">
@@ -47,6 +47,10 @@
             <div class="mt-5 text-end border-top border-secondary pt-3">
                 <form action="/admin/volunteer/delete" method="post" onsubmit="return confirm('해당 자원봉사 신청 내역을 삭제(취소)하시겠습니까?');">
                     <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
+                    <input type="hidden" name="pageNum" value="${params.pageNum}">
+                    <input type="hidden" name="amount" value="${params.amount}">
+                    <input type="hidden" name="searchSupportArea" value="${params.searchSupportArea}">
+                    <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3 me-1"></i> 신청 내역 삭제</button>
                 </form>
             </div>
@@ -59,6 +63,10 @@
 
             <form action="/admin/volunteer/update" method="post">
                 <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
+                <input type="hidden" name="pageNum" value="${params.pageNum}">
+                <input type="hidden" name="amount" value="${params.amount}">
+                <input type="hidden" name="searchSupportArea" value="${params.searchSupportArea}">
+                <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
 
                 <div class="row g-3">
                     <div class="col-md-6 mb-3">
