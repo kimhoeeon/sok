@@ -1,5 +1,6 @@
 package org.mtf.sok.controller;
 
+import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.domain.PageDTO; // ★ [페이징 추가/수정]
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; // ★ [페이징 추가/수정]
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,7 +100,19 @@ public class SponsorController {
 
     // ★ [페이징 추가/수정] Redirect 파라미터 릴레이
     @PostMapping("/donate/updateStatus")
-    public String updateDonateStatus(DonationDTO donation, RedirectAttributes rttr) {
+    public String updateDonateStatus(DonationDTO donation, HttpSession session, RedirectAttributes rttr) {
+
+        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+
+        // 환불(REFUND) 요청일 때 권한 검증 수행
+        if ("REFUND".equals(donation.getPayStatus())) {
+            if (admin == null || !"meetingfan".equals(admin.getMbrId())) {
+                rttr.addFlashAttribute("errorMessage", "환불 처리는 마스터(meetingfan) 계정만 가능합니다.");
+                return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
+            }
+        }
+
+        // 권한 통과 시 정상 업데이트 처리
         sponsorMapper.updateDonationStatus(donation);
 
         rttr.addAttribute("paySeq", donation.getPaySeq());

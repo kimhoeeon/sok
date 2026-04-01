@@ -6,6 +6,12 @@
 <c:set var="currentMenu" value="donate" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
+<c:if test="${not empty errorMessage}">
+    <script>
+        alert('${errorMessage}');
+    </script>
+</c:if>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">결제(기부) 상세 내역</h3>
     <a href="/admin/sponsor/donate/list?pageNum=${params.pageNum}&amount=${params.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
@@ -83,7 +89,10 @@
                     <option value="WAIT" ${donation.payStatus eq 'WAIT' ? 'selected' : ''}>입금 대기 (무통장)</option>
                     <option value="DONE" ${donation.payStatus eq 'DONE' ? 'selected' : ''}>결제 완료 처리</option>
                     <option value="CANCEL" ${donation.payStatus eq 'CANCEL' ? 'selected' : ''}>결제 취소 처리</option>
-                    <option value="REFUND" ${donation.payStatus eq 'REFUND' ? 'selected' : ''}>환불 완료 처리</option>
+
+                    <c:if test="${sessionScope.adminLogin.mbrId eq 'meetingfan' or donation.payStatus eq 'REFUND'}">
+                        <option value="REFUND" ${donation.payStatus eq 'REFUND' ? 'selected' : ''}>환불 완료 처리 (Master 권한)</option>
+                    </c:if>
                 </select>
 
                 <div id="cancelReasonDiv" style="display: ${donation.payStatus eq 'CANCEL' or donation.payStatus eq 'REFUND' ? 'block' : 'none'};">
