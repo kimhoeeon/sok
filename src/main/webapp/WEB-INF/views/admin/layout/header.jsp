@@ -17,8 +17,6 @@
 <div class="d-flex flex-nowrap min-vh-100">
 
     <jsp:include page="/WEB-INF/views/admin/layout/sidebar.jsp">
-        <jsp:param name="menuGroup" value="${menuGroup}" />
-        <jsp:param name="subMenuGroup" value="${subMenuGroup}" />
         <jsp:param name="menuId" value="${currentMenu}" />
     </jsp:include>
 

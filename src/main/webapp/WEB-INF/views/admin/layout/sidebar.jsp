@@ -56,7 +56,7 @@
             </a>
             <div class="collapse collapse-menu show" id="collapseHomeManage">
                 <a class="nav-link ${param.menuId eq 'popup' ? 'active text-white' : ''}" href="/admin/popup/list">팝업 관리</a>
-                <a class="nav-link ${param.menuId eq 'inquiry' ? 'active text-white' : ''}" href="/admin/dev/list">홈페이지 요청/문의 관리</a>
+                <a class="nav-link ${param.menuId eq 'dev' ? 'active text-white' : ''}" href="/admin/dev/list">홈페이지 요청/문의 관리</a>
             </div>
         </li>
 

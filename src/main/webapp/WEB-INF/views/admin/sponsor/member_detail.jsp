@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="menuGroup" value="sponsor" scope="request" />
 <c:set var="currentMenu" value="member" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
