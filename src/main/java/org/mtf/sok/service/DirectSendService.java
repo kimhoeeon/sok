@@ -49,6 +49,11 @@ public class DirectSendService {
         try {
             URL obj = new URL(API_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // 외부 서버 장애 시 우리 서버를 보호하기 위한 타임아웃 설정 (5초)
+            con.setConnectTimeout(5000); // 연결 대기 시간 5초
+            con.setReadTimeout(5000);    // 응답 대기 시간 5초
+
             con.setRequestProperty("Cache-Control", "no-cache");
             con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             con.setRequestProperty("Accept", "application/json");
@@ -137,6 +142,9 @@ public class DirectSendService {
         String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
         String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
 
+        // ★ [핵심] 내용이 Null일 경우를 대비한 Null-Safe 처리 (NPE 방지)
+        String safeContent = (request.getContent() != null) ? request.getContent().replaceAll("\n", "<br>") : "내용 없음";
+
         String body = String.format(
                 "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
                         "<h3 style='color:#333;'>새로운 티켓이 등록되었습니다.</h3>" +
@@ -151,7 +159,7 @@ public class DirectSendService {
                 reqType,
                 "Y".equals(request.getUrgency()) ? "<span style='color:red; font-weight:bold;'>긴급 처리 요망</span>" : "일반",
                 request.getRegId(),
-                request.getContent()
+                safeContent
         );
 
         sendMailToMultipleReceivers(targetEmails, subject, body);
