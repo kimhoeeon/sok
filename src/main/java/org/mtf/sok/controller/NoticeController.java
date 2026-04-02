@@ -5,6 +5,7 @@ import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
+import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -143,5 +147,29 @@ public class NoticeController {
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
         return "redirect:/admin/notice/list";
+    }
+
+    // ★ [추가] 공지사항 엑셀 다운로드
+    @GetMapping("/excel")
+    public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
+        params.setPageNum(1);
+        params.setAmount(1000000); // 대용량 엑셀 추출
+        params.setBrdType("NOTICE"); // 공지사항 게시판만
+
+        List<BoardDTO> list = boardMapper.selectBoardList(params);
+        List<String> headers = Arrays.asList("연번", "카테고리", "중요여부", "제목", "조회수", "등록일시");
+        List<List<Object>> data = new ArrayList<>();
+
+        for (BoardDTO board : list) {
+            List<Object> row = new ArrayList<>();
+            row.add(board.getBrdSeq());
+            row.add(board.getCategory());
+            row.add("Y".equals(board.getIsNotice()) ? "중요" : "일반");
+            row.add(board.getTitle());
+            row.add(board.getViewCnt());
+            row.add(board.getRegDt()); // Date 객체 그대로 넘김
+            data.add(row);
+        }
+        ExcelUtils.download(response, "공지사항_내역", headers, data);
     }
 }

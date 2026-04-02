@@ -21,9 +21,9 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">${empty board.brdSeq ? '공지사항 등록' : '공지사항 상세/수정'}</h3>
 
-    <a href="/admin/notice/list?pageNum=${params.pageNum}&amount=${params.amount}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
-        <i class="bi bi-list"></i> 목록으로
-    </a>
+    <a href="/admin/notice/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
+    <i class="bi bi-list"></i> 목록으로
+</a>
 </div>
 
 <div class="premium-dark-card p-4">
