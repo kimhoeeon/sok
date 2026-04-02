@@ -17,8 +17,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -33,8 +32,15 @@ public class DirectSendService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    // ★ [고도화] 문의 유형별 다중 수신자 맵핑
+    private final Map<String, List<String>> recipientMap = new HashMap<String, List<String>>() {{
+        put("유지보수", Arrays.asList("kyj@meetingfan.com"));
+        put("단순문의", Arrays.asList("kyj@meetingfan.com"));
+        put("기능오류", Arrays.asList("khe@meetingfan.com"));
+    }};
+
     // --------------------------------------------------------------------
-    // 1. DirectSend API 실제 통신부 (Jackson JSON 고도화)
+    // 1. DirectSend API 실제 통신부
     // --------------------------------------------------------------------
     public ResponseDTO processMailSend(MailRequestDTO mailRequestDTO) {
         log.info("DirectSend 메일 발송 시작: {}", mailRequestDTO.getSubject());
@@ -47,29 +53,23 @@ public class DirectSendService {
             con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             con.setRequestProperty("Accept", "application/json");
 
-            // 1-1. 본문 구성 및 첨부파일 내역 추가
-            String subject = mailRequestDTO.getSubject();
+            // 본문 구성 (첨부파일 내역 추가)
             StringBuilder bodyBuilder = new StringBuilder(mailRequestDTO.getBody());
-
             List<FileDTO> files = mailRequestDTO.getFileUrl();
             if (files != null && !files.isEmpty()) {
                 bodyBuilder.append("\n<br>\n<br>---------------------------------<br>\n");
-                bodyBuilder.append("※ 첨부파일: ").append(files.size()).append("개");
+                bodyBuilder.append("※ 시스템에 첨부파일이 ").append(files.size()).append("개 등록되어 있습니다. 관리자 페이지에서 확인해 주세요.");
             }
             String body = bodyBuilder.toString().replaceAll("\"", "'");
 
-            // 1-2. JSON 파라미터 조립 (안전한 ObjectMapper 사용)
+            // JSON 파라미터 조립
             ObjectNode rootNode = objectMapper.createObjectNode();
-            rootNode.put("subject", subject);
+            rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
             rootNode.put("sender", SENDER_EMAIL);
             rootNode.put("sender_name", SENDER_NAME);
             rootNode.put("username", USERNAME);
             rootNode.put("key", API_KEY);
-
-            if (mailRequestDTO.getTemplate() != null && !mailRequestDTO.getTemplate().isEmpty()) {
-                rootNode.put("template", mailRequestDTO.getTemplate());
-            }
 
             ArrayNode receiverArray = objectMapper.createArrayNode();
             if (mailRequestDTO.getReceiver() != null) {
@@ -84,7 +84,7 @@ public class DirectSendService {
 
             String urlParameters = objectMapper.writeValueAsString(rootNode);
 
-            // 1-3. 전송 실행
+            // 전송 실행
             System.setProperty("jsse.enableSNIExtension", "false");
             con.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8);
@@ -92,7 +92,7 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            // 1-4. 결과 파싱
+            // 결과 파싱
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();
@@ -102,22 +102,15 @@ public class DirectSendService {
             in.close();
 
             JsonNode responseObj = objectMapper.readTree(response.toString());
-            if (responseObj.has("status")) {
-                String mailResponseCode = responseObj.get("status").asText();
-                if ("0".equals(mailResponseCode)) {
-                    responseDto.setResultCode("SUCCESS");
-                    responseDto.setResultMessage("성공");
-                    log.info("DirectSend 메일 발송 성공");
-                } else {
-                    responseDto.setResultCode("FAIL");
-                    responseDto.setResultMessage("[" + mailResponseCode + "] " + (responseObj.has("msg") ? responseObj.get("msg").asText() : ""));
-                    log.warn("DirectSend 메일 발송 실패: {}", responseDto.getResultMessage());
-                }
+            if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
+                responseDto.setResultCode("SUCCESS");
+                responseDto.setResultMessage("성공");
+                log.info("DirectSend 메일 발송 성공");
             } else {
                 responseDto.setResultCode("FAIL");
-                responseDto.setResultMessage("응답 형식 오류");
+                responseDto.setResultMessage("실패");
+                log.warn("DirectSend 메일 발송 실패: {}", response.toString());
             }
-
         } catch (Exception e) {
             log.error("Mail Send Error", e);
             responseDto.setResultCode("FAIL");
@@ -128,58 +121,99 @@ public class DirectSendService {
     }
 
     // --------------------------------------------------------------------
-    // 2. 비즈니스 로직부
+    // 2. 비즈니스 로직부 (라우팅 및 메세지 조립)
     // --------------------------------------------------------------------
-    private String getDeveloperEmailByType(String reqType) {
-        if (reqType == null) return "sokorea@sokorea.or.kr";
-        switch (reqType) {
-            case "기능오류":
-            case "서버/DB":
-                return "backend_dev@agency.com";
-            case "디자인수정":
-            case "퍼블리싱":
-                return "frontend_dev@agency.com";
-            default:
-                return "pm_manager@agency.com";
-        }
+
+    // 수신자 리스트 추출
+    private List<String> getTargetEmails(String reqType) {
+        return recipientMap.getOrDefault(reqType, Arrays.asList("kyj@meetingfan.com")); // 매칭 안될 경우 기본값
     }
 
+    // [1] 새 요청 등록 알림
     public void sendRequestAlertEmail(DevRequestDTO request) {
-        String targetEmail = getDeveloperEmailByType(request.getReqType());
-        String subject = "[SOK 유지보수 요청] " + request.getTitle();
-        String body = String.format("새로운 요청이 등록되었습니다.<br><br>- 유형: %s<br>- 긴급여부: %s<br>- 내용: %s",
-                request.getReqType(), request.getUrgency(), request.getContent());
+        String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
+        List<String> targetEmails = getTargetEmails(reqType);
 
-        sendMailWrapper(targetEmail, subject, body);
+        // ★ 제목에 유형과 긴급 여부 명시적 표기
+        String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
+        String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
+
+        String body = String.format(
+                "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
+                        "<h3 style='color:#333;'>새로운 티켓이 등록되었습니다.</h3>" +
+                        "<ul style='line-height:1.8;'>" +
+                        "<li><b>요청 유형 :</b> <span style='color:#0d6efd; font-weight:bold;'>%s</span></li>" +
+                        "<li><b>긴급 여부 :</b> %s</li>" +
+                        "<li><b>요청 담당 :</b> %s</li>" +
+                        "</ul>" +
+                        "<hr style='border:0; border-top:1px dashed #ccc; margin:20px 0;'>" +
+                        "<b>[요청 내용]</b><br><br>%s" +
+                        "</div>",
+                reqType,
+                "Y".equals(request.getUrgency()) ? "<span style='color:red; font-weight:bold;'>긴급 처리 요망</span>" : "일반",
+                request.getRegId(),
+                request.getContent()
+        );
+
+        sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
+    // [2] 새 댓글(코멘트) 알림
     public void sendCommentAlertEmail(DevRequestDTO request, String commentContent, String writerId) {
-        String targetEmail = getDeveloperEmailByType(request.getReqType());
-        String subject = "[SOK 유지보수 댓글] " + request.getTitle() + " 에 새 댓글이 달렸습니다.";
-        String body = String.format("작성자: %s<br><br>내용: %s", writerId, commentContent);
+        String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
+        List<String> targetEmails = getTargetEmails(reqType);
 
-        sendMailWrapper(targetEmail, subject, body);
+        // ★ 제목에 유형 표기
+        String subject = "[SOK - " + reqType + " 피드백] '" + request.getTitle() + "' 티켓에 새 댓글이 달렸습니다.";
+
+        String body = String.format(
+                "<div style='background-color:#f8f9fa; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
+                        "<p><b>%s</b> 님이 아래와 같은 코멘트를 남겼습니다.</p>" +
+                        "<div style='background-color:#fff; padding:15px; border:1px solid #ddd; border-radius:3px;'>" +
+                        "%s</div>" +
+                        "</div>",
+                writerId, commentContent
+        );
+
+        sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
+    // [3] 상태 변경 알림 (관리자에게 발송)
     public void sendStatusChangeAlertEmail(DevRequestDTO request) {
-        String targetEmail = "sok_admin@sokorea.or.kr";
-        String subject = "[SOK 유지보수] '" + request.getTitle() + "' 티켓의 상태가 업데이트되었습니다.";
+        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+
+        String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
+        String subject = "[SOK - " + reqType + " 업데이트] '" + request.getTitle() + "' 티켓의 상태가 변경되었습니다.";
+
         String statusStr = convertStatusToKorean(request.getStatus());
         String dueDtStr = request.getDueDt() != null ? request.getDueDt().toString() : "미정";
 
-        String body = String.format("요청하신 유지보수 티켓의 진행 상태가 업데이트되었습니다.<br><br>- 현재 상태: %s<br>- 완료 예정일: %s<br><br>관리자 시스템에 접속하여 확인해 주세요.",
-                statusStr, dueDtStr);
+        String body = String.format(
+                "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
+                        "<h3 style='color:#333;'>티켓 진행 상태 업데이트 안내</h3>" +
+                        "<p>요청하신 유지보수 티켓의 처리 상태가 아래와 같이 변경되었습니다.</p>" +
+                        "<ul style='line-height:1.8;'>" +
+                        "<li><b>현재 상태 :</b> <span style='color:#198754; font-weight:bold;'>%s</span></li>" +
+                        "<li><b>완료 예정일 :</b> %s</li>" +
+                        "</ul>" +
+                        "<p>관리자 시스템에 접속하여 상세 내역을 확인해 주세요.</p>" +
+                        "</div>",
+                statusStr, dueDtStr
+        );
 
-        sendMailWrapper(targetEmail, subject, body);
+        sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
-    private void sendMailWrapper(String toEmail, String subject, String body) {
+    // 다중 수신자 발송 래퍼
+    private void sendMailToMultipleReceivers(List<String> emails, String subject, String body) {
         MailRequestDTO mailReq = new MailRequestDTO();
         mailReq.setSubject(subject);
         mailReq.setBody(body);
 
         List<MailRequestDTO.Receiver> receivers = new ArrayList<>();
-        receivers.add(new MailRequestDTO.Receiver("유지보수 담당자", toEmail));
+        for (String email : emails) {
+            receivers.add(new MailRequestDTO.Receiver("담당자", email));
+        }
         mailReq.setReceiver(receivers);
 
         processMailSend(mailReq);
@@ -192,7 +226,7 @@ public class DirectSendService {
             case "PROCESS": return "처리 진행중";
             case "DISCUSS": return "논의 필요";
             case "DONE": return "처리 완료";
-            case "REJECT": return "처리 불가";
+            case "REJECT": return "처리 불가(반려)";
             default: return status;
         }
     }

@@ -70,13 +70,14 @@
                     <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
                     <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
                 </select>
+
                 <select name="searchType" class="form-select dark-search-bar border-start-0" style="max-width: 110px;">
                     <option value="">전체 유형</option>
-                    <option value="기능오류" ${params.searchType eq '기능오류' ? 'selected' : ''}>기능오류</option>
-                    <option value="디자인수정" ${params.searchType eq '디자인수정' ? 'selected' : ''}>디자인수정</option>
-                    <option value="데이터수정" ${params.searchType eq '데이터수정' ? 'selected' : ''}>데이터수정</option>
+                    <option value="유지보수" ${params.searchType eq '유지보수' ? 'selected' : ''}>유지보수</option>
                     <option value="단순문의" ${params.searchType eq '단순문의' ? 'selected' : ''}>단순문의</option>
+                    <option value="기능오류" ${params.searchType eq '기능오류' ? 'selected' : ''}>기능오류</option>
                 </select>
+
                 <select name="searchStatus" class="form-select dark-search-bar border-start-0" style="max-width: 110px;">
                     <option value="">전체 상태</option>
                     <option value="WAITING" ${params.searchStatus eq 'WAITING' ? 'selected' : ''}>접수대기</option>
@@ -175,13 +176,11 @@
                         <a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a>
                     </li>
                 </c:if>
-
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                     <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
                         <a class="page-link" href="javascript:goPage(${num})">${num}</a>
                     </li>
                 </c:forEach>
-
                 <c:if test="${pageMaker.next}">
                     <li class="page-item">
                         <a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i class="bi bi-chevron-right"></i></a>
@@ -203,12 +202,10 @@
         document.getElementById('searchForm').pageNum.value = pageNum;
         document.getElementById('searchForm').submit();
     }
-
     function searchData() {
         document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
     }
-
     function downloadExcel() {
         var form = document.getElementById('searchForm');
         var originalAction = form.action;
@@ -216,28 +213,24 @@
         form.submit();
         form.action = originalAction;
     }
-
     function toggleAll(source) {
         var checkboxes = document.querySelectorAll('.chk-item');
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = source.checked;
         }
     }
-
     function executeBatchUpdate() {
         var checkboxes = document.querySelectorAll('.chk-item:checked');
         if (checkboxes.length === 0) {
             alert('일괄 처리할 티켓을 하나 이상 선택해주세요.');
             return;
         }
-
         var selectedStatus = document.getElementById('batchStatus').value;
         var dueDt = document.getElementById('batchDueDt').value;
 
         if(selectedStatus === 'PROCESS' && !dueDt) {
             if(!confirm('처리 예정일이 지정되지 않았습니다. 그래도 진행하시겠습니까?')) return;
         }
-
         if (confirm('선택한 ' + checkboxes.length + '개의 티켓 상태를 일괄 변경하시겠습니까?')) {
             document.getElementById('submitStatus').value = selectedStatus;
             document.getElementById('submitDueDt').value = dueDt;
