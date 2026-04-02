@@ -32,7 +32,7 @@ public class DirectSendService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    // ★ [고도화] 문의 유형별 다중 수신자 맵핑
+    // 문의 유형별 다중 수신자 맵핑
     private final Map<String, List<String>> recipientMap = new HashMap<String, List<String>>() {{
         put("유지보수", Arrays.asList("kyj@meetingfan.com"));
         put("단순문의", Arrays.asList("kyj@meetingfan.com"));
@@ -134,7 +134,6 @@ public class DirectSendService {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
 
-        // ★ 제목에 유형과 긴급 여부 명시적 표기
         String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
         String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
 
@@ -163,7 +162,6 @@ public class DirectSendService {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
 
-        // ★ 제목에 유형 표기
         String subject = "[SOK - " + reqType + " 피드백] '" + request.getTitle() + "' 티켓에 새 댓글이 달렸습니다.";
 
         String body = String.format(
