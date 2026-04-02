@@ -3,7 +3,7 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.DevMapper;
-import org.mtf.sok.service.BizppurioService;
+import org.mtf.sok.service.DirectSendService;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class DevController {
     private BoardMapper boardMapper; // TB_FILE 활용용
 
     @Autowired
-    private BizppurioService bizppurioService; // 비즈뿌리오 메일 서비스
+    private DirectSendService directSendService;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -81,7 +81,7 @@ public class DevController {
 
         // 발주사가 글을 썼으므로 개발사 담당자에게 비즈뿌리오 메일 발송
         if (!isDeveloper(session)) {
-            bizppurioService.sendRequestAlertEmail(request);
+            directSendService.sendRequestAlertEmail(request);
         }
 
         return "redirect:/admin/dev/list";
@@ -119,7 +119,7 @@ public class DevController {
             devMapper.updateRequestStatus(request);
 
             DevRequestDTO updatedReq = devMapper.selectRequest(request.getReqSeq());
-            bizppurioService.sendStatusChangeAlertEmail(updatedReq);
+            directSendService.sendStatusChangeAlertEmail(updatedReq);
         }
 
         rttr.addAttribute("reqSeq", request.getReqSeq());
@@ -143,7 +143,7 @@ public class DevController {
 
         if (!isDeveloper(session)) {
             DevRequestDTO parentRequest = devMapper.selectRequest(comment.getReqSeq());
-            bizppurioService.sendCommentAlertEmail(parentRequest, comment.getContent(), writerId);
+            directSendService.sendCommentAlertEmail(parentRequest, comment.getContent(), writerId);
         }
 
         rttr.addAttribute("reqSeq", comment.getReqSeq());

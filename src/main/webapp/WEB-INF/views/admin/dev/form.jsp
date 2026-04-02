@@ -30,11 +30,9 @@
                 <label class="form-label text-muted">문의 유형</label>
                 <select name="reqType" class="form-select dark-search-bar fw-bold" required>
                     <option value="">유형을 선택하세요</option>
-                    <option value="기능오류">🚨 기능 오류 및 버그</option>
-                    <option value="디자인수정">🎨 텍스트 및 디자인 수정</option>
-                    <option value="데이터수정">🗄️ DB 데이터 수정/추출</option>
-                    <option value="서버/DB">🖥️ 서버 및 인프라 관련</option>
-                    <option value="단순문의">❓ 단순 문의 및 기능 제안</option>
+                    <option value="유지보수">🛠️ 유지보수</option>
+                    <option value="단순문의">❓ 단순문의</option>
+                    <option value="기능오류">🚨 기능오류</option>
                 </select>
             </div>
 
