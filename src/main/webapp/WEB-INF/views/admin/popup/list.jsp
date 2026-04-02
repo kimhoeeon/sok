@@ -12,8 +12,13 @@
 </div>
 
 <div class="premium-dark-card p-4">
-    <form id="searchForm" action="/admin/popup/list" method="get" class="d-flex justify-content-end mb-4">
+    <form id="searchForm" action="/admin/popup/list" method="get" class="d-flex justify-content-end align-items-center mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+
+        <div class="form-check form-check-inline me-3 mb-0">
+            <input class="form-check-input" type="checkbox" id="searchUseYnOnly" name="searchUseYnOnly" value="Y" ${params.searchUseYnOnly eq 'Y' ? 'checked' : ''} onchange="searchData()" style="cursor: pointer; border-color: #474761;">
+            <label class="form-check-label text-white" for="searchUseYnOnly" style="cursor: pointer; font-size: 14px;">사용 팝업만 보기</label>
+        </div>
 
         <div class="input-group shadow-sm" style="max-width: 450px;">
             <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
@@ -49,6 +54,7 @@
                         <c:forEach var="item" items="${list}">
                             <tr>
                                 <td>${item.popSeq}</td>
+
                                 <td>
                                     <c:choose>
                                         <c:when test="${not empty item.popupImage}">
@@ -59,15 +65,18 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
+
                                 <td class="text-start">
-                                    <a href="/admin/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}" class="fw-bold text-white text-decoration-none hover-glow">
+                                    <a href="/admin/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="fw-bold text-white text-decoration-none hover-glow">
                                         ${item.title}
                                     </a>
                                 </td>
+
                                 <td class="text-muted" style="font-size: 13px;">
                                     <fmt:formatDate value="${item.startDt}" pattern="yyyy-MM-dd HH:mm" /><br>
                                     ~ <fmt:formatDate value="${item.endDt}" pattern="yyyy-MM-dd HH:mm" />
                                 </td>
+
                                 <td>
                                     <c:set var="status" value="${item.displayStatus}" />
                                     <c:choose>
@@ -77,19 +86,22 @@
                                         <c:otherwise><span class="badge bg-secondary">사용안함</span></c:otherwise>
                                     </c:choose>
                                 </td>
+
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.useYn eq 'Y'}"><span class="text-success fw-bold">Y</span></c:when>
                                         <c:otherwise><span class="text-muted">N</span></c:otherwise>
                                     </c:choose>
                                 </td>
+
                                 <td>
-                                    <a href="/admin/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="/admin/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/admin/popup/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="popSeq" value="${item.popSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
                                         <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
                                         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+                                        <input type="hidden" name="searchUseYnOnly" value="${params.searchUseYnOnly}">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
                                     </form>
                                 </td>

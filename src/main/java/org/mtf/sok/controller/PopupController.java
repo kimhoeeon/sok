@@ -123,11 +123,12 @@ public class PopupController {
             } catch (Exception e) { e.printStackTrace(); }
         }
 
-        // ★ [페이징 추가/수정] Redirect 시 파라미터 릴레이
+        // ★ [수정] Redirect 시 파라미터 릴레이에 searchUseYnOnly 추가
         if (isUpdate) {
             rttr.addAttribute("pageNum", popup.getPageNum());
             rttr.addAttribute("amount", popup.getAmount());
             rttr.addAttribute("searchKeyword", popup.getSearchKeyword());
+            rttr.addAttribute("searchUseYnOnly", popup.getSearchUseYnOnly()); // ★ 추가
         } else {
             rttr.addAttribute("pageNum", 1);
             rttr.addAttribute("amount", popup.getAmount());
@@ -141,9 +142,11 @@ public class PopupController {
     public String delete(@RequestParam Long popSeq, @ModelAttribute PopupDTO params, RedirectAttributes rttr) {
         popupMapper.deletePopup(popSeq);
 
+        // ★ [수정] 삭제 후 페이지 유지를 위한 릴레이에 searchUseYnOnly 추가
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
+        rttr.addAttribute("searchUseYnOnly", params.getSearchUseYnOnly()); // ★ 추가
 
         return "redirect:/admin/popup/list";
     }

@@ -8,7 +8,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">팝업 상세 설정</h3>
-    <a href="/admin/popup/list?pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <a href="/admin/popup/list?pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
 <div class="row justify-content-center">
@@ -20,6 +20,7 @@
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">
                 <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+                <input type="hidden" name="searchUseYnOnly" value="${params.searchUseYnOnly}">
 
                 <div class="row g-4">
                     <div class="col-md-8">

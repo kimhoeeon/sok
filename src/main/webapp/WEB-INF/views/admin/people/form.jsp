@@ -36,20 +36,20 @@
                 <label class="form-label text-muted">인물 분류</label>
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="임원진" id="cat1" ${people.category eq '임원진' or empty people.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">임원진</label>
+                        <input class="form-check-input" type="radio" name="category" value="선수" id="cat1" ${people.category eq '선수' or empty people.category ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat1">선수</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="홍보대사" id="cat2" ${people.category eq '홍보대사' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">홍보대사</label>
+                        <input class="form-check-input" type="radio" name="category" value="아티스트" id="cat2" ${people.category eq '아티스트' ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat2">아티스트</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="스포츠선수" id="cat3" ${people.category eq '스포츠선수' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">스포츠선수</label>
+                        <input class="form-check-input" type="radio" name="category" value="패밀리" id="cat3" ${people.category eq '패밀리' ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat3">패밀리</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="문화예술인" id="cat4" ${people.category eq '문화예술인' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat4">문화예술인</label>
+                        <input class="form-check-input" type="radio" name="category" value="프렌즈" id="cat4" ${people.category eq '프렌즈' ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat4">프렌즈</label>
                     </div>
                 </div>
             </div>
@@ -65,6 +65,15 @@
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">이름 및 직책 (타이틀)</label>
                 <input type="text" name="title" class="form-control dark-search-bar" value="${people.title}" required placeholder="예) 김연아 / 스페셜올림픽코리아 홍보대사">
+            </div>
+
+            <div class="col-12 mb-3">
+                <label class="form-label text-muted">유튜브 영상 <i class="bi bi-youtube text-danger"></i> (선택)</label>
+                <input type="text" name="youtubeUrl" id="youtubeUrl" class="form-control dark-search-bar border-danger" value="${people.youtubeUrl}" placeholder="유튜브 영상 URL을 붙여넣으세요" oninput="previewYoutube()">
+                <small class="text-muted d-block mt-2">예: https://www.youtube.com/watch?v=xxxxxxx 또는 https://youtu.be/xxxxxxx</small>
+
+                <div id="youtubePreview" class="mt-3" style="display: none; border-radius: 8px; overflow: hidden; max-width: 560px;">
+                </div>
             </div>
 
             <div class="col-12 mb-3">
@@ -96,7 +105,33 @@
 </div>
 
 <script>
+    // ★ [추가] 유튜브 URL에서 ID 추출
+    function extractVideoID(url) {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length === 11) {
+            return match[2];
+        }
+        return null;
+    }
+
+    // ★ [추가] 유튜브 썸네일/iframe 렌더링
+    function previewYoutube() {
+        var url = document.getElementById('youtubeUrl').value;
+        var preview = document.getElementById('youtubePreview');
+        var videoId = extractVideoID(url);
+
+        if (videoId) {
+            preview.innerHTML = '<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            preview.style.display = 'block';
+        } else {
+            preview.innerHTML = '';
+            preview.style.display = 'none';
+        }
+    }
+
     $(document).ready(function() {
+        // 기존 썸머노트 렌더링 유지
         $('#summernote').summernote({
             height: 400,
             lang: "ko-KR",
@@ -109,6 +144,11 @@
                 }
             }
         });
+
+        // 수정 시 기존 URL이 있으면 미리보기 즉시 실행
+        if(document.getElementById('youtubeUrl').value) {
+            previewYoutube();
+        }
     });
 
     function uploadSummernoteImage(file, editor) {

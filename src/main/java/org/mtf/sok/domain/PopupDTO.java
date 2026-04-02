@@ -32,6 +32,9 @@ public class PopupDTO extends Criteria { // ★ [페이징 추가/수정] Criter
     // ★ [페이징 추가/수정] 검색어 파라미터 추가
     private String searchKeyword;
 
+    // ★ [추가] 사용 팝업만 보기 체크박스 상태
+    private String searchUseYnOnly;
+
     // 관리자 고도화를 위한 상태 값 (가상 필드)
     public String getDisplayStatus() {
         Date now = new Date();

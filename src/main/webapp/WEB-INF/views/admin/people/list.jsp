@@ -38,50 +38,50 @@
     <div class="table-responsive">
         <table class="table table-hover align-middle text-center">
             <thead>
-                <tr>
-                    <th width="8%" class="text-white border-bottom border-secondary">연번</th>
-                    <th width="15%" class="text-white border-bottom border-secondary">분류</th>
-                    <th class="text-white border-bottom border-secondary">이름 / 직책 (타이틀)</th>
-                    <th width="10%" class="text-white border-bottom border-secondary">조회수</th>
-                    <th width="15%" class="text-white border-bottom border-secondary">등록일시</th>
-                    <th width="15%" class="text-white border-bottom border-secondary">관리</th>
-                </tr>
+            <tr>
+                <th width="8%" class="text-white border-bottom border-secondary">연번</th>
+                <th width="15%" class="text-white border-bottom border-secondary">분류</th>
+                <th class="text-white border-bottom border-secondary">이름 / 직책 (타이틀)</th>
+                <th width="10%" class="text-white border-bottom border-secondary">조회수</th>
+                <th width="15%" class="text-white border-bottom border-secondary">등록일시</th>
+                <th width="15%" class="text-white border-bottom border-secondary">관리</th>
+            </tr>
             </thead>
             <tbody>
-                <c:choose>
-                    <c:when test="${empty list}">
+            <c:choose>
+                <c:when test="${empty list}">
+                    <tr>
+                        <td colspan="6" class="py-5 text-muted border-secondary">등록된 인물이 없습니다.</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="item" items="${list}">
                         <tr>
-                            <td colspan="6" class="py-5 text-muted border-secondary">등록된 인물이 없습니다.</td>
-                        </tr>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach var="item" items="${list}">
-                            <tr>
-                                <td class="border-secondary">${item.brdSeq}</td>
-                                <td class="border-secondary"><span class="badge bg-secondary">${item.category}</span></td>
-                                <td class="text-start border-secondary">
-                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
-                                        <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">메인</span></c:if>
+                            <td class="border-secondary">${item.brdSeq}</td>
+                            <td class="border-secondary"><span class="badge bg-secondary">${item.category}</span></td>
+                            <td class="text-start border-secondary">
+                                <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
+                                    <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">메인</span></c:if>
                                         ${item.title}
-                                    </a>
-                                </td>
-                                <td class="border-secondary">${item.viewCnt}</td>
-                                <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
-                                <td class="border-secondary">
-                                    <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
-                                    <form action="/admin/people/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
-                                        <input type="hidden" name="brdSeq" value="${item.brdSeq}">
-                                        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-                                        <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-                                        <input type="hidden" name="category" value="${params.category}">
-                                        <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
+                                </a>
+                            </td>
+                            <td class="border-secondary">${item.viewCnt}</td>
+                            <td class="border-secondary"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
+                            <td class="border-secondary">
+                                <a href="/admin/people/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                <form action="/admin/people/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
+                                    <input type="hidden" name="brdSeq" value="${item.brdSeq}">
+                                    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+                                    <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+                                    <input type="hidden" name="category" value="${params.category}">
+                                    <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </tbody>
         </table>
     </div>

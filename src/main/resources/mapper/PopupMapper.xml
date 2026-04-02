@@ -6,6 +6,9 @@
         <if test="searchKeyword != null and searchKeyword != ''">
             AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
         </if>
+        <if test="searchUseYnOnly != null and searchUseYnOnly == 'Y'">
+            AND USE_YN = 'Y'
+        </if>
     </sql>
 
     <select id="selectPopupList" resultType="org.mtf.sok.domain.PopupDTO">
