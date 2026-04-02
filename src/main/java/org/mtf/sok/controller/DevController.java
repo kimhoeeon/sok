@@ -119,7 +119,10 @@ public class DevController {
             devMapper.updateRequestStatus(request);
 
             DevRequestDTO updatedReq = devMapper.selectRequest(request.getReqSeq());
-            directSendService.sendStatusChangeAlertEmail(updatedReq);
+            // "PROCESS" (진행중) 상태가 아닐 때만 발주사에 상태 변경 알림 메일 발송
+            if (!"PROCESS".equals(updatedReq.getStatus())) {
+                directSendService.sendStatusChangeAlertEmail(updatedReq);
+            }
         }
 
         rttr.addAttribute("reqSeq", request.getReqSeq());
