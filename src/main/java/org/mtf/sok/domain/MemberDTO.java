@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = false) // ★ [페이징 추가/수정]
-public class MemberDTO extends Criteria { // ★ [페이징 추가/수정] Criteria 상속
+@EqualsAndHashCode(callSuper = false)
+public class MemberDTO extends Criteria {
     private Long mbrSeq;
     private String mbrId;
     private String mbrPw;

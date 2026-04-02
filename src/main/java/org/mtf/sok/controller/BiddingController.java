@@ -57,7 +57,6 @@ public class BiddingController {
             board.setFileList(boardMapper.selectFiles(fileParams));
         }
 
-        // ★ [수정됨] form.jsp의 ${bidding.xxx} 변수명과 일치시키기 위해 "bidding"으로 담아줌
         model.addAttribute("bidding", board);
         return "admin/bidding/form";
     }
@@ -115,7 +114,6 @@ public class BiddingController {
             rttr.addAttribute("amount", board.getAmount());
             rttr.addAttribute("category", board.getCategory());
             rttr.addAttribute("searchKeyword", board.getSearchKeyword());
-            // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
         } else {
             rttr.addAttribute("pageNum", 1);
             rttr.addAttribute("amount", board.getAmount());
@@ -132,7 +130,6 @@ public class BiddingController {
         rttr.addAttribute("amount", params.getAmount());
         rttr.addAttribute("category", params.getCategory());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
-        // ★ [수정됨] 쓰지 않는 searchType 찌꺼기 제거
 
         return "redirect:/admin/bidding/list";
     }

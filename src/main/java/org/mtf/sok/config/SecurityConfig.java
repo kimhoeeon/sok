@@ -20,7 +20,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ★ [임시 추가] 서버가 시작될 때 진짜 BCrypt 해시값을 콘솔에 출력해줍니다.
+    // 서버가 시작될 때 진짜 BCrypt 해시값을 콘솔에 출력해줍니다.
     /*@PostConstruct
     public void generateRealPasswords() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();

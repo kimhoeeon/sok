@@ -11,7 +11,7 @@ public interface SponsorMapper {
     // 1. 회원(후원자) 관련
     List<MemberDTO> selectMemberList(MemberDTO params);
 
-    int selectMemberTotalCount(MemberDTO params); // ★ [페이징 추가/수정]
+    int selectMemberTotalCount(MemberDTO params);
 
     MemberDTO selectMember(Long mbrSeq);
 
@@ -20,7 +20,7 @@ public interface SponsorMapper {
     // 2. 기부금(결제) 관련
     List<DonationDTO> selectDonationList(DonationDTO params);
 
-    int selectDonationTotalCount(DonationDTO params); // ★ [페이징 추가/수정]
+    int selectDonationTotalCount(DonationDTO params);
 
     DonationDTO selectDonation(Long paySeq);
 

@@ -28,7 +28,6 @@ public class PeopleController {
     @Value("${file.upload.dir}")
     private String uploadDir;
 
-    // ★ [페이징 추가/수정]
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
         params.setBrdType("PEOPLE"); // 함께하는 사람들 전용 타입

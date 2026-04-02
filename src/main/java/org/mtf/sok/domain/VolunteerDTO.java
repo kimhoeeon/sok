@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 @Data
-@EqualsAndHashCode(callSuper = false) // ★ [페이징 추가/수정] 상속 경고 방지
-public class VolunteerDTO extends Criteria { // ★ [페이징 추가/수정] Criteria 상속
+@EqualsAndHashCode(callSuper = false)
+public class VolunteerDTO extends Criteria {
     private Long volSeq;
     private String supportArea; // 지원분야 (스포츠, 문화예술, 기타)
     private String eventNm;     // 행사명
@@ -18,7 +18,7 @@ public class VolunteerDTO extends Criteria { // ★ [페이징 추가/수정] Cr
     private Date regDt;         // 신청일시
     private String delYn;       // 삭제여부
 
-    // ★ [페이징 추가/수정] 검색용 파라미터 (유지)
+    // 검색용 파라미터 (유지)
     private String searchSupportArea;
     private String searchKeyword;
 }

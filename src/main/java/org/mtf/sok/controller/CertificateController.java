@@ -25,7 +25,6 @@ public class CertificateController {
 
     @GetMapping("/list")
     public String list(@ModelAttribute CertificateDTO params, Model model) {
-        // ★ [페이징 추가]
         List<CertificateDTO> list = certificateMapper.selectCertificateList(params);
         int total = certificateMapper.selectCertificateTotalCount(params);
         PageDTO pageMaker = new PageDTO(params, total);
@@ -51,7 +50,7 @@ public class CertificateController {
 
         certificateMapper.updateCertificateStatus(cert);
 
-        // ★ [상태 유지] 업데이트 후 원래 보던 검색조건/페이지로 완벽 복귀
+        // 업데이트 후 원래 보던 검색조건/페이지로 완벽 복귀
         rttr.addAttribute("certSeq", cert.getCertSeq());
         rttr.addAttribute("pageNum", cert.getPageNum());
         rttr.addAttribute("amount", cert.getAmount());
@@ -62,7 +61,7 @@ public class CertificateController {
         return "redirect:/admin/certificate/detail";
     }
 
-    // ★ [개선] 엑셀 다운로드 (Date 객체 그대로 넘김)
+    // 엑셀 다운로드 (Date 객체 그대로 넘김)
     @GetMapping("/excel")
     public void downloadExcel(@ModelAttribute CertificateDTO params, HttpServletResponse response) throws Exception {
 
@@ -91,7 +90,6 @@ public class CertificateController {
             else if ("REJECT".equals(cert.getIssueStatus())) statusKr = "반려/거절";
             row.add(statusKr);
 
-            // ★ [개선] String으로 변환하지 않고 Date 객체를 그대로 삽입
             row.add(cert.getRegDt());
 
             data.add(row);

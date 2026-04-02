@@ -110,7 +110,7 @@ public class AdminController {
 
         model.addAttribute("dbStatus", dbStatus);
 
-        // 3. JVM 메모리 상태 (DB가 죽어도 웹 서버가 살아있으면 정상 출력됨 ★)
+        // 3. JVM 메모리 상태 (DB가 죽어도 웹 서버가 살아있으면 정상 출력됨)
         Runtime runtime = Runtime.getRuntime();
         long totalMem = runtime.totalMemory();
         long freeMem = runtime.freeMemory();

@@ -15,7 +15,7 @@ public class AdminService {
     private AdminMapper adminMapper;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // ★ BCrypt 인코더 의존성 주입
+    private PasswordEncoder passwordEncoder;
 
     public AdminDTO loginCheck(String mbrId, String mbrPw, String clientIp) throws Exception {
 
@@ -25,7 +25,6 @@ public class AdminService {
             throw new Exception("존재하지 않는 관리자 계정입니다.");
         }
 
-        // ★ [보안 고도화] 평문 비교 대신 BCrypt 해시 매칭 검증 사용
         if (!passwordEncoder.matches(mbrPw, admin.getMbrPw())) {
             throw new Exception("비밀번호가 일치하지 않습니다.");
         }

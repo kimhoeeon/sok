@@ -114,7 +114,7 @@
         document.getElementById('searchForm').submit();
     }
 
-    // ★ [엑셀 다운로드 함수 추가]
+    // [엑셀 다운로드 함수]
     function downloadExcel() {
         var form = document.getElementById('searchForm');
         var originalAction = form.action;

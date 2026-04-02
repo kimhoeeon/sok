@@ -105,7 +105,7 @@
 </div>
 
 <script>
-    // ★ [추가] 유튜브 URL에서 ID 추출
+    // 유튜브 URL에서 ID 추출
     function extractVideoID(url) {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         var match = url.match(regExp);
@@ -115,7 +115,7 @@
         return null;
     }
 
-    // ★ [추가] 유튜브 썸네일/iframe 렌더링
+    // 유튜브 썸네일/iframe 렌더링
     function previewYoutube() {
         var url = document.getElementById('youtubeUrl').value;
         var preview = document.getElementById('youtubePreview');

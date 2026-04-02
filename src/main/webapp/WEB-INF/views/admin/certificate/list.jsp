@@ -120,10 +120,9 @@
         document.getElementById('searchForm').submit();
     }
 
-    // ★ [스토리보드 요건] 엑셀 다운로드 스크립트 추가
     function downloadExcel() {
         var form = document.getElementById('searchForm');
-        var originalAction = form.action; // 원래 action 보존 (/admin/certificate/list)
+        var originalAction = form.action;
 
         // action을 엑셀 다운로드용으로 변경 후 전송
         form.action = '/admin/certificate/excel';

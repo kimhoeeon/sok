@@ -73,7 +73,6 @@ public class NoticeController {
     public String save(BoardDTO board, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
 
-        // ★ [UX 고도화] 수정인지 신규 등록인지 판별하는 플래그
         boolean isUpdate = (board.getBrdSeq() != null);
 
         board.setBrdType("NOTICE");
@@ -119,7 +118,6 @@ public class NoticeController {
             }
         }
 
-        // ★ [UX 고도화] 상황에 맞는 지능형 Redirect 처리
         if (isUpdate) {
             // 글 수정 시: 내가 작업하던 원래 페이지 번호와 검색어 상태를 그대로 유지
             rttr.addAttribute("pageNum", board.getPageNum());
@@ -127,9 +125,7 @@ public class NoticeController {
             rttr.addAttribute("searchType", board.getSearchType());
             rttr.addAttribute("searchKeyword", board.getSearchKeyword());
         } else {
-            // 신규 등록 시: 방금 쓴 글을 확인할 수 있도록 무조건 1페이지로 이동 (검색어 초기화)
             rttr.addAttribute("pageNum", 1);
-            // 단, 사용자가 보기 개수를 50개로 설정해 두었다면 그 설정(amount)은 유지해 주는 센스!
             rttr.addAttribute("amount", board.getAmount());
         }
 
@@ -140,7 +136,6 @@ public class NoticeController {
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
         boardMapper.deleteBoard(brdSeq);
 
-        // ★ [수정됨] 삭제 후 다시 원래 페이지 목록으로 돌아가도록 파라미터 세팅
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
         rttr.addAttribute("searchType", params.getSearchType());
@@ -149,11 +144,11 @@ public class NoticeController {
         return "redirect:/admin/notice/list";
     }
 
-    // ★ [추가] 공지사항 엑셀 다운로드
+    // 공지사항 엑셀 다운로드
     @GetMapping("/excel")
     public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
         params.setPageNum(1);
-        params.setAmount(1000000); // 대용량 엑셀 추출
+        params.setAmount(1000000);
         params.setBrdType("NOTICE"); // 공지사항 게시판만
 
         List<BoardDTO> list = boardMapper.selectBoardList(params);
@@ -167,7 +162,7 @@ public class NoticeController {
             row.add("Y".equals(board.getIsNotice()) ? "중요" : "일반");
             row.add(board.getTitle());
             row.add(board.getViewCnt());
-            row.add(board.getRegDt()); // Date 객체 그대로 넘김
+            row.add(board.getRegDt());
             data.add(row);
         }
         ExcelUtils.download(response, "공지사항_내역", headers, data);

@@ -2,7 +2,7 @@ package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.FileDTO;
-import org.mtf.sok.domain.PageDTO; // ★ [페이징 추가]
+import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.domain.PopupDTO;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.PopupMapper;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // ★ [페이징 추가]
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -32,7 +32,6 @@ public class PopupController {
     @Value("${file.upload.dir}")
     private String uploadDir;
 
-    // ★ [페이징 추가/수정] DTO 파라미터로 변경
     @GetMapping("/list")
     public String list(@ModelAttribute PopupDTO params, Model model) {
 
@@ -40,7 +39,6 @@ public class PopupController {
         int total = popupMapper.selectPopupTotalCount(params);
         PageDTO pageMaker = new PageDTO(params, total);
 
-        // 고도화: 목록에서 썸네일을 보여주기 위해 각 팝업별 파일 정보 매칭 (기존 로직 보존)
         for (PopupDTO popup : list) {
             FileDTO fileParams = new FileDTO();
             fileParams.setRefTable("TB_POPUP");
@@ -57,7 +55,6 @@ public class PopupController {
         return "admin/popup/list";
     }
 
-    // ★ [페이징 추가/수정] 파라미터 유지를 위해 @ModelAttribute 추가
     @GetMapping("/form")
     public String form(@RequestParam(required = false) Long popSeq,
                        @ModelAttribute("params") PopupDTO params,
@@ -80,7 +77,6 @@ public class PopupController {
         return "admin/popup/form";
     }
 
-    // ★ [페이징 추가/수정] Redirect 처리
     @PostMapping("/save")
     public String save(PopupDTO popup, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
@@ -123,12 +119,11 @@ public class PopupController {
             } catch (Exception e) { e.printStackTrace(); }
         }
 
-        // ★ [수정] Redirect 시 파라미터 릴레이에 searchUseYnOnly 추가
         if (isUpdate) {
             rttr.addAttribute("pageNum", popup.getPageNum());
             rttr.addAttribute("amount", popup.getAmount());
             rttr.addAttribute("searchKeyword", popup.getSearchKeyword());
-            rttr.addAttribute("searchUseYnOnly", popup.getSearchUseYnOnly()); // ★ 추가
+            rttr.addAttribute("searchUseYnOnly", popup.getSearchUseYnOnly());
         } else {
             rttr.addAttribute("pageNum", 1);
             rttr.addAttribute("amount", popup.getAmount());
@@ -137,16 +132,14 @@ public class PopupController {
         return "redirect:/admin/popup/list";
     }
 
-    // ★ [페이징 추가/수정] 삭제 후 페이지 유지를 위한 릴레이
     @PostMapping("/delete")
     public String delete(@RequestParam Long popSeq, @ModelAttribute PopupDTO params, RedirectAttributes rttr) {
         popupMapper.deletePopup(popSeq);
 
-        // ★ [수정] 삭제 후 페이지 유지를 위한 릴레이에 searchUseYnOnly 추가
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
-        rttr.addAttribute("searchUseYnOnly", params.getSearchUseYnOnly()); // ★ 추가
+        rttr.addAttribute("searchUseYnOnly", params.getSearchUseYnOnly());
 
         return "redirect:/admin/popup/list";
     }

@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 
 @Data
-@EqualsAndHashCode(callSuper = false) // ★ [페이징 추가/수정] 상속 경고 방지
-public class PopupDTO extends Criteria { // ★ [페이징 추가/수정] Criteria 상속
+@EqualsAndHashCode(callSuper = false)
+public class PopupDTO extends Criteria {
 
     private Long popSeq;
     private String title;
@@ -29,10 +29,10 @@ public class PopupDTO extends Criteria { // ★ [페이징 추가/수정] Criter
     private MultipartFile uploadFile; // 팝업은 단일 파일 처리
     private FileDTO popupImage; // TB_FILE 연동 정보
 
-    // ★ [페이징 추가/수정] 검색어 파라미터 추가
+    // 검색어 파라미터 추가
     private String searchKeyword;
 
-    // ★ [추가] 사용 팝업만 보기 체크박스 상태
+    // 사용 팝업만 보기 체크박스 상태
     private String searchUseYnOnly;
 
     // 관리자 고도화를 위한 상태 값 (가상 필드)

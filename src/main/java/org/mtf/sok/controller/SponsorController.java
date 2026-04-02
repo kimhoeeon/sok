@@ -3,14 +3,14 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
-import org.mtf.sok.domain.PageDTO; // ★ [페이징 추가/수정]
+import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.SponsorMapper;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // ★ [페이징 추가/수정]
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,7 +28,6 @@ public class SponsorController {
     // ==========================================
     // 1. 가입자(회원) 관리 목록 및 상세
     // ==========================================
-    // ★ [페이징 추가/수정] DTO 파라미터 매핑 적용
     @GetMapping("/member/list")
     public String memberList(@ModelAttribute MemberDTO params, Model model) {
 
@@ -38,12 +37,11 @@ public class SponsorController {
 
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", pageMaker);
-        model.addAttribute("params", params); // 필터 유지
+        model.addAttribute("params", params);
 
         return "admin/sponsor/member_list";
     }
 
-    // ★ [페이징 추가/수정] @ModelAttribute 추가
     @GetMapping("/member/detail")
     public String memberDetail(@RequestParam Long mbrSeq,
                                @ModelAttribute("params") MemberDTO params,
@@ -56,7 +54,6 @@ public class SponsorController {
         return "admin/sponsor/member_detail";
     }
 
-    // ★ [페이징 추가/수정] Redirect 파라미터 릴레이
     @PostMapping("/member/update")
     public String memberUpdate(MemberDTO member, RedirectAttributes rttr) {
         sponsorMapper.updateMember(member);
@@ -74,7 +71,6 @@ public class SponsorController {
     // ==========================================
     // 2. 기부금(결제) 관리 목록 및 상세/상태변경
     // ==========================================
-    // ★ [페이징 추가/수정] DTO 파라미터 매핑 적용
     @GetMapping("/donate/list")
     public String donateList(@ModelAttribute DonationDTO params, Model model) {
 
@@ -89,7 +85,6 @@ public class SponsorController {
         return "admin/sponsor/donate_list";
     }
 
-    // ★ [페이징 추가/수정] @ModelAttribute 추가
     @GetMapping("/donate/detail")
     public String donateDetail(@RequestParam Long paySeq,
                                @ModelAttribute("params") DonationDTO params,
@@ -98,7 +93,6 @@ public class SponsorController {
         return "admin/sponsor/donate_detail";
     }
 
-    // ★ [페이징 추가/수정] Redirect 파라미터 릴레이
     @PostMapping("/donate/updateStatus")
     public String updateDonateStatus(DonationDTO donation, HttpSession session, RedirectAttributes rttr) {
 

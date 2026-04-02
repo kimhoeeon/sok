@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 @Data
-@EqualsAndHashCode(callSuper = false) // ★ 페이징 Criteria 상속 경고 방지
-public class CertificateDTO extends Criteria { // ★ Criteria 상속
+@EqualsAndHashCode(callSuper = false)
+public class CertificateDTO extends Criteria {
 
     private Long certSeq;
     private String certType;    // 선수등록, 봉사활동, 경기실적, 대회참가

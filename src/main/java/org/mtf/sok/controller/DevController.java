@@ -79,7 +79,7 @@ public class DevController {
         // 첨부파일 처리 (TB_FILE 연동 - REF_TABLE: TB_DEV_REQUEST)
         uploadFiles(request.getUploadFiles(), "TB_DEV_REQUEST", request.getReqSeq());
 
-        // ★ [메일 연동] 발주사가 글을 썼으므로 개발사 담당자에게 비즈뿌리오 메일 발송 ★
+        // 발주사가 글을 썼으므로 개발사 담당자에게 비즈뿌리오 메일 발송
         if (!isDeveloper(session)) {
             bizppurioService.sendRequestAlertEmail(request);
         }
@@ -122,7 +122,6 @@ public class DevController {
             bizppurioService.sendStatusChangeAlertEmail(updatedReq);
         }
 
-        // ★ [수정됨] 처리 후 돌아갈 때 파라미터를 달고 가도록 세팅
         rttr.addAttribute("reqSeq", request.getReqSeq());
         rttr.addAttribute("pageNum", request.getPageNum());
         rttr.addAttribute("amount", request.getAmount());
@@ -147,7 +146,6 @@ public class DevController {
             bizppurioService.sendCommentAlertEmail(parentRequest, comment.getContent(), writerId);
         }
 
-        // ★ [수정됨] 처리 후 돌아갈 때 파라미터를 달고 가도록 세팅
         rttr.addAttribute("reqSeq", comment.getReqSeq());
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());

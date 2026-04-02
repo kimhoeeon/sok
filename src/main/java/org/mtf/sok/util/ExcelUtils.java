@@ -1,7 +1,7 @@
 package org.mtf.sok.util;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook; // ★ 대용량 엑셀 처리 라이브러리
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.util.List;
 public class ExcelUtils {
 
     public static void download(HttpServletResponse response, String fileName, List<String> headers, List<List<Object>> data) throws IOException {
-        // ★ [개선] 메모리에 100행까지만 유지하고 나머지는 디스크에 임시 저장하여 서버 메모리 보호
         SXSSFWorkbook workbook = new SXSSFWorkbook(100);
         Sheet sheet = workbook.createSheet("Sheet1");
 
@@ -29,7 +28,7 @@ public class ExcelUtils {
         CellStyle dataStyle = workbook.createCellStyle();
         dataStyle.setAlignment(HorizontalAlignment.CENTER);
 
-        // ★ [개선] 날짜 전용 데이터 스타일 설정 (엑셀에서 실제 날짜 형식으로 인식하도록 처리)
+        // 날짜 전용 데이터 스타일 설정 (엑셀에서 실제 날짜 형식으로 인식하도록 처리)
         CellStyle dateStyle = workbook.createCellStyle();
         dateStyle.setAlignment(HorizontalAlignment.CENTER);
         CreationHelper createHelper = workbook.getCreationHelper();
@@ -56,7 +55,6 @@ public class ExcelUtils {
                     cell.setCellValue(((Number) obj).doubleValue());
                     cell.setCellStyle(dataStyle);
                 } else if (obj instanceof Date) {
-                    // ★ [개선] Date 타입 객체가 들어오면 엑셀 고유의 날짜 형식 적용
                     cell.setCellValue((Date) obj);
                     cell.setCellStyle(dateStyle);
                 } else if (obj != null) {
@@ -76,7 +74,7 @@ public class ExcelUtils {
 
         workbook.write(response.getOutputStream());
 
-        // ★ [개선] 다운로드 완료 후 디스크에 생성된 임시 파일들을 완벽하게 삭제 (디스크 용량 확보)
+        // 다운로드 완료 후 디스크에 생성된 임시 파일들을 완벽하게 삭제 (디스크 용량 확보)
         workbook.dispose();
         workbook.close();
     }
