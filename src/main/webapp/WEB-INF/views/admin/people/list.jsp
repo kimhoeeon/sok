@@ -24,10 +24,10 @@
 
             <select name="category" class="form-select dark-search-bar border-start-0" style="max-width: 150px;">
                 <option value="">전체 분류</option>
-                <option value="임원진" ${params.category eq '임원진' ? 'selected' : ''}>임원진</option>
-                <option value="홍보대사" ${params.category eq '홍보대사' ? 'selected' : ''}>홍보대사</option>
-                <option value="스포츠선수" ${params.category eq '스포츠선수' ? 'selected' : ''}>스포츠선수</option>
-                <option value="문화예술인" ${params.category eq '문화예술인' ? 'selected' : ''}>문화예술인</option>
+                <option value="선수" ${params.category eq '선수' ? 'selected' : ''}>선수</option>
+                <option value="아티스트" ${params.category eq '아티스트' ? 'selected' : ''}>아티스트</option>
+                <option value="패밀리" ${params.category eq '패밀리' ? 'selected' : ''}>패밀리</option>
+                <option value="프렌즈" ${params.category eq '프렌즈' ? 'selected' : ''}>프렌즈</option>
             </select>
 
             <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="이름 또는 직책 검색" value="${params.searchKeyword}">

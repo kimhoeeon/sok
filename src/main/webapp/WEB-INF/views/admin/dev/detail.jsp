@@ -119,10 +119,15 @@
             </c:when>
             <c:otherwise>
                 <c:forEach var="cmt" items="${comments}">
-                    <div class="p-4 rounded mb-3" style="background: rgba(255,255,255,0.03); border: 1px solid #474761;">
+                    <div class="p-4 rounded mb-3" style="background: ${cmt.regId eq 'meetingfan' ? 'rgba(39, 163, 118, 0.08)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${cmt.regId eq 'meetingfan' ? '#27a376' : '#474761'};">
                         <div class="d-flex justify-content-between mb-3">
                             <span class="fw-bold ${cmt.regId eq 'meetingfan' ? 'text-primary' : 'text-success'}">
-                                <i class="bi ${cmt.regId eq 'meetingfan' ? 'bi-braces-asterisk' : 'bi-person-circle'} me-1"></i> ${cmt.regId}
+                                <i class="bi ${cmt.regId eq 'meetingfan' ? 'bi-braces-asterisk' : 'bi-person-circle'} me-1"></i>
+                                <c:choose>
+                                    <c:when test="${cmt.regId eq 'meetingfan'}">개발사</c:when>
+                                    <c:otherwise>관리자</c:otherwise>
+                                </c:choose>
+                                <span class="ms-1" style="font-size: 13px; opacity: 0.8;">(${cmt.regId})</span>
                             </span>
                             <span class="text-muted" style="font-size: 12px;"><fmt:formatDate value="${cmt.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
                         </div>
@@ -135,6 +140,21 @@
                                         <i class="bi bi-paperclip"></i> ${cFile.orgFileNm}
                                     </a>
                                 </c:forEach>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${sessionScope.adminLogin.mbrId eq cmt.regId}">
+                            <div class="text-end mt-2">
+                                <form action="/admin/dev/deleteComment" method="post" class="d-inline" onsubmit="return confirm('코멘트를 삭제하시겠습니까?');">
+                                    <input type="hidden" name="cmtSeq" value="${cmt.cmtSeq}">
+                                    <input type="hidden" name="reqSeq" value="${request.reqSeq}">
+                                    <input type="hidden" name="pageNum" value="${params.pageNum}">
+                                    <input type="hidden" name="amount" value="${params.amount}">
+                                    <input type="hidden" name="searchType" value="${params.searchType}">
+                                    <input type="hidden" name="searchStatus" value="${params.searchStatus}">
+                                    <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0 text-decoration-none" style="font-size: 13px;"><i class="bi bi-trash"></i> 삭제</button>
+                                </form>
                             </div>
                         </c:if>
                     </div>
