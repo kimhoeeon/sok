@@ -6,12 +6,6 @@
 <c:set var="currentMenu" value="donate" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
-<c:if test="${not empty errorMessage}">
-    <script>
-        alert('${errorMessage}');
-    </script>
-</c:if>
-
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">결제(기부) 상세 내역</h3>
     <a href="/admin/sponsor/donate/list?pageNum=${params.pageNum}&amount=${params.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>

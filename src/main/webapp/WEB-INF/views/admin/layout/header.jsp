@@ -31,4 +31,16 @@
             </div>
         </div>
 
+        <c:if test="${not empty errorMessage}">
+            <script>
+                alert('${errorMessage}');
+            </script>
+        </c:if>
+
+        <c:if test="${not empty successMessage}">
+            <script>
+                alert('${successMessage}');
+            </script>
+        </c:if>
+
         <div class="p-5 flex-grow-1 overflow-auto">
