@@ -152,9 +152,9 @@
             <div class="mb-4">
                 <label for="mbrId" class="form-label text-uppercase">Admin ID</label>
                 <div class="input-group">
-                        <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
-                            <i class="bi bi-person text-muted"></i>
-                        </span>
+                    <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
+                        <i class="bi bi-person text-muted"></i>
+                    </span>
                     <input type="text" class="form-control dark-search-bar border-start-0" id="mbrId" name="mbrId"
                            placeholder="아이디를 입력하세요" autocomplete="off">
                 </div>
@@ -163,9 +163,9 @@
             <div class="mb-5">
                 <label for="mbrPw" class="form-label text-uppercase">Password</label>
                 <div class="input-group">
-                        <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
-                            <i class="bi bi-lock text-muted"></i>
-                        </span>
+                    <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
+                        <i class="bi bi-lock text-muted"></i>
+                    </span>
                     <input type="password" class="form-control dark-search-bar border-start-0" id="mbrPw" name="mbrPw"
                            placeholder="비밀번호를 입력하세요">
                 </div>

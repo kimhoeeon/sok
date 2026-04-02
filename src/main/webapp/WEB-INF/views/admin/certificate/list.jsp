@@ -16,7 +16,7 @@
     <form id="searchForm" action="/admin/certificate/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
-        <div class="input-group shadow-sm" style="max-width: 800px;">
+        <div class="input-group shadow-sm" style="max-width: 700px;">
             <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
                 <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                 <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>

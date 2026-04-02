@@ -30,5 +30,7 @@ public class DonationDTO extends Criteria {
     private String phone;
 
     // 검색용 파라미터
+    private String searchType;
     private String searchStatus;
+    private String searchKeyword;
 }
