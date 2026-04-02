@@ -129,14 +129,21 @@
     </div>
 
     <div class="col-xl-4">
-        <div class="premium-dark-card p-4 h-100">
+        <div class="premium-dark-card p-4 h-100 d-flex flex-column">
             <h5 class="fw-bold text-white mb-4"><i class="bi bi-server me-2 text-info"></i>JVM & 웹 서버 상태</h5>
-            <div class="mb-4 p-3 rounded" style="background: rgba(0,0,0,0.2);">
-                <div class="d-flex justify-content-between mb-2">
+
+            <div class="text-center mb-4 p-3 rounded" style="background: rgba(57, 255, 20, 0.05); border: 1px dashed rgba(57, 255, 20, 0.2);">
+                <span class="text-success d-block mb-1" style="font-size: 12px;"><i class="bi bi-broadcast me-1"></i>System Live Time</span>
+                <h3 class="text-white fw-bold m-0" id="liveServerTime" style="letter-spacing: 2px;">00:00:00</h3>
+                <span class="text-muted" style="font-size: 11px;" id="liveServerDate">YYYY-MM-DD</span>
+            </div>
+
+            <div class="mb-4 p-4 rounded flex-grow-1 d-flex flex-column justify-content-center" style="background: rgba(0,0,0,0.2);">
+                <div class="d-flex justify-content-between mb-3 border-bottom border-secondary pb-3">
                     <span class="text-muted" style="font-size: 13px;">호스팅 환경</span>
                     <span class="text-white fw-bold" style="font-size: 13px;">Cafe24 Tomcat JSP</span>
                 </div>
-                <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex justify-content-between mb-3 border-bottom border-secondary pb-3">
                     <span class="text-muted" style="font-size: 13px;">DB 연결상태</span>
                     <c:choose>
                         <c:when test="${dbStatus}">
@@ -147,7 +154,7 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex justify-content-between mb-3 border-bottom border-secondary pb-3">
                     <span class="text-muted" style="font-size: 13px;">서버 구동 시간</span>
                     <span class="text-warning fw-bold" style="font-size: 13px;"><i class="bi bi-clock-history me-1"></i>${jvmUptime}</span>
                 </div>
@@ -157,12 +164,12 @@
                 </div>
             </div>
 
-            <div class="mb-3 mt-4">
+            <div class="mt-auto pt-2">
                 <div class="d-flex justify-content-between mb-2">
                     <label class="text-muted" style="font-size: 12px;"><i class="bi bi-memory me-1"></i>자바 힙 메모리 (JVM Memory)</label>
                     <span class="text-white fw-bold" style="font-size: 12px;">${jvmUsage}% (${jvmUsedMB}MB / ${jvmTotalMB}MB)</span>
                 </div>
-                <div class="progress" style="height: 10px; background: rgba(255,255,255,0.05);">
+                <div class="progress" style="height: 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
                     <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: ${jvmUsage}%"></div>
                 </div>
                 <small class="text-muted d-block mt-3 lh-base" style="font-size: 11.5px;">※ 공용 서버의 전체 리소스가 아닌, 현재 SOK 애플리케이션(JVM)에 할당된 실제 메모리 기준입니다.</small>
@@ -196,7 +203,27 @@
         initCharts();
         loadVisitorChart('DAY');
         loadApplyChart('DAY');
+
+        // ★ 실시간 시계 구동 스크립트
+        setInterval(updateLiveTime, 1000);
+        updateLiveTime();
     });
+
+    // ★ 실시간 시계 업데이트 함수
+    function updateLiveTime() {
+        const now = new Date();
+        const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+                        String(now.getMinutes()).padStart(2, '0') + ':' +
+                        String(now.getSeconds()).padStart(2, '0');
+        const dateStr = now.getFullYear() + '년 ' +
+                        String(now.getMonth() + 1).padStart(2, '0') + '월 ' +
+                        String(now.getDate()).padStart(2, '0') + '일';
+
+        const timeEl = document.getElementById('liveServerTime');
+        const dateEl = document.getElementById('liveServerDate');
+        if(timeEl) timeEl.innerText = timeStr;
+        if(dateEl) dateEl.innerText = dateStr;
+    }
 
     function initCharts() {
         var commonOptions = {

@@ -45,39 +45,43 @@
 <div class="premium-dark-card p-4">
 
     <div class="d-flex align-items-center justify-content-between bg-dark p-3 rounded mb-4 border border-secondary shadow-sm flex-wrap gap-3">
-        <div class="d-flex align-items-center flex-wrap gap-2">
-            <span class="text-white fw-bold"><i class="bi bi-check2-square text-info me-1"></i>선택 일괄 변경:</span>
-            <select id="batchStatus" class="form-select dark-search-bar form-select-sm" style="max-width: 140px;">
+
+        <div class="d-flex align-items-center flex-nowrap gap-2" style="overflow-x: auto;">
+            <span class="text-white fw-bold text-nowrap"><i class="bi bi-check2-square text-info me-1"></i>선택 변경:</span>
+            <select id="batchStatus" class="form-select dark-search-bar form-select-sm flex-shrink-0" style="min-width: 130px; width: 130px;">
                 <option value="WAITING">접수대기</option>
                 <option value="PROCESS">진행중</option>
                 <option value="DISCUSS">논의필요</option>
                 <option value="DONE">처리완료</option>
                 <option value="REJECT">처리불가</option>
             </select>
-            <div class="input-group input-group-sm" style="max-width: 200px;">
+
+            <div class="input-group input-group-sm flex-nowrap flex-shrink-0" style="min-width: 220px; width: 220px;">
                 <span class="input-group-text dark-search-bar text-muted border-end-0">예정일</span>
-                <input type="date" id="batchDueDt" class="form-control dark-search-bar border-start-0">
+                <input type="date" id="batchDueDt" class="form-control dark-search-bar border-start-0 border-end-0">
             </div>
-            <button type="button" class="btn btn-sm btn-outline-warning fw-bold px-3" onclick="executeBatchUpdate()">적용</button>
+
+            <button type="button" class="btn btn-sm btn-outline-warning fw-bold px-3 ms-1 flex-shrink-0 text-nowrap" onclick="executeBatchUpdate()">적용</button>
         </div>
 
         <form id="searchForm" action="/admin/dev/list" method="get" class="d-flex m-0">
             <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-            <div class="input-group shadow-sm input-group-sm">
-                <select name="amount" class="form-select dark-search-bar" style="max-width: 80px;" onchange="searchData()">
+            <div class="input-group shadow-sm input-group-sm flex-nowrap" style="overflow-x: auto;">
+
+                <select name="amount" class="form-select dark-search-bar flex-shrink-0" style="min-width: 90px;" onchange="searchData()">
                     <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                     <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
                     <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
                 </select>
 
-                <select name="searchType" class="form-select dark-search-bar border-start-0" style="max-width: 110px;">
+                <select name="searchType" class="form-select dark-search-bar border-start-0 flex-shrink-0" style="min-width: 130px;">
                     <option value="">전체 유형</option>
                     <option value="유지보수" ${params.searchType eq '유지보수' ? 'selected' : ''}>유지보수</option>
                     <option value="단순문의" ${params.searchType eq '단순문의' ? 'selected' : ''}>단순문의</option>
                     <option value="기능오류" ${params.searchType eq '기능오류' ? 'selected' : ''}>기능오류</option>
                 </select>
 
-                <select name="searchStatus" class="form-select dark-search-bar border-start-0" style="max-width: 110px;">
+                <select name="searchStatus" class="form-select dark-search-bar border-start-0 flex-shrink-0" style="min-width: 130px;">
                     <option value="">전체 상태</option>
                     <option value="WAITING" ${params.searchStatus eq 'WAITING' ? 'selected' : ''}>접수대기</option>
                     <option value="PROCESS" ${params.searchStatus eq 'PROCESS' ? 'selected' : ''}>진행중</option>
@@ -85,8 +89,10 @@
                     <option value="DONE" ${params.searchStatus eq 'DONE' ? 'selected' : ''}>처리완료</option>
                     <option value="REJECT" ${params.searchStatus eq 'REJECT' ? 'selected' : ''}>처리불가</option>
                 </select>
-                <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="제목 검색" value="${params.searchKeyword}" style="width: 150px;">
-                <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i></button>
+
+                <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0 flex-shrink-0" placeholder="제목 검색" value="${params.searchKeyword}" style="min-width: 250px; width: 250px;">
+
+                <button class="btn btn-secondary border-start-0 px-3 flex-shrink-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i></button>
             </div>
         </form>
     </div>
