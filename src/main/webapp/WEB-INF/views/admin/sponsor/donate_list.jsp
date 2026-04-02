@@ -37,6 +37,8 @@
                 <option value="REFUND" ${params.searchStatus eq 'REFUND' ? 'selected' : ''}>환불완료</option>
             </select>
 
+            <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="주문번호 또는 후원자명" value="${params.searchKeyword}" style="min-width: 200px;">
+
             <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>

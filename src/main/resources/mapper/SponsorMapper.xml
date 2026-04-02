@@ -62,6 +62,11 @@
         <if test="searchStatus != null and searchStatus != ''">
             AND D.PAY_STATUS = #{searchStatus}
         </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (D.ORDER_ID LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR M.MBR_NM LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR M.MBR_ID LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
     </sql>
 
     <select id="selectDonationList" resultType="org.mtf.sok.domain.DonationDTO">
