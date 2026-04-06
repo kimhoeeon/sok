@@ -23,6 +23,7 @@ public class DonationDTO extends Criteria {
     private String refundRsn;
     private String cheerMsg;      // 응원 메시지
     private Date regDt;
+    private String paymentKey;
 
     // 조인(Join) 시 가져올 회원 정보
     private String mbrNm;

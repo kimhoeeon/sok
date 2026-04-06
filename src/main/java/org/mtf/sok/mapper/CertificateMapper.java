@@ -17,4 +17,5 @@ public interface CertificateMapper {
 
     void deleteCertificate(Long certSeq);
 
+    int checkDuplicateCertificate(CertificateDTO params);
 }

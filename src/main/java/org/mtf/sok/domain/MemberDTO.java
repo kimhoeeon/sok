@@ -24,6 +24,8 @@ public class MemberDTO extends Criteria {
     private Date joinDt;
     private String withdrawYn;
     private Date withdrawDt;
+    private String snsType; // 연동 플랫폼 (예: "KAKAO")
+    private String snsId;   // 카카오에서 부여받은 고유 회원 번호
 
     // --- 스토리보드 항목 반영 추가 ---
     private Integer totalDonateCnt; // 누적 후원 건수

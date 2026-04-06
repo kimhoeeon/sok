@@ -58,4 +58,14 @@
         WHERE CERT_SEQ = #{certSeq}
     </update>
 
+    <select id="checkDuplicateCertificate" parameterType="org.mtf.sok.domain.CertificateDTO" resultType="int">
+        SELECT COUNT(CERT_SEQ)
+        FROM TB_CERTIFICATE_APPLY
+        WHERE CERT_TYPE = #{certType}
+          AND APPLY_NM = #{applyNm}
+          AND PHONE = #{phone}
+          AND DEL_YN = 'N'
+          AND ISSUE_STATUS IN ('WAIT', 'ING', 'DONE')
+    </select>
+
 </mapper>
