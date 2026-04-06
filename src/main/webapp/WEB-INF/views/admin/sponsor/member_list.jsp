@@ -33,6 +33,11 @@
                 <option value="Y" ${params.isDonor eq 'Y' ? 'selected' : ''}>후원자 (Y)</option>
                 <option value="N" ${params.isDonor eq 'N' ? 'selected' : ''}>일반회원 (N)</option>
             </select>
+            <select name="withdrawYn" class="form-select dark-search-bar border-start-0" style="max-width: 120px;">
+                <option value="">가입 상태</option>
+                <option value="N" ${params.withdrawYn eq 'N' ? 'selected' : ''}>정상 회원</option>
+                <option value="Y" ${params.withdrawYn eq 'Y' ? 'selected' : ''}>탈퇴 회원</option>
+            </select>
 
             <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="이름, 아이디, 이메일 검색" value="${params.searchKeyword}">
             <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
@@ -69,9 +74,12 @@
                                     </c:choose>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/admin/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
+                                    <a href="/admin/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&withdrawYn=${params.withdrawYn}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
                                         ${item.mbrNm} <span class="text-muted fw-normal ms-1">(${item.mbrId})</span>
                                     </a>
+                                    <c:if test="${item.withdrawYn eq 'Y'}">
+                                        <span class="badge bg-danger ms-2" style="font-size: 11px;">탈퇴</span>
+                                    </c:if>
                                     <c:if test="${item.isDonor eq 'Y'}"><i class="bi bi-heart-fill text-danger ms-1" style="font-size: 12px;"></i></c:if>
                                 </td>
                                 <td class="text-muted" style="font-size: 13px;">${not empty item.phone ? item.phone : '-'}</td>

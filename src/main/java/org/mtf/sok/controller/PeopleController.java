@@ -70,10 +70,31 @@ public class PeopleController {
 
         boolean isUpdate = (board.getBrdSeq() != null);
 
+        // 1. [사전 검증] 파일 확장자가 이미지인지 먼저 체크 (보안 강화)
+        if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
+            for (MultipartFile file : board.getUploadFiles()) {
+                if (!file.isEmpty()) {
+                    String originalFileName = file.getOriginalFilename();
+                    if (originalFileName != null && originalFileName.contains(".")) {
+                        String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+                        // 이미지 확장자가 아닐 경우 차단 및 리다이렉트
+                        if (!ext.matches(".*\\.(jpg|jpeg|png|gif|bmp|webp)$")) {
+                            rttr.addFlashAttribute("errorMessage", "보안 정책에 따라 이미지 파일(jpg, png, gif 등)만 업로드할 수 있습니다.");
+                            if (isUpdate) {
+                                return "redirect:/admin/people/form?brdSeq=" + board.getBrdSeq();
+                            } else {
+                                return "redirect:/admin/people/form";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         board.setBrdType("PEOPLE");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
-        // 1. 인물 기본 정보 저장
+        // 2. 인물 기본 정보 저장
         if (isUpdate) {
             board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
             boardMapper.updateBoard(board);

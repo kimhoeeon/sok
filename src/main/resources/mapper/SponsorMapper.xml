@@ -9,6 +9,9 @@
         <if test="isDonor != null and isDonor != ''">
             AND M.IS_DONOR = #{isDonor}
         </if>
+        <if test="withdrawYn != null and withdrawYn != ''">
+            AND M.WITHDRAW_YN = #{withdrawYn}
+        </if>
         <if test="searchKeyword != null and searchKeyword != ''">
             AND (M.MBR_NM LIKE CONCAT('%', #{searchKeyword}, '%')
             OR M.MBR_ID LIKE CONCAT('%', #{searchKeyword}, '%')

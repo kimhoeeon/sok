@@ -100,6 +100,8 @@ public class SponsorController {
 
         // 환불(REFUND) 요청일 때 권한 검증 수행
         if ("REFUND".equals(donation.getPayStatus())) {
+            donation.setRefundRsn(donation.getCancelRsn()); // 이 줄을 추가!
+
             if (admin == null || !"meetingfan".equals(admin.getMbrId())) {
                 rttr.addFlashAttribute("errorMessage", "환불 처리는 마스터(meetingfan) 계정만 가능합니다.");
                 return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
@@ -124,12 +126,15 @@ public class SponsorController {
         params.setPageNum(1); params.setAmount(1000000);
         List<MemberDTO> list = sponsorMapper.selectMemberList(params);
 
-        List<String> headers = Arrays.asList("회원번호", "회원구분", "후원이력", "회원명", "아이디", "연락처", "이메일", "누적기부횟수", "누적기부금액", "가입일");
+        // 헤더에 '가입상태', '탈퇴일시' 추가
+        List<String> headers = Arrays.asList("회원번호", "가입상태", "회원구분", "후원이력", "회원명", "아이디", "연락처", "이메일", "누적기부횟수", "누적기부금액", "가입일", "탈퇴일시");
         List<List<Object>> data = new ArrayList<>();
 
         for (MemberDTO mbr : list) {
             List<Object> row = new ArrayList<>();
             row.add(mbr.getMbrSeq());
+            // 상태값 추가
+            row.add("Y".equals(mbr.getWithdrawYn()) ? "탈퇴" : "정상");
             row.add("CORP".equals(mbr.getMbrType()) ? "기업/단체" : "개인");
             row.add("Y".equals(mbr.getIsDonor()) ? "Y" : "N");
             row.add(mbr.getMbrNm());
@@ -139,6 +144,8 @@ public class SponsorController {
             row.add(mbr.getTotalDonateCnt() != null ? mbr.getTotalDonateCnt() : 0);
             row.add(mbr.getTotalDonateAmt() != null ? mbr.getTotalDonateAmt() : 0);
             row.add(mbr.getJoinDt());
+            // 탈퇴일시 추가
+            row.add("Y".equals(mbr.getWithdrawYn()) ? mbr.getWithdrawDt() : "-");
             data.add(row);
         }
         ExcelUtils.download(response, "후원자_회원_목록", headers, data);

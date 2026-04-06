@@ -50,6 +50,14 @@
                         <input class="form-check-input" type="radio" name="category" value="프렌즈" id="cat4" ${people.category eq '프렌즈' ? 'checked' : ''}>
                         <label class="form-check-label text-white" for="cat4">프렌즈</label>
                     </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" value="스폰서" id="cat5" ${people.category eq '스폰서' ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat5">스폰서</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" value="소식" id="cat6" ${people.category eq '소식' ? 'checked' : ''}>
+                        <label class="form-check-label text-white" for="cat6">소식</label>
+                    </div>
                 </div>
             </div>
 

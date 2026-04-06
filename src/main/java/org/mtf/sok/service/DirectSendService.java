@@ -142,7 +142,7 @@ public class DirectSendService {
         String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
         String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
 
-        // ★ [핵심] 내용이 Null일 경우를 대비한 Null-Safe 처리 (NPE 방지)
+        // [핵심] 내용이 Null일 경우를 대비한 Null-Safe 처리 (NPE 방지)
         String safeContent = (request.getContent() != null) ? request.getContent().replaceAll("\n", "<br>") : "내용 없음";
 
         String body = String.format(

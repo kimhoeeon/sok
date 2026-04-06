@@ -204,12 +204,12 @@
         loadVisitorChart('DAY');
         loadApplyChart('DAY');
 
-        // ★ 실시간 시계 구동 스크립트
+        // 실시간 시계 구동 스크립트
         setInterval(updateLiveTime, 1000);
         updateLiveTime();
     });
 
-    // ★ 실시간 시계 업데이트 함수
+    // 실시간 시계 업데이트 함수
     function updateLiveTime() {
         const now = new Date();
         const timeStr = String(now.getHours()).padStart(2, '0') + ':' +

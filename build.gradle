@@ -43,6 +43,8 @@ dependencies {
     // SOK 스토리보드의 '엑셀 다운로드' 기능을 위한 POI 라이브러리
     implementation 'org.apache.poi:poi:5.2.3'
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    // 네이버 클라우드 Object Storage 연동을 위한 AWS S3 SDK
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.500'
 
     // 4. Lombok
     compileOnly 'org.projectlombok:lombok'

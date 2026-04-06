@@ -27,6 +27,8 @@
                 <option value="아티스트" ${params.category eq '아티스트' ? 'selected' : ''}>아티스트</option>
                 <option value="패밀리" ${params.category eq '패밀리' ? 'selected' : ''}>패밀리</option>
                 <option value="프렌즈" ${params.category eq '프렌즈' ? 'selected' : ''}>프렌즈</option>
+                <option value="스폰서" ${params.category eq '스폰서' ? 'selected' : ''}>스폰서</option>
+                <option value="소식" ${params.category eq '소식' ? 'selected' : ''}>소식</option>
             </select>
 
             <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="이름 또는 직책 검색" value="${params.searchKeyword}">

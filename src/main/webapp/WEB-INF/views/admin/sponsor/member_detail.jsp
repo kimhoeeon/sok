@@ -7,8 +7,21 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">회원/후원자 상세 정보</h3>
-    <a href="/admin/sponsor/member/list?pageNum=${params.pageNum}&amount=${params.amount}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <a href="/admin/sponsor/member/list?pageNum=${params.pageNum}&amount=${params.amount}&withdrawYn=${params.withdrawYn}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
+
+<c:if test="${member.withdrawYn eq 'Y'}">
+    <div class="alert p-3 mb-4 d-flex align-items-center" style="background: rgba(220, 53, 69, 0.1); border: 1px dashed rgba(220, 53, 69, 0.3);">
+        <i class="bi bi-exclamation-triangle-fill text-danger fs-3 me-3"></i>
+        <div>
+            <h5 class="text-danger fw-bold mb-1">사용자가 직접 탈퇴 처리한 계정입니다.</h5>
+            <span class="text-muted" style="font-size: 13px;">
+                탈퇴 일시: <fmt:formatDate value="${member.withdrawDt}" pattern="yyyy-MM-dd HH:mm:ss" />
+                (개인정보 보호법 및 SOK 정책에 따라, 보존 기간 만료 후 영구 삭제될 수 있습니다.)
+            </span>
+        </div>
+    </div>
+</c:if>
 
 <div class="row g-4">
     <div class="col-xl-5">

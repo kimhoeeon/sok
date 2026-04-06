@@ -5,6 +5,7 @@ import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
+import org.mtf.sok.service.NaverStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,8 +26,9 @@ public class ReportController {
     @Autowired
     private BoardMapper boardMapper;
 
-    @Value("${file.upload.dir}")
-    private String uploadDir;
+    // 네이버 클라우드 스토리지 서비스 주입
+    @Autowired
+    private NaverStorageService naverStorageService;
 
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
@@ -82,34 +84,33 @@ public class ReportController {
             boardMapper.insertBoard(board);
         }
 
-        // 2. 활동보고서 첨부파일 처리 (TB_FILE 연동)
+        // 2. 활동보고서 첨부파일 처리 (네이버 클라우드 연동)
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
-            String savePath = uploadDir + "report/";
-            File folder = new File(savePath);
-            if (!folder.exists()) folder.mkdirs();
-
             for (MultipartFile file : board.getUploadFiles()) {
                 if (!file.isEmpty()) {
                     try {
                         String originalFileName = file.getOriginalFilename();
-                        String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-                        String savedFileName = UUID.randomUUID().toString() + ext;
+                        String ext = originalFileName != null && originalFileName.contains(".")
+                                ? originalFileName.substring(originalFileName.lastIndexOf(".")) : "";
 
-                        File targetFile = new File(savePath + savedFileName);
-                        file.transferTo(targetFile);
+                        // 서버 로컬이 아닌 네이버 클라우드에 업로드하고 외부 접근 URL 반환받음
+                        String cloudUrl = naverStorageService.uploadFile(file, "report");
 
                         FileDTO fileDTO = new FileDTO();
                         fileDTO.setRefTable("TB_BOARD");
                         fileDTO.setRefSeq(board.getBrdSeq());
                         fileDTO.setOrgFileNm(originalFileName);
-                        fileDTO.setSaveFileNm(savedFileName);
-                        fileDTO.setFilePath("/upload/report/" + savedFileName);
+                        // 클라우드 URL의 마지막 파일명 부분 추출하여 저장
+                        fileDTO.setSaveFileNm(cloudUrl.substring(cloudUrl.lastIndexOf("/") + 1));
+                        // DB filePath에는 /upload/report/.. 가 아닌 클라우드 절대 URL(https://...) 이 들어갑니다.
+                        fileDTO.setFilePath(cloudUrl);
                         fileDTO.setFileSize(file.getSize());
                         fileDTO.setFileExt(ext);
 
                         boardMapper.insertFile(fileDTO);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        rttr.addFlashAttribute("errorMessage", "클라우드 파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
                     }
                 }
             }
