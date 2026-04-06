@@ -61,12 +61,18 @@
 
                 <c:if test="${not empty report.fileList}">
                     <div class="mt-3 p-3 border rounded" style="border-color: #474761 !important; background-color: #151521;">
-                        <span class="d-block text-muted mb-2">기존 첨부파일 목록</span>
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${report.fileList}">
-                                <li class="text-white mb-1">
-                                    <i class="bi bi-file-earmark-pdf me-2 text-danger"></i> ${file.orgFileNm}
-                                    <span class="text-muted ms-2" style="font-size: 11px;">(${file.fileSize} byte)</span>
+                                <li class="mb-2">
+                                    <a href="${file.filePath}" target="_blank" class="text-white text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-pdf me-2 text-danger fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 11px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,###.0"/> KB)
+                                        </span>
+                                        <i class="bi bi-download ms-2 text-info" style="font-size: 12px;"></i>
+                                    </a>
                                 </li>
                             </c:forEach>
                         </ul>
