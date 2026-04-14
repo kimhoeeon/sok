@@ -1,0 +1,286 @@
+@media screen and (max-width:1700px) {
+    .support_wrap{flex-direction: column-reverse;}
+    .support_wrap .detail{width: 100%;}
+    .support_wrap .support_form{position: relative;top: 0; width: 100%;}
+    
+}
+
+@media screen and (max-width:1400px) {
+
+    #container {padding: 90px 0;}
+
+    /* mypage */
+    .mypage_wrap .sub_top_tab{width: 100%;}
+    .mypage_wrap .sub_top_tab li{width: 25%;}
+    .mypage_wrap .sub_top_tab li a{width: 100%;min-width: inherit;}
+
+    /* login */
+    .login_wrap{gap: 30px;}
+    .login_wrap > div{padding: 60px;}
+
+    /* apply */
+    .work_wrap .work_guide{gap: 50px;}
+}
+
+@media screen and (max-width:1199px) {
+
+    /* sub page */
+    .board_gallery .board_gallery_box ul{grid-template-columns: repeat(2, 1fr);}
+
+    /* board */
+    .gallery_list ul li{width: 48%;}
+
+    /* mypage */
+
+    .mypage_wrap .sub_top_tab{flex-wrap: wrap; border-radius: 25px;}
+    .mypage_wrap .sub_top_tab li{width: 50%;}
+
+    /* apply */
+    .work_wrap .work_guide{flex-wrap: wrap;justify-content: start; gap: 20px;}
+    .apply_info{padding: 30px;}
+    .apply_info .form_box > label{min-width: 120px;}
+    .apply_info .form_box label span{font-size: 1em;}
+    .apply_info .sub_box label span{font-size: 0.875em;}
+    .radio_btn label{min-width: inherit;padding: 0 20px;}
+}
+
+@media screen and (max-width:899px) {
+
+    #container {padding: 60px 0;}
+
+    /* sub page */
+    .sub_top{padding: 90px 0 40px}
+    .sub_top_tit{font-size: 1.875em;}
+
+    .sub_tab .board_tab{gap: 10px;}
+
+    /* 2depth */
+    .depth_2{flex-direction: column; align-items: start; gap: 40px;}
+    .board_list .tit{font-size: 1.25em;}
+    .gallery_list ul li .tit{font-size: 1.25em;}
+
+    /* 팝업 */
+    .support_pop .pop_wrap{max-height: 80vh; overflow: auto; width: 90%;}
+    .donations_pop .pop_wrap{height: 80vh;overflow: auto; width: 90%;}
+
+    /* 기부하기 */
+    .donation_item{padding: 30px;margin-bottom: 20px;}
+    .donation_item .donation_top .tit{font-size: 1.25em;}
+    .donation_item .donation_content{padding: 30px;}
+    .donation_item .donation_content ul li{font-size: 1em;}
+    .donation_item .donation_content .donation_cost .total_dona{font-size: 1.25em;}
+    .donation_item .donation_content .donation_cost .current_dona{font-size: 2em;}
+    .donation_item .donation_top{margin-bottom: 20px;}
+
+    /* mypage */
+    .profile_info .form_box label{min-width: 70px;}
+    .profile_info .form_box label span{font-size: 1em;}
+    
+    /* login */
+    .login_wrap{gap: 10px;}
+    .login_wrap > div{padding: 20px; border-radius: 20px; gap: 20px;}
+
+    /* join */
+    .work_wrap .work_tit{font-size: 1.25em;}
+    .work_wrap .work_desc{font-size: 1em;}
+    .work_wrap .work_guide img{max-width: 100px;}
+    .work_wrap .work_guide li .gu{font-size: 1em;}
+    .work_wrap .work_guide li .desc{font-size: 0.875em;}
+    .work_wrap .work_desc br{display: none;}
+    .join_wrap{padding: 60px 20px;}
+    .apply_info .form_box{flex-direction: column; align-items: start;gap: 20px;}
+    .apply_info .sub_box{flex-direction: column; align-items: start; gap: 10px;}
+    .apply_info .sub_box .input{max-width: 100%;}
+}
+
+@media screen and (max-width:599px) {
+
+     /* sub page */
+    .sub_top{padding: 60px 0 30px}
+    .sub_top_tit{font-size: 1.25em;}
+    .sub_top_box .sub_top_nav span{font-size: 0.875em;}
+    .sound_btn .play{font-size: 0.875em;}
+    .sound_btn .play img{max-width: 20px;}
+    .sub_content{padding-top: 30px;}
+    .sub_tab{padding-bottom: 30px;}
+    .sub_tab .board_tab{display: grid; gap: 5px; grid-template-columns: repeat(4, 1fr);}
+    .sub_tab .board_tab li{font-size: 0.875em;}
+
+    .board_gallery .board_gallery_box ul{grid-template-columns: repeat(1, 1fr); gap: 30px 10px;}
+    .board_gallery .board_gallery_box ul li .tit{font-size: 1.25em;margin: 10px 0 20px;}
+    .board_gallery .board_gallery_box .thumbBox img{height: 200px;}
+    .date{font-size: 0.875em;}
+
+    /* paging */
+	.paging {margin-top: 40px;}
+	.paging ol li {font-size: 0.75rem; } 
+	.paging ol li a {width: 32px; height: 32px; line-height: 32px;}
+
+    /* 2depth */
+    .depth_2 .sub_top_tab{flex-wrap: wrap; gap: 5px; background: inherit;}
+    
+
+    /* board */
+    .board_top{flex-direction: column; align-items: start;}
+    .board_top .search_box{width: 100%;margin-top: 10px;}
+    .board_top .search_box .input input{width: 100%;}
+    .board_list .tit{font-size: 1em;}
+    .gallery_list ul li .tit{font-size: 1em;}
+    .gallery_list ul li .nae{font-size: 0.875em;}
+    .board_list ul li{padding: 25px 10px;}
+    .view_file{padding: 20px 10px; font-size: 0.875em;}
+    .view_post li{padding: 20px 10px;font-size: 0.875em;}
+    .gallery_list ul li{width: 100%;}
+    .depth_2 .sub_top_tab li a{font-size: 0.875em;}
+
+    /* 후원하기 */
+    .support_form .support_form_top .tit{font-size: 1.25em;margin-bottom: 20px;}
+    .support_form .support_form_top .join_graph::before{width: 83px; height: 75px; background-size: contain; top: -75px;}
+    .support_form .support_form_top .cost{font-size: 1.25em;}
+    .support_form .support_form_top .join{font-size: 0.875em;}
+    .support_form .support_form_top .txt{flex-direction: column;}
+    .support_form .support_form_top .txt .ongoing{font-size: 0.875em;}
+    .support_form .support_form_current{margin-top: 20px; padding: 20px;}
+    .support_form .support_form_current .tit{font-size: 1em;}
+    .support_form .support_form_current .current_box li{font-size: 1em;}
+    .support_form .support_form_current li{font-size: 0.875em; }
+    .support_form .support_form_current .support_txt{margin-top: 20px;}
+    .support_form .support_form_current .support_txt li{text-indent: 0px; padding-left: 10px;}
+    .support_form .support_form_current .support_txt li::before{top: 9px;}
+    .support_form .support_form_current .sup_btn button{font-size: 1em;padding: 12px 0;}
+    .support_wrap .detail .tit{font-size: 1.25em;}
+
+    /* 후원하기 팝업 */
+    .support_pop .pop_wrap{padding: 25px 15px;max-height: 76vh;}
+    .support_pop .pop_wrap .pop_tit button{top: 25px;right: 15px;}
+    .support_pop .pop_wrap .pop_tit .tit{font-size: 1.25em;}
+    .support_pop .pop_wrap .support_id .id_box{font-size: 0.875em;}
+    .support_pop .pop_wrap .support_id .anon{font-size: 0.875em;}
+    .support_pop .pop_wrap .sup_cost_top .nae .cost{font-size: 1.125em;}
+    .support_pop .pop_wrap .support_id .id_box .txt span{flex-direction: column;padding-left: 0;padding-top: 30px;}
+    .support_pop .pop_wrap .support_id .id_box .txt span::before{top: 0;left: 50%; transform: translateX(-50%);}
+    .support_pop .pop_wrap .sup_cost_btn{grid-template-columns: repeat(3, 1fr);}
+    .support_pop .pop_wrap .sup_cost_btn li{padding: 10px 0;}
+    .support_pop .pop_wrap .support_cost .txt{margin-top: 20px;}
+    .support_pop .pop_wrap .support_textarea textarea{padding: 15px; font-size: 0.875em;}
+    .support_pop .pop_wrap .support_btn{margin-top: 20px;}
+    .support_pop .pop_wrap .support_btn .btn{font-size: 1em;}
+
+    .donations_pop .pop_wrap{padding: 25px 15px;max-height: 76vh;}
+    .donations_pop .pop_wrap .pop_tit button{top: 25px;right: 15px;}
+    .donations_pop .pop_wrap .pop_tit .tit{font-size: 1.25em;}
+    .donations_pop .donations_card{padding: 80px 0 30px; height: 445px;margin: 15px 0;}
+    .donations_pop .donations_card .card_tit{font-size: 1.125em;}
+    .donations_pop .donations_card .card_name{font-size: 0.875em;margin-top: 10px;}
+    .donations_pop .donations_card ul{margin: 15px 0;}
+    .donations_pop .donations_card ul li{font-size: 0.875em;}
+    .donations_pop .donations_card ul li .nae{min-width: 120px;}
+    .donations_pop .donations_card .card_txt{font-size: 0.875em; width: 80%;}
+    .donations_pop .donations_card .card_date{font-size: 0.875em;margin-top: 30px;}
+    .donations_pop .donations_card .company{font-size: 0.875em;}
+    .donations_pop .down_btn{flex-direction: column;padding-bottom: 20px;}
+    .donations_pop .down_btn button{font-size: 0.875em;justify-content: center;}
+    .donations_pop .donations_btn .close_btn{margin-top: 20px; width: 100%;}
+
+    /* 기부현황 */
+    .all_donation span{font-size: 0.875em;}
+    .donation_item{padding: 20px; border-radius: 20px;}
+    .donation_item .donation_top .tit{font-size: 1em;}
+    .donation_item .donation_top .border{font-size: 0.875em;}
+    .donation_item .donation_content{padding: 20px; border-radius: 10px; flex-direction: column; align-items: start;}
+    .donation_item .donation_content ul{gap: 6px;}
+    .donation_item .donation_content ul li{font-size: 0.875em;}
+    .donation_item .donation_content .donation_cost{text-align: left; margin-top: 20px;}
+    .donation_item .donation_content .donation_cost .total_dona{font-size: 1em;}
+    .donation_item .donation_content .donation_cost .current_dona{font-size: 1.75em;margin-top: 5px;}
+
+    /* mypage */
+    .mypage_wrap .sub_top_tab li{width: 50%;}
+    .mypage_wrap .sub_top_tab li a{font-size: 0.875em;padding: 14px 0;}
+    .profile_info .profile_img{margin-bottom: 30px;}
+    .profile_info .profile_img .main img{max-width: 140px;}
+    .profile_info .form_box{flex-direction: column;align-items: start; gap: 10px;}
+    .profile_info .form_box label span{font-size: 1em;}
+    .profile_info .form_box .input input{height: 46px; font-size: 0.875em;}
+    .profile_info .form_row select{height: 46px; font-size: 0.875em;}
+    .profile_info .form_box label{font-size: 0.875em;}
+    .gender label{height: 46px;}
+    .email .select{width: 33%; flex-shrink: 0;}
+    .profile_info .w-33 .input{gap: 5px; font-size: 0.875em;}
+    .profile_info .form_row{margin-bottom: 20px;}
+    .save_btn{margin-top: 30px;}
+    .terms_info .terms_box .terms_txt{ font-size: 0.875em;}
+    .leave_info .tit{font-size: 1.25em;}
+    .leave_info .sub_tit{font-size: 0.875em;}
+    .leave_info .img img{max-width: 120px;}
+    .leave_info .leave_box .leave_txt{padding: 20px; font-size: 0.875em;}
+    .leave_info .info_txt{font-size: 0.875em;}
+
+    /* login */
+    .login_wrap{flex-direction: column;}
+    .login_wrap > div{width: 100%;}
+    .login_wrap .tit{font-size: 1.25em;}
+    .login_wrap .kakao_login a{padding: 12px 0; font-size: 0.875em;}
+    .login_wrap .basic_login a{padding: 12px 0; font-size: 0.875em;}
+    .form_box .login_box input{height: 46px; font-size: 0.875em;}
+    .form_box .login_box .btn a{height: 46px; font-size: 0.875em;}
+    .form_box .login_box .find_pass{font-size: 0.875em;}
+
+    /* finepw */
+    .login_wrap .login_tit{font-size: 1.25em;}
+    .finepw_form .radio_btn{flex-wrap: nowrap;}
+    .finepw_form .form_row{margin-bottom: 20px;}
+    .finepw_form .form_box .select{width: 28%;}
+    .finepw_form .form_box select{height: 46px; width: 100%; font-size: 0.875em;}
+    .finepw_form .form_box .input input{height: 46px; width: 28%;}
+    .finepw_form .form_box .input.flex{flex-wrap: wrap;gap: 5px;}
+    .finepw_form .form_box .cert{width: 100%;height: 46px;}
+    .finepw_form .main-c.w-100{font-size: 0.875em;}
+    .finepw_form .find_pass{font-size: 0.875em;}
+    .finepw_form .form_box .email .select{width:32%;}
+
+    /* join */
+    .join_wrap{padding: 30px 15px;}
+    .join_wrap .join_info .join_tit{font-size: 0.875em;}
+    .join_wrap .join_info .form_tit{font-size: 1em;}
+    .join_wrap .join_info .form_tit{margin-bottom: 20px;}
+    .join_wrap .join_info .form_row .form_box label{font-size: 0.875em;}
+    .join_wrap .join_info .form_row .input input{height: 46px; font-size: 0.875em;}
+    .join_wrap .join_info .form_row .select select{height: 46px; font-size: 0.875em;}
+    .join_wrap .join_info .form_row .input input::placeholder{font-size:1em;}
+    .join_wrap .join_info .form_row .radio{gap: 10px;}
+    .join_wrap .join_info .form_row .btn_file{font-size: 0.875em;}
+    .join_wrap .join_info .form_row .upload_file{font-size: 0.875em;}
+    .join_wrap .join_info .form_row .upload_file a img{width: 16px; height: 16px;}
+    .join_wrap .join_info .form_row .input.w-33{gap: 5px;}
+    .join_wrap .join_info .agree_row .agree_tit{font-size: 1em;}
+    .join_wrap .join_info .agree_row .agree_all div{font-size: 0.875em;}
+    .join_wrap .join_info .agree_row .agree_check label div{font-size: 0.875em;}
+    .join_wrap .join_info .info_txt{font-size: 0.875em;}
+    .join_wrap .join_info .join_btn button{padding: 16px 0;}
+
+    /* apply */
+    .work_wrap .work_tit{font-size: 1em;}
+    .work_wrap .work_desc{font-size: 0.875em;margin-bottom: 30px;}
+    .work_wrap .work_guide{margin-bottom: 30px;}
+    .work_wrap .work_guide li{gap: 10px;width: 100%;}
+    .work_wrap .work_guide img{max-width: 70px;}
+    .work_wrap .work_guide li .gu{margin-bottom: 5px;}
+    .apply_btn{margin-top: 30px;}
+    .apply_btn .apply{font-size: 1em;}
+    .apply_info{border-radius: 20px;padding: 20px;}
+    .radio_btn{flex-wrap: wrap;width: 100%;}
+    .radio_btn label{height: 46px;font-size: 0.875em;width: 45%; padding: 0 20px;}
+    .apply_info .sub_box .input input{height: 46px; font-size: 0.875em;}
+    .apply_info .sub_box select{height: 46px; font-size: 0.875em;}
+    .apply_info .form_row{margin-bottom: 20px;}
+    .apply_info .sub_box .input.w-33{gap: 5px;}
+    .apply_info .sub_box .agree label{font-size: 0.875em;}
+    .apply_info .sub_box .prevention_wrap{flex-wrap: wrap;}
+    .apply_info .sub_box .prevention button img{max-width: 40px;}
+    .prevention .txt{font-size: 0.875em;}
+    .pre{font-size: 0.875em;}
+    .issue_btn{text-align: left;}
+    .work_wrap .work_tit.mb-60{margin-bottom: 30px;}
+
+}

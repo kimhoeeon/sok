@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'NanumSquareNeoLight';
+    src: url('/fonts/NanumSquareNeoTTF-aLt.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NanumSquareNeo';
+    src: url('/fonts/NanumSquareNeoTTF-bRg.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NanumSquareNeoBold';
+    src: url('/fonts/NanumSquareNeoTTF-cBd.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NanumSquareNeoExtraBold';
+    src: url('/fonts/NanumSquareNeoTTF-dEb.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NanumSquareNeoHeavy';
+    src: url('/fonts/NanumSquareNeoTTF-eHv.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NanumSquareNeoVariable';
+    src: url('/fonts/NanumSquareNeo-Variable.woff') format('woff');
+    font-display: swap;
+}
+
+
+body,
+ol,
+a,
+input,
+select,
+textarea,
+button {
+	line-height: 1.4;
+    color: #000;
+    font-family: "NanumSquareNeo", sans-serif;
+    font-weight: 600;
+    word-break: keep-all;
+}
