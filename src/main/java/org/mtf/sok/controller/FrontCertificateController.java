@@ -59,21 +59,4 @@ public class FrontCertificateController {
         return "certificate/status_result";
     }
 
-    // 4. 발급 상태 결과 조회 처리 (AJAX를 통해 결과 리스트 반환)
-    @PostMapping("/statusProc")
-    @ResponseBody
-    public ResponseEntity<?> statusProc(@RequestParam("applyNm") String applyNm, @RequestParam("phone") String phone) {
-        try {
-            List<CertificateDTO> myList = certificateMapper.selectMyCertificateStatus(applyNm, phone);
-            if (myList.isEmpty()) {
-                return ResponseEntity.badRequest().body("입력하신 정보로 조회된 신청 내역이 없습니다.");
-            }
-            // 정상 조회 시 JSON 데이터 반환 (status_result.jsp나 js에서 그려줌)
-            return ResponseEntity.ok(myList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body("조회 중 오류가 발생했습니다.");
-        }
-    }
-
 }
