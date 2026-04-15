@@ -62,7 +62,7 @@
         WHERE BRD_SEQ = #{brdSeq}
     </update>
 
-    <update id="updateViewCnt">
+    <update id="updateViewCnt" parameterType="long">
         UPDATE TB_BOARD
         SET VIEW_CNT = VIEW_CNT + 1
         WHERE BRD_SEQ = #{brdSeq}

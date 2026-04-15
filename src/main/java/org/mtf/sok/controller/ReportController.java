@@ -6,6 +6,7 @@ import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.service.NaverStorageService;
+import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,9 +30,11 @@ public class ReportController {
     @Autowired
     private BoardMapper boardMapper;
 
-    // 네이버 클라우드 스토리지 서비스 주입
     @Autowired
-    private NaverStorageService naverStorageService;
+    private FileController fileController;
+
+    @Value("${file.upload.dir}")
+    private String uploadDir;
 
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
@@ -49,20 +55,19 @@ public class ReportController {
     public String form(@RequestParam(required = false) Long brdSeq,
                        @ModelAttribute("params") BoardDTO params,
                        Model model) {
-        BoardDTO report = new BoardDTO();
+        BoardDTO board = new BoardDTO();
 
         if (brdSeq != null) {
-            report = boardMapper.selectBoard(brdSeq);
-
-            // 기존 첨부파일(PDF 책자 등) 조회
+            board = boardMapper.selectBoard(brdSeq);
             FileDTO fileParams = new FileDTO();
             fileParams.setRefTable("TB_BOARD");
             fileParams.setRefSeq(brdSeq);
-            List<FileDTO> files = boardMapper.selectFiles(fileParams);
-            report.setFileList(files);
+            board.setFileList(boardMapper.selectFiles(fileParams));
+        } else {
+            board.setIsNotice("N");
         }
 
-        model.addAttribute("report", report);
+        model.addAttribute("report", board);
         return "admin/report/form";
     }
 
@@ -84,33 +89,34 @@ public class ReportController {
             boardMapper.insertBoard(board);
         }
 
-        // 2. 활동보고서 첨부파일 처리 (네이버 클라우드 연동)
+        // 2. 활동보고서 첨부파일 처리
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
+            String savePath = uploadDir + "report/";
+            File folder = new File(savePath);
+            if (!folder.exists()) folder.mkdirs();
+
             for (MultipartFile file : board.getUploadFiles()) {
                 if (!file.isEmpty()) {
                     try {
                         String originalFileName = file.getOriginalFilename();
-                        String ext = originalFileName != null && originalFileName.contains(".")
-                                ? originalFileName.substring(originalFileName.lastIndexOf(".")) : "";
+                        String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                        String savedFileName = UUID.randomUUID().toString() + ext;
 
-                        // 서버 로컬이 아닌 네이버 클라우드에 업로드하고 외부 접근 URL 반환받음
-                        String cloudUrl = naverStorageService.uploadFile(file, "report");
+                        File targetFile = new File(savePath + savedFileName);
+                        file.transferTo(targetFile);
 
                         FileDTO fileDTO = new FileDTO();
                         fileDTO.setRefTable("TB_BOARD");
                         fileDTO.setRefSeq(board.getBrdSeq());
                         fileDTO.setOrgFileNm(originalFileName);
-                        // 클라우드 URL의 마지막 파일명 부분 추출하여 저장
-                        fileDTO.setSaveFileNm(cloudUrl.substring(cloudUrl.lastIndexOf("/") + 1));
-                        // DB filePath에는 /upload/report/.. 가 아닌 클라우드 절대 URL(https://...) 이 들어갑니다.
-                        fileDTO.setFilePath(cloudUrl);
+                        fileDTO.setSaveFileNm(savedFileName);
+                        fileDTO.setFilePath("/upload/report/" + savedFileName);
                         fileDTO.setFileSize(file.getSize());
                         fileDTO.setFileExt(ext);
 
                         boardMapper.insertFile(fileDTO);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        rttr.addFlashAttribute("errorMessage", "클라우드 파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
                     }
                 }
             }
@@ -131,13 +137,52 @@ public class ReportController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
+
+        // 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
+        FileDTO fileParams = new FileDTO();
+        fileParams.setRefTable("TB_BOARD");
+        fileParams.setRefSeq(brdSeq);
+        List<FileDTO> fileList = boardMapper.selectFiles(fileParams);
+
+        // 2. 서버 로컬에서 실제 물리 파일 삭제
+        if (fileList != null && !fileList.isEmpty()) {
+            for (FileDTO file : fileList) {
+                fileController.deleteLocalFile(file.getFilePath());
+            }
+        }
+
+        // 3. 기존 글 삭제 로직
         boardMapper.deleteBoard(brdSeq);
 
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
-        rttr.addAttribute("category", params.getCategory());
+        rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
         return "redirect:/admin/report/list";
     }
+
+    @GetMapping("/excel")
+    public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
+        params.setPageNum(1);
+        params.setAmount(1000000);
+        params.setBrdType("REPORT");
+
+        List<BoardDTO> list = boardMapper.selectBoardList(params);
+        List<String> headers = Arrays.asList("연번", "카테고리", "중요여부", "제목", "조회수", "등록일시");
+        List<List<Object>> data = new ArrayList<>();
+
+        for (BoardDTO board : list) {
+            List<Object> row = new ArrayList<>();
+            row.add(board.getBrdSeq());
+            row.add(board.getCategory());
+            row.add("Y".equals(board.getIsNotice()) ? "중요" : "일반");
+            row.add(board.getTitle());
+            row.add(board.getViewCnt());
+            row.add(board.getRegDt());
+            data.add(row);
+        }
+        ExcelUtils.download(response, "활동보고서_내역", headers, data);
+    }
+
 }

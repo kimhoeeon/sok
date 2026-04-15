@@ -43,6 +43,7 @@
             <div class="collapse collapse-menu show" id="collapseMenuManage">
                 <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="/admin/people/list">함께하는 사람들 관리</a>
                 <a class="nav-link ${param.menuId eq 'notice' ? 'active text-white' : ''}" href="/admin/notice/list">공지사항 관리</a>
+                <a class="nav-link ${param.menuId eq 'news' ? 'active text-white' : ''}" href="/admin/news/list">보도자료 관리</a>
                 <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="/admin/management/list">경영공시 관리</a>
                 <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-white' : ''}" href="/admin/bidding/list">입찰정보 관리</a>
                 <a class="nav-link ${param.menuId eq 'report' ? 'active text-white' : ''}" href="/admin/report/list">활동보고서 관리</a>

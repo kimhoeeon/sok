@@ -26,4 +26,11 @@ public interface MemberMapper {
     MemberDTO selectMemberById(String mbrId);
 
     void insertKakaoMember(MemberDTO memberDTO);
+
+    // [프론트엔드용 추가] 비밀번호 찾기를 위한 회원 검증 (이메일 또는 연락처)
+    MemberDTO selectMemberForFindPw(MemberDTO memberDTO);
+
+    // [프론트엔드용 추가] 임시 비밀번호로 DB 업데이트
+    void updatePassword(MemberDTO memberDTO);
+
 }

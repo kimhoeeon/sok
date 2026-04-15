@@ -99,4 +99,22 @@
         VALUES (#{mbrId}, #{mbrPw}, #{mbrNm}, 'USER', 'INDIVIDUAL', 'KAKAO', #{email}, NOW(), 'N')
     </insert>
 
+    <select id="selectMemberForFindPw" parameterType="org.mtf.sok.domain.MemberDTO" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER
+        WHERE WITHDRAW_YN = 'N'
+        AND LOGIN_TYPE = 'GENERAL'
+        <if test="phone != null and phone != ''">
+            AND PHONE = #{phone}
+        </if>
+        <if test="email != null and email != ''">
+            AND EMAIL = #{email}
+        </if>
+    </select>
+
+    <update id="updatePassword" parameterType="org.mtf.sok.domain.MemberDTO">
+        UPDATE TB_MEMBER
+        SET MBR_PW = #{mbrPw}
+        WHERE MBR_ID = #{mbrId}
+    </update>
+
 </mapper>

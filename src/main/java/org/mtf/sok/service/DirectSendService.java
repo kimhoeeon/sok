@@ -30,6 +30,9 @@ public class DirectSendService {
     private final String API_KEY = "L7QNsEQIyrAzNHO";
     private final String API_URL = "https://directsend.co.kr/index.php/api_v2/mail_change_word";
 
+    private final String SMS_API_URL = "https://directsend.co.kr/index.php/api_v2/sms_send";
+    private final String SENDER_PHONE = "024471179";
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // 문의 유형별 다중 수신자 맵핑
@@ -235,5 +238,103 @@ public class DirectSendService {
             case "REJECT": return "처리 불가(반려)";
             default: return status;
         }
+    }
+
+    // --------------------------------------------------------------------
+    // 3. [신규 추가] 프론트엔드 비밀번호 찾기 (이메일 & SMS) 로직
+    // --------------------------------------------------------------------
+
+    // 임시 비밀번호 이메일 발송
+    public void sendTempPwMail(String toEmail, String tempPw) {
+        String subject = "[스페셜올림픽코리아] 임시 비밀번호 발급 안내";
+        String body = String.format(
+                "<div style='margin:30px; border:1px solid #ddd; padding:30px; font-family:sans-serif;'>"
+                        + "<h2 style='color:#e41b13;'>임시 비밀번호 발급 안내</h2>"
+                        + "<p>안녕하세요. 스페셜올림픽코리아입니다.</p>"
+                        + "<p>요청하신 임시 비밀번호가 아래와 같이 발급되었습니다.</p>"
+                        + "<div style='background:#f9f9f9; padding:20px; margin:20px 0; text-align:center;'>"
+                        + "임시 비밀번호: <strong style='color:#333; font-size:24px; letter-spacing:2px;'>%s</strong>"
+                        + "</div>"
+                        + "<p>보안을 위해 로그인 후 마이페이지에서 <strong>반드시 비밀번호를 변경</strong>해 주시기 바랍니다.</p>"
+                        + "<p style='color:#888; font-size:12px; margin-top:30px;'>본 메일은 발신 전용이므로 회신되지 않습니다.</p>"
+                        + "</div>",
+                tempPw
+        );
+        // 기존에 만들어져 있는 다중 수신자 래퍼 메서드를 재활용합니다.
+        sendMailToMultipleReceivers(Collections.singletonList(toEmail), subject, body);
+    }
+
+    // 임시 비밀번호 SMS 발송
+    public void sendTempPwSms(String toPhone, String tempPw) {
+        String message = String.format("[스페셜올림픽코리아]\n요청하신 임시 비밀번호는 [%s] 입니다. 로그인 후 변경해 주세요.", tempPw);
+        String cleanPhone = toPhone.replaceAll("-", "");
+        processSmsSend(cleanPhone, message);
+    }
+
+    // DirectSend API 실제 통신부 (SMS 전용)
+    public ResponseDTO processSmsSend(String receiver, String message) {
+        log.info("DirectSend SMS 발송 시작: 수신자 {}", receiver);
+        ResponseDTO responseDto = new ResponseDTO();
+
+        try {
+            URL obj = new URL(SMS_API_URL);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
+            con.setRequestProperty("Cache-Control", "no-cache");
+            con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            con.setRequestProperty("Accept", "application/json");
+
+            // JSON 파라미터 조립 (DirectSend SMS 규격)
+            ObjectNode rootNode = objectMapper.createObjectNode();
+            rootNode.put("message", message);
+            rootNode.put("sender", SENDER_PHONE);
+            rootNode.put("username", USERNAME);
+            rootNode.put("key", API_KEY);
+
+            ArrayNode receiverArray = objectMapper.createArrayNode();
+            ObjectNode receiverNode = objectMapper.createObjectNode();
+            receiverNode.put("mobile", receiver);
+            receiverArray.add(receiverNode);
+
+            rootNode.set("receiver", receiverArray);
+
+            String urlParameters = objectMapper.writeValueAsString(rootNode);
+
+            // 전송 실행
+            System.setProperty("jsse.enableSNIExtension", "false");
+            con.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8);
+            wr.write(urlParameters);
+            wr.flush();
+            wr.close();
+
+            // 결과 파싱
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            JsonNode responseObj = objectMapper.readTree(response.toString());
+            if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
+                responseDto.setResultCode("SUCCESS");
+                responseDto.setResultMessage("성공");
+                log.info("DirectSend SMS 발송 성공");
+            } else {
+                responseDto.setResultCode("FAIL");
+                responseDto.setResultMessage("실패");
+                log.warn("DirectSend SMS 발송 실패: {}", response.toString());
+            }
+        } catch (Exception e) {
+            log.error("SMS Send Error", e);
+            responseDto.setResultCode("FAIL");
+            responseDto.setResultMessage(e.getMessage());
+        }
+
+        return responseDto;
     }
 }

@@ -42,7 +42,7 @@ public class SecurityConfig {
         http.csrf().disable() // 현재 AJAX 폼 구조 유지를 위해 비활성화
                 .authorizeRequests()
                 .antMatchers("/admin/login").permitAll() // 관리자 로그인 화면은 누구나 접근 가능
-                .antMatchers("/admin/**").hasRole("ADMIN") // ★ 핵심: 관리자 폴더 하위는 ADMIN 권한 필수
+                .antMatchers("/admin/**").hasRole("ADMIN") // 핵심: 관리자 폴더 하위는 ADMIN 권한 필수
                 .antMatchers("/mypage/**").authenticated() // 마이페이지는 일반 로그인 이상
                 .anyRequest().permitAll()
                 .and()
@@ -68,7 +68,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ★ 권한별 로그인 성공 핸들러 (사용자와 관리자 분기 처리)
+    // 권한별 로그인 성공 핸들러 (사용자와 관리자 분기 처리)
     @Bean
     public AuthenticationSuccessHandler customSuccessHandler() {
         return (request, response, authentication) -> {

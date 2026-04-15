@@ -107,12 +107,12 @@
             url: "/admin/file/uploadImage",
             contentType: false,
             processData: false,
-            success: function(data) {
-                if(data.responseCode === "success") {
-                    $(editor).summernote('insertImage', data.url);
-                } else {
-                    alert("이미지 업로드에 실패했습니다.");
-                }
+            success: function(url) {
+                // 컨트롤러가 반환한 URL 문자열을 그대로 에디터에 삽입
+                $(editor).summernote('insertImage', url);
+            },
+            error: function () {
+                alert("이미지 업로드에 실패했습니다.");
             }
         });
     }

@@ -246,7 +246,7 @@
         $('#displayAmount').text(currentAmount.toLocaleString() + ' 원');
     }
 
-    // ★ 토스 페이먼츠 결제창 호출 로직
+    // 토스 페이먼츠 결제창 호출 로직
     function requestTossPayment() {
         // 1. 로그인 체크 (JSTL로 삽입된 JS 변수 활용)
         const isLogin = ${not empty sessionScope.userLogin};

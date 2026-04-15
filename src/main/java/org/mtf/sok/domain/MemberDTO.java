@@ -29,7 +29,7 @@ public class MemberDTO extends Criteria {
     private String snsType; // 연동 플랫폼 (예: "KAKAO")
     private String snsId;   // 카카오에서 부여받은 고유 회원 번호
 
-    // ★ 마이페이지용 추가 필드
+    // 마이페이지용 추가 필드
     private String profileImg;
     private String birthYear;
     private String gender;

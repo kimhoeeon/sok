@@ -2,7 +2,10 @@ package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.MemberMapper;
+import org.mtf.sok.service.DirectSendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,13 @@ public class FrontLoginController {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // 이메일/알림톡 연동 서비스 주입
+    @Autowired
+    private DirectSendService directSendService;
+
     // 1. 로그인 수단 선택 메인 화면 (개인/단체 이원화)
     @GetMapping("/login")
     public String loginMain() {
@@ -28,7 +38,7 @@ public class FrontLoginController {
     // 2. 단체 회원(일반 로그인) 폼 화면 이동
     @GetMapping("/login/basic")
     public String loginBasic(@RequestParam(value = "error", required = false) String error, Model model) {
-        if(error != null) {
+        if (error != null) {
             model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
         }
         return "member/login_basic";
@@ -65,24 +75,45 @@ public class FrontLoginController {
         return "member/findpw";
     }
 
-    // 6. 비밀번호 인증 및 초기화 처리 (AJAX 용)
+    // 6. 비밀번호 인증 및 초기화 처리 (AJAX) - 실제 로직 완결
     @PostMapping("/findPwProc")
     @ResponseBody
-    public org.springframework.http.ResponseEntity<?> findPwProc(String authMethod, String phone, String email) {
+    public ResponseEntity<?> findPwProc(String authMethod, String phone, String email) {
         try {
-            // TODO: 실제 프로젝트 환경에 맞추어 아래 로직을 구현해야 합니다.
-            // 1. authMethod("phone" 또는 "email")에 따라 회원 DB 조회
-            // 2. 일치하는 회원이 있으면 임시 비밀번호 생성 및 DB 업데이트
-            // 3. 해당 연락처나 이메일로 알림톡/메일 발송
+            MemberDTO searchParam = new MemberDTO();
 
-            System.out.println("인증방식: " + authMethod);
-            System.out.println("휴대전화: " + phone);
-            System.out.println("이메일: " + email);
+            // 1. 선택한 인증 수단 세팅
+            if ("phone".equals(authMethod)) {
+                searchParam.setPhone(phone);
+            } else {
+                searchParam.setEmail(email);
+            }
 
-            return org.springframework.http.ResponseEntity.ok("입력하신 연락처/이메일로 임시 비밀번호가 발송되었습니다.");
+            // 2. 가입된 회원인지 (일반 로그인 유저인지) 조회
+            MemberDTO member = memberMapper.selectMemberForFindPw(searchParam);
+            if (member == null) {
+                return ResponseEntity.badRequest().body("입력하신 정보와 일치하는 일반 회원 내역이 없습니다.");
+            }
+
+            // 3. 임시 비밀번호 생성 (UUID에서 대시를 제외하고 앞 8자리 영문/숫자 추출)
+            String tempPw = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+
+            // 4. 발급된 임시 비밀번호 암호화 후 DB 업데이트 (Spring Security 호환)
+            member.setMbrPw(passwordEncoder.encode(tempPw));
+            memberMapper.updatePassword(member);
+
+            // 5. 알림톡 또는 이메일로 전송 (DirectSendService 활용)
+            if ("phone".equals(authMethod)) {
+                directSendService.sendTempPwSms(member.getPhone(), tempPw);
+            } else {
+                directSendService.sendTempPwMail(member.getEmail(), tempPw);
+            }
+
+            return ResponseEntity.ok("입력하신 연락처/이메일로 임시 비밀번호가 발송되었습니다.\n로그인 후 반드시 비밀번호를 변경해 주세요.");
+
         } catch (Exception e) {
             e.printStackTrace();
-            return org.springframework.http.ResponseEntity.internalServerError().body("처리 중 오류가 발생했습니다.");
+            return ResponseEntity.internalServerError().body("처리 중 오류가 발생했습니다.");
         }
     }
 

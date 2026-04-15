@@ -5,6 +5,7 @@ import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
+import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +28,9 @@ public class BiddingController {
 
     @Autowired
     private BoardMapper boardMapper;
+
+    @Autowired
+    private FileController fileController;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -55,6 +62,8 @@ public class BiddingController {
             fileParams.setRefTable("TB_BOARD");
             fileParams.setRefSeq(brdSeq);
             board.setFileList(boardMapper.selectFiles(fileParams));
+        } else {
+            board.setIsNotice("N");
         }
 
         model.addAttribute("bidding", board);
@@ -124,13 +133,51 @@ public class BiddingController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
+
+        // ★ 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
+        FileDTO fileParams = new FileDTO();
+        fileParams.setRefTable("TB_BOARD");
+        fileParams.setRefSeq(brdSeq);
+        List<FileDTO> fileList = boardMapper.selectFiles(fileParams);
+
+        // ★ 2. 서버 로컬에서 실제 물리 파일 삭제
+        if (fileList != null && !fileList.isEmpty()) {
+            for (FileDTO file : fileList) {
+                fileController.deleteLocalFile(file.getFilePath());
+            }
+        }
+
+        // 3. 기존 글 삭제 로직
         boardMapper.deleteBoard(brdSeq);
 
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
-        rttr.addAttribute("category", params.getCategory());
+        rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
         return "redirect:/admin/bidding/list";
+    }
+
+    @GetMapping("/excel")
+    public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
+        params.setPageNum(1);
+        params.setAmount(1000000);
+        params.setBrdType("BIDDING");
+
+        List<BoardDTO> list = boardMapper.selectBoardList(params);
+        List<String> headers = Arrays.asList("연번", "카테고리", "중요여부", "제목", "조회수", "등록일시");
+        List<List<Object>> data = new ArrayList<>();
+
+        for (BoardDTO board : list) {
+            List<Object> row = new ArrayList<>();
+            row.add(board.getBrdSeq());
+            row.add(board.getCategory());
+            row.add("Y".equals(board.getIsNotice()) ? "중요" : "일반");
+            row.add(board.getTitle());
+            row.add(board.getViewCnt());
+            row.add(board.getRegDt());
+            data.add(row);
+        }
+        ExcelUtils.download(response, "입찰정보_내역", headers, data);
     }
 }

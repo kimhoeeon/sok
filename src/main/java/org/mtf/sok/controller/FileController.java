@@ -53,6 +53,23 @@ public class FileController {
         }
     }
 
+    // 관리자 게시판에서 글 삭제 시 호출할 물리 파일 삭제 유틸리티
+    public boolean deleteLocalFile(String filePath) {
+        if (filePath == null || filePath.isEmpty()) return false;
+        try {
+            // DB에 저장된 "/upload/notice/xxx.png" 경로를 실제 서버의 물리 경로로 변환
+            String realPath = uploadDir + filePath.replace("/upload/", "");
+            File targetFile = new File(realPath);
+
+            if (targetFile.exists()) {
+                return targetFile.delete(); // 실제 파일 삭제
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private ResponseEntity<?> saveLocalFile(MultipartFile file, String subDir) {
         if (file.isEmpty()) return ResponseEntity.badRequest().body("파일이 없습니다.");
         try {
@@ -71,4 +88,5 @@ public class FileController {
             return ResponseEntity.internalServerError().body("서버 오류 발생");
         }
     }
+
 }
