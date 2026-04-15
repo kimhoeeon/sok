@@ -12,6 +12,11 @@ public class PopupDTO extends Criteria {
 
     private Long popSeq;
     private String title;
+    private String content;
+    private Integer width;
+    private Integer height;
+    private Integer topPos;
+    private Integer leftPos;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startDt;

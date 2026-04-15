@@ -19,4 +19,6 @@ public interface PopupMapper {
 
     void deletePopup(Long popSeq);
 
+    List<PopupDTO> selectActivePopupList();
+
 }

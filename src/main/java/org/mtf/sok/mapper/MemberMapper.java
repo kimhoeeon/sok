@@ -22,4 +22,8 @@ public interface MemberMapper {
     void updateOptionalAgreement(MemberDTO memberDTO);
 
     void updateMarketingAgreement(MemberDTO memberDTO);
+
+    MemberDTO selectMemberById(String mbrId);
+
+    void insertKakaoMember(MemberDTO memberDTO);
 }

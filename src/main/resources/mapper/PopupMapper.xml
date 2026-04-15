@@ -2,59 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.PopupMapper">
 
-    <sql id="popupSearchCondition">
-        <if test="searchKeyword != null and searchKeyword != ''">
-            AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-        </if>
-        <if test="searchUseYnOnly != null and searchUseYnOnly == 'Y'">
-            AND USE_YN = 'Y'
-        </if>
-    </sql>
-
-    <select id="selectPopupList" resultType="org.mtf.sok.domain.PopupDTO">
-        SELECT POP_SEQ, TITLE, START_DT, END_DT, USE_YN, REG_DT
-        FROM TB_POPUP
+    <select id="selectPopupList" parameterType="org.mtf.sok.domain.PopupDTO" resultType="org.mtf.sok.domain.PopupDTO">
+        SELECT * FROM TB_POPUP
         WHERE DEL_YN = 'N'
-        <include refid="popupSearchCondition"/>
-        ORDER BY POP_SEQ DESC
-        LIMIT #{offset}, #{amount}
+        ORDER BY REG_DT DESC
     </select>
 
-    <select id="selectPopupTotalCount" resultType="int">
-        SELECT COUNT(*)
-        FROM TB_POPUP
-        WHERE DEL_YN = 'N'
-        <include refid="popupSearchCondition"/>
+    <select id="selectPopup" parameterType="int" resultType="org.mtf.sok.domain.PopupDTO">
+        SELECT * FROM TB_POPUP WHERE POP_SEQ = #{popSeq}
     </select>
 
-    <select id="selectPopup" resultType="org.mtf.sok.domain.PopupDTO">
-        SELECT *
-        FROM TB_POPUP
-        WHERE POP_SEQ = #{popSeq}
-          AND DEL_YN = 'N'
-    </select>
-
-    <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO" useGeneratedKeys="true" keyProperty="popSeq">
-        INSERT INTO TB_POPUP (TITLE, START_DT, END_DT, USE_YN, REG_ID, REG_DT)
-        VALUES (#{title}, #{startDt}, #{endDt}, #{useYn}, #{regId}, NOW())
+    <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO">
+        INSERT INTO TB_POPUP (
+            TITLE, CONTENT, WIDTH, HEIGHT, TOP_POS, LEFT_POS, START_DT, END_DT, USE_YN, REG_ID, REG_DT, DEL_YN
+        ) VALUES (
+                     #{title}, #{content}, #{width}, #{height}, #{topPos}, #{leftPos}, #{startDt}, #{endDt}, #{useYn}, #{regId}, NOW(), 'N'
+                 )
     </insert>
 
     <update id="updatePopup" parameterType="org.mtf.sok.domain.PopupDTO">
         UPDATE TB_POPUP
-        SET TITLE    = #{title},
+        SET TITLE = #{title},
+            CONTENT = #{content},
+            WIDTH = #{width},
+            HEIGHT = #{height},
+            TOP_POS = #{topPos},
+            LEFT_POS = #{leftPos},
             START_DT = #{startDt},
-            END_DT   = #{endDt},
-            USE_YN   = #{useYn},
-            MOD_ID   = #{modId},
-            MOD_DT   = NOW()
-        WHERE POP_SEQ = #{popSeq}
-    </update>
-
-    <update id="deletePopup">
-        UPDATE TB_POPUP
-        SET DEL_YN = 'Y',
+            END_DT = #{endDt},
+            USE_YN = #{useYn},
+            MOD_ID = #{modId},
             MOD_DT = NOW()
         WHERE POP_SEQ = #{popSeq}
     </update>
+
+    <update id="deletePopup" parameterType="int">
+        UPDATE TB_POPUP SET DEL_YN = 'Y', MOD_DT = NOW() WHERE POP_SEQ = #{popSeq}
+    </update>
+
+    <select id="selectActivePopupList" resultType="org.mtf.sok.domain.PopupDTO">
+        SELECT * FROM TB_POPUP
+        WHERE DEL_YN = 'N'
+          AND USE_YN = 'Y'
+          AND NOW() BETWEEN START_DT AND END_DT
+        ORDER BY REG_DT DESC
+    </select>
 
 </mapper>

@@ -17,6 +17,7 @@ public class MemberDTO extends Criteria {
     private String instType;
     private String loginType;    // GENERAL, KAKAO
     private String bizNo;        // 사업자번호
+    private String bizFilePath;  // 사업자등록증 파일 경로
     private String managerNm;    // 담당자명
     private String managerPos;   // 담당자 직함
     private String phone;

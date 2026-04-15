@@ -4,8 +4,10 @@ import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +27,10 @@ public class FrontLoginController {
 
     // 2. 단체 회원(일반 로그인) 폼 화면 이동
     @GetMapping("/login/basic")
-    public String loginBasic() {
+    public String loginBasic(@RequestParam(value = "error", required = false) String error, Model model) {
+        if(error != null) {
+            model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
         return "member/login_basic";
     }
 

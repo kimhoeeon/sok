@@ -26,7 +26,7 @@
                                INST_TYPE,
                                LOGIN_TYPE,
                                BIZ_NO,
-                               MANAGER_NM,
+                               BIZ_FILE_PATH, MANAGER_NM,
                                MANAGER_POS,
                                PHONE,
                                EMAIL,
@@ -35,11 +35,13 @@
                                WITHDRAW_YN)
         VALUES (#{mbrId},
                 #{mbrPw},
-                #{instNm}, 'USER',
+                #{instNm},
+                'USER',
                 'CORP',
-                #{instType}, 'GENERAL',
+                #{instType},
+                'GENERAL',
                 #{bizNo},
-                #{mgrNm},
+                #{bizFilePath}, #{mgrNm},
                 #{mgrPos},
                 #{phone},
                 #{email},
@@ -50,18 +52,20 @@
 
     <update id="updateMemberProfile" parameterType="org.mtf.sok.domain.MemberDTO">
         UPDATE TB_MEMBER
-        SET PHONE = #{phone},
-            EMAIL = #{email},
+        SET PHONE       = #{phone},
+            EMAIL       = #{email},
             PROFILE_IMG = #{profileImg},
-            BIRTH_YEAR = #{birthYear},
-            GENDER = #{gender},
-            REGION1 = #{region1},
-            REGION2 = #{region2}
+            BIRTH_YEAR  = #{birthYear},
+            GENDER      = #{gender},
+            REGION1     = #{region1},
+            REGION2     = #{region2}
         WHERE MBR_SEQ = #{mbrSeq}
     </update>
 
     <select id="selectMemberBySeq" parameterType="long" resultType="org.mtf.sok.domain.MemberDTO">
-        SELECT * FROM TB_MEMBER WHERE MBR_SEQ = #{mbrSeq}
+        SELECT *
+        FROM TB_MEMBER
+        WHERE MBR_SEQ = #{mbrSeq}
     </select>
 
     <update id="updateWithdrawal" parameterType="long">
@@ -82,5 +86,17 @@
         SET MARKETING_YN = #{marketingYn}
         WHERE MBR_SEQ = #{mbrSeq}
     </update>
+
+    <select id="selectMemberById" parameterType="string" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT *
+        FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId}
+          AND WITHDRAW_YN = 'N'
+    </select>
+
+    <insert id="insertKakaoMember" parameterType="org.mtf.sok.domain.MemberDTO">
+        INSERT INTO TB_MEMBER (MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, LOGIN_TYPE, EMAIL, JOIN_DT, WITHDRAW_YN)
+        VALUES (#{mbrId}, #{mbrPw}, #{mbrNm}, 'USER', 'INDIVIDUAL', 'KAKAO', #{email}, NOW(), 'N')
+    </insert>
 
 </mapper>
