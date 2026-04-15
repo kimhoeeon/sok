@@ -68,6 +68,14 @@
                  )
     </insert>
 
+    <select id="selectMyCertificateStatus" resultType="org.mtf.sok.domain.CertificateDTO">
+        SELECT * FROM TB_CERTIFICATE_APPLY
+        WHERE APPLY_NM = #{applyNm}
+          AND PHONE = #{phone}
+          AND DEL_YN = 'N'
+        ORDER BY REG_DT DESC
+    </select>
+
     <select id="checkDuplicateCertificate" parameterType="org.mtf.sok.domain.CertificateDTO" resultType="int">
         SELECT COUNT(CERT_SEQ)
         FROM TB_CERTIFICATE_APPLY

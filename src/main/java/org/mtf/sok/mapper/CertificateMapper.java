@@ -1,12 +1,17 @@
 package org.mtf.sok.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mtf.sok.domain.CertificateDTO;
 
 import java.util.List;
 
 @Mapper
 public interface CertificateMapper {
+
+    // [사용자] 이름과 연락처로 본인의 신청 내역 및 상태 조회
+    List<CertificateDTO> selectMyCertificateStatus(@Param("applyNm") String applyNm, @Param("phone") String phone);
+
     List<CertificateDTO> selectCertificateList(CertificateDTO params);
 
     int selectCertificateTotalCount(CertificateDTO params);
