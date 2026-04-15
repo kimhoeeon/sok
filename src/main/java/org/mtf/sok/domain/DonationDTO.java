@@ -25,6 +25,10 @@ public class DonationDTO extends Criteria {
     private Date regDt;
     private String paymentKey;
 
+    // 조회를 위한 가상 필드 (누적 기부금, 총 횟수 등)
+    private Integer totalAmt;
+    private Integer totalCount;
+
     // 조인(Join) 시 가져올 회원 정보
     private String mbrNm;
     private String mbrId;

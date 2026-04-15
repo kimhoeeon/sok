@@ -58,6 +58,16 @@
         WHERE CERT_SEQ = #{certSeq}
     </update>
 
+    <insert id="insertCertificate" parameterType="org.mtf.sok.domain.CertificateDTO" useGeneratedKeys="true" keyProperty="certSeq">
+        INSERT INTO TB_CERTIFICATE_APPLY (
+            CERT_TYPE, ISSUE_STATUS, APPLY_NM, PHONE, EMAIL,
+            USE_PURPOSE, BELONG_TO, REMARK, REG_DT, DEL_YN
+        ) VALUES (
+                     #{certType}, 'WAIT', #{applyNm}, #{phone}, #{email},
+                     #{usePurpose}, #{belongTo}, #{remark}, NOW(), 'N'
+                 )
+    </insert>
+
     <select id="checkDuplicateCertificate" parameterType="org.mtf.sok.domain.CertificateDTO" resultType="int">
         SELECT COUNT(CERT_SEQ)
         FROM TB_CERTIFICATE_APPLY
@@ -66,6 +76,17 @@
           AND PHONE = #{phone}
           AND DEL_YN = 'N'
           AND ISSUE_STATUS IN ('WAIT', 'ING', 'DONE')
+    </select>
+
+    <select id="findCertificateForStatusCheck" parameterType="org.mtf.sok.domain.CertificateDTO" resultType="org.mtf.sok.domain.CertificateDTO">
+        SELECT * FROM TB_CERTIFICATE_APPLY
+        WHERE CERT_TYPE = #{certType}
+          AND APPLY_NM = #{applyNm}
+          AND PHONE = #{phone}
+          AND EMAIL = #{email}
+          AND DEL_YN = 'N'
+        ORDER BY REG_DT DESC
+        LIMIT 1
     </select>
 
 </mapper>

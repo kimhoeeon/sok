@@ -27,4 +27,8 @@ public interface BoardMapper {
 
     List<FileDTO> selectFiles(FileDTO params);
 
+    BoardDTO selectPrevBoard(BoardDTO params);
+
+    BoardDTO selectNextBoard(BoardDTO params);
+
 }

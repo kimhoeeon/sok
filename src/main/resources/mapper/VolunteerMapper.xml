@@ -48,4 +48,12 @@
         WHERE VOL_SEQ = #{volSeq}
     </update>
 
+    <insert id="insertVolunteer" parameterType="org.mtf.sok.domain.VolunteerDTO" useGeneratedKeys="true" keyProperty="volSeq">
+        INSERT INTO TB_VOLUNTEER_APPLY (
+            SUPPORT_AREA, EVENT_NM, APPLY_NM, PHONE, APPLY_CNT, FREQ_TYPE, AGREE_YN, REG_DT, DEL_YN
+        ) VALUES (
+                     #{supportArea}, #{eventNm}, #{applyNm}, #{phone}, #{applyCnt}, #{freqType}, #{agreeYn}, NOW(), 'N'
+                 )
+    </insert>
+
 </mapper>

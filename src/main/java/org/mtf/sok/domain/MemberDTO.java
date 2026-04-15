@@ -14,6 +14,7 @@ public class MemberDTO extends Criteria {
     private String mbrNm;
     private String mbrRole;
     private String mbrType;      // INDIVIDUAL(개인), CORP(단체/기업)
+    private String instType;
     private String loginType;    // GENERAL, KAKAO
     private String bizNo;        // 사업자번호
     private String managerNm;    // 담당자명
@@ -26,6 +27,20 @@ public class MemberDTO extends Criteria {
     private Date withdrawDt;
     private String snsType; // 연동 플랫폼 (예: "KAKAO")
     private String snsId;   // 카카오에서 부여받은 고유 회원 번호
+
+    // ★ 마이페이지용 추가 필드
+    private String profileImg;
+    private String birthYear;
+    private String gender;
+    private String region1;
+    private String region2;
+
+    private String agreeOptionalYn;
+    private String marketingYn;
+
+    private String instNm;      // 회원가입 폼에서 넘어오는 기관명 파라미터 매핑용
+    private String mgrNm;       // 회원가입 폼에서 넘어오는 담당자명 파라미터 매핑용
+    private String mgrPos;      // 회원가입 폼에서 넘어오는 직함 파라미터 매핑용
 
     // --- 스토리보드 항목 반영 추가 ---
     private Integer totalDonateCnt; // 누적 후원 건수

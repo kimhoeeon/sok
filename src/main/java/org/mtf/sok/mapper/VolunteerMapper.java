@@ -16,4 +16,6 @@ public interface VolunteerMapper {
     void updateVolunteer(VolunteerDTO volunteer);
 
     void deleteVolunteer(Long volSeq);
+
+    void insertVolunteer(VolunteerDTO volunteer);
 }

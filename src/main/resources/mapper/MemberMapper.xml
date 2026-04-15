@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.MemberMapper">
+
+    <select id="selectMemberForLogin" parameterType="org.mtf.sok.domain.MemberDTO"
+            resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT *
+        FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId}
+          AND MBR_PW = #{mbrPw}
+          AND WITHDRAW_YN = 'N'
+    </select>
+
+    <select id="checkDuplicateId" parameterType="string" resultType="int">
+        SELECT COUNT(MBR_ID)
+        FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId}
+    </select>
+
+    <insert id="insertMember" parameterType="org.mtf.sok.domain.MemberDTO">
+        INSERT INTO TB_MEMBER (MBR_ID,
+                               MBR_PW,
+                               MBR_NM,
+                               MBR_ROLE,
+                               MBR_TYPE,
+                               INST_TYPE,
+                               LOGIN_TYPE,
+                               BIZ_NO,
+                               MANAGER_NM,
+                               MANAGER_POS,
+                               PHONE,
+                               EMAIL,
+                               IS_DONOR,
+                               JOIN_DT,
+                               WITHDRAW_YN)
+        VALUES (#{mbrId},
+                #{mbrPw},
+                #{instNm}, 'USER',
+                'CORP',
+                #{instType}, 'GENERAL',
+                #{bizNo},
+                #{mgrNm},
+                #{mgrPos},
+                #{phone},
+                #{email},
+                'N',
+                NOW(),
+                'N')
+    </insert>
+
+    <update id="updateMemberProfile" parameterType="org.mtf.sok.domain.MemberDTO">
+        UPDATE TB_MEMBER
+        SET PHONE = #{phone},
+            EMAIL = #{email},
+            PROFILE_IMG = #{profileImg},
+            BIRTH_YEAR = #{birthYear},
+            GENDER = #{gender},
+            REGION1 = #{region1},
+            REGION2 = #{region2}
+        WHERE MBR_SEQ = #{mbrSeq}
+    </update>
+
+    <select id="selectMemberBySeq" parameterType="long" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER WHERE MBR_SEQ = #{mbrSeq}
+    </select>
+
+    <update id="updateWithdrawal" parameterType="long">
+        UPDATE TB_MEMBER
+        SET WITHDRAW_YN = 'Y',
+            WITHDRAW_DT = NOW()
+        WHERE MBR_SEQ = #{mbrSeq}
+    </update>
+
+    <update id="updateOptionalAgreement" parameterType="org.mtf.sok.domain.MemberDTO">
+        UPDATE TB_MEMBER
+        SET AGREE_OPTIONAL_YN = #{agreeOptionalYn}
+        WHERE MBR_SEQ = #{mbrSeq}
+    </update>
+
+    <update id="updateMarketingAgreement" parameterType="org.mtf.sok.domain.MemberDTO">
+        UPDATE TB_MEMBER
+        SET MARKETING_YN = #{marketingYn}
+        WHERE MBR_SEQ = #{mbrSeq}
+    </update>
+
+</mapper>

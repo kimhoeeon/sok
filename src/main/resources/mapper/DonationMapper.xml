@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.DonationMapper">
+
+    <select id="selectDonationSummary" resultType="org.mtf.sok.domain.DonationDTO">
+        SELECT
+            COUNT(PAY_SEQ) AS totalCount,
+            COALESCE(SUM(PAY_AMT), 0) AS totalAmt
+        FROM TB_DONATION_PAYMENT
+        WHERE MBR_SEQ = #{mbrSeq}
+          AND PAY_STATUS = 'DONE'
+    </select>
+
+    <select id="selectDonationList" resultType="org.mtf.sok.domain.DonationDTO">
+        SELECT *
+        FROM TB_DONATION_PAYMENT
+        WHERE MBR_SEQ = #{mbrSeq}
+          AND PAY_STATUS = 'DONE'
+        ORDER BY PAY_DT DESC
+    </select>
+
+</mapper>

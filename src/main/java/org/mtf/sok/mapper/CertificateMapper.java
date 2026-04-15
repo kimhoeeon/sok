@@ -17,5 +17,10 @@ public interface CertificateMapper {
 
     void deleteCertificate(Long certSeq);
 
+    // ★ [프론트엔드용 추가] 증명서 신청 및 중복 체크
+    void insertCertificate(CertificateDTO certificate);
+
     int checkDuplicateCertificate(CertificateDTO params);
+
+    CertificateDTO findCertificateForStatusCheck(CertificateDTO params);
 }
