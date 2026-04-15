@@ -88,10 +88,10 @@
 
     <select id="findCertificateForStatusCheck" parameterType="org.mtf.sok.domain.CertificateDTO" resultType="org.mtf.sok.domain.CertificateDTO">
         SELECT * FROM TB_CERTIFICATE_APPLY
-        WHERE CERT_TYPE = #{certType}
-          AND APPLY_NM = #{applyNm}
+        WHERE APPLY_NM = #{applyNm}
           AND PHONE = #{phone}
           AND EMAIL = #{email}
+          AND CERT_TYPE = #{certType}
           AND DEL_YN = 'N'
         ORDER BY REG_DT DESC
         LIMIT 1

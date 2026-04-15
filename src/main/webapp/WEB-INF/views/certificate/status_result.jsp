@@ -37,14 +37,14 @@
                         <div class="work_tit">
                             <span>현재
                                 <c:choose>
-                                    <c:when test="${result.issueStatus eq 'WAIT'}">신청 대기</c:when>
+                                    <c:when test="${result.issueStatus eq 'WAIT'}">접수 대기</c:when>
                                     <c:when test="${result.issueStatus eq 'ING'}">발급 진행</c:when>
                                     <c:when test="${result.issueStatus eq 'DONE'}">발급 완료</c:when>
                                     <c:when test="${result.issueStatus eq 'REJECT'}">발급 거절(반려)</c:when>
                                 </c:choose>
                             중</span>입니다.<br/>
 
-                                <%-- 반려일 경우 반려 사유 추가 노출 --%>
+                            <%-- 반려일 경우 반려 사유 추가 노출 --%>
                             <c:if test="${result.issueStatus eq 'REJECT'}">
                                 <span style="font-size: 16px; color: #777;">[반려 사유: ${result.rejectRsn}]</span><br/>
                             </c:if>

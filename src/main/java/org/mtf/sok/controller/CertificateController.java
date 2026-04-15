@@ -46,17 +46,25 @@ public class CertificateController {
     }
 
     @PostMapping("/updateStatus")
-    public String updateStatus(CertificateDTO cert, RedirectAttributes rttr) {
+    public String updateStatus(@RequestParam Long certSeq,
+                               @RequestParam String status,
+                               @RequestParam(required = false) String rejectReason, // ★ 추가
+                               @ModelAttribute("params") CertificateDTO params,
+                               RedirectAttributes rttr) {
 
-        certificateMapper.updateCertificateStatus(cert);
+        // Mapper 호출 시 rejectReason을 함께 전달하도록 수정
+        CertificateDTO certificate = new CertificateDTO();
+        certificate.setCertSeq(certSeq);
+        certificate.setIssueStatus(status);
+        certificate.setRejectRsn(rejectReason);
+        certificateMapper.updateCertificateStatus(certificate);
 
-        // 업데이트 후 원래 보던 검색조건/페이지로 완벽 복귀
-        rttr.addAttribute("certSeq", cert.getCertSeq());
-        rttr.addAttribute("pageNum", cert.getPageNum());
-        rttr.addAttribute("amount", cert.getAmount());
-        rttr.addAttribute("searchType", cert.getSearchType()); // 증명서 종류 필터
-        rttr.addAttribute("searchStatus", cert.getSearchStatus());
-        rttr.addAttribute("searchKeyword", cert.getSearchKeyword());
+        rttr.addAttribute("certSeq", certSeq);
+        rttr.addAttribute("pageNum", params.getPageNum());
+        rttr.addAttribute("amount", params.getAmount());
+        rttr.addAttribute("searchType", params.getSearchType());
+        rttr.addAttribute("searchStatus", params.getSearchStatus());
+        rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
         return "redirect:/admin/certificate/detail";
     }
