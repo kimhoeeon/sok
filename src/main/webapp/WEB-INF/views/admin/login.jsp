@@ -162,7 +162,7 @@
         </div>
     </c:if>
 
-    <form id="loginForm" action="/admin/loginProc" method="post">
+    <form id="loginForm" action="/loginProc" method="post">
         <div class="mb-4">
             <label for="mbrId" class="form-label text-uppercase">Admin ID</label>
             <div class="input-group" style="height: 50px;">

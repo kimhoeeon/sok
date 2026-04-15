@@ -32,45 +32,10 @@ public class AdminController {
     @Autowired
     private StatsMapper statsMapper;
 
-    // 로그인 페이지 이동
+    // 관리자 로그인 화면 이동
     @GetMapping("/login")
-    public String loginForm(HttpSession session, HttpServletResponse response) {
-
-        // 브라우저 캐시(BFCache) 완전 차단 헤더 설정
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-
-        // 이미 로그인된 상태면 메인으로 리다이렉트
-        if (session.getAttribute("adminLogin") != null) {
-            return "redirect:/admin/main";
-        }
+    public String login() {
         return "admin/login";
-    }
-
-    // 로그인 및 허용 IP 체크 처리
-    @PostMapping("/loginProc")
-    public String loginProc(@RequestParam String mbrId,
-                            @RequestParam String mbrPw,
-                            HttpServletRequest request,
-                            RedirectAttributes rttr) {
-
-        // 고객님이 작성하신 RequestUtils를 통한 클라이언트 IP 추출
-        String clientIp = RequestUtils.getClientIp(request);
-
-        try {
-            // IP 검증이 포함된 기존 서비스 로직 정상 호출
-            AdminDTO admin = adminService.loginCheck(mbrId, mbrPw, clientIp);
-            HttpSession session = request.getSession();
-            session.setAttribute("adminLogin", admin);
-
-            return "redirect:/admin/main";
-
-        } catch (Exception e) {
-            // 예외 발생 시 에러 메시지를 alert 등으로 띄우기 위해 rttr에 담아 반환
-            rttr.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/admin/login";
-        }
     }
 
     // 로그아웃 처리
