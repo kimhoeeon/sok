@@ -5,6 +5,9 @@ import java.util.List;
 
 @Data
 public class AdminDTO {
+    private int pageNum; // 현재 페이지 번호
+    private int amount;  // 한 페이지당 보여줄 데이터 개수
+
     private Long mbrSeq;
     private String mbrId;
     private String mbrPw;
