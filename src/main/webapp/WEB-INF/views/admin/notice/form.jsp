@@ -114,7 +114,7 @@
         $.ajax({
             data: data,
             type: "POST",
-            url: "/admin/file/uploadSummernoteImage",
+            url: "/admin/file/uploadImage",
             contentType: false,
             processData: false,
             success: function(data) {

@@ -79,7 +79,7 @@
                         data.append("file", files[i]);
                         var editor = this;
                         $.ajax({
-                            data: data, type: "POST", url: "/admin/file/uploadSummernoteImage",
+                            data: data, type: "POST", url: "/admin/file/uploadImage",
                             contentType: false, processData: false,
                             success: function(data) {
                                 if(data.responseCode === "success") $(editor).summernote('insertImage', data.url);

@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @RestController
@@ -17,33 +18,57 @@ public class FileController {
     @Value("${file.upload.dir}")
     private String uploadDir;
 
-    @PostMapping("/uploadSummernoteImage")
-    public ResponseEntity<?> uploadSummernoteImage(@RequestParam("file") MultipartFile file) {
-        Map<String, Object> resultMap = new HashMap<>();
+    // [1] 에디터 이미지 업로드 (로컬 저장)
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadEditorImage(@RequestParam("file") MultipartFile file) {
+        return saveLocalFile(file, "editor/");
+    }
 
-        try {
-            String originalFileName = file.getOriginalFilename();
-            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String savedFileName = UUID.randomUUID().toString() + extension;
+    // [2] 게시판 일반 첨부파일 업로드 (로컬 저장)
+    @PostMapping("/uploadAttachment")
+    public ResponseEntity<?> uploadAttachment(@RequestParam("file") MultipartFile file) {
+        return saveLocalFile(file, "attachments/");
+    }
 
-            // 저장 폴더: /tomcat/webapps/upload/summernote/
-            String savePath = uploadDir + "summernote/";
-            File folder = new File(savePath);
-            if (!folder.exists()) folder.mkdirs();
+    // [3] 로컬 첨부파일 다운로드 로직
+    @GetMapping("/download")
+    public void downloadFile(@RequestParam("filePath") String filePath,
+                             @RequestParam("fileName") String fileName,
+                             HttpServletResponse response) throws IOException {
 
-            File targetFile = new File(savePath + savedFileName);
-            file.transferTo(targetFile);
+        // filePath는 "/upload/attachments/uuid.ext" 형태이므로 실제 물리 경로로 변환
+        String realPath = uploadDir + filePath.replace("/upload/", "");
+        File file = new File(realPath);
 
-            // 클라이언트(에디터)가 이미지를 띄울 수 있도록 브라우저 접근 URL 반환
-            String imageUrl = "/upload/summernote/" + savedFileName;
-            resultMap.put("url", imageUrl);
-            resultMap.put("responseCode", "success");
+        if (file.exists()) {
+            String encodedFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
+            response.setContentLength((int) file.length());
 
-        } catch (Exception e) {
-            resultMap.put("responseCode", "error");
-            e.printStackTrace();
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+            BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+            FileCopyUtils.copy(in, out);
+            out.flush();
         }
+    }
 
-        return ResponseEntity.ok(resultMap);
+    private ResponseEntity<?> saveLocalFile(MultipartFile file, String subDir) {
+        if (file.isEmpty()) return ResponseEntity.badRequest().body("파일이 없습니다.");
+        try {
+            String dirPath = uploadDir + subDir;
+            File dir = new File(dirPath);
+            if (!dir.exists()) dir.mkdirs();
+
+            String originalName = file.getOriginalFilename();
+            String extension = originalName.substring(originalName.lastIndexOf("."));
+            String savedName = UUID.randomUUID().toString() + extension;
+
+            file.transferTo(new File(dirPath + savedName));
+            String fileUrl = "/upload/" + subDir + savedName;
+            return ResponseEntity.ok(fileUrl);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("서버 오류 발생");
+        }
     }
 }
