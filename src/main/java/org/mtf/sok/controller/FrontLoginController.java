@@ -37,9 +37,17 @@ public class FrontLoginController {
 
     // 2. 단체 회원(일반 로그인) 폼 화면 이동
     @GetMapping("/login/basic")
-    public String loginBasic(@RequestParam(value = "error", required = false) String error, Model model) {
-        if (error != null) {
-            model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+    public String loginBasic(HttpSession session,
+                             @RequestParam(value = "error", required = false) String error,
+                             @RequestParam(value = "exception", required = false) String exception,
+                             Model model) {
+
+        if (session.getAttribute("userLogin") != null) {
+            return "redirect:/";
+        }
+
+        if (error != null && exception != null) {
+            model.addAttribute("errorMessage", exception);
         }
         return "member/login_basic";
     }
