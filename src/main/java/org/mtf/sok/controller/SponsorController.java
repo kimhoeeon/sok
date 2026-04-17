@@ -6,6 +6,7 @@ import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.MemberMapper;
 import org.mtf.sok.mapper.SponsorMapper;
+import org.mtf.sok.service.TossPaymentService;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class SponsorController {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
+    private TossPaymentService tossPaymentService;
 
     // ==========================================
     // 1. 가입자(회원) 관리 목록 및 상세
@@ -104,7 +108,7 @@ public class SponsorController {
 
         // 환불(REFUND) 요청일 때 권한 검증 수행
         if ("REFUND".equals(donation.getPayStatus())) {
-            donation.setRefundRsn(donation.getCancelRsn()); // 이 줄을 추가!
+            donation.setRefundRsn(donation.getCancelRsn());
 
             if (admin == null || !"meetingfan".equals(admin.getAdmId())) {
                 rttr.addFlashAttribute("errorMessage", "환불 처리는 마스터(meetingfan) 계정만 가능합니다.");
@@ -112,7 +116,24 @@ public class SponsorController {
             }
         }
 
-        // 권한 통과 시 정상 업데이트 처리
+        // 2. [추가된 로직] 토스페이먼츠 실제 취소/환불 API 호출
+        if (("CANCEL".equals(donation.getPayStatus()) || "REFUND".equals(donation.getPayStatus()))) {
+            try {
+                // 기존 결제 내역을 조회하여 PaymentKey를 가져옴
+                DonationDTO originData = sponsorMapper.selectDonation(donation.getPaySeq());
+
+                // 이미 결제가 완료된 건(DONE)에 대해서만 토스 취소 호출
+                if ("DONE".equals(originData.getPayStatus()) && originData.getPaymentKey() != null) {
+                    tossPaymentService.cancelPayment(originData.getPaymentKey(), donation.getCancelRsn());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 중 오류가 발생했습니다: " + e.getMessage());
+                return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
+            }
+        }
+
+        // 3. 토스 취소 성공 시 우리 DB 상태 업데이트
         sponsorMapper.updateDonationStatus(donation);
 
         rttr.addAttribute("paySeq", donation.getPaySeq());

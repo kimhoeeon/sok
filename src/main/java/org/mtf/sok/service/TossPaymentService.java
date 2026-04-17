@@ -47,4 +47,26 @@ public class TossPaymentService {
         // 5. 결과 JSON 파싱
         return objectMapper.readTree(response.getBody());
     }
+
+    // 토스페이먼츠 결제 취소 API 호출
+    public JsonNode cancelPayment(String paymentKey, String cancelReason) throws Exception {
+        String url = "https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
+
+        String authKey = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(authKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 취소 사유를 담아서 전송
+        Map<String, Object> params = new HashMap<>();
+        params.put("cancelReason", cancelReason);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(params, headers);
+
+        // POST 방식으로 토스 취소 URL 호출
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        return objectMapper.readTree(response.getBody());
+    }
 }
