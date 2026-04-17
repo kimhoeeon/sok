@@ -94,17 +94,16 @@
                         <div class="form_box">
                             <label><span>사업자등록증</span></label>
                             <div class="input">
-                                <input type="file" name="bizFile" id="bizFile" style="display:none;"
-                                       onchange="updateFileName(this)">
-                                <button type="button" class="btn_file"
-                                        onclick="document.getElementById('bizFile').click();">
+                                <input type="file" name="bizFile" id="bizFile" style="display:none;" onchange="updateFileName(this)">
+                                <button type="button" class="btn_file" onclick="document.getElementById('bizFile').click();">
                                     첨부하기
                                 </button>
                             </div>
                             <div class="upload_file" id="fileDisplayArea" style="display:none;">
                                 <span id="fileNameText"></span>
-                                <a href="javascript:void(0);" onclick="removeFile()"><img src="/img/ico_close.png"
-                                                                                          alt="닫기 버튼"></a>
+                                <a href="javascript:void(0);" onclick="removeFile()">
+                                    <img src="/img/ico_close.png" alt="닫기 버튼">
+                                </a>
                             </div>
                         </div>
                         <div class="form_box essen">

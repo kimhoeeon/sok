@@ -54,22 +54,23 @@
                                             </li>
                                             <li>
                                                 <div class="gu">직접기부</div>
-                                                <div class="nae"><fmt:formatNumber value="${item.payAmt}"
-                                                                                   pattern="#,###"/>원
+                                                <div class="nae">
+                                                    <fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="gu">누적기부</div>
-                                                <div class="nae"><fmt:formatNumber value="${summary.totalAmt}"
-                                                                                   pattern="#,###"/>원
+                                                <div class="nae">
+                                                    <fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/>원
                                                 </div>
                                             </li>
                                         </ul>
                                         <div class="donation_cost">
-                                            <div class="total_dona">누적 기부금 <fmt:formatNumber value="${summary.totalAmt}"
-                                                                                             pattern="#,###"/></div>
-                                            <div class="current_dona"><fmt:formatNumber value="${item.payAmt}"
-                                                                                        pattern="#,###"/>원
+                                            <div class="total_dona">
+                                                누적 기부금 <fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/>
+                                            </div>
+                                            <div class="current_dona">
+                                                <fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
                                             </div>
                                         </div>
                                     </div>

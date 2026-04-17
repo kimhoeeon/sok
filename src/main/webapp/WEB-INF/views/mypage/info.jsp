@@ -43,14 +43,18 @@
                                  alt="프로필 이미지">
                         </div>
                         <div class="sub_img">
-                            <div onclick="selectProfileImg('/img/profile_img_sub01.png')"><img
-                                    src="/img/profile_img_sub01.png" alt="프로필 선택"></div>
-                            <div onclick="selectProfileImg('/img/profile_img_sub02.png')"><img
-                                    src="/img/profile_img_sub02.png" alt="프로필 선택"></div>
-                            <div onclick="selectProfileImg('/img/profile_img_sub03.png')"><img
-                                    src="/img/profile_img_sub03.png" alt="프로필 선택"></div>
-                            <div onclick="selectProfileImg('/img/profile_img_sub04.png')"><img
-                                    src="/img/profile_img_sub04.png" alt="프로필 선택"></div>
+                            <div onclick="selectProfileImg('/img/profile_img_sub01.png')">
+                                <img src="/img/profile_img_sub01.png" alt="프로필 선택">
+                            </div>
+                            <div onclick="selectProfileImg('/img/profile_img_sub02.png')">
+                                <img src="/img/profile_img_sub02.png" alt="프로필 선택">
+                            </div>
+                            <div onclick="selectProfileImg('/img/profile_img_sub03.png')">
+                                <img src="/img/profile_img_sub03.png" alt="프로필 선택">
+                            </div>
+                            <div onclick="selectProfileImg('/img/profile_img_sub04.png')">
+                                <img src="/img/profile_img_sub04.png" alt="프로필 선택">
+                            </div>
                         </div>
                     </div>
 

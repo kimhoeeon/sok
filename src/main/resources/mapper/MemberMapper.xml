@@ -2,107 +2,127 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.MemberMapper">
 
-    <select id="selectMemberForLogin" parameterType="org.mtf.sok.domain.MemberDTO"
-            resultType="org.mtf.sok.domain.MemberDTO">
-        SELECT *
-        FROM TB_MEMBER
-        WHERE MBR_ID = #{mbrId}
-          AND MBR_PW = #{mbrPw}
-          AND WITHDRAW_YN = 'N'
+    <select id="selectMemberForLogin" parameterType="org.mtf.sok.domain.MemberDTO" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId} AND MBR_PW = #{mbrPw} AND WITHDRAW_YN = 'N'
     </select>
 
     <select id="checkDuplicateId" parameterType="string" resultType="int">
-        SELECT COUNT(MBR_ID)
-        FROM TB_MEMBER
-        WHERE MBR_ID = #{mbrId}
+        SELECT COUNT(MBR_ID) FROM TB_MEMBER WHERE MBR_ID = #{mbrId}
     </select>
 
     <insert id="insertMember" parameterType="org.mtf.sok.domain.MemberDTO">
-        INSERT INTO TB_MEMBER (MBR_ID,
-                               MBR_PW,
-                               MBR_NM,
-                               MBR_ROLE,
-                               MBR_TYPE,
-                               INST_TYPE,
-                               LOGIN_TYPE,
-                               BIZ_NO,
-                               BIZ_FILE_PATH, MANAGER_NM,
-                               MANAGER_POS,
-                               PHONE,
-                               EMAIL,
-                               IS_DONOR,
-                               JOIN_DT,
-                               WITHDRAW_YN)
-        VALUES (#{mbrId},
-                #{mbrPw},
-                #{instNm},
-                'USER',
-                'CORP',
-                #{instType},
-                'GENERAL',
-                #{bizNo},
-                #{bizFilePath}, #{mgrNm},
-                #{mgrPos},
-                #{phone},
-                #{email},
-                'N',
-                NOW(),
-                'N')
+        INSERT INTO TB_MEMBER (
+        MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, INST_TYPE, LOGIN_TYPE,
+        SNS_TYPE, SNS_ID, BIZ_NO, BIZ_FILE_PATH, MANAGER_NM, MANAGER_POS,
+        PHONE, EMAIL, IS_DONOR, JOIN_DT, WITHDRAW_YN
+        ) VALUES (
+        #{mbrId},
+        #{mbrPw},
+        <choose>
+            <when test="instNm != null and instNm != ''">#{instNm}</when>
+            <otherwise>#{mbrNm}</otherwise>
+        </choose>
+        ,
+        <choose>
+            <when test="mbrRole != null and mbrRole != ''">#{mbrRole}</when>
+            <otherwise>'USER'</otherwise>
+        </choose>
+        ,
+        <choose>
+            <when test="mbrType != null and mbrType != ''">#{mbrType}</when>
+            <otherwise>'INDIVIDUAL'</otherwise>
+        </choose>
+        ,
+        #{instType},
+        <choose>
+            <when test="loginType != null and loginType != ''">#{loginType}</when>
+            <otherwise>'GENERAL'</otherwise>
+        </choose>
+        ,
+        #{snsType},
+        #{snsId},
+        #{bizNo},
+        #{bizFilePath},
+        <choose>
+            <when test="mgrNm != null and mgrNm != ''">#{mgrNm}</when>
+            <otherwise>#{managerNm}</otherwise>
+        </choose>
+        ,
+        <choose>
+            <when test="mgrPos != null and mgrPos != ''">#{mgrPos}</when>
+            <otherwise>#{managerPos}</otherwise>
+        </choose>
+        ,
+        #{phone},
+        #{email},
+        'N',
+        NOW(),
+        'N'
+        )
     </insert>
+
+    <select id="selectMemberList" parameterType="org.mtf.sok.domain.MemberDTO" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER
+        WHERE WITHDRAW_YN = 'N'
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (MBR_NM LIKE CONCAT('%', #{searchKeyword}, '%') OR MBR_ID LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+        <if test="loginType != null and loginType != ''">
+            AND LOGIN_TYPE = #{loginType}
+        </if>
+        ORDER BY JOIN_DT DESC
+        LIMIT #{skip}, #{amount}
+    </select>
+
+    <select id="selectMemberListCount" parameterType="org.mtf.sok.domain.MemberDTO" resultType="int">
+        SELECT COUNT(MBR_SEQ) FROM TB_MEMBER
+        WHERE WITHDRAW_YN = 'N'
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (MBR_NM LIKE CONCAT('%', #{searchKeyword}, '%') OR MBR_ID LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+        <if test="loginType != null and loginType != ''">
+            AND LOGIN_TYPE = #{loginType}
+        </if>
+    </select>
+
+    <select id="selectMemberDetail" parameterType="long" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER WHERE MBR_SEQ = #{mbrSeq}
+    </select>
+
+    <select id="selectMemberById" parameterType="string" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER
+        WHERE MBR_ID = #{mbrId} AND WITHDRAW_YN = 'N'
+    </select>
+
+    <select id="selectMemberBySeq" parameterType="long" resultType="org.mtf.sok.domain.MemberDTO">
+        SELECT * FROM TB_MEMBER WHERE MBR_SEQ = #{mbrSeq}
+    </select>
 
     <update id="updateMemberProfile" parameterType="org.mtf.sok.domain.MemberDTO">
         UPDATE TB_MEMBER
-        SET PHONE       = #{phone},
-            EMAIL       = #{email},
-            PROFILE_IMG = #{profileImg},
-            BIRTH_YEAR  = #{birthYear},
-            GENDER      = #{gender},
-            REGION1     = #{region1},
-            REGION2     = #{region2}
+        SET PHONE = #{phone}, EMAIL = #{email}, PROFILE_IMG = #{profileImg},
+            BIRTH_YEAR = #{birthYear}, GENDER = #{gender}, REGION1 = #{region1}, REGION2 = #{region2}
         WHERE MBR_SEQ = #{mbrSeq}
     </update>
 
-    <select id="selectMemberBySeq" parameterType="long" resultType="org.mtf.sok.domain.MemberDTO">
-        SELECT *
-        FROM TB_MEMBER
-        WHERE MBR_SEQ = #{mbrSeq}
-    </select>
-
     <update id="updateWithdrawal" parameterType="long">
         UPDATE TB_MEMBER
-        SET WITHDRAW_YN = 'Y',
-            WITHDRAW_DT = NOW()
+        SET WITHDRAW_YN = 'Y', WITHDRAW_DT = NOW()
         WHERE MBR_SEQ = #{mbrSeq}
     </update>
 
     <update id="updateOptionalAgreement" parameterType="org.mtf.sok.domain.MemberDTO">
-        UPDATE TB_MEMBER
-        SET AGREE_OPTIONAL_YN = #{agreeOptionalYn}
-        WHERE MBR_SEQ = #{mbrSeq}
+        UPDATE TB_MEMBER SET AGREE_OPTIONAL_YN = #{agreeOptionalYn} WHERE MBR_SEQ = #{mbrSeq}
     </update>
 
     <update id="updateMarketingAgreement" parameterType="org.mtf.sok.domain.MemberDTO">
-        UPDATE TB_MEMBER
-        SET MARKETING_YN = #{marketingYn}
-        WHERE MBR_SEQ = #{mbrSeq}
+        UPDATE TB_MEMBER SET MARKETING_YN = #{marketingYn} WHERE MBR_SEQ = #{mbrSeq}
     </update>
-
-    <select id="selectMemberById" parameterType="string" resultType="org.mtf.sok.domain.MemberDTO">
-        SELECT *
-        FROM TB_MEMBER
-        WHERE MBR_ID = #{mbrId}
-          AND WITHDRAW_YN = 'N'
-    </select>
-
-    <insert id="insertKakaoMember" parameterType="org.mtf.sok.domain.MemberDTO">
-        INSERT INTO TB_MEMBER (MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, LOGIN_TYPE, EMAIL, JOIN_DT, WITHDRAW_YN)
-        VALUES (#{mbrId}, #{mbrPw}, #{mbrNm}, 'USER', 'INDIVIDUAL', 'KAKAO', #{email}, NOW(), 'N')
-    </insert>
 
     <select id="selectMemberForFindPw" parameterType="org.mtf.sok.domain.MemberDTO" resultType="org.mtf.sok.domain.MemberDTO">
         SELECT * FROM TB_MEMBER
-        WHERE WITHDRAW_YN = 'N'
-        AND LOGIN_TYPE = 'GENERAL'
+        WHERE WITHDRAW_YN = 'N' AND LOGIN_TYPE = 'GENERAL'
         <if test="phone != null and phone != ''">
             AND PHONE = #{phone}
         </if>
@@ -112,9 +132,7 @@
     </select>
 
     <update id="updatePassword" parameterType="org.mtf.sok.domain.MemberDTO">
-        UPDATE TB_MEMBER
-        SET MBR_PW = #{mbrPw}
-        WHERE MBR_ID = #{mbrId}
+        UPDATE TB_MEMBER SET MBR_PW = #{mbrPw} WHERE MBR_ID = #{mbrId}
     </update>
 
 </mapper>
