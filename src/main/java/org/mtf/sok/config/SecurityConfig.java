@@ -104,10 +104,13 @@ public class SecurityConfig {
             if (principal.getAdminDTO() != null) {
                 AdminDTO admin = principal.getAdminDTO();
                 request.getSession().setAttribute("adminLogin", admin);
-                // 기존 JSP 호환을 위해 userLogin 세션에도 담아줌
+
+                // [보완] 기존 JSP 호환을 위해 userLogin 세션에도 필수 데이터를 모두 채워줌
                 MemberDTO dummyMember = new MemberDTO();
+                dummyMember.setMbrSeq(admin.getAdmSeq()); // 추가: PK 매핑
                 dummyMember.setMbrId(admin.getAdmId());
                 dummyMember.setMbrNm(admin.getAdmNm());
+                dummyMember.setMbrRole(admin.getAdmRole()); // 추가: 권한 매핑
                 request.getSession().setAttribute("userLogin", dummyMember);
 
                 response.sendRedirect("/admin/main");
@@ -128,7 +131,7 @@ public class SecurityConfig {
             String errorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
 
             // IP 차단 예외일 경우 해당 메시지로 덮어씌움
-            if (exception.getMessage().contains("허용되지 않은 IP")) {
+            if (exception.getMessage() != null && exception.getMessage().contains("허용되지 않은 IP")) {
                 errorMessage = exception.getMessage();
             }
 

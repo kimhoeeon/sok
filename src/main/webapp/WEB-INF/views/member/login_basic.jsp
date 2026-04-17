@@ -42,6 +42,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 로그인 실패 시 컨트롤러에서 보낸 errorMessage(Model 객체) 띄우기
     var msg = "<c:out value='${errorMessage}'/>";
@@ -49,5 +51,3 @@
         alert(msg);
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

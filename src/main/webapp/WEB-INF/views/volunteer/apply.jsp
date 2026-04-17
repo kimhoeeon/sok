@@ -165,6 +165,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     function submitVolunteer() {
         var form = document.getElementById("volunteerForm");
@@ -205,5 +207,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

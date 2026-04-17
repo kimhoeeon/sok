@@ -128,6 +128,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 단일 기부증서 팝업 열기
     function openDonationPopup(dateStr, amt) {
@@ -154,5 +156,3 @@
         $('#donationsPopup').fadeOut(200);
     });
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

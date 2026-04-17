@@ -115,6 +115,8 @@
     </form>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     $(document).ready(function () {
         $('#summernote').summernote({
@@ -149,5 +151,3 @@
         });
     }
 </script>
-
-<%@ include file="../layout/footer.jsp" %>

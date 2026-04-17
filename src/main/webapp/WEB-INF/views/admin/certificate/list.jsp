@@ -109,6 +109,8 @@
     </c:if>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     function goPage(pageNum) {
         document.getElementById('searchForm').pageNum.value = pageNum;
@@ -131,4 +133,3 @@
         form.action = originalAction;
     }
 </script>
-<%@ include file="../layout/footer.jsp" %>

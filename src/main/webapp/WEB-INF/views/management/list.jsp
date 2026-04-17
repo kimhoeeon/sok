@@ -104,6 +104,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 페이지 이동 스크립트
     function goPage(pageNum) {
@@ -117,5 +119,3 @@
         document.getElementById('searchForm').submit();
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

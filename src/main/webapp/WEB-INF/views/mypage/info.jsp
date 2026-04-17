@@ -193,6 +193,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 이메일 도메인 자동입력
     function setEmailDomain() {
@@ -242,5 +244,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

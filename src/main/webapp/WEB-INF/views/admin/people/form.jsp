@@ -111,6 +111,8 @@
     </form>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     // 유튜브 URL에서 ID 추출
     function extractVideoID(url) {
@@ -177,5 +179,3 @@
         });
     }
 </script>
-
-<%@ include file="../layout/footer.jsp" %>

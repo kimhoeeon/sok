@@ -4,7 +4,7 @@
 
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
-<script src="https://js.tosspayments.com/v1"></script>
+<script src="https://js.tosspayments.com/v1/payment"></script>
 
 <div id="container">
     <div class="inner">
@@ -112,8 +112,8 @@
                             <div class="bar"></div>
                             <div class="txt">
                                 <div class="ongoing">이번 달 목표를 향해 달려가고 있어요!</div>
-                                <div class="total">총 <fmt:formatNumber value="${summary.totalDonationAmt}"
-                                                                       pattern="#,###"/>원 달성
+                                <div class="total">
+                                    총 <fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원 달성
                                 </div>
                             </div>
                         </div>
@@ -122,10 +122,12 @@
                         <div class="tit">모금함 기부현황</div>
                         <ul class="current_box">
                             <li class="total">
-                                <div class="gu">총 기부 (<fmt:formatNumber value="${summary.totalDonorCnt}"
-                                                                        pattern="#,###"/>명)
+                                <div class="gu">
+                                    총 기부 (<fmt:formatNumber value="${summary.totalDonorCnt}" pattern="#,###"/>명)
                                 </div>
-                                <div class="nae"><fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원</div>
+                                <div class="nae">
+                                    <fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원
+                                </div>
                             </li>
                         </ul>
                         <ul class="support_txt">
@@ -160,7 +162,7 @@
                     <c:otherwise>
                         <div class="id">비로그인</div>
                         <div class="txt">
-                            <span>로그인 후 이용 가능합니다. <a href="/login" style="color:var(--mainColor);">로그인 바로가기</a></span>
+                            <span>로그인 후 이용 가능합니다. <a href="/login/basic" style="color:var(--mainColor);">로그인 바로가기</a></span>
                         </div>
                     </c:otherwise>
                 </c:choose>
@@ -207,8 +209,11 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     let currentAmount = 0;
+
     // 발주사에서 발급받을 토스페이먼츠 클라이언트 키 (테스트용 키 삽입)
     const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
     const tossPayments = TossPayments(clientKey);
@@ -248,11 +253,11 @@
 
     // 토스 페이먼츠 결제창 호출 로직
     function requestTossPayment() {
-        // 1. 로그인 체크 (JSTL로 삽입된 JS 변수 활용)
+        // 1. 로그인 체크
         const isLogin = ${not empty sessionScope.userLogin};
         if (!isLogin) {
             alert("로그인 후 기부가 가능합니다. 로그인 페이지로 이동합니다.");
-            location.href = "/login?redirect=/sponsor/donate";
+            location.href = "/login/basic?redirect=/sponsor/donate";
             return;
         }
 
@@ -262,26 +267,45 @@
             return;
         }
 
-        // 3. 토스페이먼츠 호출 파라미터 세팅
-        const orderId = 'SOK_' + new Date().getTime(); // 고유 주문번호 생성
-        const cheerMsg = $('#cheerMsg').val();
+        // 3. 팝업창 내 데이터 수집
+        var cheerMsg = $('#cheerMsg').val();
+        var isAnon = $('#isAnon').is(':checked') ? 'Y' : 'N';
 
-        // 결제창 띄우기
-        tossPayments.requestPayment('카드', { // 기본 카드 결제로 세팅 (가상계좌, 계좌이체 등 확장 가능)
-            amount: currentAmount,
-            orderId: orderId,
-            orderName: '스페셜올림픽코리아 후원금',
-            customerName: '${sessionScope.userLogin.mbrNm}',
-            successUrl: window.location.origin + '/sponsor/donate/success?cheerMsg=' + encodeURIComponent(cheerMsg),
-            failUrl: window.location.origin + '/sponsor/donate/fail'
-        }).catch(function (error) {
-            if (error.code === 'USER_CANCEL') {
-                // 사용자가 결제창을 닫은 경우
-            } else {
-                alert(error.message);
+        // 익명 체크 시 토스 결제창에 표시될 이름 변경 (DB의 TB_MEMBER와 무관하게 결제 영수증 표기용)
+        var customerName = '${sessionScope.userLogin.mbrNm}';
+        if (isAnon === 'Y') {
+            customerName = '익명후원자';
+        }
+
+        // 4. 백엔드로 결제 초기화(주문번호 채번 및 WAIT 상태 저장) 요청
+        $.ajax({
+            url: '/sponsor/donate/init',
+            type: 'POST',
+            data: {
+                payAmt: currentAmount,
+                payType: 'ONCE', // 일시결제
+                cheerMsg: cheerMsg
+            },
+            success: function (orderId) {
+                // 5. 서버에서 받아온 검증된 orderId로 토스 결제창 호출
+                tossPayments.requestPayment('카드', {
+                    amount: currentAmount,
+                    orderId: orderId,
+                    orderName: '스페셜올림픽코리아 후원금',
+                    customerName: customerName,
+                    successUrl: window.location.origin + '/sponsor/donate/success',
+                    failUrl: window.location.origin + '/sponsor/donate/fail'
+                }).catch(function (error) {
+                    if (error.code === 'USER_CANCEL') {
+                        // 사용자가 창을 닫은 경우 조용히 넘어감
+                    } else {
+                        alert('결제창 호출 중 오류가 발생했습니다: ' + error.message);
+                    }
+                });
+            },
+            error: function () {
+                alert('서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
             }
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

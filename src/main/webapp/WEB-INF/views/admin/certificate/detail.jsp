@@ -94,6 +94,8 @@
     </div>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     function toggleRejectReason() {
         var status = document.getElementById('issueStatusSelect').value;
@@ -109,5 +111,3 @@
         }
     }
 </script>
-
-<%@ include file="../layout/footer.jsp" %>

@@ -82,6 +82,8 @@
     </div>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     function previewImage(input) {
         if (input.files && input.files[0]) {
@@ -105,5 +107,3 @@
         return true;
     }
 </script>
-
-<%@ include file="../layout/footer.jsp" %>

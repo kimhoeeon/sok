@@ -89,6 +89,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 1. 인증 수단 토글 (휴대폰 <-> 이메일)
     function toggleAuthMethod() {
@@ -171,5 +173,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

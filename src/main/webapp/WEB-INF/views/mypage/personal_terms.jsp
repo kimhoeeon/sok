@@ -72,6 +72,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     function submitTerms() {
         var formData = $('#termsForm').serialize();
@@ -89,5 +91,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

@@ -202,6 +202,8 @@
     .pagination-dark .page-item.active .page-link { background-color: #39ff14; border-color: #39ff14; color: #000; font-weight: bold; }
 </style>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     function goPage(pageNum) {
         document.getElementById('searchForm').pageNum.value = pageNum;
@@ -243,5 +245,3 @@
         }
     }
 </script>
-
-<%@ include file="../layout/footer.jsp" %>

@@ -99,6 +99,8 @@
     </div>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 <script>
     function toggleCancelReason() {
         var status = document.getElementById('payStatusSelect').value;
@@ -111,4 +113,3 @@
         }
     }
 </script>
-<%@ include file="../layout/footer.jsp" %>

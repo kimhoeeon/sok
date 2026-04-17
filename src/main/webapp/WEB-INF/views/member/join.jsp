@@ -216,6 +216,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 1. 전체 동의 체크박스 로직
     $('#chkAll').on('click', function () {
@@ -318,5 +320,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

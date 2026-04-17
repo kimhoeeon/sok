@@ -193,6 +193,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     // 이메일 도메인 선택 스크립트
     function setEmailDomain() {
@@ -252,5 +254,3 @@
         });
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

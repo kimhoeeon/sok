@@ -104,6 +104,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     function setEmailDomain() {
         var domain = document.getElementById("emailDomain").value;
@@ -126,5 +128,3 @@
         return true;
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

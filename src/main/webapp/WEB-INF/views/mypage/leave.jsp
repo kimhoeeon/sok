@@ -61,6 +61,8 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     function submitLeave() {
         if (confirm("정말 스페셜올림픽코리아에서 탈퇴하시겠습니까?\n탈퇴 시 프로필 등의 일부 정보는 복구할 수 없습니다.")) {
@@ -78,5 +80,3 @@
         }
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

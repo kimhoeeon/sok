@@ -139,11 +139,11 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
 <script>
     function goPage(pageNum) {
         document.getElementById('searchForm').pageNum.value = pageNum;
         document.getElementById('searchForm').submit();
     }
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
