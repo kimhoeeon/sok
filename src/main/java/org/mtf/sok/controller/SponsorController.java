@@ -4,6 +4,7 @@ import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.domain.PageDTO;
+import org.mtf.sok.mapper.MemberMapper;
 import org.mtf.sok.mapper.SponsorMapper;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,17 @@ public class SponsorController {
     @Autowired
     private SponsorMapper sponsorMapper;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
     // ==========================================
     // 1. 가입자(회원) 관리 목록 및 상세
     // ==========================================
     @GetMapping("/member/list")
     public String memberList(@ModelAttribute MemberDTO params, Model model) {
 
-        List<MemberDTO> list = sponsorMapper.selectMemberList(params);
-        int total = sponsorMapper.selectMemberTotalCount(params);
+        List<MemberDTO> list = memberMapper.selectMemberList(params);
+        int total = memberMapper.selectMemberListCount(params);
         PageDTO pageMaker = new PageDTO(params, total);
 
         model.addAttribute("list", list);
@@ -46,7 +50,7 @@ public class SponsorController {
     public String memberDetail(@RequestParam Long mbrSeq,
                                @ModelAttribute("params") MemberDTO params,
                                Model model) {
-        MemberDTO member = sponsorMapper.selectMember(mbrSeq);
+        MemberDTO member = memberMapper.selectMemberDetail(mbrSeq);
         List<DonationDTO> donations = sponsorMapper.selectDonationByMember(mbrSeq);
         member.setDonationList(donations);
 

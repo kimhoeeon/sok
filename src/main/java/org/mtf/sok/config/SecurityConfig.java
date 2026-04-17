@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -32,6 +34,10 @@ public class SecurityConfig {
                 .antMatchers("/admin/**").hasRole("ADMIN") // 핵심: 관리자 폴더 하위는 ADMIN 권한 필수
                 .antMatchers("/mypage/**").authenticated() // 마이페이지는 일반 로그인 이상
                 .anyRequest().permitAll()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint())
+                .accessDeniedHandler(customAccessDeniedHandler())
                 .and()
                 .formLogin()
                 // Spring Security가 가로챌 공통 로그인 처리 URL
@@ -55,6 +61,39 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // [핵심 추가 1] 세션이 끊기거나 로그인이 안 된 상태에서의 접근 통제
+    @Bean
+    public AuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return (request, response, authException) -> {
+            String uri = request.getRequestURI();
+            response.setContentType("text/html; charset=UTF-8");
+
+            // 관리자 경로 접근 중 세션 만료 시
+            if (uri.startsWith("/admin")) {
+                response.getWriter().write("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/admin/login';</script>");
+            } else {
+                // 일반 사용자 경로 접근 중 세션 만료 시
+                response.getWriter().write("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/login/basic';</script>");
+            }
+            response.getWriter().flush();
+        };
+    }
+
+    // [핵심 추가 2] 로그인은 되어 있으나 권한이 없을 때 (예: 일반 회원이 관리자 페이지 접근 시)
+    @Bean
+    public AccessDeniedHandler customAccessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            String uri = request.getRequestURI();
+            response.setContentType("text/html; charset=UTF-8");
+
+            if (uri.startsWith("/admin")) {
+                response.getWriter().write("<script>alert('관리자 권한이 없습니다.'); location.href='/';</script>");
+            } else {
+                response.getWriter().write("<script>alert('접근 권한이 없습니다.'); location.href='/';</script>");
+            }
+            response.getWriter().flush();
+        };
+    }
     // 권한별 로그인 성공 핸들러 (사용자와 관리자 분기 처리)
     @Bean
     public AuthenticationSuccessHandler customSuccessHandler() {

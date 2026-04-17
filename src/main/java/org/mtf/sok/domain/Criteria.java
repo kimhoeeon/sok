@@ -28,6 +28,11 @@ public class Criteria {
         this.amount = (amount <= 0 || amount > 100) ? 10 : amount;
     }
 
+    public int getSkip() {
+        // MyBatis가 #{skip}을 찾을 때 이 메서드를 호출하여 시작 위치를 계산합니다.
+        return (this.pageNum - 1) * this.amount;
+    }
+
     public int getOffset() {
         return (this.pageNum - 1) * this.amount;
     }

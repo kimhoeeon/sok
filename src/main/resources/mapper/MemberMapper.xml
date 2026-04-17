@@ -72,7 +72,7 @@
             AND LOGIN_TYPE = #{loginType}
         </if>
         ORDER BY JOIN_DT DESC
-        LIMIT #{skip}, #{amount}
+        LIMIT #{offset}, #{amount}
     </select>
 
     <select id="selectMemberListCount" parameterType="org.mtf.sok.domain.MemberDTO" resultType="int">
