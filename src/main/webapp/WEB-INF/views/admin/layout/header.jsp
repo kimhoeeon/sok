@@ -25,7 +25,7 @@
         <div class="d-flex justify-content-end align-items-center p-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
             <div class="d-flex align-items-center glassmorphism-box px-4 py-2">
                 <i class="bi bi-person-circle fs-3 me-2 neon-icon"></i>
-                <span class="fw-bold text-white">${adminLogin.mbrNm} 관리자님</span>
+                <span class="fw-bold text-white">${adminLogin.admNm} 관리자님</span>
             </div>
         </div>
 
