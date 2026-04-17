@@ -73,10 +73,10 @@ public class ManagementController {
         board.setBrdType("MANAGEMENT");
 
         if (isUpdate) {
-            board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
+            board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");
             boardMapper.updateBoard(board);
         } else {
-            board.setRegId(admin != null ? admin.getMbrId() : "SYSTEM");
+            board.setRegId(admin != null ? admin.getAdmId() : "SYSTEM");
             boardMapper.insertBoard(board);
         }
 

@@ -40,7 +40,7 @@ public class DevController {
     // 현재 관리자가 개발사인지 발주사인지 체크하는 내부 헬퍼
     private boolean isDeveloper(HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        return admin != null && "meetingfan".equals(admin.getMbrId());
+        return admin != null && "meetingfan".equals(admin.getAdmId());
     }
 
     @GetMapping("/list")
@@ -71,7 +71,7 @@ public class DevController {
     @PostMapping("/saveRequest")
     public String saveRequest(DevRequestDTO request, HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        request.setRegId(admin != null ? admin.getMbrId() : "sokadmin");
+        request.setRegId(admin != null ? admin.getAdmId() : "sokadmin");
         if (request.getUrgency() == null) request.setUrgency("N");
 
         devMapper.insertRequest(request);
@@ -115,7 +115,7 @@ public class DevController {
     public String updateStatus(DevRequestDTO request, HttpSession session, RedirectAttributes rttr) {
         if (isDeveloper(session)) {
             AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-            request.setModId(admin.getMbrId());
+            request.setModId(admin.getAdmId());
             devMapper.updateRequestStatus(request);
 
             DevRequestDTO updatedReq = devMapper.selectRequest(request.getReqSeq());
@@ -138,7 +138,7 @@ public class DevController {
     @PostMapping("/saveComment")
     public String saveComment(DevCommentDTO comment, @ModelAttribute DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        String writerId = admin != null ? admin.getMbrId() : "sokadmin";
+        String writerId = admin != null ? admin.getAdmId() : "sokadmin";
         comment.setRegId(writerId);
 
         devMapper.insertComment(comment);
@@ -228,7 +228,7 @@ public class DevController {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
 
         if (admin != null) {
-            params.setModId(admin.getMbrId());
+            params.setModId(admin.getAdmId());
         } else {
             params.setModId("SYSTEM");
         }

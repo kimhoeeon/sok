@@ -82,10 +82,10 @@ public class ReportController {
 
         // 1. 활동보고서 기본 정보 저장
         if (isUpdate) {
-            board.setModId(admin != null ? admin.getMbrId() : "SYSTEM");
+            board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");
             boardMapper.updateBoard(board);
         } else {
-            board.setRegId(admin != null ? admin.getMbrId() : "SYSTEM");
+            board.setRegId(admin != null ? admin.getAdmId() : "SYSTEM");
             boardMapper.insertBoard(board);
         }
 

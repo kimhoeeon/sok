@@ -99,30 +99,22 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler customSuccessHandler() {
         return (request, response, authentication) -> {
             PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-            MemberDTO member = principal.getMemberDTO();
 
-            // JSP에서 기존처럼 ${sessionScope.userLogin} 을 사용할 수 있도록 세션에 담기
-            request.getSession().setAttribute("userLogin", member);
-
-            // 현재 로그인한 사용자가 'ADMIN' 권한을 가지고 있는지 확인
-            boolean isAdmin = authentication.getAuthorities().stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                // LoginInterceptor 및 AdminController가 요구하는 adminLogin 세션 객체 생성 및 주입
-                AdminDTO admin = new AdminDTO();
-                admin.setMbrSeq(member.getMbrSeq());
-                admin.setMbrId(member.getMbrId());
-                admin.setMbrPw(member.getMbrPw());
-                admin.setMbrNm(member.getMbrNm());
-                admin.setMbrRole(member.getMbrRole());
-
+            // 관리자 로그인인 경우
+            if (principal.getAdminDTO() != null) {
+                AdminDTO admin = principal.getAdminDTO();
                 request.getSession().setAttribute("adminLogin", admin);
+                // 기존 JSP 호환을 위해 userLogin 세션에도 담아줌
+                MemberDTO dummyMember = new MemberDTO();
+                dummyMember.setMbrId(admin.getAdmId());
+                dummyMember.setMbrNm(admin.getAdmNm());
+                request.getSession().setAttribute("userLogin", dummyMember);
 
-                // 관리자 계정이면 관리자 메인 페이지로 이동
                 response.sendRedirect("/admin/main");
-            } else {
-                // 일반 사용자면 프론트 메인 페이지로 이동
+            }
+            // 일반 회원 로그인인 경우
+            else {
+                request.getSession().setAttribute("userLogin", principal.getMemberDTO());
                 response.sendRedirect("/");
             }
         };
@@ -134,6 +126,11 @@ public class SecurityConfig {
         return (request, response, exception) -> {
             String referer = request.getHeader("Referer");
             String errorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
+
+            // IP 차단 예외일 경우 해당 메시지로 덮어씌움
+            if (exception.getMessage().contains("허용되지 않은 IP")) {
+                errorMessage = exception.getMessage();
+            }
 
             // 한글 에러 메시지가 깨지지 않도록 URL 인코딩
             String encodedMsg = URLEncoder.encode(errorMessage, "UTF-8");

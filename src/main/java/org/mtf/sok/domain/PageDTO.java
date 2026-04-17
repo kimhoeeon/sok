@@ -18,28 +18,11 @@ public class PageDTO {
         this.cri = cri;
         this.total = total;
 
-        // 전달받은 객체의 타입에 따라 pageNum과 amount를 안전하게 추출합니다.
-        if (cri instanceof BoardDTO) {
-            this.pageNum = ((BoardDTO) cri).getPageNum();
-            this.amount = ((BoardDTO) cri).getAmount();
-        } else if (cri instanceof MemberDTO) {
-            this.pageNum = ((MemberDTO) cri).getPageNum();
-            this.amount = ((MemberDTO) cri).getAmount();
-        } else if (cri instanceof AdminDTO) {
-            this.pageNum = ((AdminDTO) cri).getPageNum();
-            this.amount = ((AdminDTO) cri).getAmount();
-        } else if (cri instanceof CertificateDTO) {
-            this.pageNum = ((CertificateDTO) cri).getPageNum();
-            this.amount = ((CertificateDTO) cri).getAmount();
-        } else if (cri instanceof DevRequestDTO) {
-            this.pageNum = ((DevRequestDTO) cri).getPageNum();
-            this.amount = ((DevRequestDTO) cri).getAmount();
-        } else if (cri instanceof DonationDTO) {
-            this.pageNum = ((DonationDTO) cri).getPageNum();
-            this.amount = ((DonationDTO) cri).getAmount();
-        } else if (cri instanceof VolunteerDTO) {
-            this.pageNum = ((VolunteerDTO) cri).getPageNum();
-            this.amount = ((VolunteerDTO) cri).getAmount();
+        // [개선] BoardDTO, MemberDTO 등 모든 DTO가 Criteria를 상속받으므로
+        // 부모 타입인 Criteria 하나로 형변환하여 단번에 처리 (유지보수성 극대화)
+        if (cri instanceof Criteria) {
+            this.pageNum = ((Criteria) cri).getPageNum();
+            this.amount = ((Criteria) cri).getAmount();
         } else {
             this.pageNum = 1;
             this.amount = 10;

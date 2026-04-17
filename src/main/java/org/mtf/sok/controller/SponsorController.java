@@ -106,7 +106,7 @@ public class SponsorController {
         if ("REFUND".equals(donation.getPayStatus())) {
             donation.setRefundRsn(donation.getCancelRsn()); // 이 줄을 추가!
 
-            if (admin == null || !"meetingfan".equals(admin.getMbrId())) {
+            if (admin == null || !"meetingfan".equals(admin.getAdmId())) {
                 rttr.addFlashAttribute("errorMessage", "환불 처리는 마스터(meetingfan) 계정만 가능합니다.");
                 return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
             }

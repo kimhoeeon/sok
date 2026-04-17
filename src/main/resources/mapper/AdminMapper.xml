@@ -2,22 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mtf.sok.mapper.AdminMapper">
 
-    <select id="findAdminById" resultType="org.mtf.sok.domain.AdminDTO">
-        SELECT MBR_SEQ,
-               MBR_ID,
-               MBR_PW,
-               MBR_NM,
-               MBR_ROLE
-        FROM TB_MEMBER
-        WHERE MBR_ID = #{mbrId}
-          AND MBR_ROLE = 'ADMIN'
-          AND WITHDRAW_YN = 'N'
+    <select id="selectAdminById" parameterType="string" resultType="org.mtf.sok.domain.AdminDTO">
+        SELECT
+            ADM_SEQ as admSeq,
+            ADM_ID as admId,
+            ADM_PW as admPw,
+            ADM_NM as admNm,
+            ADM_ROLE as admRole
+        FROM TB_ADMIN
+        WHERE ADM_ID = #{admId}
     </select>
 
-    <select id="findAllowedIps" resultType="string">
+    <select id="selectAdminIps" parameterType="long" resultType="string">
         SELECT ALLOW_IP
         FROM TB_ADMIN_IP
-        WHERE MBR_SEQ = #{mbrSeq}
+        WHERE ADM_SEQ = #{admSeq}
     </select>
+
+    <update id="updateLoginTime" parameterType="string">
+        UPDATE TB_ADMIN SET LAST_LOGIN_DT = NOW() WHERE ADM_ID = #{admId}
+    </update>
 
 </mapper>

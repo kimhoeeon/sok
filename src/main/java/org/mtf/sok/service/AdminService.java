@@ -19,18 +19,18 @@ public class AdminService {
 
     public AdminDTO loginCheck(String mbrId, String mbrPw, String clientIp) throws Exception {
 
-        AdminDTO admin = adminMapper.findAdminById(mbrId);
+        AdminDTO admin = adminMapper.selectAdminById(mbrId);
 
         if (admin == null) {
             throw new Exception("존재하지 않는 관리자 계정입니다.");
         }
 
-        if (!passwordEncoder.matches(mbrPw, admin.getMbrPw())) {
+        if (!passwordEncoder.matches(mbrPw, admin.getAdmPw())) {
             throw new Exception("비밀번호가 일치하지 않습니다.");
         }
 
         // IP 검증 로직 (기존과 동일하게 100% 보존)
-        List<String> ipList = adminMapper.findAllowedIps(admin.getMbrSeq());
+        List<String> ipList = adminMapper.selectAdminIps(admin.getAdmSeq());
         admin.setAllowedIpList(ipList);
 
         if (ipList != null && !ipList.isEmpty()) {

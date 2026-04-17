@@ -85,10 +85,10 @@ public class PopupController {
         boolean isUpdate = (popup.getPopSeq() != null); // 신규/수정 여부 판별
 
         if (isUpdate) {
-            popup.setModId(admin.getMbrId());
+            popup.setModId(admin.getAdmId());
             popupMapper.updatePopup(popup);
         } else {
-            popup.setRegId(admin.getMbrId());
+            popup.setRegId(admin.getAdmId());
             popupMapper.insertPopup(popup);
         }
 

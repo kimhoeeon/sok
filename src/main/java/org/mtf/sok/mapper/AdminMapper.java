@@ -6,9 +6,12 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-    // 1. 관리자 기본 정보 조회 (DTO 자동 매핑)
-    AdminDTO findAdminById(String mbrId);
+    // 관리자 정보 조회
+    AdminDTO selectAdminById(String admId);
 
-    // 2. 관리자 MBR_SEQ를 통해 허용 IP 목록 조회
-    List<String> findAllowedIps(Long mbrSeq);
+    // 관리자 허용 IP 목록 조회 (추가)
+    List<String> selectAdminIps(Long admSeq);
+
+    // 로그인 시간 업데이트
+    void updateLoginTime(String admId);
 }
