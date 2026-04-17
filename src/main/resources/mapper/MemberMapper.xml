@@ -101,8 +101,43 @@
 
     <update id="updateMemberProfile" parameterType="org.mtf.sok.domain.MemberDTO">
         UPDATE TB_MEMBER
-        SET PHONE = #{phone}, EMAIL = #{email}, PROFILE_IMG = #{profileImg},
-            BIRTH_YEAR = #{birthYear}, GENDER = #{gender}, REGION1 = #{region1}, REGION2 = #{region2}
+        <set>
+            <if test="profileImg != null and profileImg != ''">
+                PROFILE_IMG = #{profileImg},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email},
+            </if>
+            <if test="birthYear != null and birthYear != ''">
+                BIRTH_YEAR = #{birthYear},
+            </if>
+            <if test="gender != null and gender != ''">
+                GENDER = #{gender},
+            </if>
+            <if test="region1 != null and region1 != ''">
+                REGION1 = #{region1},
+            </if>
+            <if test="region2 != null and region2 != ''">
+                REGION2 = #{region2},
+            </if>
+
+            <if test="mbrType == 'INSTITUTION'">
+                <if test="mgrNm != null and mgrNm != ''">
+                    MANAGER_NM = #{mgrNm},
+                </if>
+                <if test="mgrPos != null and mgrPos != ''">
+                    MANAGER_POS = #{mgrPos},
+                </if>
+                <if test="bizNo != null and bizNo != ''">
+                    BIZ_NO = #{bizNo},
+                </if>
+            </if>
+
+            MOD_DT = NOW()
+        </set>
         WHERE MBR_SEQ = #{mbrSeq}
     </update>
 
