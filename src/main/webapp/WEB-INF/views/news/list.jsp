@@ -63,16 +63,15 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li onclick="location.href='/news/detail?brdSeq=${item.brdSeq}'">
+                                <li onclick="location.href='/news/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
 
                                     <div>
                                         <c:choose>
-                                            <c:when test="${not empty item.fileList}">
-                                                <img src="${item.fileList[0].filePath}" alt="보도자료 이미지">
+                                            <c:when test="${not empty item.thumbPath}">
+                                                <img src="${item.thumbPath}" alt="${item.title} 썸네일">
                                             </c:when>
                                             <c:otherwise>
-                                                <img src="/img/logo.png" alt="기본 이미지"
-                                                     style="object-fit: contain; padding: 20px; background: #f8f9fa; border: 1px solid #d5d5d5;">
+                                                <img src="/img/logo.png" alt="스페셜올림픽코리아 로고" style="object-fit: contain; padding: 30px; background-color: #f8f9fa;">
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
