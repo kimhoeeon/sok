@@ -80,7 +80,29 @@ public class ReportController {
         board.setBrdType("REPORT");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
-        // 1. 활동보고서 기본 정보 저장
+        // 1. [썸네일 처리] report 폴더 하위의 thumb 폴더에 저장
+        if (board.getThumbFile() != null && !board.getThumbFile().isEmpty()) {
+            String thumbSavePath = uploadDir + "report/thumb/";
+            File folder = new File(thumbSavePath);
+            if (!folder.exists()) folder.mkdirs();
+
+            try {
+                MultipartFile tFile = board.getThumbFile();
+                String originalFileName = tFile.getOriginalFilename();
+                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String savedFileName = UUID.randomUUID().toString() + "_thumb" + ext;
+
+                File targetFile = new File(thumbSavePath + savedFileName);
+                tFile.transferTo(targetFile);
+
+                // 웹 접근 경로 세팅
+                board.setThumbPath("/upload/report/thumb/" + savedFileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 2. 게시글 정보 저장
         if (isUpdate) {
             board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");
             boardMapper.updateBoard(board);
@@ -89,7 +111,7 @@ public class ReportController {
             boardMapper.insertBoard(board);
         }
 
-        // 2. 활동보고서 첨부파일 처리
+        // 3. [일반 첨부파일 처리] report 폴더에 저장
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
             String savePath = uploadDir + "report/";
             File folder = new File(savePath);
@@ -113,7 +135,6 @@ public class ReportController {
                         fileDTO.setFilePath("/upload/report/" + savedFileName);
                         fileDTO.setFileSize(file.getSize());
                         fileDTO.setFileExt(ext);
-
                         boardMapper.insertFile(fileDTO);
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -39,19 +39,24 @@
     </select>
 
     <insert id="insertBoard" parameterType="org.mtf.sok.domain.BoardDTO" useGeneratedKeys="true" keyProperty="brdSeq">
-        INSERT INTO TB_BOARD (BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, CONTENT, YOUTUBE_URL, REG_ID, REG_DT)
-        VALUES (#{brdType}, #{category}, #{isNotice}, #{title}, #{content}, #{youtubeUrl}, #{regId}, NOW())
+        INSERT INTO TB_BOARD (BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, CONTENT, YOUTUBE_URL, THUMB_PATH, REG_ID, REG_DT)
+        VALUES (#{brdType}, #{category}, #{isNotice}, #{title}, #{content}, #{youtubeUrl}, #{thumbPath}, #{regId}, NOW())
     </insert>
 
     <update id="updateBoard" parameterType="org.mtf.sok.domain.BoardDTO">
         UPDATE TB_BOARD
-        SET CATEGORY    = #{category},
+        <set>
+            CATEGORY    = #{category},
             IS_NOTICE   = #{isNotice},
             TITLE       = #{title},
             CONTENT     = #{content},
             YOUTUBE_URL = #{youtubeUrl},
+            <if test="thumbPath != null and thumbPath != ''">
+                THUMB_PATH = #{thumbPath},
+            </if>
             MOD_ID      = #{modId},
             MOD_DT      = NOW()
+        </set>
         WHERE BRD_SEQ = #{brdSeq}
     </update>
 

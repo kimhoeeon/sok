@@ -20,15 +20,15 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-white">활동보고서 ${empty report.brdSeq ? '등록' : '수정'}</h3>
-    <a href="/admin/report/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
+    <a href="/admin/report/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
 <div class="premium-dark-card p-4">
     <form action="/admin/report/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${report.brdSeq}">
-
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
+        <input type="hidden" name="searchType" value="${params.searchType}">
         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
 
         <div class="row mb-4 glassmorphism-box p-3">
@@ -53,6 +53,17 @@
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">보고서 제목</label>
                 <input type="text" name="title" class="form-control dark-search-bar" value="${report.title}" required placeholder="예) 2025 스페셜올림픽코리아 연차보고서">
+            </div>
+
+            <div class="col-12 mb-3">
+                <label class="form-label" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
+                <input type="file" name="thumbFile" class="form-control dark-search-bar" accept="image/*">
+                <c:if test="${not empty report.thumbPath}">
+                    <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
+                        <span class="text-white align-middle me-2">현재 등록된 썸네일: </span>
+                        <img src="${report.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
+                    </div>
+                </c:if>
             </div>
 
             <div class="col-12 mb-3">
