@@ -170,4 +170,22 @@
         UPDATE TB_MEMBER SET MBR_PW = #{mbrPw} WHERE MBR_ID = #{mbrId}
     </update>
 
+    <!-- 이메일 중복 체크 (mbrSeq가 있으면 본인 이메일은 중복에서 제외) -->
+    <select id="checkDuplicateEmail" resultType="int">
+        SELECT COUNT(MBR_SEQ) FROM TB_MEMBER
+        WHERE EMAIL = #{email} AND WITHDRAW_YN = 'N'
+        <if test="mbrSeq != null">
+            AND MBR_SEQ != #{mbrSeq}
+        </if>
+    </select>
+
+    <!-- 연락처 중복 체크 -->
+    <select id="checkDuplicatePhone" resultType="int">
+        SELECT COUNT(MBR_SEQ) FROM TB_MEMBER
+        WHERE PHONE = #{phone} AND WITHDRAW_YN = 'N'
+        <if test="mbrSeq != null">
+            AND MBR_SEQ != #{mbrSeq}
+        </if>
+    </select>
+
 </mapper>

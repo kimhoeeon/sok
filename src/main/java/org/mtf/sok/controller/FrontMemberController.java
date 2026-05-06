@@ -40,6 +40,14 @@ public class FrontMemberController {
                 return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
             }
 
+            if (memberMapper.checkDuplicateEmail(memberDTO.getEmail(), null) > 0) {
+                return ResponseEntity.badRequest().body("이미 가입된 이메일 입니다. 본인이 가입한 경우가 아닐 경우, 관리자에게 문의해 주세요.");
+            }
+
+            if (memberMapper.checkDuplicatePhone(memberDTO.getPhone(), null) > 0) {
+                return ResponseEntity.badRequest().body("이미 가입된 연락처 입니다. 본인이 가입한 경우가 아닐 경우, 관리자에게 문의해 주세요.");
+            }
+
             // 2) 사업자등록증 파일이 존재할 경우 네이버 클라우드 스토리지에 업로드
             if (bizFile != null && !bizFile.isEmpty()) {
                 // "member/biz" 폴더 하위에 저장하고 생성된 URL 반환

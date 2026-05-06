@@ -53,6 +53,14 @@ public class FrontMypageController {
         }
 
         try {
+
+            if (memberMapper.checkDuplicateEmail(updateDto.getEmail(), loginUser.getMbrSeq()) > 0) {
+                return ResponseEntity.badRequest().body("이미 가입된 이메일 입니다. 관리자에게 문의해 주세요.");
+            }
+            if (memberMapper.checkDuplicatePhone(updateDto.getPhone(), loginUser.getMbrSeq()) > 0) {
+                return ResponseEntity.badRequest().body("이미 가입된 연락처 입니다. 관리자에게 문의해 주세요.");
+            }
+
             // 1. 보안: 클라이언트에서 조작하지 못하도록 세션의 회원 PK 번호를 강제 주입
             updateDto.setMbrSeq(loginUser.getMbrSeq());
 

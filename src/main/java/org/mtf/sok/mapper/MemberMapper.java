@@ -1,6 +1,7 @@
 package org.mtf.sok.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mtf.sok.domain.MemberDTO;
 import java.util.List;
 
@@ -62,5 +63,11 @@ public interface MemberMapper {
 
     // 관리자용 회원 상세 정보 조회
     MemberDTO selectMemberDetail(Long mbrSeq);
+
+    // 이메일 중복 체크 (본인 제외)
+    int checkDuplicateEmail(@Param("email") String email, @Param("mbrSeq") Long mbrSeq);
+
+    // 연락처 중복 체크 (본인 제외)
+    int checkDuplicatePhone(@Param("phone") String phone, @Param("mbrSeq") Long mbrSeq);
 
 }
