@@ -24,6 +24,8 @@ public class DonationDTO extends Criteria {
     private String cheerMsg;      // 응원 메시지
     private Date regDt;
     private String paymentKey;
+    private Long campSeq;       // 기부한 캠페인 번호
+    private String campTitle;   // JOIN으로 가져올 캠페인 제목 (목록 노출용)
 
     // 조회를 위한 가상 필드 (누적 기부금, 총 횟수 등)
     private Integer totalAmt;

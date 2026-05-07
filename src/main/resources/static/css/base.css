@@ -14,11 +14,13 @@ input[type="radio"] {background-color: initial;cursor: default;appearance: auto;
 .video_container {position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;}
 .video_container iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
+button{background: inherit; border: none;}
 
 /* padding */
 .p_tb {padding: 150px 0;}
 .p_t {padding-top: 150px;}
 .p_b {padding-bottom: 150px;}
+.p-0{padding: 0 !important;}
 
 input, select {-webkit-appearance: none;-moz-appearance: none;appearance: none;}
 
@@ -41,13 +43,17 @@ button{font-size: 1em; cursor: pointer;}
 .form_box.essen label span::after{content: '*';font-size: 0.875em;position: absolute;bottom: 3px;}
 
 .mt-30{margin-top: 30px;}
+.mt-60{margin-top: 60px;}
+.mb-0{margin-bottom: 0px !important}
 .mb-60{margin-bottom: 60px;}
+
+.pt-0{padding-top: 0 !important;}
 
 /* footer */
 #footer {padding: 60px 0; background: #fff; border-top: 1px solid #ddd;}
 #footer .inner{max-width: 1600px;}
 #footer img{vertical-align: middle;}
-#footer .tbox {display: flex; justify-content: space-between;align-items: center;}
+#footer .tbox {display: flex; justify-content: space-between;align-items: end;}
 #footer .tbox .ft_logo{display: inline-block;}
 #footer .tbox .ft_logo img{max-width: 280px;}
 #footer .menu {display: flex; gap: 0; flex-wrap: wrap;}
@@ -60,7 +66,11 @@ button{font-size: 1em; cursor: pointer;}
 #footer li.btn-open-terms{font-weight: 600;}
 #footer .nav{display: flex; align-items: center; gap: 30px;}
 #footer .nav .menu_wrap{display: grid; gap: 5px;}
-#footer .right ul{display: flex; gap: 10px; align-items: center;}
+#footer .right .f_sns{display: flex; gap: 10px; align-items: center; justify-content: right;margin-bottom: 10px;}
+#footer .right .f_privacy{display: flex; align-items: center; gap: 20px;}
+#footer .right .f_privacy a{font-weight: 500; position: relative;}
+#footer .right .f_privacy a::after{content: ''; width: 1px; height: 80%; background: #ddd;position: absolute; top: 50%; transform: translateY(-50%);margin-right: -10px; right: 0;}
+#footer .right .f_privacy li:last-child a::after{display: none;}
 
 /* header */
 .border{border-bottom: 1px solid #d5d5d5;}
@@ -135,7 +145,7 @@ button{font-size: 1em; cursor: pointer;}
 
 .site_map_top {display: none;}
 
-#header.active {background: rgba(255,255,255, .9);}
+#header.active {background: rgba(255,255,255);}
 
 .has-sub:hover .sub_menu {display: block;}
 
@@ -195,12 +205,17 @@ button{font-size: 1em; cursor: pointer;}
 body.is-scroll-locked {overflow: hidden;touch-action: none;}
 
 .sound_btn .play{display: flex; align-items: center;justify-content: center;cursor: pointer; gap: 5px;color: var(--mainColor); background: #fff;font-size: 1em; border: 1px solid var(--mainColor);padding: 5px 10px; border-radius: 10px;}
+.sound_btn .play:hover{color: #fff; background: var(--mainColor); }
 
 @media screen and (min-width:1401px) {
     .menu {display: flex;gap: 30px;}
     .menu > li > a {display: block;padding: 10px 0;}
     .sub_menu {position: absolute;top: 100%;left: 50%;transform: translateX(-50%);text-align: center; min-width: 140px; border-radius: 10px; padding: 10px 0;background: #fff;box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 10;}
     .sub_menu li a {display: block;padding: 8px 16px;white-space: nowrap;}
+}
+
+@media screen and (max-width:1600px) {
+    #header .nav_wrap{gap: 10px;}
 }
 
 @media screen and (max-width:1400px) {
@@ -288,6 +303,8 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
     #footer .nav{flex-direction: column; justify-content: center;}
     #footer .menu{justify-content: center;}
     #footer .tbox{flex-direction: column;gap:20px; align-items: center;}
+
+    #footer .right .f_sns{justify-content: center;margin-bottom: 10px;}
 }
 
 @media screen and (max-width:899px) {
@@ -308,7 +325,7 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
     #header {height: 60px;}
     #header .inner {gap: 20px;}
     /* #header .lang {margin-left: auto;} */
-    #header .logo img {height: 40px;}
+    #header .logo img {height: 50px;}
     
     
     .hd_site_map{top: 59px;}
@@ -350,5 +367,6 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
     .sec_tit .small {font-size: 1em; margin-top: 10px;}
 
     .select select{font-size: 0.875em;}
+    #footer .right .f_privacy a{font-size: 0.875em;}
 
 }
