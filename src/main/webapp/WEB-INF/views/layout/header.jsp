@@ -26,8 +26,29 @@
     <link href="/css/base.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/responsive.css" rel="stylesheet">
+
+    <style>
+        /* 팝업 UI를 위한 최소한의 스타일 (퍼블리싱에 방해되지 않음) */
+        .main-popup { position: absolute; z-index: 9999; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .main-popup .popup-content { overflow: hidden; }
+        .main-popup .popup-footer { background: #222; color: #fff; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .main-popup .popup-footer input { margin-right: 5px; vertical-align: middle; }
+        .main-popup .popup-footer button { color: #fff; background: none; border: none; font-size: 13px; cursor: pointer; }
+    </style>
 </head>
 <body>
+
+    <c:forEach var="popup" items="${popupList}">
+        <div id="popup_${popup.popSeq}" class="main-popup" style="top: ${popup.topPos}px; left: ${popup.leftPos}px; width: ${popup.width}px; display: none;">
+            <div class="popup-content" style="height: ${popup.height}px;">
+                    ${popup.content}
+            </div>
+            <div class="popup-footer">
+                <label><input type="checkbox" onclick="closePopupToday(${popup.popSeq})"> 오늘 하루 열지 않기</label>
+                <button type="button" onclick="closePopup(${popup.popSeq})">[닫기]</button>
+            </div>
+        </div>
+    </c:forEach>
 
     <div id="header">
         <div class="inner">
@@ -37,10 +58,10 @@
                     <li class="has-sub">
                         <a href="#">SOK</a>
                         <ul class="sub_menu">
-                            <li><a href="/intro">SOK 소개</a></li>
-                            <li><a href="/greeting">인사말</a></li>
-                            <li><a href="/ci">CI</a></li>
-                            <li><a href="/location">오시는 길</a></li>
+                            <li><a href="/intro/about">SOK 소개</a></li>
+                            <li><a href="/intro/greeting">인사말</a></li>
+                            <li><a href="/intro/ci">CI</a></li>
+                            <li><a href="/intro/way">오시는 길</a></li>
                         </ul>
                     </li>
                     <li><a href="/people/list">함께하는 사람들</a></li>
@@ -83,6 +104,7 @@
                                     <button type="button" class="font_minus"><img src="/img/ico_minus.png" alt="마이너스 버튼"></button>
                                 </div>
                             </div>
+
                             <div class="control_group">
                                 <span>줄간격</span>
                                 <div class="btns">
@@ -90,6 +112,7 @@
                                     <button type="button" class="line_minus"><img src="/img/ico_minus.png" alt="마이너스 버튼"></button>
                                 </div>
                             </div>
+
                             <div class="control_group">
                                 <span>설정 초기화</span>
                                 <div class="btns">
@@ -145,7 +168,51 @@
                             <a href="/mypage/donate" class="hd_top_sns">기부현황</a>
                         </div>
                     </div>
+
+                    <div class="site_map_nav">
+                        <ul class="dept1">
+                            <li>
+                                <a href="#"><span>SOK</span></a>
+                                <ul class="dept2">
+                                    <li><a href="/intro/about"><span>SOK 소개</span></a></li>
+                                    <li><a href="/intro/greeting"><span>인사말</span></a></li>
+                                    <li><a href="/intro/ci"><span>CI</span></a></li>
+                                    <li><a href="/intro/way"><span>오시는 길</span></a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/people/list"><span>함께하는 사람들</span></a>
+                            </li>
+                            <li>
+                                <a href="#"><span>주요사업</span></a>
+                                <ul class="dept2">
+                                    <li><a href="/business/sports"><span>스포츠</span></a></li>
+                                    <li><a href="/business/arts"><span>문화예술</span></a></li>
+                                    <li><a href="/business/community"><span>커뮤니티</span></a></li>
+                                    <li><a href="/business/awareness"><span>인식개선</span></a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span>뉴스·자료</span></a>
+                                <ul class="dept2">
+                                    <li><a href="/notice/list"><span>공지사항</span></a></li>
+                                    <li><a href="/management/list"><span>경영공시</span></a></li>
+                                    <li><a href="/bidding/list"><span>입찰정보</span></a></li>
+                                    <li><a href="/news/list"><span>보도자료</span></a></li>
+                                    <li><a href="/report/list"><span>활동보고서</span></a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span>신청·참여</span></a>
+                                <ul class="dept2">
+                                    <li><a href="/sponsor/donate"><span>후원하기</span></a></li>
+                                    <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>
+                                    <li><a href="/certificate/apply"><span>증명서 신청</span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
+                </div>
             </div>
         </div>
     </div>
