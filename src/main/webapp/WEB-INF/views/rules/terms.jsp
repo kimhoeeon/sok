@@ -9,7 +9,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>스페셜올림림픽코리아</span><span>운영규정</span>
+                    <span>스페셜올림림픽코리아</span><span>규정 및 약관</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">이용약관</div>

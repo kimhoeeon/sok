@@ -73,26 +73,48 @@ $(document).ready(function () {
         });
     });
 
-    function handleDept1Click() {
-        // Check viewport width
+    function handleDept1Click(e) {
         var viewportWidth = $(window).width();
-        if (viewportWidth <= 1401) {
-            // Check if any other .dept2 is visible
-            var otherDept2 = $('.site_map_nav .dept1 > li').not($(this)).find('.dept2:visible');
 
-            // Slide up the previously exposed .dept2 and expose the corresponding child element
-            otherDept2.slideUp();
-            $(this).find('.dept2').slideToggle();
+        if ($(this).hasClass('link_menu')) {
+            return true;
+        }
+
+        if (viewportWidth <= 1401) {
+            var $dept2 = $(this).find('.dept2');
+
+            if (!$dept2.length) {
+                return true;
+            }
+
+            e.preventDefault();
+
+            var otherDept2 = $('.site_map_nav .dept1 > li')
+                .not($(this))
+                .find('.dept2:visible');
+
+            otherDept2.stop(true, true).slideUp();
+
+            $dept2.stop(true, true).slideToggle();
         }
     }
 
-    // Handle .dept1 click on page load
+    // 1depth 클릭
     $('.site_map_nav .dept1 > li').on('click', handleDept1Click);
 
-    // Handle .dept1 click on window resize
-    $( window ).on('resize', function() {
+    // dept2 안의 a는 링크 이동되게
+    $('.site_map_nav .dept2 a').on('click', function (e) {
+        e.stopPropagation();
+    });
+
+    // resize
+    $(window).on('resize', function () {
         $('.site_map_nav .dept1 > li').off('click', handleDept1Click);
         $('.site_map_nav .dept1 > li').on('click', handleDept1Click);
+
+        $('.site_map_nav .dept2 a').off('click').on('click', function (e) {
+            e.stopPropagation();
+        });
     });
 
     // header 이벤트

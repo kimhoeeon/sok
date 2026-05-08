@@ -38,18 +38,6 @@
 </head>
 <body>
 
-    <c:forEach var="popup" items="${popupList}">
-        <div id="popup_${popup.popSeq}" class="main-popup" style="top: ${popup.topPos}px; left: ${popup.leftPos}px; width: ${popup.width}px; display: none;">
-            <div class="popup-content" style="height: ${popup.height}px;">
-                    ${popup.content}
-            </div>
-            <div class="popup-footer">
-                <label><input type="checkbox" onclick="closePopupToday(${popup.popSeq})"> 오늘 하루 열지 않기</label>
-                <button type="button" onclick="closePopup(${popup.popSeq})">[닫기]</button>
-            </div>
-        </div>
-    </c:forEach>
-
     <div id="header">
         <div class="inner">
             <div class="logo"><a href="/"><img src="/img/logo.png" alt="SOK 로고"></a></div>
@@ -180,7 +168,7 @@
                                     <li><a href="/intro/way"><span>오시는 길</span></a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="link_menu">
                                 <a href="/people/list"><span>함께하는 사람들</span></a>
                             </li>
                             <li>

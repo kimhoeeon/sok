@@ -207,6 +207,9 @@
     .sports_view .img_item{gap: 10px; grid-template-columns: repeat(2, 1fr);}
     .img_view .img_item{gap: 10px; grid-template-columns: repeat(2, 1fr);}
 
+    .sports_list .sports_item{width: 100%;}
+    .sports_list .sports_item:last-child li{width: 23%;}
+
     /* 문화예술 */
     .cult_bi{gap: 30px;}
     .cult_bi .bi{font-size: 1.875em;}
@@ -259,6 +262,7 @@
 
     /* 관련규정 */
     .policy_list .down_item .down_list li{width: 100%;}
+
 }
 
 @media screen and (max-width:599px) {
@@ -536,6 +540,11 @@
     .contest_sum li{padding: 20px;}
     .contest_sum .gu{font-size: 1.125em;}
     .contest_sum .txt_box{font-size: 0.875em;}
+
+    .sports_list .sports_item .tit{font-size: 1em;}
+    .sports_item .list{justify-content: center;}
+    .sports_item .list li{width: 48%;}
+    .sports_list .sports_item:last-child li{width: 48%;}
 
     /* 문화예술 */
     .cult_bi .bi_txt .poster_box{flex-direction: column;}
