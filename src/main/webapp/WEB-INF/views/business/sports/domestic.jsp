@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>주요사업</span><span>스포츠</span><span>국제대회참가</span>
+                    <span>주요사업</span><span>스포츠</span><span>국내대회개최</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">국제대회참가</div>
+                <div class="sub_top_tit" id="tts_sub_top">국내대회개최</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -37,8 +37,8 @@
             <div class="sub_tab">
                 <ul class="board_tab">
                     <li><a href="/business/sports">종목소개</a></li>
-                    <li class="on"><a href="/business/sports/intl">국제대회참가</a></li>
-                    <li><a href="/business/sports/domestic">국내대회개최</a></li>
+                    <li><a href="/business/sports/intl">국제대회참가</a></li>
+                    <li class="on"><a href="/business/sports/domestic">국내대회개최</a></li>
                     <li><a href="/business/sports/unif">통합스포츠</a></li>
                     <li><a href="/business/sports/other">기타</a></li>
                 </ul>
@@ -46,26 +46,21 @@
 
             <div class="contest">
                 <ul class="contest_tab column">
-                    <li class="on"><a href="/business/sports/intl">스페셜올림픽세계대회</a></li>
-                    <li><a href="/business/sports/intl-global">VIRTUS 글로벌게임</a></li>
-                    <li><a href="/business/sports/intl-category">종목별 국제대회</a></li>
+                    <li class="on"><a href="/business/sports/domestic">전국하계대회</a></li>
+                    <li><a href="/business/sports/domestic-winter">전국동계대회</a></li>
                 </ul>
             </div>
 
             <div class="contest_info">
-                <div class="txt">국제올림픽위원회(IOC, International Olympic Committee)와의 협약을 통해 <br/>
-                    스페셜올림픽은 올림픽, 패럴림픽과 더불어‘올림픽’이라는 명칭을 공식적으로 사용할 수 있는 세계 대회를 개최하고 있습니다. <br/>
-                    1968년 제1회 대회(시카고, 미국)를 시작으로 2년에 한 번씩 하계대회와 동계대회를 번갈아 개최하고 있으며, <br/>
-                    대한민국은 2013년 평창에서 세계동계대회를 성공적으로 개최한 바 있습니다.
+                <div class="txt">스페셜올림픽코리아는 전국 하계대회 개최를 통해 전국의 발달 장애인들에게 다양한 경기 종목의 참여 기회를 제공하고 <br/>
+                    우수 선수 발굴 및 육성을 통해 스페셜올림픽 세계대회 및 Virtus 글로벌게임 선발 자료로 활용하고 있습니다.<br/>
+                    총 12개 정식 종목(배구, 축구, 탁구, 농구, 배드민턴, 육상, 수영, 골프, 보체, 롤러스케이트, 역도, 태권도(품새))과 2개 시범종목(핸드볼, MATP)이 있습니다.
                 </div>
                 <div class="video">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/Ij2PbWIqqnM&t?mute=1&controls=0&loop=1&playlist=Ij2PbWIqqnM&t'
+                        <iframe src='https://www.youtube.com/embed/FFDaS88z5J8?mute=1&controls=0&loop=1&playlist=FFDaS88z5J8'
                                 frameborder='0' allowfullscreen></iframe>
                     </div>
-                </div>
-                <div class="btn link_btn">
-                    <a href="http://worldgame.sokorea.or.kr/" class="b_hover" target="_blank">사이트 바로가기</a>
                 </div>
             </div>
 
@@ -84,7 +79,7 @@
                     data-taret=tts_2
 
                     -->
-                    <div class="sub_top_tit" id="tts_sub_int_picture">스페셜올림픽 대회 사진</div>
+                    <div class="sub_top_tit" id="tts_sub_int_picture">전국 하계대회 사진</div>
                     <div class="sound_btn">
                         <button type="button" class="play" data-target="tts_sub_int_picture">
                             소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -94,12 +89,24 @@
             </div>
             <div class="sports_view">
                 <ul class="img_item">
-                    <li><img src="/img/contest_img_intl01.png" alt="스포츠 이미지"></li>
-                    <li><img src="/img/contest_img_intl02.png" alt="스포츠 이미지"></li>
-                    <li><img src="/img/contest_img_intl03.png" alt="스포츠 이미지"></li>
-                    <li><img src="/img/contest_img_intl04.png" alt="스포츠 이미지"></li>
-                    <li><img src="/img/contest_img_intl05.png" alt="스포츠 이미지"></li>
-                    <li><img src="/img/contest_img_intl06.png" alt="스포츠 이미지"></li>
+                    <li>
+                        <img src="/img/contest_img_intl19.png" alt="스포츠 이미지">
+                    </li>
+                    <li>
+                        <img src="/img/contest_img_intl20.png" alt="스포츠 이미지">
+                    </li>
+                    <li>
+                        <img src="/img/contest_img_intl21.png" alt="스포츠 이미지">
+                    </li>
+                    <li>
+                        <img src="/img/contest_img_intl22.png" alt="스포츠 이미지">
+                    </li>
+                    <li>
+                        <img src="/img/contest_img_intl23.png" alt="스포츠 이미지">
+                    </li>
+                    <li>
+                        <img src="/img/contest_img_intl24.png" alt="스포츠 이미지">
+                    </li>
                 </ul>
             </div>
         </div>
@@ -116,7 +123,7 @@
                     data-taret=tts_2
 
                     -->
-                    <div class="sub_top_tit" id="tts_sub_cont_sum">스페셜올림픽 역대 하계대회</div>
+                    <div class="sub_top_tit" id="tts_sub_cont_sum">역대 전국하계대회</div>
                     <div class="sound_btn">
                         <button type="button" class="play" data-target="tts_sub_cont_sum">
                             소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -128,130 +135,138 @@
                 <ul class="img_item">
                     <li>
                         <span class="badge orange">1회차</span>
-                        <div class="gu">1968 시카고 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">1999 한국 스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 시카고(미국)</div>
-                            <div class="scale">대회규모 : 1,000명</div>
+                            <div class="venue">개최지 : 순천향대학교</div>
+                            <div class="scale">참가인원 : -</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">2회차</span>
-                        <div class="gu">1970 시카고 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2000 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 시카고(미국)</div>
-                            <div class="scale">대회규모 : 2,000명</div>
+                            <div class="venue">개최지 : 명지대학교</div>
+                            <div class="scale">참가인원 : -</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">3회차</span>
-                        <div class="gu">1972 로스엔젤레스 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2002 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 로스엔젤레스(미국)</div>
-                            <div class="scale">대회규모 : 2,500명</div>
+                            <div class="venue">개최지 : 국군체육부대</div>
+                            <div class="scale">참가인원 : -</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">4회차</span>
-                        <div class="gu">1975 미시건 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2005 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 미시건(미국)</div>
-                            <div class="scale">대회규모 : 3,200명</div>
+                            <div class="venue">개최지 : 국군체육부대</div>
+                            <div class="scale">참가인원 : -</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">5회차</span>
-                        <div class="gu">1979 뉴욕 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2006 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 뉴욕(미국)</div>
-                            <div class="scale">대회규모 : 3,500명 / 참가인원 : 4명</div>
+                            <div class="venue">개최지 : 명지대학교</div>
+                            <div class="scale">참가인원 : 1,394</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">6회차</span>
-                        <div class="gu">1983 루이지애나 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2008 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 루이지애나(미국)</div>
-                            <div class="scale">대회규모 : 4,000명 / 참가인원 : 7명</div>
+                            <div class="venue">개최지 : 강원도 평창군</div>
+                            <div class="scale">참가인원 : 1,424</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">7회차</span>
-                        <div class="gu">1987 인디아나 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2009 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 인디아나(미국)</div>
-                            <div class="scale">대회규모 : 4,700명 / 참가인원 : 34명</div>
+                            <div class="venue">개최지 : 우석대학교</div>
+                            <div class="scale">참가인원 : 1,924</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">8회차</span>
-                        <div class="gu">1991 미네아폴리스 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2010 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 미네아폴리스(미국)</div>
-                            <div class="scale">대회규모 : 6,000명 / 참가인원 : 52명</div>
+                            <div class="venue">개최지 : 대구광역시</div>
+                            <div class="scale">참가인원 : 2,100</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">9회차</span>
-                        <div class="gu">1995 코네티켓 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2012 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 코네티켓(미국)</div>
-                            <div class="scale">대회규모 : 7,000명 / 참가인원 : 40명</div>
+                            <div class="venue">개최지 : 경상북도 경산시</div>
+                            <div class="scale">참가인원 : 1,200</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">10회차</span>
-                        <div class="gu">1999 노스캐롤라이나 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2013 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 노스캐롤라이나(미국)</div>
-                            <div class="scale">대회규모 : 7,000명 / 참가인원 : 30명</div>
+                            <div class="venue">개최지 : 경기도 수원시</div>
+                            <div class="scale">참가인원 : 3,000</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">11회차</span>
-                        <div class="gu">2003 더블린 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2014 한국스페셜올림픽 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 더블린(아일랜드)</div>
-                            <div class="scale">대회규모 : 6,500명 / 참가인원 : 40명</div>
+                            <div class="venue">개최지 : 강원도 일대</div>
+                            <div class="scale">참가인원 : 2,500</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">12회차</span>
-                        <div class="gu">2007 상하이 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2016 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 상하이(중국)</div>
-                            <div class="scale">대회규모 : 7,291명 / 참가인원 : 50명</div>
+                            <div class="venue">개최지 : 서울특별시</div>
+                            <div class="scale">참가인원 : 1,833</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">13회차</span>
-                        <div class="gu">2011 아테네 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2017 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 아테네(그리스)</div>
-                            <div class="scale">대회규모 : 7,000명 / 참가인원 : 111명</div>
+                            <div class="venue">개최지 : 경상남도 창원시</div>
+                            <div class="scale">참가인원 : 2,200</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">14회차</span>
-                        <div class="gu">2015 로스엔젤레스 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2018 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 로스엔젤레스(미국)</div>
-                            <div class="scale">대회규모 : 7,000명 / 참가인원 : 131명</div>
+                            <div class="venue">개최지 : 충청남도 홍성군</div>
+                            <div class="scale">참가인원 : 2,500</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">15회차</span>
-                        <div class="gu">2019 아부다비 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2021 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 아부다비(UAE)</div>
-                            <div class="scale">대회규모 : 7,000명 / 참가인원 : 151명</div>
+                            <div class="venue">개최지 : 제주도 서귀포시</div>
+                            <div class="scale">참가인원 : 1,100</div>
                         </div>
                     </li>
                     <li>
                         <span class="badge orange">16회차</span>
-                        <div class="gu">2023 베를린 <br/>스페셜올림픽 세계하계대회</div>
+                        <div class="gu">2022 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 베를린(독일)</div>
-                            <div class="scale">대회규모 : 6,500명 / 참가인원 : 150명</div>
+                            <div class="venue">개최지 : 제주도 서귀포시</div>
+                            <div class="scale">참가인원 : 2,000</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="badge orange">17회차</span>
+                        <div class="gu">2024 스페셜올림픽코리아 <br/>전국하계대회</div>
+                        <div class="txt_box">
+                            <div class="venue">개최지 : 인천광역시</div>
+                            <div class="scale">참가인원 : 2,479</div>
                         </div>
                     </li>
                 </ul>

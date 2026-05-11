@@ -24,8 +24,8 @@
             </div>
             <ul class="sub_top_tab">
                 <li class="on"><a href="/business/sports">스포츠</a></li>
-                <li><a href="/business/arts">문화예술</a></li>
-                <li><a href="/business/community">커뮤니티</a></li>
+                <li><a href="/business/culture">문화예술</a></li>
+                <li><a href="/business/commu">커뮤니티</a></li>
                 <li><a href="/business/awareness">인식개선</a></li>
             </ul>
         </div>
@@ -38,17 +38,17 @@
                 <ul class="board_tab">
                     <li><a href="/business/sports">종목소개</a></li>
                     <li class="on"><a href="/business/sports/intl">국제대회참가</a></li>
-                    <li><a href="/business/domestic">국내대회개최</a></li>
-                    <li><a href="/business/unif">통합스포츠</a></li>
-                    <li><a href="/business/other">기타</a></li>
+                    <li><a href="/business/sports/domestic">국내대회개최</a></li>
+                    <li><a href="/business/sports/unif">통합스포츠</a></li>
+                    <li><a href="/business/sports/other">기타</a></li>
                 </ul>
             </div>
 
             <div class="contest">
                 <ul class="contest_tab column">
                     <li><a href="/business/sports/intl">스페셜올림픽세계대회</a></li>
-                    <li class="on"><a href="/business/sports/intl_global">VIRTUS 글로벌게임</a></li>
-                    <li><a href="/business/sports/intl_category">종목별 국제대회</a></li>
+                    <li class="on"><a href="/business/sports/intl-global">VIRTUS 글로벌게임</a></li>
+                    <li><a href="/business/sports/intl-category">종목별 국제대회</a></li>
                 </ul>
             </div>
 

@@ -71,29 +71,68 @@ public class FrontBusinessController {
     @GetMapping("/sports/unif")
     public String sportsUnif() { return "business/sports/unif"; }
 
-    @GetMapping("/sports/unif-k-league")
-    public String sportsUnifKLeague() { return "business/sports/unif_k-league"; }
-
     @GetMapping("/sports/unif-sport")
     public String sportsUnifSport() { return "business/sports/unif_sport"; }
+
+    @GetMapping("/sports/unif-k-league")
+    public String sportsUnifKLeague() { return "business/sports/unif_k-league"; }
 
     // [기타사업] 메인 및 하위 페이지
     @GetMapping("/sports/other")
     public String sportsOther() { return "business/sports/other"; }
 
-    @GetMapping("/sports/other-hap")
-    public String sportsOtherHap() { return "business/sports/other_hap"; }
-
     @GetMapping("/sports/other-one")
     public String sportsOtherOne() { return "business/sports/other_one"; }
 
+    @GetMapping("/sports/other-hap")
+    public String sportsOtherHap() { return "business/sports/other_hap"; }
 
     // ==========================================
-    // 2. 문화예술(Arts) 영역 (추후 파일 전달 시 확장)
+    // 2. 문화예술(Culture) 영역
     // ==========================================
-    @GetMapping("/arts")
-    public String artsList() {
-        // 문화예술 관련 로직 구현 예정
-        return "business/arts/list";
-    }
+
+    // [국제 스페셜 뮤직&아트 페스티벌]
+    @GetMapping("/culture")
+    public String cultureMain() { return "business/culture/culture"; }
+
+    // [스페셜올림픽 미술대회]
+    @GetMapping("/culture-art")
+    public String cultureArt() { return "business/culture/culture_art"; }
+
+    // [두드림 페스티벌]
+    @GetMapping("/culture-dodream")
+    public String cultureDodream() { return "business/culture/culture_dodream"; }
+
+    // [국내외 공연 참가 지원]
+    @GetMapping("/culture-support")
+    public String cultureSupport() { return "business/culture/culture_support"; }
+
+    // ==========================================
+    // 3. 커뮤니티(Community) 영역
+    // ==========================================
+
+    // [유아체육프로그램]
+    @GetMapping("/commu")
+    public String commuMain() { return "business/commu/commu"; }
+
+    // [선수아카데미]
+    @GetMapping("/commu-academy")
+    public String commuAcademy() { return "business/commu/commu_academy"; }
+
+    // [가족/자원봉사 위원회]
+    @GetMapping("/commu-volunteer")
+    public String commuVolunteer() { return "business/commu/commu_volunteer"; }
+
+    // ==========================================
+    // 4. 인식개선(Awareness) 영역
+    // ==========================================
+
+    // [인식개선 캠페인]
+    @GetMapping("/awareness")
+    public String awarenessMain() { return "business/awareness/awareness"; }
+
+    // [슈퍼블루 마라톤]
+    @GetMapping("/awareness-marathon")
+    public String awarenessMarathon() { return "business/awareness/awareness_marathon"; }
+
 }

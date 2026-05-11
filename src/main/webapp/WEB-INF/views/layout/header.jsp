@@ -57,8 +57,8 @@
                         <a href="#">주요사업</a>
                         <ul class="sub_menu">
                             <li><a href="/business/sports">스포츠</a></li>
-                            <li><a href="/business/arts">문화예술</a></li>
-                            <li><a href="/business/community">커뮤니티</a></li>
+                            <li><a href="/business/culture">문화예술</a></li>
+                            <li><a href="/business/commu">커뮤니티</a></li>
                             <li><a href="/business/awareness">인식개선</a></li>
                         </ul>
                     </li>
@@ -175,8 +175,8 @@
                                 <a href="#"><span>주요사업</span></a>
                                 <ul class="dept2">
                                     <li><a href="/business/sports"><span>스포츠</span></a></li>
-                                    <li><a href="/business/arts"><span>문화예술</span></a></li>
-                                    <li><a href="/business/community"><span>커뮤니티</span></a></li>
+                                    <li><a href="/business/culture"><span>문화예술</span></a></li>
+                                    <li><a href="/business/commu"><span>커뮤니티</span></a></li>
                                     <li><a href="/business/awareness"><span>인식개선</span></a></li>
                                 </ul>
                             </li>
