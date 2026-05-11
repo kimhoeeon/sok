@@ -12,7 +12,7 @@
                 <div class="sub_top_nav">
                     <span>마이페이지</span><span>기부현황</span>
                 </div>
-                <div class="sub_top_tit" id="tts_sub_top"><span>${sessionScope.userLogin.mbrNm} 님</span></div>
+                <div class="sub_top_tit" id="tts_sub_top"><span><c:out value="${sessionScope.userLogin.mbrNm}"/> 님</span></div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -95,7 +95,7 @@
         </div>
         <div class="donations_card">
             <div class="card_tit">기부증서</div>
-            <div class="card_name">${sessionScope.userLogin.mbrNm}</div>
+            <div class="card_name"><c:out value="${sessionScope.userLogin.mbrNm}"/></div>
             <ul>
                 <li>
                     <div class="gu">기부 유형</div>

@@ -1,6 +1,7 @@
 package org.mtf.sok.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
 
@@ -30,5 +31,7 @@ public interface BoardMapper {
     BoardDTO selectPrevBoard(BoardDTO params);
 
     BoardDTO selectNextBoard(BoardDTO params);
+
+    List<FileDTO> selectFilesByRefSeqs(@Param("refTable") String refTable, @Param("refSeqs") List<Long> refSeqs);
 
 }

@@ -56,7 +56,9 @@
         </div>
         <div class="sub_top view_top" style="padding: 0; padding-bottom: 20px;">
             <div class="sub_top_box">
-                <div class="sub_top_tit" id="tts_title_top" style="font-size: 2em;">${board.title}</div>
+                <div class="sub_top_tit" id="tts_title_top" style="font-size: 2em;">
+                    <c:out value="${board.title}"/>
+                </div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_title_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -73,9 +75,9 @@
                 <div class="view_file">
                     <c:forEach var="file" items="${board.fileList}" varStatus="status">
                         <div>
-                                ${status.count}.
+                            ${status.count}.
                             <a href="${file.filePath}" target="_blank" download class="hover-glow text-decoration-none">
-                                    ${file.orgFileNm}
+                                <c:out value="${file.orgFileNm}"/>
                                 <span style="color: #777;">
                                     (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
                                 </span>
@@ -98,7 +100,7 @@
                             onclick="location.href='${boardUrl}/detail?brdSeq=${prevBoard.brdSeq}&pageNum=${params.pageNum}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}'"
                             style="cursor: pointer;">
                             <div style="min-width: 60px;">이전글</div>
-                            <div class="tit">${prevBoard.title}</div>
+                            <div class="tit"><c:out value="${prevBoard.title}"/></div>
                         </li>
                     </c:when>
                     <c:otherwise>
@@ -115,7 +117,7 @@
                             onclick="location.href='${boardUrl}/detail?brdSeq=${nextBoard.brdSeq}&pageNum=${params.pageNum}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}'"
                             style="cursor: pointer;">
                             <div style="min-width: 60px;">다음글</div>
-                            <div class="tit">${nextBoard.title}</div>
+                            <div class="tit"><c:out value="${nextBoard.title}"/></div>
                         </li>
                     </c:when>
                     <c:otherwise>

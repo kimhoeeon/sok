@@ -103,4 +103,15 @@
         ORDER BY BRD_SEQ ASC LIMIT 1
     </select>
 
+    <select id="selectFilesByRefSeqs" resultType="org.mtf.sok.domain.FileDTO">
+        SELECT * FROM TB_FILE
+        WHERE REF_TABLE = #{refTable}
+        AND DEL_YN = 'N'
+        AND REF_SEQ IN
+        <foreach collection="refSeqs" item="seq" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+        ORDER BY REF_SEQ ASC, FILE_SEQ ASC
+    </select>
+
 </mapper>

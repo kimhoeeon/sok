@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/notice")
@@ -34,11 +37,20 @@ public class FrontNoticeController {
         int total = boardMapper.selectBoardTotalCount(params);
 
         // 2. 첨부파일 아이콘 노출을 위해 각 게시글별 첨부파일 존재 여부 확인
-        for (BoardDTO board : list) {
-            FileDTO fileParams = new FileDTO();
-            fileParams.setRefTable("TB_BOARD");
-            fileParams.setRefSeq(board.getBrdSeq());
-            board.setFileList(boardMapper.selectFiles(fileParams));
+        // N+1 쿼리 성능 최적화: 목록에 있는 모든 게시글의 파일을 단 1번의 쿼리로 가져옴
+        if (list != null && !list.isEmpty()) {
+            List<Long> brdSeqs = list.stream().map(BoardDTO::getBrdSeq).collect(Collectors.toList());
+            List<FileDTO> allFiles = boardMapper.selectFilesByRefSeqs("TB_BOARD", brdSeqs);
+
+            if (allFiles != null && !allFiles.isEmpty()) {
+                // 게시글 번호(refSeq)를 기준으로 파일들을 그룹화하여 매핑
+                Map<Long, List<FileDTO>> fileMap = allFiles.stream()
+                        .collect(Collectors.groupingBy(FileDTO::getRefSeq));
+
+                for (BoardDTO board : list) {
+                    board.setFileList(fileMap.getOrDefault(board.getBrdSeq(), new ArrayList<>()));
+                }
+            }
         }
 
         // 3. 페이징 객체 생성
