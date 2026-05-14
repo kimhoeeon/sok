@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/dev")
+@RequestMapping("/mng/dev")
 public class DevController {
 
     @Autowired
@@ -59,13 +59,13 @@ public class DevController {
         // 기존 대시보드 통계 데이터 유지
         model.addAttribute("statusCount", devMapper.selectRequestStatusCount());
 
-        return "admin/dev/list";
+        return "mng/dev/list";
     }
 
     @GetMapping("/form")
     public String form(Model model) {
         model.addAttribute("request", new DevRequestDTO());
-        return "admin/dev/form";
+        return "mng/dev/form";
     }
 
     @PostMapping("/saveRequest")
@@ -84,7 +84,7 @@ public class DevController {
             directSendService.sendRequestAlertEmail(request);
         }
 
-        return "redirect:/admin/dev/list";
+        return "redirect:/mng/dev/list";
     }
 
     @GetMapping("/detail")
@@ -108,7 +108,7 @@ public class DevController {
         model.addAttribute("comments", comments);
         model.addAttribute("isDeveloper", isDeveloper(session));
 
-        return "admin/dev/detail";
+        return "mng/dev/detail";
     }
 
     @PostMapping("/updateStatus")
@@ -132,7 +132,7 @@ public class DevController {
         rttr.addAttribute("searchStatus", request.getSearchStatus());
         rttr.addAttribute("searchKeyword", request.getSearchKeyword());
 
-        return "redirect:/admin/dev/detail";
+        return "redirect:/mng/dev/detail";
     }
 
     @PostMapping("/saveComment")
@@ -156,7 +156,7 @@ public class DevController {
         rttr.addAttribute("searchStatus", params.getSearchStatus());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/dev/detail";
+        return "redirect:/mng/dev/detail";
     }
 
     // 파일 업로드 공통 내부 헬퍼
@@ -245,6 +245,6 @@ public class DevController {
         rttr.addAttribute("searchStatus", params.getSearchStatus());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/dev/list";
+        return "redirect:/mng/dev/list";
     }
 }

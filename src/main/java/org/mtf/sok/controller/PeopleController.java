@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/people")
+@RequestMapping("/mng/people")
 public class PeopleController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class PeopleController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/people/list";
+        return "mng/people/list";
     }
 
     @GetMapping("/form")
@@ -61,7 +61,7 @@ public class PeopleController {
         }
 
         model.addAttribute("people", people);
-        return "admin/people/form";
+        return "mng/people/form";
     }
 
     @PostMapping("/save")
@@ -81,9 +81,9 @@ public class PeopleController {
                         if (!ext.matches(".*\\.(jpg|jpeg|png|gif|bmp|webp)$")) {
                             rttr.addFlashAttribute("errorMessage", "보안 정책에 따라 이미지 파일(jpg, png, gif 등)만 업로드할 수 있습니다.");
                             if (isUpdate) {
-                                return "redirect:/admin/people/form?brdSeq=" + board.getBrdSeq();
+                                return "redirect:/mng/people/form?brdSeq=" + board.getBrdSeq();
                             } else {
-                                return "redirect:/admin/people/form";
+                                return "redirect:/mng/people/form";
                             }
                         }
                     }
@@ -146,7 +146,7 @@ public class PeopleController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/people/list";
+        return "redirect:/mng/people/list";
     }
 
     @PostMapping("/delete")
@@ -158,6 +158,6 @@ public class PeopleController {
         rttr.addAttribute("category", params.getCategory());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/people/list";
+        return "redirect:/mng/people/list";
     }
 }

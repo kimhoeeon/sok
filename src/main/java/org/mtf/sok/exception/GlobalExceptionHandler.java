@@ -18,6 +18,6 @@ public class GlobalExceptionHandler {
 
         // 에러가 발생한 이전 페이지의 URL을 가져와서 되돌려 보냄
         String referer = request.getHeader("Referer");
-        return "redirect:" + (referer != null ? referer : "/admin/main");
+        return "redirect:" + (referer != null ? referer : "/mng/main");
     }
 }

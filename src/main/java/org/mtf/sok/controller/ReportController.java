@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/report")
+@RequestMapping("/mng/report")
 public class ReportController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class ReportController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/report/list";
+        return "mng/report/list";
     }
 
     @GetMapping("/form")
@@ -68,7 +68,7 @@ public class ReportController {
         }
 
         model.addAttribute("report", board);
-        return "admin/report/form";
+        return "mng/report/form";
     }
 
     @PostMapping("/save")
@@ -153,7 +153,7 @@ public class ReportController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/report/list";
+        return "redirect:/mng/report/list";
     }
 
     @PostMapping("/delete")
@@ -180,7 +180,7 @@ public class ReportController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/report/list";
+        return "redirect:/mng/report/list";
     }
 
     @GetMapping("/excel")

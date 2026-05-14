@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/popup")
+@RequestMapping("/mng/popup")
 public class PopupController {
 
     @Autowired
@@ -52,7 +52,7 @@ public class PopupController {
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params); // 파라미터 상태 유지
-        return "admin/popup/list";
+        return "mng/popup/list";
     }
 
     @GetMapping("/form")
@@ -74,7 +74,7 @@ public class PopupController {
         }
 
         model.addAttribute("popup", popup);
-        return "admin/popup/form";
+        return "mng/popup/form";
     }
 
     @PostMapping("/save")
@@ -136,7 +136,7 @@ public class PopupController {
             rttr.addAttribute("amount", popup.getAmount());
         }
 
-        return "redirect:/admin/popup/list";
+        return "redirect:/mng/popup/list";
     }
 
     @PostMapping("/delete")
@@ -153,6 +153,6 @@ public class PopupController {
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
         rttr.addAttribute("searchUseYnOnly", params.getSearchUseYnOnly());
 
-        return "redirect:/admin/popup/list";
+        return "redirect:/mng/popup/list";
     }
 }

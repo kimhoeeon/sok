@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/notice")
+@RequestMapping("/mng/notice")
 public class NoticeController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class NoticeController {
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params); // 검색/페이징 상태 유지용
-        return "admin/notice/list";
+        return "mng/notice/list";
     }
 
     @GetMapping("/form")
@@ -69,7 +69,7 @@ public class NoticeController {
         }
 
         model.addAttribute("board", board);
-        return "admin/notice/form";
+        return "mng/notice/form";
     }
 
     @PostMapping("/save")
@@ -132,7 +132,7 @@ public class NoticeController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/notice/list";
+        return "redirect:/mng/notice/list";
     }
 
     // 게시글 삭제 시 로컬 물리 파일 완전히 삭제 연동
@@ -151,7 +151,7 @@ public class NoticeController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/notice/list";
+        return "redirect:/mng/notice/list";
     }
 
     // 공지사항 엑셀 다운로드

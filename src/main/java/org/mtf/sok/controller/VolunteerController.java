@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/volunteer")
+@RequestMapping("/mng/volunteer")
 public class VolunteerController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class VolunteerController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/volunteer/list";
+        return "mng/volunteer/list";
     }
 
     @GetMapping("/detail")
@@ -41,7 +41,7 @@ public class VolunteerController {
                          @ModelAttribute("params") VolunteerDTO params,
                          Model model) {
         model.addAttribute("volunteer", volunteerMapper.selectVolunteer(volSeq));
-        return "admin/volunteer/detail";
+        return "mng/volunteer/detail";
     }
 
     @PostMapping("/update")
@@ -54,7 +54,7 @@ public class VolunteerController {
         rttr.addAttribute("searchSupportArea", volunteer.getSearchSupportArea());
         rttr.addAttribute("searchKeyword", volunteer.getSearchKeyword());
 
-        return "redirect:/admin/volunteer/detail";
+        return "redirect:/mng/volunteer/detail";
     }
 
     @PostMapping("/delete")
@@ -66,7 +66,7 @@ public class VolunteerController {
         rttr.addAttribute("searchSupportArea", params.getSearchSupportArea());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/volunteer/list";
+        return "redirect:/mng/volunteer/list";
     }
 
     @GetMapping("/excel")

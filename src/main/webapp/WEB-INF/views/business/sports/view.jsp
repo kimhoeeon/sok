@@ -29,7 +29,7 @@
                     </div>
                     <c:if test="${not empty board.fileList}">
                         <div class="down">
-                            <a href="/admin/file/download?filePath=${board.fileList[0].filePath}&fileName=${board.fileList[0].orgFileNm}">
+                            <a href="/mng/file/download?filePath=${board.fileList[0].filePath}&fileName=${board.fileList[0].orgFileNm}">
                                 경기규정 다운로드
                             </a>
                         </div>

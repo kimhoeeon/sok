@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/bidding")
+@RequestMapping("/mng/bidding")
 public class BiddingController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class BiddingController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/bidding/list";
+        return "mng/bidding/list";
     }
 
     @GetMapping("/form")
@@ -67,7 +67,7 @@ public class BiddingController {
         }
 
         model.addAttribute("bidding", board);
-        return "admin/bidding/form";
+        return "mng/bidding/form";
     }
 
     @PostMapping("/save")
@@ -128,7 +128,7 @@ public class BiddingController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/bidding/list";
+        return "redirect:/mng/bidding/list";
     }
 
     @PostMapping("/delete")
@@ -155,7 +155,7 @@ public class BiddingController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/bidding/list";
+        return "redirect:/mng/bidding/list";
     }
 
     @GetMapping("/excel")

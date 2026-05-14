@@ -20,7 +20,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (admin == null) {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/admin/login';</script>");
+            out.println("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/mng/login';</script>");
             out.flush();
             return false;
         }

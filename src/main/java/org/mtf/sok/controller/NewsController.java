@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/news")
+@RequestMapping("/mng/news")
 public class NewsController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class NewsController {
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
-        return "admin/news/list";
+        return "mng/news/list";
     }
 
     @GetMapping("/form")
@@ -67,7 +67,7 @@ public class NewsController {
         }
 
         model.addAttribute("news", board);
-        return "admin/news/form";
+        return "mng/news/form";
     }
 
     @PostMapping("/save")
@@ -151,7 +151,7 @@ public class NewsController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/news/list";
+        return "redirect:/mng/news/list";
     }
 
     @PostMapping("/delete")
@@ -178,7 +178,7 @@ public class NewsController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/news/list";
+        return "redirect:/mng/news/list";
     }
 
     @GetMapping("/excel")

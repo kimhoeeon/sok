@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/certificate")
+@RequestMapping("/mng/certificate")
 public class CertificateController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class CertificateController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/certificate/list";
+        return "mng/certificate/list";
     }
 
     @GetMapping("/detail")
@@ -42,7 +42,7 @@ public class CertificateController {
                          Model model) {
         CertificateDTO certificate = certificateMapper.selectCertificate(certSeq);
         model.addAttribute("certificate", certificate);
-        return "admin/certificate/detail";
+        return "mng/certificate/detail";
     }
 
     @PostMapping("/updateStatus")
@@ -66,7 +66,7 @@ public class CertificateController {
         rttr.addAttribute("searchStatus", params.getSearchStatus());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/certificate/detail";
+        return "redirect:/mng/certificate/detail";
     }
 
     // 엑셀 다운로드 (Date 객체 그대로 넘김)

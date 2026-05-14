@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/management")
+@RequestMapping("/mng/management")
 public class ManagementController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class ManagementController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/management/list";
+        return "mng/management/list";
     }
 
     @GetMapping("/form")
@@ -61,7 +61,7 @@ public class ManagementController {
         }
 
         model.addAttribute("management", board);
-        return "admin/management/form";
+        return "mng/management/form";
     }
 
     @PostMapping("/save")
@@ -122,7 +122,7 @@ public class ManagementController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/admin/management/list";
+        return "redirect:/mng/management/list";
     }
 
     @PostMapping("/delete")
@@ -149,6 +149,6 @@ public class ManagementController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/admin/management/list";
+        return "redirect:/mng/management/list";
     }
 }

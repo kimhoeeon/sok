@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/file")
+@RequestMapping("/mng/file")
 public class FileController {
 
     @Value("${file.upload.dir}")

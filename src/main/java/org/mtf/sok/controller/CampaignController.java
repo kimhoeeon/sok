@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin/campaign")
+@RequestMapping("/mng/campaign")
 public class CampaignController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class CampaignController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/campaign/list";
+        return "mng/campaign/list";
     }
 
     @GetMapping("/form")
@@ -49,7 +49,7 @@ public class CampaignController {
             campaign.setUseYn("Y"); // 기본값 세팅
         }
         model.addAttribute("campaign", campaign);
-        return "admin/campaign/form";
+        return "mng/campaign/form";
     }
 
     @PostMapping("/save")
@@ -87,7 +87,7 @@ public class CampaignController {
 
         rttr.addAttribute("pageNum", isUpdate ? campaign.getPageNum() : 1);
         rttr.addAttribute("amount", campaign.getAmount());
-        return "redirect:/admin/campaign/list";
+        return "redirect:/mng/campaign/list";
     }
 
     @PostMapping("/delete")
@@ -95,6 +95,6 @@ public class CampaignController {
         campaignMapper.deleteCampaign(campSeq);
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
-        return "redirect:/admin/campaign/list";
+        return "redirect:/mng/campaign/list";
     }
 }

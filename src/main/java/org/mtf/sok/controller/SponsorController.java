@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/sponsor")
+@RequestMapping("/mng/sponsor")
 public class SponsorController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class SponsorController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/sponsor/member_list";
+        return "mng/sponsor/member_list";
     }
 
     @GetMapping("/member/detail")
@@ -59,7 +59,7 @@ public class SponsorController {
         member.setDonationList(donations);
 
         model.addAttribute("member", member);
-        return "admin/sponsor/member_detail";
+        return "mng/sponsor/member_detail";
     }
 
     @PostMapping("/member/update")
@@ -73,7 +73,7 @@ public class SponsorController {
         rttr.addAttribute("isDonor", member.getIsDonor());
         rttr.addAttribute("searchKeyword", member.getSearchKeyword());
 
-        return "redirect:/admin/sponsor/member/detail";
+        return "redirect:/mng/sponsor/member/detail";
     }
 
     // ==========================================
@@ -90,7 +90,7 @@ public class SponsorController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params);
 
-        return "admin/sponsor/donate_list";
+        return "mng/sponsor/donate_list";
     }
 
     @GetMapping("/donate/detail")
@@ -98,7 +98,7 @@ public class SponsorController {
                                @ModelAttribute("params") DonationDTO params,
                                Model model) {
         model.addAttribute("donation", sponsorMapper.selectDonation(paySeq));
-        return "admin/sponsor/donate_detail";
+        return "mng/sponsor/donate_detail";
     }
 
     @PostMapping("/donate/updateStatus")
@@ -112,7 +112,7 @@ public class SponsorController {
 
             if (admin == null || !"meetingfan".equals(admin.getAdmId())) {
                 rttr.addFlashAttribute("errorMessage", "환불 처리는 마스터(meetingfan) 계정만 가능합니다.");
-                return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
+                return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
             }
         }
 
@@ -129,7 +129,7 @@ public class SponsorController {
             } catch (Exception e) {
                 e.printStackTrace();
                 rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 중 오류가 발생했습니다: " + e.getMessage());
-                return "redirect:/admin/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
+                return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
             }
         }
 
@@ -142,7 +142,7 @@ public class SponsorController {
         rttr.addAttribute("payType", donation.getPayType());
         rttr.addAttribute("searchStatus", donation.getSearchStatus());
 
-        return "redirect:/admin/sponsor/donate/detail";
+        return "redirect:/mng/sponsor/donate/detail";
     }
 
     // [1] 후원자(회원) 목록 엑셀 다운로드

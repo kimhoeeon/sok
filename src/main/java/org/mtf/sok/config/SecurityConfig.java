@@ -30,8 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable() // 현재 AJAX 폼 구조 유지를 위해 비활성화
                 .authorizeRequests()
-                .antMatchers("/admin/login").permitAll() // 관리자 로그인 화면은 누구나 접근 가능
-                .antMatchers("/admin/**").hasRole("ADMIN") // 핵심: 관리자 폴더 하위는 ADMIN 권한 필수
+                .antMatchers("/mng/login").permitAll() // 관리자 로그인 화면은 누구나 접근 가능
+                .antMatchers("/mng/**").hasRole("ADMIN") // 핵심: 관리자 폴더 하위는 ADMIN 권한 필수
                 .antMatchers("/mypage/**").authenticated() // 마이페이지는 일반 로그인 이상
                 .anyRequest().permitAll()
                 .and()
@@ -69,8 +69,8 @@ public class SecurityConfig {
             response.setContentType("text/html; charset=UTF-8");
 
             // 관리자 경로 접근 중 세션 만료 시
-            if (uri.startsWith("/admin")) {
-                response.getWriter().write("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/admin/login';</script>");
+            if (uri.startsWith("/mng")) {
+                response.getWriter().write("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/mng/login';</script>");
             } else {
                 // 일반 사용자 경로 접근 중 세션 만료 시
                 response.getWriter().write("<script>alert('로그인이 필요한 페이지입니다.'); location.href='/login/basic';</script>");
@@ -86,7 +86,7 @@ public class SecurityConfig {
             String uri = request.getRequestURI();
             response.setContentType("text/html; charset=UTF-8");
 
-            if (uri.startsWith("/admin")) {
+            if (uri.startsWith("/mng")) {
                 response.getWriter().write("<script>alert('관리자 권한이 없습니다.'); location.href='/';</script>");
             } else {
                 response.getWriter().write("<script>alert('접근 권한이 없습니다.'); location.href='/';</script>");
@@ -113,7 +113,7 @@ public class SecurityConfig {
                 dummyMember.setMbrRole(admin.getAdmRole()); // 추가: 권한 매핑
                 request.getSession().setAttribute("userLogin", dummyMember);
 
-                response.sendRedirect("/admin/main");
+                response.sendRedirect("/mng/main");
             }
             // 일반 회원 로그인인 경우
             else {
@@ -139,9 +139,9 @@ public class SecurityConfig {
             String encodedMsg = URLEncoder.encode(errorMessage, "UTF-8");
 
             // 요청이 들어온 이전 페이지(Referer)를 분석하여 어디로 돌려보낼지 결정
-            if (referer != null && referer.contains("/admin/login")) {
+            if (referer != null && referer.contains("/mng/login")) {
                 // 관리자 페이지에서 시도했다면 관리자 로그인 페이지로 반환
-                response.sendRedirect("/admin/login?error=true&exception=" + encodedMsg);
+                response.sendRedirect("/mng/login?error=true&exception=" + encodedMsg);
             } else {
                 // 일반 사용자 페이지에서 시도했다면 프론트 로그인 페이지로 반환
                 response.sendRedirect("/login/basic?error=true&exception=" + encodedMsg);

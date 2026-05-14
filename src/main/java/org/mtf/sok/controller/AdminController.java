@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/mng")
 public class AdminController {
 
     @Autowired
@@ -29,14 +29,14 @@ public class AdminController {
                         Model model) {
 
         if (session.getAttribute("adminLogin") != null) {
-            return "redirect:/admin/main";
+            return "redirect:/mng/main";
         }
 
         // 실패 시 전달된 메시지를 화면으로 전달
         if (error != null && exception != null) {
             model.addAttribute("errorMessage", exception);
         }
-        return "admin/login";
+        return "mng/login";
     }
 
     // 로그아웃 처리
@@ -44,7 +44,7 @@ public class AdminController {
     public String logout(HttpSession session) {
         session.removeAttribute("adminLogin");
         session.invalidate();
-        return "redirect:/admin/login";
+        return "redirect:/mng/login";
     }
 
     // =========================================================
@@ -53,7 +53,7 @@ public class AdminController {
     @GetMapping({"", "/", "/main"})
     public String main(HttpSession session, Model model) {
         if (session.getAttribute("adminLogin") == null) {
-            return "redirect:/admin/login";
+            return "redirect:/mng/login";
         }
 
         boolean dbStatus = false;
@@ -96,7 +96,7 @@ public class AdminController {
         model.addAttribute("jvmUptime", uptimeStr);
         model.addAttribute("javaVersion", System.getProperty("java.version"));
 
-        return "admin/main";
+        return "mng/main";
     }
 
     // =========================================================
