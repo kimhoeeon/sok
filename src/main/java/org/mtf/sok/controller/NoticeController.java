@@ -139,22 +139,11 @@ public class NoticeController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
 
-        // 1. 삭제할 게시글의 첨부파일 목록 조회
-        FileDTO fileParams = new FileDTO();
-        fileParams.setRefTable("TB_BOARD");
-        fileParams.setRefSeq(brdSeq);
-        List<FileDTO> fileList = boardMapper.selectFiles(fileParams);
-
-        // 2. 물리 파일 삭제 (FileController의 유틸리티 활용)
-        if (fileList != null && !fileList.isEmpty()) {
-            for (FileDTO file : fileList) {
-                // file.getFilePath() 예: "/upload/notice/xxx.pdf"
-                fileController.deleteLocalFile(file.getFilePath());
-            }
-        }
-
-        // 3. DB에서 게시글 레코드 완전히 삭제 (Cascade 조건이 없다면 파일 레코드도 삭제 로직 추가 필요)
+        // 1. 게시글 본문 논리적 삭제 (기존 유지, DEL_YN = 'Y')
         boardMapper.deleteBoard(brdSeq);
+
+        // 2. [수정됨] 물리적 파일 삭제 로직 제거 -> 파일 테이블 논리적 삭제 적용
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
 
         // 페이징/검색어 유지
         rttr.addAttribute("pageNum", params.getPageNum());

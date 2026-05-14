@@ -5,7 +5,25 @@
     <select id="selectPopupList" parameterType="org.mtf.sok.domain.PopupDTO" resultType="org.mtf.sok.domain.PopupDTO">
         SELECT * FROM TB_POPUP
         WHERE DEL_YN = 'N'
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+        </if>
+        <if test="searchUseYnOnly == 'Y'">
+            AND USE_YN = 'Y'
+        </if>
         ORDER BY REG_DT DESC
+        LIMIT #{skip}, #{amount}
+    </select>
+
+    <select id="selectPopupTotalCount" parameterType="org.mtf.sok.domain.PopupDTO" resultType="int">
+        SELECT COUNT(*) FROM TB_POPUP
+        WHERE DEL_YN = 'N'
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+        </if>
+        <if test="searchUseYnOnly == 'Y'">
+            AND USE_YN = 'Y'
+        </if>
     </select>
 
     <select id="selectPopup" parameterType="int" resultType="org.mtf.sok.domain.PopupDTO">
@@ -47,5 +65,12 @@
           AND NOW() BETWEEN START_DT AND END_DT
         ORDER BY REG_DT DESC
     </select>
+
+    <update id="deleteFilesByRefTarget">
+        UPDATE TB_FILE
+        SET DEL_YN = 'Y'
+        WHERE REF_TABLE = #{refTable}
+          AND REF_SEQ = #{refSeq}
+    </update>
 
 </mapper>

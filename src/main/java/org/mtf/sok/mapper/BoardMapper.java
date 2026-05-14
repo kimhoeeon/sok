@@ -34,4 +34,7 @@ public interface BoardMapper {
 
     List<FileDTO> selectFilesByRefSeqs(@Param("refTable") String refTable, @Param("refSeqs") List<Long> refSeqs);
 
+    // 특정 게시글(refSeq)에 속한 모든 파일의 DEL_YN을 'Y'로 변경
+    void deleteFilesByRefTarget(@Param("refTable") String refTable, @Param("refSeq") Long refSeq);
+
 }

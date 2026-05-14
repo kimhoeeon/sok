@@ -92,19 +92,24 @@ public class PopupController {
             popupMapper.insertPopup(popup);
         }
 
-        // 이미지 처리 (단일 파일)
-        MultipartFile file = popup.getUploadFile();
-        if (file != null && !file.isEmpty()) {
+        // 파일 업로드 처리
+        if (popup.getUploadFile() != null && !popup.getUploadFile().isEmpty()) {
             try {
-                String savePath = uploadDir + "popup/";
-                File folder = new File(savePath);
-                if (!folder.exists()) folder.mkdirs();
+                // ★ [보완] 수정(Update) 시 새 파일을 올렸다면, 기존 파일은 논리적 삭제 처리
+                if (isUpdate) {
+                    boardMapper.deleteFilesByRefTarget("TB_POPUP", popup.getPopSeq());
+                }
 
+                MultipartFile file = popup.getUploadFile();
                 String orgName = file.getOriginalFilename();
                 String ext = orgName.substring(orgName.lastIndexOf("."));
                 String saveName = UUID.randomUUID().toString() + ext;
 
-                file.transferTo(new File(savePath + saveName));
+                File dest = new File(uploadDir + "popup/" + saveName);
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdirs();
+                }
+                file.transferTo(dest);
 
                 FileDTO fileDTO = new FileDTO();
                 fileDTO.setRefTable("TB_POPUP");
@@ -116,7 +121,9 @@ public class PopupController {
                 fileDTO.setFileExt(ext);
 
                 boardMapper.insertFile(fileDTO);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if (isUpdate) {
@@ -134,8 +141,13 @@ public class PopupController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long popSeq, @ModelAttribute PopupDTO params, RedirectAttributes rttr) {
+        // 1. 팝업 테이블 논리적 삭제 (TB_POPUP의 DEL_YN = 'Y')
         popupMapper.deletePopup(popSeq);
 
+        // 2. ★ [보완] 해당 팝업에 연결된 이미지 파일 논리적 삭제 (TB_FILE의 DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_POPUP", popSeq);
+
+        // 검색 및 페이징 파라미터 유지
         rttr.addAttribute("pageNum", params.getPageNum());
         rttr.addAttribute("amount", params.getAmount());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());

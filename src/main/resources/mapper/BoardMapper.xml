@@ -114,4 +114,11 @@
         ORDER BY REF_SEQ ASC, FILE_SEQ ASC
     </select>
 
+    <update id="deleteFilesByRefTarget">
+        UPDATE TB_FILE
+        SET DEL_YN = 'Y'
+        WHERE REF_TABLE = #{refTable}
+          AND REF_SEQ = #{refSeq}
+    </update>
+
 </mapper>
