@@ -27,18 +27,21 @@
         <choose>
             <when test="periodType == 'DAY'">
                 SELECT CAST(DATE_FORMAT(VISIT_DT, '%m-%d') AS CHAR) as label, COUNT(*) as cnt
-                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                GROUP BY label ORDER BY label
+                FROM TB_VISIT_LOG
+                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <when test="periodType == 'MONTH'">
                 SELECT CAST(DATE_FORMAT(VISIT_DT, '%Y-%m') AS CHAR) as label, COUNT(*) as cnt
-                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
-                GROUP BY label ORDER BY label
+                FROM TB_VISIT_LOG
+                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <otherwise>
-                SELECT CAST(DATE_FORMAT(VISIT_DT, '%u주차') AS CHAR) as label, COUNT(*) as cnt
-                FROM TB_VISIT_LOG WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 8 WEEK)
-                GROUP BY label ORDER BY label
+                SELECT CONCAT(MONTH(VISIT_DT), '월 ', CEILING((DAY(VISIT_DT) + WEEKDAY(VISIT_DT - INTERVAL (DAY(VISIT_DT) - 1) DAY)) / 7), '째주') as label, COUNT(*) as cnt
+                FROM TB_VISIT_LOG
+                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 8 WEEK)
+                GROUP BY label ORDER BY MIN(VISIT_DT)
             </otherwise>
         </choose>
     </select>
@@ -48,23 +51,42 @@
         SUM(CASE WHEN T.type = 'DONATE' THEN 1 ELSE 0 END) as donateCnt,
         SUM(CASE WHEN T.type = 'VOL' THEN 1 ELSE 0 END) as volCnt
         FROM (
-        SELECT CAST(DATE_FORMAT(REG_DT,
+        SELECT
         <choose>
-            <when test="periodType == 'DAY'">'%m-%d'</when>
-            <when test="periodType == 'MONTH'">'%Y-%m'</when>
-            <otherwise>'%u주차'</otherwise>
-        </choose>
-        ) AS CHAR) as label, 'DONATE' as type FROM TB_DONATION_PAYMENT
+            <when test="periodType == 'DAY'">CAST(DATE_FORMAT(REG_DT, '%m-%d') AS CHAR)</when>
+            <when test="periodType == 'MONTH'">CAST(DATE_FORMAT(REG_DT, '%Y-%m') AS CHAR)</when>
+            <otherwise>CONCAT(MONTH(REG_DT), '월 ', CEILING((DAY(REG_DT) + WEEKDAY(REG_DT - INTERVAL (DAY(REG_DT) - 1) DAY)) / 7), '째주')</otherwise>
+        </choose> as label,
+        'DONATE' as type,
+        REG_DT
+        FROM TB_DONATION_PAYMENT
+        WHERE REG_DT >= DATE_SUB(NOW(),
+        <choose>
+            <when test="periodType == 'DAY'">INTERVAL 7 DAY</when>
+            <when test="periodType == 'MONTH'">INTERVAL 12 MONTH</when>
+            <otherwise>INTERVAL 8 WEEK</otherwise>
+        </choose>)
+
         UNION ALL
-        SELECT CAST(DATE_FORMAT(REG_DT,
+
+        SELECT
         <choose>
-            <when test="periodType == 'DAY'">'%m-%d'</when>
-            <when test="periodType == 'MONTH'">'%Y-%m'</when>
-            <otherwise>'%u주차'</otherwise>
-        </choose>
-        ) AS CHAR) as label, 'VOL' as type FROM TB_VOLUNTEER_APPLY
+            <when test="periodType == 'DAY'">CAST(DATE_FORMAT(REG_DT, '%m-%d') AS CHAR)</when>
+            <when test="periodType == 'MONTH'">CAST(DATE_FORMAT(REG_DT, '%Y-%m') AS CHAR)</when>
+            <otherwise>CONCAT(MONTH(REG_DT), '월 ', CEILING((DAY(REG_DT) + WEEKDAY(REG_DT - INTERVAL (DAY(REG_DT) - 1) DAY)) / 7), '째주')</otherwise>
+        </choose> as label,
+        'VOL' as type,
+        REG_DT
+        FROM TB_VOLUNTEER_APPLY
+        WHERE REG_DT >= DATE_SUB(NOW(),
+        <choose>
+            <when test="periodType == 'DAY'">INTERVAL 7 DAY</when>
+            <when test="periodType == 'MONTH'">INTERVAL 12 MONTH</when>
+            <otherwise>INTERVAL 8 WEEK</otherwise>
+        </choose>)
         ) T
-        GROUP BY label ORDER BY label LIMIT 10
+        GROUP BY T.label
+        ORDER BY MIN(T.REG_DT)
     </select>
 
     <insert id="insertVisitLog">

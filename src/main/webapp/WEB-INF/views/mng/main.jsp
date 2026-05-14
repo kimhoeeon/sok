@@ -262,8 +262,15 @@
             if(!data || data.length === 0) {
                 visitorChart.updateSeries([]);
             } else {
-                visitorChart.updateSeries([{ name: '방문자 수', data: data.map(item => item.cnt || item.CNT) }]);
-                visitorChart.updateOptions({ xaxis: { categories: data.map(item => item.label || item.LABEL) } });
+                visitorChart.updateOptions({
+                    series: [{
+                        name: '방문자 수',
+                        data: data.map(item => item.cnt || item.CNT)
+                    }],
+                    xaxis: {
+                        categories: data.map(item => item.label || item.LABEL)
+                    }
+                });
             }
         });
     }
@@ -274,11 +281,16 @@
             if(!data || data.length === 0) {
                 applyChart.updateSeries([]);
             } else {
-                applyChart.updateSeries([
-                    { name: '후원 신청', data: data.map(item => item.donateCnt || item.DONATECNT) },
-                    { name: '자원봉사 신청', data: data.map(item => item.volCnt || item.VOLCNT) }
-                ]);
-                applyChart.updateOptions({ xaxis: { categories: data.map(item => item.label || item.LABEL) } });
+                // [수정 포인트] 통합 업데이트
+                applyChart.updateOptions({
+                    series: [
+                        { name: '후원 신청', data: data.map(item => item.donateCnt || item.DONATECNT) },
+                        { name: '자원봉사 신청', data: data.map(item => item.volCnt || item.VOLCNT) }
+                    ],
+                    xaxis: {
+                        categories: data.map(item => item.label || item.LABEL)
+                    }
+                });
             }
         });
     }
