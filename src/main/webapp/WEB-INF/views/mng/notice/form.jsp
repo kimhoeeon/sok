@@ -18,14 +18,14 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">${empty board.brdSeq ? '공지사항 등록' : '공지사항 상세/수정'}</h3>
+    <h3 class="fw-bold text-dark">${empty board.brdSeq ? '공지사항 등록' : '공지사항 상세/수정'}</h3>
 
     <a href="/mng/notice/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
     <i class="bi bi-list"></i> 목록으로
 </a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/notice/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${board.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
@@ -39,19 +39,19 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${board.category eq '공지' or empty board.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">공지</label>
+                        <label class="form-check-label text-dark" for="cat1">공지</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${board.category eq '입찰' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">입찰</label>
+                        <label class="form-check-label text-dark" for="cat2">입찰</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${board.category eq '서류' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">서류</label>
+                        <label class="form-check-label text-dark" for="cat3">서류</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${board.category eq '리포트' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat4">리포트</label>
+                        <label class="form-check-label text-dark" for="cat4">리포트</label>
                     </div>
                 </div>
             </div>
@@ -60,18 +60,18 @@
                 <label class="form-label text-muted">중요 여부</label>
                 <div class="form-check form-switch mt-2">
                     <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${board.isNotice eq 'Y' ? 'checked' : ''}>
-                    <label class="form-check-label text-white" for="isNotice">상단 중요 공지로 설정</label>
+                    <label class="form-check-label text-dark" for="isNotice">상단 중요 공지로 설정</label>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제목</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${board.title}" required placeholder="제목을 입력하세요">
+                <input type="text" name="title" class="form-control search-bar" value="${board.title}" required placeholder="제목을 입력하세요">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">파일 첨부 (다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 클릭하면 여러 파일을 첨부할 수 있습니다.</div>
             </div>
 

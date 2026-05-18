@@ -18,12 +18,12 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">${empty news.brdSeq ? '보도자료 등록' : '보도자료 상세/수정'}</h3>
+    <h3 class="fw-bold text-dark">${empty news.brdSeq ? '보도자료 등록' : '보도자료 상세/수정'}</h3>
 
     <a href="/mng/news/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">목록으로</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/news/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${news.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
@@ -37,19 +37,19 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${news.category eq '공지' or empty news.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">공지</label>
+                        <label class="form-check-label text-dark" for="cat1">공지</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${news.category eq '입찰' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">입찰</label>
+                        <label class="form-check-label text-dark" for="cat2">입찰</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${news.category eq '서류' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">서류</label>
+                        <label class="form-check-label text-dark" for="cat3">서류</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${news.category eq '리포트' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat4">리포트</label>
+                        <label class="form-check-label text-dark" for="cat4">리포트</label>
                     </div>
                 </div>
             </div>
@@ -58,21 +58,21 @@
                 <label class="form-label text-muted">중요 여부</label>
                 <div class="form-check form-switch mt-2">
                     <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${news.isNotice eq 'Y' ? 'checked' : ''}>
-                    <label class="form-check-label text-white" for="isNotice">상단 중요 공지로 설정</label>
+                    <label class="form-check-label text-dark" for="isNotice">상단 중요 공지로 설정</label>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제목</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${news.title}" required placeholder="제목을 입력하세요">
+                <input type="text" name="title" class="form-control search-bar" value="${news.title}" required placeholder="제목을 입력하세요">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
-                <input type="file" name="thumbFile" class="form-control dark-search-bar" accept="image/*">
+                <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
                 <c:if test="${not empty news.thumbPath}">
                     <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
-                        <span class="text-white align-middle me-2">현재 등록된 썸네일: </span>
+                        <span class="text-dark align-middle me-2">현재 등록된 썸네일: </span>
                         <img src="${news.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
                     </div>
                 </c:if>
@@ -80,7 +80,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">일반 파일 첨부 (다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 클릭하면 여러 파일을 첨부할 수 있습니다.</div>
             </div>
 

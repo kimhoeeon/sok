@@ -2,34 +2,34 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentMenu" value="donate" scope="request" />
+<c:set var="currentMenu" value="sponsor_donate" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">기부금(결제) 내역 관리</h3>
+    <h3 class="fw-bold text-dark">기부금(결제) 내역 관리</h3>
     <button type="button" class="btn btn-success px-4 fw-bold" onclick="downloadExcel()">
         <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
     </button>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form id="searchForm" action="/mng/sponsor/donate/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
         <div class="input-group shadow-sm" style="max-width: 700px;">
-            <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
+            <select name="amount" class="form-select search-bar" style="max-width: 90px;" onchange="searchData()">
                 <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                 <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
                 <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
             </select>
 
-            <select name="payType" class="form-select dark-search-bar border-start-0" style="max-width: 140px;">
+            <select name="payType" class="form-select search-bar border-start-0" style="max-width: 140px;">
                 <option value="">후원 유형</option>
                 <option value="ONCE" ${params.payType eq 'ONCE' ? 'selected' : ''}>일시후원</option>
                 <option value="REGULAR" ${params.payType eq 'REGULAR' ? 'selected' : ''}>정기후원</option>
             </select>
 
-            <select name="searchStatus" class="form-select dark-search-bar border-start-0" style="max-width: 140px;">
+            <select name="searchStatus" class="form-select search-bar border-start-0" style="max-width: 140px;">
                 <option value="">결제 상태</option>
                 <option value="DONE" ${params.searchStatus eq 'DONE' ? 'selected' : ''}>결제완료</option>
                 <option value="WAIT" ${params.searchStatus eq 'WAIT' ? 'selected' : ''}>입금대기</option>
@@ -37,27 +37,27 @@
                 <option value="REFUND" ${params.searchStatus eq 'REFUND' ? 'selected' : ''}>환불완료</option>
             </select>
 
-            <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="주문번호 또는 후원자명" value="${params.searchKeyword}" style="min-width: 200px;">
+            <input type="text" name="searchKeyword" class="form-control search-bar border-start-0" placeholder="주문번호 또는 후원자명" value="${params.searchKeyword}" style="min-width: 200px;">
 
             <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle text-center">
-            <thead>
+        <table class="table table-hover align-middle text-center mb-0" style="--bs-table-bg: #ffffff; --bs-table-color: #212529; --bs-table-hover-bg: rgba(0,0,0,0.02); border-top: 1px solid #dee2e6;">
+            <thead style="background-color: #f8f9fa;">
                 <tr>
-                    <th width="15%">주문번호</th>
-                    <th width="15%">후원자명 (아이디)</th>
-                    <th width="10%">후원유형</th>
-                    <th width="12%">결제수단</th>
-                    <th width="15%">결제금액</th>
-                    <th width="10%">결제상태</th>
-                    <th width="15%">결제일시</th>
-                    <th width="8%">관리</th>
+                    <th width="15%" class="text-dark border-bottom py-3">주문번호</th>
+                    <th width="15%" class="text-dark border-bottom py-3">후원자명 (아이디)</th>
+                    <th width="10%" class="text-dark border-bottom py-3">후원유형</th>
+                    <th width="12%" class="text-dark border-bottom py-3">결제수단</th>
+                    <th width="15%" class="text-dark border-bottom py-3">결제금액</th>
+                    <th width="10%" class="text-dark border-bottom py-3">결제상태</th>
+                    <th width="15%" class="text-dark border-bottom py-3">결제일시</th>
+                    <th width="8%" class="text-dark border-bottom py-3">관리</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="border-top: 2px solid #dee2e6;">
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr><td colspan="8" class="py-5 text-muted">결제 내역이 없습니다.</td></tr>
@@ -70,14 +70,14 @@
                                         ${item.orderId}
                                     </a>
                                 </td>
-                                <td class="text-start text-white">${item.mbrNm} <span class="text-muted" style="font-size: 12px;">(${item.mbrId})</span></td>
+                                <td class="text-start text-dark">${item.mbrNm} <span class="text-muted" style="font-size: 12px;">(${item.mbrId})</span></td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.payType eq 'REGULAR'}"><span class="badge bg-primary">정기 (${item.regularRound}회)</span></c:when>
                                         <c:otherwise><span class="badge bg-secondary">일시</span></c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td><span class="badge bg-dark border border-secondary">${item.payMethod}</span></td>
+                                <td><span class="badge bg-white border border-secondary">${item.payMethod}</span></td>
                                 <td class="text-success fw-bold"><fmt:formatNumber value="${item.payAmt}" pattern="#,###" />원</td>
                                 <td>
                                     <c:choose>
@@ -102,7 +102,7 @@
 
     <c:if test="${pageMaker.total > 0}">
         <div class="d-flex justify-content-center mt-5">
-            <ul class="pagination pagination-dark m-0">
+            <ul class="pagination pagination-custom m-0">
                 <c:if test="${pageMaker.prev}"><li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a></li></c:if>
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                     <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}"><a class="page-link" href="javascript:goPage(${num})">${num}</a></li>

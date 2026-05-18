@@ -6,36 +6,36 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">자원봉사 신청 상세정보</h3>
-    <a href="/mng/volunteer/list?pageNum=${params.pageNum}&amount=${params.amount}&searchSupportArea=${params.searchSupportArea}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <h3 class="fw-bold text-dark">자원봉사 신청 상세정보</h3>
+    <a href="/mng/volunteer/list?pageNum=${params.pageNum}&amount=${params.amount}&searchSupportArea=${params.searchSupportArea}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-secondary"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
 <div class="row g-4">
     <div class="col-xl-5">
-        <div class="premium-dark-card p-4 mb-4" style="background: linear-gradient(145deg, rgba(30,30,45,0.9) 0%, rgba(21,21,33,0.95) 100%);">
+        <div class="premium-card p-4 mb-4" style="background: linear-gradient(145deg, #ffffff 0%, #f4f6f9 100%); border: 1px solid rgba(0,0,0,0.05);">
             <span class="badge ${volunteer.supportArea eq '스포츠' ? 'bg-primary' : (volunteer.supportArea eq '문화예술' ? 'bg-info text-dark' : 'bg-secondary')} mb-2 px-3 py-2">
                 ${volunteer.supportArea} 지원
             </span>
-            <h4 class="text-white fw-bold mb-3">${volunteer.eventNm}</h4>
+            <h4 class="text-dark fw-bold mb-3">${volunteer.eventNm}</h4>
 
             <div class="d-flex align-items-center mt-4">
                 <i class="bi bi-shield-check fs-2 ${volunteer.agreeYn eq 'Y' ? 'text-success' : 'text-danger'} me-3"></i>
                 <div>
                     <span class="d-block text-muted" style="font-size: 13px;">개인정보 수집 및 이용 동의</span>
-                    <span class="fw-bold ${volunteer.agreeYn eq 'Y' ? 'text-white' : 'text-danger'}">
+                    <span class="fw-bold ${volunteer.agreeYn eq 'Y' ? 'text-dark' : 'text-danger'}">
                         ${volunteer.agreeYn eq 'Y' ? '동의 완료' : '미동의 (확인 필요)'}
                     </span>
                 </div>
             </div>
         </div>
 
-        <div class="premium-dark-card p-4 h-50 glassmorphism-box border-0">
-            <h6 class="text-white fw-bold border-bottom border-secondary pb-2 mb-4"><i class="bi bi-clock-history me-2"></i>접수 타임라인</h6>
-            <div class="position-relative ms-2 ps-3" style="border-left: 2px solid #474761;">
+        <div class="premium-card p-4 h-50 glassmorphism-box border-0">
+            <h6 class="text-dark fw-bold border-bottom border-secondary pb-2 mb-4"><i class="bi bi-clock-history me-2"></i>접수 타임라인</h6>
+            <div class="position-relative ms-2 ps-3" style="border-left: 2px solid #dee2e6;">
                 <div class="mb-4 position-relative">
-                    <i class="bi bi-circle-fill position-absolute text-success" style="left: -21px; top: 3px; font-size: 10px; text-shadow: 0 0 5px #39ff14;"></i>
+                    <i class="bi bi-circle-fill position-absolute text-success" style="left: -21px; top: 3px; font-size: 10px;"></i>
                     <span class="d-block text-muted" style="font-size: 12px;">홈페이지 자원봉사 신청 접수</span>
-                    <span class="text-white fw-bold"><fmt:formatDate value="${volunteer.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+                    <span class="text-dark fw-bold"><fmt:formatDate value="${volunteer.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
                 </div>
                 <div class="position-relative">
                     <i class="bi bi-circle-fill position-absolute text-warning" style="left: -21px; top: 3px; font-size: 10px;"></i>
@@ -57,8 +57,8 @@
     </div>
 
     <div class="col-xl-7">
-        <div class="premium-dark-card p-4 h-100">
-            <h5 class="fw-bold text-white mb-4"><i class="bi bi-person-badge me-2 text-info"></i> 신청자 상세 정보 (수정 가능)</h5>
+        <div class="premium-card p-4 h-100">
+            <h5 class="fw-bold text-dark mb-4"><i class="bi bi-person-badge me-2 text-info"></i> 신청자 상세 정보 (수정 가능)</h5>
 
             <form action="/mng/volunteer/update" method="post">
                 <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
@@ -69,33 +69,33 @@
 
                 <div class="row g-3">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label text-white">신청자명 (또는 단체명)</label>
-                        <input type="text" name="applyNm" class="form-control dark-search-bar fw-bold text-white" value="${volunteer.applyNm}" required>
+                        <label class="form-label text-dark">신청자명 (또는 단체명)</label>
+                        <input type="text" name="applyNm" class="form-control search-bar fw-bold text-dark" value="${volunteer.applyNm}" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label class="form-label text-white">연락처 (휴대전화)</label>
-                        <input type="text" name="phone" class="form-control dark-search-bar" value="${volunteer.phone}" required>
+                        <label class="form-label text-dark">연락처 (휴대전화)</label>
+                        <input type="text" name="phone" class="form-control search-bar" value="${volunteer.phone}" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label class="form-label text-white">참여 인원 (명)</label>
+                        <label class="form-label text-dark">참여 인원 (명)</label>
                         <div class="input-group">
-                            <input type="number" name="applyCnt" class="form-control dark-search-bar text-end" value="${volunteer.applyCnt}" min="1" required>
-                            <span class="input-group-text dark-search-bar text-muted">명</span>
+                            <input type="number" name="applyCnt" class="form-control search-bar text-end" value="${volunteer.applyCnt}" min="1" required>
+                            <span class="input-group-text search-bar text-muted">명</span>
                         </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label class="form-label text-white">봉사 희망 빈도</label>
-                        <select name="freqType" class="form-select dark-search-bar">
+                        <label class="form-label text-dark">봉사 희망 빈도</label>
+                        <select name="freqType" class="form-select search-bar">
                             <option value="ONCE" ${volunteer.freqType eq 'ONCE' ? 'selected' : ''}>1회 참여 희망</option>
                             <option value="OFTEN" ${volunteer.freqType eq 'OFTEN' ? 'selected' : ''}>정기/수시 참여 희망</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="alert mt-4 p-3" style="background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2);">
+                <div class="alert mt-4 p-3" style="background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.15);">
                     <i class="bi bi-info-circle text-info me-2"></i> <span class="text-muted" style="font-size: 13px;">신청자가 기입한 연락처 오류 시, 관리자가 올바른 정보로 수정하여 저장할 수 있습니다.</span>
                 </div>
 

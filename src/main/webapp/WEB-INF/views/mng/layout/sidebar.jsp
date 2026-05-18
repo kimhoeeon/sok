@@ -5,24 +5,36 @@
     /* 사이드바 전용 추가 스타일 */
     .sidebar { width: 260px; flex-shrink: 0; overflow-y: auto; }
     .sidebar::-webkit-scrollbar { width: 5px; }
-    .sidebar::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.15); border-radius: 10px; }
+    .sidebar::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.15); border-radius: 10px; } /* [수정됨] 스크롤바 색상 반전 */
 
     /* 1 Depth 메뉴 폰트 */
-    .sidebar-menu .nav-link { color: #a1a5b7; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.3s; margin-bottom: 2px; }
-    .sidebar-menu .nav-link:hover, .sidebar-menu .nav-link.active { background: rgba(255,255,255,0.05); color: #fff; }
-    /* 활성화된 메뉴의 아이콘 색상도 화이트로 차분하게 변경 */
-    .sidebar-menu .nav-link.active i { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); }
+    .sidebar-menu .nav-link { color: #4b5675; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.3s; margin-bottom: 2px; } /* [수정됨] 기본 글자색 다크 그레이 */
+    .sidebar-menu .nav-link:hover, .sidebar-menu .nav-link.active { background: rgba(0,0,0,0.05); color: #000; } /* [수정됨] 호버/액티브 시 연한 회색 배경과 검은 글자 */
+    /* 활성화된 메뉴의 아이콘 색상 변경 */
+    .sidebar-menu .nav-link.active i { color: #009ef7; text-shadow: none; } /* [수정됨] 아이콘 색상 포인트 컬러로 변경 및 그림자 제거 */
 
-    /* 2~3 Depth 하위 메뉴 폰트 */
-    .collapse-menu { padding-left: 20px; }
-    .collapse-menu .nav-link { font-size: 13px; font-weight: 400; padding: 8px 15px; margin-bottom: 2px; }
-    .collapse-menu-depth3 { padding-left: 15px; }
+    /* 2 Depth 하위 메뉴 */
+    .collapse-menu { padding-left: 10px; margin-top: 2px; margin-bottom: 5px; }
+    .collapse-menu .nav-link { color: #6c757d; font-size: 13.5px; padding: 8px 15px 8px 30px; position: relative; } /* [수정됨] 하위 메뉴 글자색 반전 */
+    .collapse-menu .nav-link::before { content: ''; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; border-radius: 50%; background-color: #ced4da; } /* [수정됨] 불릿 점 색상 반전 */
+    .collapse-menu .nav-link:hover, .collapse-menu .nav-link.active { color: #009ef7; background: transparent; } /* [수정됨] 액티브 글자색 반전 */
+    .collapse-menu .nav-link.active::before { background-color: #009ef7; width: 6px; height: 6px; }
+
+    /* 3 Depth 하위 메뉴 */
+    .collapse-menu-depth3 { padding-left: 20px; margin-top: 2px; margin-bottom: 5px; }
+    .collapse-menu-depth3 .nav-link { color: #8a90a5; font-size: 13px; padding: 6px 15px 6px 30px; position: relative; } /* [수정됨] 글자색 반전 */
+    .collapse-menu-depth3 .nav-link:hover, .collapse-menu-depth3 .nav-link.active { color: #009ef7; background: transparent; font-weight: 600; } /* [수정됨] 액티브 글자색 반전 */
+
+    /* 드롭다운 화살표 애니메이션 */
+    .sidebar-menu .nav-link[data-bs-toggle="collapse"] { display: flex; justify-content: space-between; align-items: center; }
+    .sidebar-menu .nav-link[data-bs-toggle="collapse"] i.bi-chevron-down { transition: transform 0.3s; }
+    .sidebar-menu .nav-link[data-bs-toggle="collapse"][aria-expanded="true"] i.bi-chevron-down { transform: rotate(-180deg); }
 </style>
 
-<div class="sidebar premium-dark-card d-flex flex-column p-3 border-end" style="border-color: rgba(255,255,255,0.05) !important; border-radius: 0;">
+<div class="sidebar premium-card d-flex flex-column p-3 border-end" style="border-color: rgba(255,255,255,0.05) !important; border-radius: 0;">
 
     <div class="text-center mb-4 mt-3 pb-3 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
-        <h4 class="fw-bold m-0 text-white" style="letter-spacing: 1px;">
+        <h4 class="fw-bold m-0 text-dark" style="letter-spacing: 1px;">
             <i class="bi bi-lightning-charge-fill neon-icon fs-3"></i> SOK ADMIN
         </h4>
     </div>
@@ -41,12 +53,12 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu show" id="collapseMenuManage">
-                <a class="nav-link ${param.menuId eq 'people' ? 'active text-white' : ''}" href="/mng/people/list">함께하는 사람들 관리</a>
-                <a class="nav-link ${param.menuId eq 'notice' ? 'active text-white' : ''}" href="/mng/notice/list">공지사항 관리</a>
-                <a class="nav-link ${param.menuId eq 'news' ? 'active text-white' : ''}" href="/mng/news/list">보도자료 관리</a>
-                <a class="nav-link ${param.menuId eq 'management' ? 'active text-white' : ''}" href="/mng/management/list">경영공시 관리</a>
-                <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-white' : ''}" href="/mng/bidding/list">입찰정보 관리</a>
-                <a class="nav-link ${param.menuId eq 'report' ? 'active text-white' : ''}" href="/mng/report/list">활동보고서 관리</a>
+                <a class="nav-link ${param.menuId eq 'people' ? 'active text-dark' : ''}" href="/mng/people/list">함께하는 사람들 관리</a>
+                <a class="nav-link ${param.menuId eq 'notice' ? 'active text-dark' : ''}" href="/mng/notice/list">공지사항 관리</a>
+                <a class="nav-link ${param.menuId eq 'news' ? 'active text-dark' : ''}" href="/mng/news/list">보도자료 관리</a>
+                <a class="nav-link ${param.menuId eq 'management' ? 'active text-dark' : ''}" href="/mng/management/list">경영공시 관리</a>
+                <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-dark' : ''}" href="/mng/bidding/list">입찰정보 관리</a>
+                <a class="nav-link ${param.menuId eq 'report' ? 'active text-dark' : ''}" href="/mng/report/list">활동보고서 관리</a>
             </div>
         </li>
 
@@ -56,8 +68,8 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu show" id="collapseHomeManage">
-                <a class="nav-link ${param.menuId eq 'popup' ? 'active text-white' : ''}" href="/mng/popup/list">팝업 관리</a>
-                <a class="nav-link ${param.menuId eq 'dev' ? 'active text-white' : ''}" href="/mng/dev/list">홈페이지 요청/문의 관리</a>
+                <a class="nav-link ${param.menuId eq 'popup' ? 'active text-dark' : ''}" href="/mng/popup/list">팝업 관리</a>
+                <a class="nav-link ${param.menuId eq 'dev' ? 'active text-dark' : ''}" href="/mng/dev/list">홈페이지 요청/문의 관리</a>
             </div>
         </li>
 
@@ -73,13 +85,13 @@
                     <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                 </a>
                 <div class="collapse collapse-menu-depth3 show" id="collapseSponsor">
-                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-white' : ''}" href="/mng/sponsor/member/list">- 가입자 목록</a>
-                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-white' : ''}" href="/mng/sponsor/donate/list">- 기부금 목록</a>
-                    <a class="nav-link ${param.menuId eq 'sponsor_campaign' ? 'active text-white' : ''}" href="/mng/campaign/list">- 기부 캠페인 관리</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-dark' : ''}" href="/mng/sponsor/member/list">- 가입자 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-dark' : ''}" href="/mng/sponsor/donate/list">- 기부금 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_campaign' ? 'active text-dark' : ''}" href="/mng/campaign/list">- 기부 캠페인 관리</a>
                 </div>
 
-                <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-white' : ''}" href="/mng/volunteer/list">자원봉사 관리</a>
-                <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-white' : ''}" href="/mng/certificate/list">증명서 신청 관리</a>
+                <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-dark' : ''}" href="/mng/volunteer/list">자원봉사 관리</a>
+                <a class="nav-link ${param.menuId eq 'certificate' ? 'active text-dark' : ''}" href="/mng/certificate/list">증명서 신청 관리</a>
             </div>
         </li>
     </ul>

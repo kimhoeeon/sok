@@ -17,17 +17,17 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">유지보수 요청 등록</h3>
+    <h3 class="fw-bold text-dark">유지보수 요청 등록</h3>
     <a href="/mng/dev/list" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/dev/saveRequest" method="post" enctype="multipart/form-data">
         <div class="row mb-4 glassmorphism-box p-4 border-0">
 
             <div class="col-md-6 mb-4">
                 <label class="form-label text-muted">문의 유형</label>
-                <select name="reqType" class="form-select dark-search-bar fw-bold" required>
+                <select name="reqType" class="form-select search-bar fw-bold" required>
                     <option value="">유형을 선택하세요</option>
                     <option value="유지보수">🛠️ 유지보수</option>
                     <option value="단순문의">❓ 단순문의</option>
@@ -45,12 +45,12 @@
 
             <div class="col-12 mb-4">
                 <label class="form-label text-muted">요청 제목</label>
-                <input type="text" name="title" class="form-control dark-search-bar" required placeholder="무엇을 도와드릴까요?">
+                <input type="text" name="title" class="form-control search-bar" required placeholder="무엇을 도와드릴까요?">
             </div>
 
             <div class="col-12 mb-4">
                 <label class="form-label text-muted">참고 파일 첨부 (화면 캡처, 기획서 등)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1">Ctrl 키를 누르고 여러 파일을 선택할 수 있습니다.</div>
             </div>
 

@@ -18,11 +18,11 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">경영공시 ${empty management.brdSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">경영공시 ${empty management.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/management/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/management/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${management.brdSeq}">
 
@@ -35,27 +35,27 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="예산/결산" id="cat1" ${management.category eq '예산/결산' or empty management.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">예산/결산</label>
+                        <label class="form-check-label text-dark" for="cat1">예산/결산</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="사업계획" id="cat2" ${management.category eq '사업계획' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">사업계획</label>
+                        <label class="form-check-label text-dark" for="cat2">사업계획</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="규정/기타" id="cat3" ${management.category eq '규정/기타' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">규정/기타</label>
+                        <label class="form-check-label text-dark" for="cat3">규정/기타</label>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제목</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${management.title}" required placeholder="제목을 입력하세요">
+                <input type="text" name="title" class="form-control search-bar" value="${management.title}" required placeholder="제목을 입력하세요">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">문서 파일 첨부 (다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 여러 개의 PDF, HWP, DOCX 파일 등을 첨부할 수 있습니다.</div>
 
                 <c:if test="${not empty management.fileList}">
@@ -63,7 +63,7 @@
                         <span class="d-block text-muted mb-2">기존 첨부파일 목록</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${management.fileList}">
-                                <li class="text-white mb-1"><i class="bi bi-file-earmark-text me-2"></i> ${file.orgFileNm} <span class="text-muted ms-2" style="font-size: 11px;">(${file.fileSize} byte)</span></li>
+                                <li class="text-dark mb-1"><i class="bi bi-file-earmark-text me-2"></i> ${file.orgFileNm} <span class="text-muted ms-2" style="font-size: 11px;">(${file.fileSize} byte)</span></li>
                             </c:forEach>
                         </ul>
                     </div>

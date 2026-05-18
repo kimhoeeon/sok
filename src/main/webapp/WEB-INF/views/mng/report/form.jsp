@@ -19,11 +19,11 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">활동보고서 ${empty report.brdSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">활동보고서 ${empty report.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/report/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/report/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${report.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
@@ -37,30 +37,30 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="연차보고서" id="cat1" ${report.category eq '연차보고서' or empty report.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">연차보고서</label>
+                        <label class="form-check-label text-dark" for="cat1">연차보고서</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="사업보고서" id="cat2" ${report.category eq '사업보고서' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">사업보고서</label>
+                        <label class="form-check-label text-dark" for="cat2">사업보고서</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="기타자료" id="cat3" ${report.category eq '기타자료' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">기타자료</label>
+                        <label class="form-check-label text-dark" for="cat3">기타자료</label>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">보고서 제목</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${report.title}" required placeholder="예) 2025 스페셜올림픽코리아 연차보고서">
+                <input type="text" name="title" class="form-control search-bar" value="${report.title}" required placeholder="예) 2025 스페셜올림픽코리아 연차보고서">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
-                <input type="file" name="thumbFile" class="form-control dark-search-bar" accept="image/*">
+                <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
                 <c:if test="${not empty report.thumbPath}">
                     <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
-                        <span class="text-white align-middle me-2">현재 등록된 썸네일: </span>
+                        <span class="text-dark align-middle me-2">현재 등록된 썸네일: </span>
                         <img src="${report.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
                     </div>
                 </c:if>
@@ -68,7 +68,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">보고서 파일 첨부 (PDF, 이미지 등 다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 여러 파일을 첨부할 수 있습니다.</div>
 
                 <c:if test="${not empty report.fileList}">
@@ -77,7 +77,7 @@
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${report.fileList}">
                                 <li class="mb-2">
-                                    <a href="${file.filePath}" target="_blank" class="text-white text-decoration-none hover-glow d-inline-flex align-items-center">
+                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
                                         <i class="bi bi-file-earmark-pdf me-2 text-danger fs-5"></i>
                                         <span>${file.orgFileNm}</span>
                                         <span class="text-muted ms-2" style="font-size: 11px;">

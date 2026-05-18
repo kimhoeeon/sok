@@ -6,13 +6,13 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">팝업 상세 설정</h3>
+    <h3 class="fw-bold text-dark">팝업 상세 설정</h3>
     <a href="/mng/popup/list?pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
 <div class="row justify-content-center">
     <div class="col-lg-10">
-        <div class="premium-dark-card p-5">
+        <div class="premium-card p-5">
             <form action="/mng/popup/save" method="post" enctype="multipart/form-data" onsubmit="return validatePopup()">
                 <input type="hidden" name="popSeq" value="${popup.popSeq}">
 
@@ -25,18 +25,18 @@
                     <div class="col-md-8">
                         <div class="mb-4">
                             <label class="form-label text-muted">팝업 제목</label>
-                            <input type="text" name="title" class="form-control dark-search-bar fs-5 fw-bold" value="${popup.title}" required placeholder="관리용 제목을 입력하세요">
+                            <input type="text" name="title" class="form-control search-bar fs-5 fw-bold" value="${popup.title}" required placeholder="관리용 제목을 입력하세요">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted">게시 시작 일시</label>
-                                <input type="datetime-local" name="startDt" id="startDt" class="form-control dark-search-bar"
+                                <input type="datetime-local" name="startDt" id="startDt" class="form-control search-bar"
                                        value="<fmt:formatDate value='${popup.startDt}' pattern='yyyy-MM-dd\"T\"HH:mm'/>" required>
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted">게시 종료 일시</label>
-                                <input type="datetime-local" name="endDt" id="endDt" class="form-control dark-search-bar"
+                                <input type="datetime-local" name="endDt" id="endDt" class="form-control search-bar"
                                        value="<fmt:formatDate value='${popup.endDt}' pattern='yyyy-MM-dd\"T\"HH:mm'/>" required>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <label class="form-label text-muted">노출 여부 설정</label>
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="useYn" name="useYn" value="Y" ${popup.useYn eq 'Y' ? 'checked' : ''}>
-                                <label class="form-check-label text-white" for="useYn">활성화 시 설정된 기간 동안 메인 화면에 팝업이 노출됩니다.</label>
+                                <label class="form-check-label text-dark" for="useYn">활성화 시 설정된 기간 동안 메인 화면에 팝업이 노출됩니다.</label>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                         <img id="imgPreview" src="${popup.popupImage.filePath}" class="img-fluid rounded border border-secondary shadow">
                                     </c:when>
                                     <c:otherwise>
-                                        <div id="noImg" class="py-5 bg-dark rounded text-muted">
+                                        <div id="noImg" class="py-5 bg-white rounded text-muted">
                                             <i class="bi bi-image fs-1 d-block mb-2"></i>
                                             이미지 미리보기
                                         </div>
@@ -69,7 +69,7 @@
                                 </c:choose>
                             </div>
 
-                            <input type="file" name="uploadFile" id="uploadFile" class="form-control dark-search-bar form-control-sm" accept="image/*" onchange="previewImage(this)">
+                            <input type="file" name="uploadFile" id="uploadFile" class="form-control search-bar form-control-sm" accept="image/*" onchange="previewImage(this)">
                         </div>
                     </div>
                 </div>

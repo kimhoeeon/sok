@@ -1,103 +1,94 @@
 @charset "UTF-8";
 
-/* 최상단: 발광 효과 변수 선언 (눈이 편안한 소프트 톤으로 변경) */
+/* 최상단: 그림자 효과 변수 선언 (라이트 톤에 맞게 부드럽고 은은하게 변경) */
 :root {
-    --neon-glow: 0 0 8px rgba(255, 255, 255, 0.3);
+    --light-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* 1. 기본 배경 및 폰트 */
 body {
-    background-color: #151521;
-    color: #ffffff;
+    background-color: #f4f6f9; /* 밝은 연회색 배경 */
+    color: #333333; /* 기본 글자색 (다크 그레이) */
     font-family: 'Malgun Gothic', sans-serif;
     font-size: 14px;
     letter-spacing: -0.3px;
 }
 
-/* 2. 프리미엄 다크 카드 레이아웃 */
-.premium-dark-card {
-    background-color: #1e1e2d;
+/* 2. 프리미엄 카드 레이아웃 (기존 premium-card 대체) */
+.premium-card {
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: none;
+    box-shadow: var(--light-shadow);
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 3. 글래스모피즘 (반투명 유리) 효과 */
+/* 3. 글래스모피즘 (반투명 유리) 효과 - 라이트 버전 */
 .glassmorphism-box {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--light-shadow);
 }
 
-/* 4. 텍스트 및 아이콘 효과 (부드러운 화이트/라이트그레이 톤으로 변경) */
-.neon-icon {
-    color: #ffffff;
-    text-shadow: var(--neon-glow);
+/* 4. 네온 포인트 버튼 (포인트 컬러는 유지, 그림자는 배경에 맞게 조정) */
+.btn-neon {
+    background: linear-gradient(45deg, #009ef7, #3250ff);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 158, 247, 0.3);
+    transition: all 0.3s ease;
+}
+.btn-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 158, 247, 0.4);
+    color: white;
 }
 
-.neon-text {
-    color: #ffffff !important;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-/* 5. 검색바 스타일 */
-.dark-search-bar {
-    background-color: #151521 !important;
-    border: 1px solid #474761 !important;
-    color: #ffffff !important;
+/* 5. 검색바/입력창 스타일 (기존 search-bar 대체) */
+.search-bar {
+    background-color: #ffffff !important;
+    border: 1px solid #ced4da !important;
+    color: #333333 !important;
     font-size: 13.5px !important;
 }
-
-.dark-search-bar:focus {
-    background-color: #151521 !important;
-    color: #ffffff !important;
-    border-color: #6c757d !important; /* 포커스 시 은은한 회색 테두리 */
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1) !important;
+.search-bar:focus {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+.search-bar::placeholder {
+    color: #adb5bd !important;
 }
 
-.dark-search-bar::placeholder {
-    color: #6c757d !important;
-}
-
-/* 6. 테이블 및 리스트 스타일 */
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    color: #ffffff !important;
-}
-
+/* 6. 테이블 스타일 조정 */
 .table {
-    color: #a1a5b7;
-    border-color: #2b2b40;
-    font-size: 13.5px;
+    color: #4b5675;
+    border-color: #eff2f5;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #f9f9f9 !important;
+    color: #333333 !important;
 }
 
-.table thead th {
-    color: #ffffff;
-    font-weight: 600;
-    border-bottom-width: 1px;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+/* 7. 페이징 버튼 커스텀 (기존 pagination-custom 대체) */
+.pagination-custom .page-link {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    color: #4b5675;
+    border-radius: 6px;
+    margin: 0 3px;
+}
+.pagination-custom .page-item.active .page-link {
+    background-color: #009ef7;
+    border-color: #009ef7;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 158, 247, 0.3);
 }
 
-/* 7. 버튼 및 호버 효과 (SOK 브랜드 레드 계열로 차분하고 고급스럽게 변경) */
-.btn-neon {
-    background-color: #e61938; /* SOK 대표 레드 */
-    color: #ffffff;
-    font-weight: bold;
-    border: none;
-    box-shadow: 0 4px 10px rgba(230, 25, 56, 0.2); /* 은은한 붉은 그림자 */
-    transition: all 0.3s ease;
-}
-
-.btn-neon:hover {
-    background-color: #cc1631; /* 호버 시 살짝 어두운 레드 */
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(230, 25, 56, 0.4);
-}
-
-.hover-glow:hover {
-    box-shadow: 0 0 15px rgba(230, 25, 56, 0.4);
-    transition: all 0.3s ease;
-}
+/* 8. 스크롤바 커스텀 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }

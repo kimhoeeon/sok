@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko" data-bs-theme="dark">
+<html lang="ko" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>SOK 스페셜올림픽코리아 관리자 로그인</title>
@@ -16,8 +16,8 @@
     <style>
         /* 로그인 페이지 전용 레이아웃 스타일 */
         body {
-            /* 메인 컬러(#151521)를 바탕으로 중앙에 살짝 빛이 맺히는 방사형 그라데이션 */
-            background: radial-gradient(circle at center, #2b2b40 0%, #151521 100%);
+            /* 라이트 테마 배경으로 적용 */
+            background-color: #f4f6f9;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,13 +30,13 @@
             width: 100%;
             max-width: 420px;
             padding: 40px;
-            /* 글래스모피즘 & 프리미엄 다크 카드 융합 */
-            background: rgba(30, 30, 45, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* [수정됨] 다크 테마 배경을 화이트(#ffffff)로 변경 */
+            background: #ffffff;
+            /* [수정됨] 테두리를 어두운 선으로 얇게 변경 */
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            /* [수정됨] 그림자를 밝은 배경에 맞게 부드럽게 변경 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 10;
         }
@@ -74,7 +74,8 @@
             height: 300px;
             background: #39ff14;
             filter: blur(150px);
-            opacity: 0.15;
+            /* [수정됨] 라이트 테마에 맞게 투명도 낮춤 */
+            opacity: 0.05;
             border-radius: 50%;
             z-index: 1;
             top: -50px;
@@ -87,7 +88,8 @@
             height: 250px;
             background: #e61938;
             filter: blur(120px);
-            opacity: 0.1;
+            /* [수정됨] 라이트 테마에 맞게 투명도 낮춤 */
+            opacity: 0.05;
             border-radius: 50%;
             z-index: 1;
             bottom: -50px;
@@ -141,6 +143,7 @@
             });
         });
     </script>
+
 </head>
 <body>
 
@@ -149,7 +152,7 @@
 
 <div class="login-wrapper">
     <div class="text-center login-title">
-        <h3 class="fw-bold text-white mb-1">
+        <h3 class="fw-bold text-dark mb-1">
             <i class="bi bi-lightning-charge-fill neon-icon fs-2 align-middle"></i> SOK ADMIN
         </h3>
         <span class="text-muted" style="font-size: 13px;">Special Olympics Korea 관리자 시스템</span>
@@ -166,10 +169,10 @@
         <div class="mb-4">
             <label for="mbrId" class="form-label text-uppercase">Admin ID</label>
             <div class="input-group" style="height: 50px;">
-                        <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
+                        <span class="input-group-text search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
                             <i class="bi bi-person text-muted"></i>
                         </span>
-                <input type="text" class="form-control dark-search-bar border-start-0" id="mbrId" name="mbrId"
+                <input type="text" class="form-control search-bar border-start-0" id="mbrId" name="mbrId"
                        placeholder="아이디를 입력하세요" autocomplete="off">
             </div>
         </div>
@@ -177,12 +180,12 @@
         <div class="mb-5">
             <label for="mbrPw" class="form-label text-uppercase">Password</label>
             <div class="input-group" style="height: 50px;">
-                <span class="input-group-text dark-search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
+                <span class="input-group-text search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
                     <i class="bi bi-lock text-muted"></i>
                 </span>
-                <input type="password" class="form-control dark-search-bar border-start-0 border-end-0" id="mbrPw" name="mbrPw"
+                <input type="password" class="form-control search-bar border-start-0 border-end-0" id="mbrPw" name="mbrPw"
                        placeholder="비밀번호를 입력하세요">
-                <span class="input-group-text dark-search-bar border-start-0" id="togglePassword" style="cursor: pointer; background-color: rgba(0,0,0,0.2) !important;">
+                <span class="input-group-text search-bar border-start-0" id="togglePassword" style="cursor: pointer; background-color: rgba(0,0,0,0.2) !important;">
                     <i class="bi bi-eye-slash text-muted" id="eyeIcon"></i>
                 </span>
             </div>

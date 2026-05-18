@@ -43,12 +43,12 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">입찰정보 ${empty bidding.brdSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">입찰정보 ${empty bidding.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/bidding/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}"
        class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/bidding/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${bidding.brdSeq}">
 
@@ -63,25 +63,25 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="진행중"
                                id="cat1" ${bidding.category eq '진행중' or empty bidding.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white fw-bold text-success" for="cat1">진행중</label>
+                        <label class="form-check-label text-dark fw-bold text-success" for="cat1">진행중</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="마감"
                                id="cat2" ${bidding.category eq '마감' ? 'checked' : ''}>
-                        <label class="form-check-label text-white text-muted" for="cat2">마감</label>
+                        <label class="form-check-label text-dark text-muted" for="cat2">마감</label>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">입찰 공고명</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${bidding.title}" required
+                <input type="text" name="title" class="form-control search-bar" value="${bidding.title}" required
                        placeholder="예) 2026 스페셜올림픽코리아 홈페이지 리뉴얼 용역 입찰 공고">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제안요청서 등 문서 첨부 (다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple>
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 제안요청서,
                     과업지시서, 입찰참가신청서 등을 모두 선택하세요.
                 </div>
@@ -92,7 +92,7 @@
                         <span class="d-block text-muted mb-2">기존 첨부파일 목록</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${bidding.fileList}">
-                                <li class="text-white mb-1">
+                                <li class="text-dark mb-1">
                                     <i class="bi bi-file-earmark-arrow-down me-2 text-info"></i> ${file.orgFileNm}
                                     <span class="text-muted ms-2"
                                           style="font-size: 11px;">(${file.fileSize} byte)</span>

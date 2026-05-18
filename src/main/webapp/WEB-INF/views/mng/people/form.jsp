@@ -18,11 +18,11 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">함께하는 사람들 ${empty people.brdSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">함께하는 사람들 ${empty people.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/people/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/people/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${people.brdSeq}">
 
@@ -36,27 +36,27 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="선수" id="cat1" ${people.category eq '선수' or empty people.category ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat1">선수</label>
+                        <label class="form-check-label text-dark" for="cat1">선수</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="아티스트" id="cat2" ${people.category eq '아티스트' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat2">아티스트</label>
+                        <label class="form-check-label text-dark" for="cat2">아티스트</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="패밀리" id="cat3" ${people.category eq '패밀리' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat3">패밀리</label>
+                        <label class="form-check-label text-dark" for="cat3">패밀리</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="프렌즈" id="cat4" ${people.category eq '프렌즈' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat4">프렌즈</label>
+                        <label class="form-check-label text-dark" for="cat4">프렌즈</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="스폰서" id="cat5" ${people.category eq '스폰서' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat5">스폰서</label>
+                        <label class="form-check-label text-dark" for="cat5">스폰서</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="소식" id="cat6" ${people.category eq '소식' ? 'checked' : ''}>
-                        <label class="form-check-label text-white" for="cat6">소식</label>
+                        <label class="form-check-label text-dark" for="cat6">소식</label>
                     </div>
                 </div>
             </div>
@@ -65,18 +65,18 @@
                 <label class="form-label text-muted">홈페이지 메인 노출 여부</label>
                 <div class="form-check form-switch mt-2">
                     <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${people.isNotice eq 'Y' ? 'checked' : ''}>
-                    <label class="form-check-label text-white" for="isNotice">활성화 시 메인 화면에 우선 노출됩니다.</label>
+                    <label class="form-check-label text-dark" for="isNotice">활성화 시 메인 화면에 우선 노출됩니다.</label>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">이름 및 직책 (타이틀)</label>
-                <input type="text" name="title" class="form-control dark-search-bar" value="${people.title}" required placeholder="예) 김연아 / 스페셜올림픽코리아 홍보대사">
+                <input type="text" name="title" class="form-control search-bar" value="${people.title}" required placeholder="예) 김연아 / 스페셜올림픽코리아 홍보대사">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">유튜브 영상 <i class="bi bi-youtube text-danger"></i> (선택)</label>
-                <input type="text" name="youtubeUrl" id="youtubeUrl" class="form-control dark-search-bar border-danger" value="${people.youtubeUrl}" placeholder="유튜브 영상 URL을 붙여넣으세요" oninput="previewYoutube()">
+                <input type="text" name="youtubeUrl" id="youtubeUrl" class="form-control search-bar border-danger" value="${people.youtubeUrl}" placeholder="유튜브 영상 URL을 붙여넣으세요" oninput="previewYoutube()">
                 <small class="text-muted d-block mt-2">예: https://www.youtube.com/watch?v=xxxxxxx 또는 https://youtu.be/xxxxxxx</small>
 
                 <div id="youtubePreview" class="mt-3" style="display: none; border-radius: 8px; overflow: hidden; max-width: 560px;">
@@ -85,7 +85,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">프로필 이미지 등록 (다중 선택 가능)</label>
-                <input type="file" name="uploadFiles" class="form-control dark-search-bar" multiple accept="image/*">
+                <input type="file" name="uploadFiles" class="form-control search-bar" multiple accept="image/*">
 
                 <c:if test="${not empty people.fileList}">
                     <div class="mt-3 p-3 border rounded d-flex flex-wrap gap-3" style="border-color: #474761 !important; background-color: #151521;">

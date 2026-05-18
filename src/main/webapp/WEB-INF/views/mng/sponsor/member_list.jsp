@@ -2,63 +2,63 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentMenu" value="member" scope="request" />
+<c:set var="currentMenu" value="sponsor_member" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">후원자(회원) 관리</h3>
+    <h3 class="fw-bold text-dark">후원자(회원) 관리</h3>
     <button type="button" class="btn btn-success px-4 fw-bold" onclick="downloadExcel()">
         <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
     </button>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form id="searchForm" action="/mng/sponsor/member/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
-        <div class="input-group shadow-sm" style="max-width: 700px;">
-            <select name="amount" class="form-select dark-search-bar" style="max-width: 90px;" onchange="searchData()">
+        <div class="input-group shadow-sm" style="max-width: 800px;">
+            <select name="amount" class="form-select search-bar" style="max-width: 90px;" onchange="searchData()">
                 <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                 <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
                 <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
             </select>
 
-            <select name="mbrType" class="form-select dark-search-bar border-start-0" style="max-width: 120px;">
+            <select name="mbrType" class="form-select search-bar border-start-0" style="max-width: 120px;">
                 <option value="">회원구분</option>
                 <option value="INDIVIDUAL" ${params.mbrType eq 'INDIVIDUAL' ? 'selected' : ''}>개인</option>
                 <option value="CORP" ${params.mbrType eq 'CORP' ? 'selected' : ''}>기업/단체</option>
             </select>
-            <select name="isDonor" class="form-select dark-search-bar border-start-0" style="max-width: 130px;">
+            <select name="isDonor" class="form-select search-bar border-start-0" style="max-width: 130px;">
                 <option value="">후원이력</option>
                 <option value="Y" ${params.isDonor eq 'Y' ? 'selected' : ''}>후원자 (Y)</option>
                 <option value="N" ${params.isDonor eq 'N' ? 'selected' : ''}>일반회원 (N)</option>
             </select>
-            <select name="withdrawYn" class="form-select dark-search-bar border-start-0" style="max-width: 120px;">
+            <select name="withdrawYn" class="form-select search-bar border-start-0" style="max-width: 120px;">
                 <option value="">가입 상태</option>
                 <option value="N" ${params.withdrawYn eq 'N' ? 'selected' : ''}>정상 회원</option>
                 <option value="Y" ${params.withdrawYn eq 'Y' ? 'selected' : ''}>탈퇴 회원</option>
             </select>
 
-            <input type="text" name="searchKeyword" class="form-control dark-search-bar border-start-0" placeholder="이름, 아이디, 이메일 검색" value="${params.searchKeyword}">
+            <input type="text" name="searchKeyword" class="form-control search-bar border-start-0" placeholder="이름, 아이디, 이메일 검색" value="${params.searchKeyword}">
             <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle text-center">
-            <thead>
+        <table class="table table-hover align-middle text-center mb-0" style="--bs-table-bg: #ffffff; --bs-table-color: #212529; --bs-table-hover-bg: rgba(0,0,0,0.02); border-top: 1px solid #dee2e6;">
+            <thead style="background-color: #f8f9fa;">
                 <tr>
-                    <th width="8%">No.</th>
-                    <th width="10%">회원구분</th>
-                    <th class="text-start">회원명 (아이디)</th>
-                    <th width="15%">연락처</th>
-                    <th width="12%">가입일</th>
-                    <th width="12%">누적 기부횟수</th>
-                    <th width="15%">누적 기부금액</th>
-                    <th width="10%">관리</th>
+                    <th width="8%" class="text-dark border-bottom py-3">No.</th>
+                    <th width="10%" class="text-dark border-bottom py-3">회원구분</th>
+                    <th class="text-start text-dark border-bottom py-3">회원명 (아이디)</th>
+                    <th width="15%" class="text-dark border-bottom py-3">연락처</th>
+                    <th width="12%" class="text-dark border-bottom py-3">가입일</th>
+                    <th width="12%" class="text-dark border-bottom py-3">누적 기부횟수</th>
+                    <th width="15%" class="text-dark border-bottom py-3">누적 기부금액</th>
+                    <th width="10%" class="text-dark border-bottom py-3">관리</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="border-top: 2px solid #dee2e6;">
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr><td colspan="8" class="py-5 text-muted">등록된 회원이 없습니다.</td></tr>
@@ -74,7 +74,7 @@
                                     </c:choose>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/mng/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&withdrawYn=${params.withdrawYn}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="text-white text-decoration-none fw-bold hover-glow">
+                                    <a href="/mng/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&withdrawYn=${params.withdrawYn}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="text-dark text-decoration-none fw-bold hover-glow">
                                         ${item.mbrNm} <span class="text-muted fw-normal ms-1">(${item.mbrId})</span>
                                     </a>
                                     <c:if test="${item.withdrawYn eq 'Y'}">
@@ -99,7 +99,7 @@
 
     <c:if test="${pageMaker.total > 0}">
         <div class="d-flex justify-content-center mt-5">
-            <ul class="pagination pagination-dark m-0">
+            <ul class="pagination pagination-custom m-0">
                 <c:if test="${pageMaker.prev}"><li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i class="bi bi-chevron-left"></i></a></li></c:if>
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                     <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}"><a class="page-link" href="javascript:goPage(${num})">${num}</a></li>

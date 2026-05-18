@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko" data-bs-theme="dark">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>SOK 스페셜올림픽코리아 관리자</title>
@@ -12,7 +12,7 @@
     <link href="/css/mngStyle.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body style="background-color: #151521;">
+<body>
 
 <div class="d-flex flex-nowrap min-vh-100">
 
@@ -20,25 +20,25 @@
         <jsp:param name="menuId" value="${currentMenu}" />
     </jsp:include>
 
+    <c:if test="${not empty errorMessage}">
+    <script>
+        alert('${errorMessage}');
+    </script>
+    </c:if>
+
+    <c:if test="${not empty successMessage}">
+    <script>
+        alert('${successMessage}');
+    </script>
+    </c:if>
+
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0;">
 
         <div class="d-flex justify-content-end align-items-center p-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
             <div class="d-flex align-items-center glassmorphism-box px-4 py-2">
                 <i class="bi bi-person-circle fs-3 me-2 neon-icon"></i>
-                <span class="fw-bold text-white">${adminLogin.admNm} 관리자님</span>
+                <span class="fw-bold text-dark">${adminLogin.admNm} 관리자님</span>
             </div>
         </div>
-
-        <c:if test="${not empty errorMessage}">
-            <script>
-                alert('${errorMessage}');
-            </script>
-        </c:if>
-
-        <c:if test="${not empty successMessage}">
-            <script>
-                alert('${successMessage}');
-            </script>
-        </c:if>
 
         <div class="p-5 flex-grow-1 overflow-auto">

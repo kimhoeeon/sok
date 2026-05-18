@@ -58,10 +58,10 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-white">기부 캠페인 ${empty campaign.campSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">기부 캠페인 ${empty campaign.campSeq ? '등록' : '수정'}</h3>
     <div>
         <a href="/mng/campaign/list?pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}&searchUseYn=${params.searchUseYn}"
-           class="btn btn-outline-secondary px-4 me-2 text-white">목록</a>
+           class="btn btn-outline-secondary px-4 me-2 text-dark">목록</a>
         <c:if test="${not empty campaign.campSeq}">
             <button type="button" class="btn btn-danger px-4" onclick="deleteCampaign()"><i class="bi bi-trash"></i> 삭제
             </button>
@@ -69,7 +69,7 @@
     </div>
 </div>
 
-<div class="premium-dark-card p-4">
+<div class="premium-card p-4">
     <form action="/mng/campaign/save" method="post" enctype="multipart/form-data" id="campaignForm">
         <input type="hidden" name="campSeq" value="${campaign.campSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
