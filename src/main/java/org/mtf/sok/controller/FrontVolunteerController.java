@@ -2,6 +2,7 @@ package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.VolunteerDTO;
 import org.mtf.sok.mapper.VolunteerMapper;
+import org.mtf.sok.service.DirectSendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ public class FrontVolunteerController {
 
     @Autowired
     private VolunteerMapper volunteerMapper;
+
+    @Autowired
+    private DirectSendService directSendService;
 
     // 1. 자원봉사 신청 화면 (GET)
     @GetMapping("/apply")
@@ -35,6 +39,10 @@ public class FrontVolunteerController {
 
             // DB 저장
             volunteerMapper.insertVolunteer(volunteerDTO);
+
+            // 2. 발주사 관리자에게 신규 접수 알림 메일 즉시 발송
+            directSendService.sendVolunteerApplyAlert(volunteerDTO);
+
             return ResponseEntity.ok("자원봉사 신청이 성공적으로 접수되었습니다.");
 
         } catch (Exception e) {

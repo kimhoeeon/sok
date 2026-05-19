@@ -6,6 +6,9 @@
         <if test="searchSupportArea != null and searchSupportArea != ''">
             AND SUPPORT_AREA = #{searchSupportArea}
         </if>
+        <if test="searchStatus != null and searchStatus != ''">
+            AND STATUS = #{searchStatus}
+        </if>
         <if test="searchKeyword != null and searchKeyword != ''">
             AND (APPLY_NM LIKE CONCAT('%', #{searchKeyword}, '%')
             OR EVENT_NM LIKE CONCAT('%', #{searchKeyword}, '%'))
@@ -35,10 +38,17 @@
 
     <update id="updateVolunteer" parameterType="org.mtf.sok.domain.VolunteerDTO">
         UPDATE TB_VOLUNTEER_APPLY
-        SET APPLY_NM  = #{applyNm},
-            PHONE     = #{phone},
-            APPLY_CNT = #{applyCnt},
-            FREQ_TYPE = #{freqType}
+        <set>
+            <if test="supportArea != null and supportArea != ''">SUPPORT_AREA = #{supportArea},</if>
+            <if test="eventNm != null and eventNm != ''">EVENT_NM = #{eventNm},</if>
+            <if test="applyNm != null and applyNm != ''">APPLY_NM = #{applyNm},</if>
+            <if test="phone != null and phone != ''">PHONE = #{phone},</if>
+            <if test="applyCnt != null">APPLY_CNT = #{applyCnt},</if>
+            <if test="freqType != null and freqType != ''">FREQ_TYPE = #{freqType},</if>
+            <if test="email != null and email != ''">EMAIL = #{email},</if>
+            <if test="status != null and status != ''">STATUS = #{status},</if>
+            <if test="rejectRsn != null">REJECT_RSN = #{rejectRsn}</if>
+        </set>
         WHERE VOL_SEQ = #{volSeq}
     </update>
 
@@ -50,9 +60,9 @@
 
     <insert id="insertVolunteer" parameterType="org.mtf.sok.domain.VolunteerDTO" useGeneratedKeys="true" keyProperty="volSeq">
         INSERT INTO TB_VOLUNTEER_APPLY (
-            SUPPORT_AREA, EVENT_NM, APPLY_NM, PHONE, APPLY_CNT, FREQ_TYPE, AGREE_YN, REG_DT, DEL_YN
+            SUPPORT_AREA, EVENT_NM, APPLY_NM, PHONE, EMAIL, APPLY_CNT, FREQ_TYPE, AGREE_YN, STATUS, REG_DT, DEL_YN
         ) VALUES (
-                     #{supportArea}, #{eventNm}, #{applyNm}, #{phone}, #{applyCnt}, #{freqType}, #{agreeYn}, NOW(), 'N'
+                     #{supportArea}, #{eventNm}, #{applyNm}, #{phone}, #{email}, #{applyCnt}, #{freqType}, #{agreeYn}, 'WAIT', NOW(), 'N'
                  )
     </insert>
 

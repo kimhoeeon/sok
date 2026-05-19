@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.mtf.sok.domain.CertificateDTO;
 import org.mtf.sok.domain.DevRequestDTO;
 import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.MailRequestDTO;
 import org.mtf.sok.domain.ResponseDTO;
+import org.mtf.sok.domain.VolunteerDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ public class DirectSendService {
 
     // [설정] DirectSend 계정 정보
     private final String SENDER_EMAIL = "business@meetingfan.com";
-    private final String SENDER_NAME = "SOK 관리자"; // 발신자명
+    private final String SENDER_NAME = "SOK 관리자";
     private final String USERNAME = "meetingfan";
     private final String API_KEY = "L7QNsEQIyrAzNHO";
     private final String API_URL = "https://directsend.co.kr/index.php/api_v2/mail_change_word";
@@ -53,15 +55,13 @@ public class DirectSendService {
             URL obj = new URL(API_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            // 외부 서버 장애 시 우리 서버를 보호하기 위한 타임아웃 설정 (5초)
-            con.setConnectTimeout(5000); // 연결 대기 시간 5초
-            con.setReadTimeout(5000);    // 응답 대기 시간 5초
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
 
             con.setRequestProperty("Cache-Control", "no-cache");
             con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             con.setRequestProperty("Accept", "application/json");
 
-            // 본문 구성 (첨부파일 내역 추가)
             StringBuilder bodyBuilder = new StringBuilder(mailRequestDTO.getBody());
             List<FileDTO> files = mailRequestDTO.getFileUrl();
             if (files != null && !files.isEmpty()) {
@@ -70,7 +70,6 @@ public class DirectSendService {
             }
             String body = bodyBuilder.toString().replaceAll("\"", "'");
 
-            // JSON 파라미터 조립
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
@@ -92,7 +91,6 @@ public class DirectSendService {
 
             String urlParameters = objectMapper.writeValueAsString(rootNode);
 
-            // 전송 실행
             System.setProperty("jsse.enableSNIExtension", "false");
             con.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8);
@@ -100,7 +98,6 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            // 결과 파싱
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();
@@ -132,12 +129,10 @@ public class DirectSendService {
     // 2. 비즈니스 로직부 (라우팅 및 메세지 조립)
     // --------------------------------------------------------------------
 
-    // 수신자 리스트 추출
     private List<String> getTargetEmails(String reqType) {
-        return recipientMap.getOrDefault(reqType, Arrays.asList("kyj@meetingfan.com")); // 매칭 안될 경우 기본값
+        return recipientMap.getOrDefault(reqType, Arrays.asList("kyj@meetingfan.com"));
     }
 
-    // [1] 새 요청 등록 알림
     public void sendRequestAlertEmail(DevRequestDTO request) {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
@@ -145,7 +140,6 @@ public class DirectSendService {
         String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
         String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
 
-        // [핵심] 내용이 Null일 경우를 대비한 Null-Safe 처리 (NPE 방지)
         String safeContent = (request.getContent() != null) ? request.getContent().replaceAll("\n", "<br>") : "내용 없음";
 
         String body = String.format(
@@ -168,7 +162,6 @@ public class DirectSendService {
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
-    // [2] 새 댓글(코멘트) 알림
     public void sendCommentAlertEmail(DevRequestDTO request, String commentContent, String writerId) {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
@@ -187,7 +180,6 @@ public class DirectSendService {
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
-    // [3] 상태 변경 알림 (관리자에게 발송)
     public void sendStatusChangeAlertEmail(DevRequestDTO request) {
         List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
 
@@ -213,7 +205,55 @@ public class DirectSendService {
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
-    // 다중 수신자 발송 래퍼
+    // --------------------------------------------------------------------
+    // 발주사 관리자(sokadmin)용 접수 알림 연동
+    // --------------------------------------------------------------------
+
+    public void sendVolunteerApplyAlert(VolunteerDTO volunteer) {
+        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+        String subject = "[SOK] 새로운 자원봉사 신청이 접수되었습니다.";
+        String body = String.format(
+                "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
+                        "<h3 style='color:#333;'>신규 자원봉사 신청 안내</h3>" +
+                        "<ul style='line-height:1.8;'>" +
+                        "<li><b>신청자(단체)명 :</b> %s</li>" +
+                        "<li><b>지원 분야 :</b> %s</li>" +
+                        "<li><b>참여 행사명 :</b> %s</li>" +
+                        "<li><b>연락처 :</b> %s</li>" +
+                        "</ul>" +
+                        "<p>관리자 대시보드(자원봉사 관리)에서 상세 내용을 확인해 주세요.</p>" +
+                        "</div>",
+                volunteer.getApplyNm(), volunteer.getSupportArea(),
+                volunteer.getEventNm() != null ? volunteer.getEventNm() : "미지정",
+                volunteer.getPhone()
+        );
+        sendMailToMultipleReceivers(targetEmails, subject, body);
+    }
+
+    public void sendCertificateApplyAlert(CertificateDTO cert) {
+        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+        String subject = "[SOK] 새로운 증명서 발급 신청이 접수되었습니다.";
+
+        String typeStr = cert.getCertType() != null ? cert.getCertType() : "미지정";
+        String belongToStr = cert.getBelongTo() != null && !cert.getBelongTo().isEmpty() ? cert.getBelongTo() : "소속 없음";
+
+        String body = String.format(
+                "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
+                        "<h3 style='color:#333;'>신규 증명서 발급 신청 안내</h3>" +
+                        "<ul style='line-height:1.8;'>" +
+                        "<li><b>신청자명 :</b> %s</li>" +
+                        "<li><b>소속 :</b> %s</li>" +
+                        "<li><b>증명서 종류 :</b> %s</li>" +
+                        "<li><b>발급 용도 :</b> %s</li>" +
+                        "<li><b>연락처 :</b> %s</li>" +
+                        "</ul>" +
+                        "<p>관리자 대시보드(증명서 관리)에서 발급 처리를 진행해 주세요.</p>" +
+                        "</div>",
+                cert.getApplyNm(), belongToStr, typeStr, cert.getUsePurpose(), cert.getPhone()
+        );
+        sendMailToMultipleReceivers(targetEmails, subject, body);
+    }
+
     private void sendMailToMultipleReceivers(List<String> emails, String subject, String body) {
         MailRequestDTO mailReq = new MailRequestDTO();
         mailReq.setSubject(subject);
@@ -221,7 +261,7 @@ public class DirectSendService {
 
         List<MailRequestDTO.Receiver> receivers = new ArrayList<>();
         for (String email : emails) {
-            receivers.add(new MailRequestDTO.Receiver("담당자", email));
+            receivers.add(new MailRequestDTO.Receiver("SOK 담당자", email));
         }
         mailReq.setReceiver(receivers);
 
@@ -241,10 +281,9 @@ public class DirectSendService {
     }
 
     // --------------------------------------------------------------------
-    // 3. [신규 추가] 프론트엔드 비밀번호 찾기 (이메일 & SMS) 로직
+    // 프론트엔드 비밀번호 찾기 (이메일 & SMS) 로직
     // --------------------------------------------------------------------
 
-    // 임시 비밀번호 이메일 발송
     public void sendTempPwMail(String toEmail, String tempPw) {
         String subject = "[스페셜올림픽코리아] 임시 비밀번호 발급 안내";
         String body = String.format(
@@ -260,18 +299,96 @@ public class DirectSendService {
                         + "</div>",
                 tempPw
         );
-        // 기존에 만들어져 있는 다중 수신자 래퍼 메서드를 재활용합니다.
         sendMailToMultipleReceivers(Collections.singletonList(toEmail), subject, body);
     }
 
-    // 임시 비밀번호 SMS 발송
     public void sendTempPwSms(String toPhone, String tempPw) {
         String message = String.format("[스페셜올림픽코리아]\n요청하신 임시 비밀번호는 [%s] 입니다. 로그인 후 변경해 주세요.", tempPw);
         String cleanPhone = toPhone.replaceAll("-", "");
         processSmsSend(cleanPhone, message);
     }
 
-    // DirectSend API 실제 통신부 (SMS 전용)
+    // --------------------------------------------------------------------
+    // 증명서 처리 결과 신청자(사용자) 알림 (메일 + SMS)
+    // --------------------------------------------------------------------
+    public void sendCertificateResultAlert(CertificateDTO cert) {
+        String statusStr = "DONE".equals(cert.getIssueStatus()) ? "발급 완료" : "발급 반려(거절)";
+        String colorCode = "DONE".equals(cert.getIssueStatus()) ? "#198754" : "#dc3545"; // 성공:녹색, 반려:빨간색
+
+        // 1. 이메일 알림
+        if (cert.getEmail() != null && !cert.getEmail().trim().isEmpty()) {
+            String subject = "[스페셜올림픽코리아] 요청하신 증명서의 처리 결과 안내 (" + statusStr + ")";
+
+            StringBuilder bodyBuilder = new StringBuilder();
+            bodyBuilder.append("<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>")
+                    .append("<h3 style='color:#333;'>증명서 처리 결과 안내</h3>")
+                    .append("<p><b>").append(cert.getApplyNm()).append("</b>님, 요청하신 증명서의 처리 상태가 변경되었습니다.</p>")
+                    .append("<ul style='line-height:1.8;'>")
+                    .append("<li><b>증명서 종류 :</b> ").append(cert.getCertType() != null ? cert.getCertType() : "미지정").append("</li>")
+                    .append("<li><b>처리 상태 :</b> <span style='color:").append(colorCode).append("; font-weight:bold;'>").append(statusStr).append("</span></li>");
+
+            // 반려 상태이고 반려 사유가 있을 경우 추가 노출
+            if ("REJECT".equals(cert.getIssueStatus()) && cert.getRejectRsn() != null && !cert.getRejectRsn().isEmpty()) {
+                bodyBuilder.append("<li><b>반려 사유 :</b> ").append(cert.getRejectRsn()).append("</li>");
+            }
+
+            bodyBuilder.append("</ul>")
+                    .append("<p>자세한 사항은 홈페이지 '신청/참여 > 증명서 신청 > 발급상태 확인' 메뉴에서 조회하실 수 있습니다.</p>")
+                    .append("</div>");
+
+            sendMailToMultipleReceivers(Collections.singletonList(cert.getEmail()), subject, bodyBuilder.toString());
+        }
+
+        // 2. SMS 알림 동시 발송 (선택사항 - 연락처가 있는 경우)
+        if (cert.getPhone() != null && !cert.getPhone().trim().isEmpty()) {
+            String smsMsg = String.format("[SOK]\n%s님의 증명서 신청 건이 [%s] 처리되었습니다.\n홈페이지에서 확인해주세요.", cert.getApplyNm(), statusStr);
+            String cleanPhone = cert.getPhone().replaceAll("-", "");
+            processSmsSend(cleanPhone, smsMsg);
+        }
+    }
+
+    // --------------------------------------------------------------------
+    // 자원봉사 승인/반려 결과 신청자(사용자) 알림 (메일 + SMS)
+    // --------------------------------------------------------------------
+    public void sendVolunteerResultAlert(VolunteerDTO volunteer) {
+        // VolunteerDTO의 상태값에 맞춰 승인/반려 문자열 및 테마 색상 지정
+        String currentStatus = volunteer.getStatus() != null ? volunteer.getStatus() : "";
+        String statusStr = ("DONE".equals(currentStatus) || "APPR".equals(currentStatus)) ? "승인 완료" : "반려(거절)";
+        String colorCode = ("DONE".equals(currentStatus) || "APPR".equals(currentStatus)) ? "#198754" : "#dc3545";
+
+        // 1. 이메일 알림 (이메일 정보가 있는 경우에만 발송)
+        if (volunteer.getEmail() != null && !volunteer.getEmail().trim().isEmpty()) {
+            String subject = "[스페셜올림픽코리아] 신청하신 자원봉사의 처리 결과 안내 (" + statusStr + ")";
+
+            StringBuilder bodyBuilder = new StringBuilder();
+            bodyBuilder.append("<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>")
+                    .append("<h3 style='color:#333;'>자원봉사 신청 결과 안내</h3>")
+                    .append("<p><b>").append(volunteer.getApplyNm()).append("</b>님, 신청하신 자원봉사의 처리 상태가 변경되었습니다.</p>")
+                    .append("<ul style='line-height:1.8;'>")
+                    .append("<li><b>지원 분야 :</b> ").append(volunteer.getSupportArea() != null ? volunteer.getSupportArea() : "미지정").append("</li>")
+                    .append("<li><b>신청 행사명 :</b> ").append(volunteer.getEventNm() != null ? volunteer.getEventNm() : "미지정").append("</li>")
+                    .append("<li><b>처리 상태 :</b> <span style='color:").append(colorCode).append("; font-weight:bold;'>").append(statusStr).append("</span></li>");
+
+            // 반려 상태이고 반려 사유가 기재되어 있을 경우 추가 노출
+            if ("REJECT".equals(currentStatus) && volunteer.getRejectRsn() != null && !volunteer.getRejectRsn().isEmpty()) {
+                bodyBuilder.append("<li><b>반려 사유 :</b> ").append(volunteer.getRejectRsn()).append("</li>");
+            }
+
+            bodyBuilder.append("</ul>")
+                    .append("<p>스페셜올림픽코리아에 보내주신 따뜻한 관심과 참여에 감사드립니다.</p>")
+                    .append("</div>");
+
+            sendMailToMultipleReceivers(Collections.singletonList(volunteer.getEmail()), subject, bodyBuilder.toString());
+        }
+
+        // 2. SMS 알림 동시 발송 (연락처 정보가 있는 경우에만 발송)
+        if (volunteer.getPhone() != null && !volunteer.getPhone().trim().isEmpty()) {
+            String smsMsg = String.format("[SOK]\n%s님의 자원봉사 신청 건이 [%s] 처리되었습니다.\n감사합니다.", volunteer.getApplyNm(), statusStr);
+            String cleanPhone = volunteer.getPhone().replaceAll("-", "");
+            processSmsSend(cleanPhone, smsMsg);
+        }
+    }
+
     public ResponseDTO processSmsSend(String receiver, String message) {
         log.info("DirectSend SMS 발송 시작: 수신자 {}", receiver);
         ResponseDTO responseDto = new ResponseDTO();
@@ -286,7 +403,6 @@ public class DirectSendService {
             con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             con.setRequestProperty("Accept", "application/json");
 
-            // JSON 파라미터 조립 (DirectSend SMS 규격)
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("message", message);
             rootNode.put("sender", SENDER_PHONE);
@@ -302,7 +418,6 @@ public class DirectSendService {
 
             String urlParameters = objectMapper.writeValueAsString(rootNode);
 
-            // 전송 실행
             System.setProperty("jsse.enableSNIExtension", "false");
             con.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8);
@@ -310,7 +425,6 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            // 결과 파싱
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();

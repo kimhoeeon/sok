@@ -1,6 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:if test="${not empty popupList}">
+    <c:forEach var="popup" items="${popupList}">
+        <div id="main_popup_${popup.popSeq}" class="main-popup"
+             style="width: ${popup.width}px; height: ${popup.height}px; top: ${popup.topPos}px; left: ${popup.leftPos}px; display: none;">
+
+            <div class="popup-content" style="height: calc(100% - 40px); overflow-y: auto;">
+                <c:choose>
+                    <c:when test="${not empty popup.popupImage and not empty popup.popupImage.filePath}">
+                        <a href="javascript:void(0);">
+                            <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        ${popup.content}
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div class="popup-footer">
+                <label style="cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="chk_hide_${popup.popSeq}"> 오늘 하루 보지 않기
+                </label>
+                <button type="button" onclick="closePopup(${popup.popSeq});">닫기 [X]</button>
+            </div>
+
+        </div>
+    </c:forEach>
+</c:if>
+
+<script>
+    // 쿠키 설정 함수 (1일 기준)
+    function setPopupCookie(name, value, expiredays) {
+        var todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + expiredays);
+        document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toUTCString() + ";";
+    }
+
+    // 쿠키 가져오기 함수
+    function getPopupCookie(name) {
+        var nameOfCookie = name + "=";
+        var x = 0;
+        while (x <= document.cookie.length) {
+            var y = (x + nameOfCookie.length);
+            if (document.cookie.substring(x, y) == nameOfCookie) {
+                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) {
+                    endOfCookie = document.cookie.length;
+                }
+                return unescape(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(" ", x) + 1;
+            if (x == 0) break;
+        }
+        return "";
+    }
+
+    // 팝업 닫기 동작
+    function closePopup(popSeq) {
+        var chkBox = document.getElementById("chk_hide_" + popSeq);
+
+        // '오늘 하루 보지 않기' 체크 시 쿠키 생성
+        if (chkBox && chkBox.checked) {
+            setPopupCookie("sok_popup_" + popSeq, "done", 1);
+        }
+
+        // 팝업 숨김 처리
+        var popupDiv = document.getElementById("main_popup_" + popSeq);
+        if (popupDiv) {
+            popupDiv.style.display = "none";
+        }
+    }
+
+    // 페이지 로드 시 쿠키 검사 후 팝업 띄우기
+    $(document).ready(function() {
+        <c:if test="${not empty popupList}">
+        <c:forEach var="popup" items="${popupList}">
+        var pSeq = "${popup.popSeq}";
+        var cookieData = getPopupCookie("sok_popup_" + pSeq);
+
+        // 해당 팝업의 쿠키가 'done'이 아니면 화면에 노출
+        if (cookieData !== "done") {
+            $("#main_popup_" + pSeq).fadeIn(200);
+        }
+        </c:forEach>
+        </c:if>
+    });
+</script>
+
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
 <div id="container">
@@ -154,55 +241,3 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-
-<c:forEach var="popup" items="${popupList}">
-    <div id="popup_${popup.popSeq}" class="main_popup_layer"
-         style="position:absolute; top:${popup.topPos}px; left:${popup.leftPos}px; width:${popup.width}px; height:${popup.height}px; z-index:9999; background:#fff; border:1px solid #ddd; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); display:none;">
-
-        <div class="pop_content" style="width:100%; height:calc(100% - 35px); overflow-y:auto; padding:10px;">
-                ${popup.content}
-        </div>
-
-        <div class="pop_footer"
-             style="width:100%; height:35px; background:#333; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:0 10px; font-size:12px;">
-            <label style="cursor:pointer; display:flex; align-items:center;">
-                <input type="checkbox" id="chk_hide_${popup.popSeq}" onclick="closePopupToday('${popup.popSeq}')"
-                       style="margin-right:5px;"> 오늘 하루 보지 않기
-            </label>
-            <a href="javascript:void(0);" onclick="$('#popup_${popup.popSeq}').hide();"
-               style="color:#fff; text-decoration:none; font-weight:bold;">[닫기]</a>
-        </div>
-    </div>
-</c:forEach>
-
-<script>
-    $(document).ready(function () {
-        // 1. 페이지 로드 시 각 팝업별 쿠키 확인 후 노출 여부 결정
-        <c:forEach var="popup" items="${popupList}">
-        if (getCookie("popup_hide_${popup.popSeq}") !== "Y") {
-            $('#popup_${popup.popSeq}').show();
-        }
-        </c:forEach>
-    });
-
-    // 2. 오늘 하루 보지 않기 처리 (24시간 쿠키 설정)
-    function closePopupToday(seq) {
-        if ($("#chk_hide_" + seq).is(":checked")) {
-            setCookie("popup_hide_" + seq, "Y", 1);
-            $('#popup_' + seq).hide();
-        }
-    }
-
-    // 쿠키 설정 함수
-    function setCookie(name, value, exp) {
-        var date = new Date();
-        date.setTime(date.getTime() + (exp * 24 * 60 * 60 * 1000));
-        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
-    }
-
-    // 쿠키 가져오기 함수
-    function getCookie(name) {
-        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-        return value ? value[2] : null;
-    }
-</script>

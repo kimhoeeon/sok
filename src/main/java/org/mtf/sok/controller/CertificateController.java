@@ -3,6 +3,7 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.CertificateDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.CertificateMapper;
+import org.mtf.sok.service.DirectSendService;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class CertificateController {
 
     @Autowired
     private CertificateMapper certificateMapper;
+
+    @Autowired
+    private DirectSendService directSendService;
 
     @GetMapping("/list")
     public String list(@ModelAttribute CertificateDTO params, Model model) {
@@ -52,12 +56,25 @@ public class CertificateController {
                                @ModelAttribute("params") CertificateDTO params,
                                RedirectAttributes rttr) {
 
-        // Mapper 호출 시 rejectReason을 함께 전달하도록 수정
         CertificateDTO certificate = new CertificateDTO();
         certificate.setCertSeq(certSeq);
         certificate.setIssueStatus(status);
         certificate.setRejectRsn(rejectReason);
+
+        // 1. DB 상태 업데이트
         certificateMapper.updateCertificateStatus(certificate);
+
+        // 2. [핵심 추가] 처리 완료 또는 반려 시 신청자에게 결과 알림 메일/SMS 발송
+        try {
+            if ("DONE".equals(status) || "REJECT".equals(status)) {
+                // 알림을 보내기 위해 업데이트된 증명서의 전체 정보(이메일, 연락처 등)를 다시 조회
+                CertificateDTO updatedCert = certificateMapper.selectCertificate(certSeq);
+                directSendService.sendCertificateResultAlert(updatedCert);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 메일 전송 실패가 전체 트랜잭션을 멈추지 않도록 예외만 로깅하고 넘어갑니다.
+        }
 
         rttr.addAttribute("certSeq", certSeq);
         rttr.addAttribute("pageNum", params.getPageNum());

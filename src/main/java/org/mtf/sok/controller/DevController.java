@@ -71,6 +71,10 @@ public class DevController {
     @PostMapping("/saveRequest")
     public String saveRequest(DevRequestDTO request, HttpSession session) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+        if (admin == null) {
+            throw new IllegalStateException("관리자 세션이 만료되었습니다.");
+        }
+
         request.setRegId(admin != null ? admin.getAdmId() : "sokadmin");
         if (request.getUrgency() == null) request.setUrgency("N");
 
@@ -138,7 +142,11 @@ public class DevController {
     @PostMapping("/saveComment")
     public String saveComment(DevCommentDTO comment, @ModelAttribute DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
-        String writerId = admin != null ? admin.getAdmId() : "sokadmin";
+        if (admin == null) {
+            throw new IllegalStateException("관리자 세션이 만료되었습니다.");
+        }
+
+        String writerId = admin.getAdmId();
         comment.setRegId(writerId);
 
         devMapper.insertComment(comment);
@@ -170,7 +178,10 @@ public class DevController {
                 if (!file.isEmpty()) {
                     try {
                         String orgName = file.getOriginalFilename();
-                        String ext = orgName.substring(orgName.lastIndexOf("."));
+                        String ext = "";
+                        if (orgName != null && orgName.contains(".")) {
+                            ext = orgName.substring(orgName.lastIndexOf("."));
+                        }
                         String saveName = UUID.randomUUID().toString() + ext;
 
                         file.transferTo(new File(savePath + saveName));

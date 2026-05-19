@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -41,11 +42,14 @@ public class TossPaymentService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(params, headers);
 
-        // 4. 토스 서버로 승인 요청
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-        // 5. 결과 JSON 파싱
-        return objectMapper.readTree(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return objectMapper.readTree(response.getBody());
+        } catch (HttpStatusCodeException e) {
+            // [핵심] 토스 측에서 반환한 4xx, 5xx 에러 본문을 파싱하여 정확한 실패 사유를 추출
+            JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+            throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "결제 승인 중 오류가 발생했습니다.");
+        }
     }
 
     // 토스페이먼츠 결제 취소 API 호출
@@ -64,9 +68,12 @@ public class TossPaymentService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(params, headers);
 
-        // POST 방식으로 토스 취소 URL 호출
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-        return objectMapper.readTree(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return objectMapper.readTree(response.getBody());
+        } catch (HttpStatusCodeException e) {
+            JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+            throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "결제 취소 중 오류가 발생했습니다.");
+        }
     }
 }

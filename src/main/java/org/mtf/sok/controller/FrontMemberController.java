@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,13 @@ public class FrontMemberController {
     @ResponseBody
     public ResponseEntity<?> joinProc(MemberDTO memberDTO, MultipartFile bizFile) {
         try {
-            // 1) 아이디 중복 체크 방어 로직
+            // 1) 필수 입력값 백엔드 2차 검증 (API 직접 호출을 통한 우회 가입 방어)
+            if (!StringUtils.hasText(memberDTO.getMbrId()) || !StringUtils.hasText(memberDTO.getMbrPw()) ||
+                    !StringUtils.hasText(memberDTO.getEmail()) || !StringUtils.hasText(memberDTO.getPhone())) {
+                return ResponseEntity.badRequest().body("필수 입력 정보가 누락되었습니다.");
+            }
+
+            // 2) 아이디 중복 체크 방어 로직
             if (memberMapper.checkDuplicateId(memberDTO.getMbrId()) > 0) {
                 return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
             }

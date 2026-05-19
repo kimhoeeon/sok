@@ -1,3 +1,47 @@
+// ==========================================
+// 글로벌 보안 설정: CSRF 토큰 자동 처리 (Cookie 방식)
+// ==========================================
+function getCsrfTokenFromCookie() {
+    let name = "XSRF-TOKEN=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+// jQuery가 로드된 상태에서 작동 (AJAX Header 자동 삽입 및 Form Input 자동 삽입)
+if (typeof $ !== 'undefined') {
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-XSRF-TOKEN", getCsrfTokenFromCookie());
+            }
+        }
+    });
+
+    $(document).on('submit', 'form', function() {
+        let method = $(this).attr('method');
+        if (method && method.toUpperCase() === 'POST') {
+            if ($(this).find('input[name="_csrf"]').length === 0) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: '_csrf',
+                    value: getCsrfTokenFromCookie()
+                }).appendTo($(this));
+            }
+        }
+    });
+}
+// ==========================================
+
 $(document).ready(function () {
 
     // header 고정
@@ -808,7 +852,7 @@ $(document).ready(function () {
         $('#infoGrid').html(html);
     }
 
-    // 👉 클릭만!
+    // 클릭만!
     $('.map_btn').on('click', function () {
 
         const region = $(this).data('prov');

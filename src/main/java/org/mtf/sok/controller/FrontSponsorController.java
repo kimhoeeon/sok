@@ -84,8 +84,18 @@ public class FrontSponsorController {
         try {
             // DB에 저장된 주문 정보 조회 (위변조 방지를 위해 금액 대조)
             DonationDTO donation = donationMapper.selectDonationByOrderId(orderId);
-            if (donation == null || donation.getPayAmt().longValue() != amount) {
-                throw new Exception("결제 금액이 일치하지 않거나 유효하지 않은 주문입니다.");
+            if (donation == null) {
+                throw new Exception("존재하지 않는 주문 정보입니다.");
+            }
+
+            // [핵심 1] 멱등성 보장: 이미 'DONE' 상태인 주문이라면 추가 로직 없이 곧바로 성공 페이지로 이동 (새로고침 방어)
+            if ("DONE".equals(donation.getPayStatus())) {
+                return "redirect:/mypage/donate?success=true";
+            }
+
+            // 결제 금액 검증
+            if (donation.getPayAmt().longValue() != amount) {
+                throw new Exception("결제 금액이 일치하지 않습니다. (위변조 의심)");
             }
 
             // 토스페이먼츠 최종 승인 API 호출
@@ -97,7 +107,7 @@ public class FrontSponsorController {
             donation.setPayMethod(result.get("method").asText()); // 카드, 계좌이체 등
             donationMapper.updateDonationStatus(donation);
 
-            // [추가] 결제가 최종 승인되면, 해당 기부 캠페인의 현재 모금액(CURRENT_AMT)을 증가시킴
+            // 결제가 최종 승인되면, 해당 기부 캠페인의 현재 모금액(CURRENT_AMT)을 증가시킴
             if (donation.getCampSeq() != null) {
                 campaignMapper.addCurrentAmount(donation.getCampSeq(), new BigDecimal(amount));
             }
@@ -107,22 +117,31 @@ public class FrontSponsorController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "결제 승인 중 오류가 발생했습니다: " + e.getMessage());
-            return "sponsor/donate_fail"; // 실패 페이지로 이동
+
+            // 승인 실패 시 DB 상태를 실패로 변경
+            DonationDTO failDonation = new DonationDTO();
+            failDonation.setOrderId(orderId);
+            failDonation.setPayStatus("FAIL");
+            failDonation.setCancelRsn(e.getMessage());
+            donationMapper.updateDonationStatus(failDonation);
+
+            return "sponsor/donate_fail";
         }
     }
 
-    // 3. 토스페이먼츠 결제 실패 리다이렉트
     @GetMapping("/donate/fail")
     public String donateFail(@RequestParam String code,
                              @RequestParam String message,
                              @RequestParam String orderId,
                              Model model) {
 
-        // 결제 취소/실패 시 DB 상태 'CANCEL'로 업데이트
         DonationDTO donation = new DonationDTO();
         donation.setOrderId(orderId);
         donation.setPayStatus("CANCEL");
-        donation.setCheerMsg(message); // 실패 사유 저장
+
+        // [핵심 2] cheerMsg(응원 메시지) 대신 목적에 맞는 cancelRsn(취소 사유) 필드에 사유를 저장
+        donation.setCancelRsn(message);
+
         donationMapper.updateDonationStatus(donation);
 
         model.addAttribute("errorMessage", message);

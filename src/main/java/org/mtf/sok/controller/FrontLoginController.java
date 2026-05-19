@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.security.SecureRandom;
 
 @Controller
 public class FrontLoginController {
@@ -103,10 +104,8 @@ public class FrontLoginController {
                 return ResponseEntity.badRequest().body("입력하신 정보와 일치하는 일반 회원 내역이 없습니다.");
             }
 
-            // 3. 임시 비밀번호 생성 (UUID에서 대시를 제외하고 앞 8자리 영문/숫자 추출)
-            String tempPw = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+            String tempPw = generateSecureTempPassword();
 
-            // 4. 발급된 임시 비밀번호 암호화 후 DB 업데이트 (Spring Security 호환)
             member.setMbrPw(passwordEncoder.encode(tempPw));
             memberMapper.updatePassword(member);
 
@@ -123,6 +122,40 @@ public class FrontLoginController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("처리 중 오류가 발생했습니다.");
         }
+    }
+
+    // 보안 규칙에 맞는 10자리 복합 임시 비밀번호 생성 헬퍼
+    private String generateSecureTempPassword() {
+        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String specialChars = "!@#$%^&*";
+        String combinedChars = upperCase + lowerCase + numbers + specialChars;
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(10);
+
+        // 정규식 통과를 보장하기 위해 각 문자열 세트에서 최소 1자씩 추출
+        password.append(lowerCase.charAt(random.nextInt(lowerCase.length())));
+        password.append(upperCase.charAt(random.nextInt(upperCase.length())));
+        password.append(numbers.charAt(random.nextInt(numbers.length())));
+        password.append(specialChars.charAt(random.nextInt(specialChars.length())));
+
+        // 나머지 6자리는 섞어서 추출
+        for(int i = 4; i < 10; i++) {
+            password.append(combinedChars.charAt(random.nextInt(combinedChars.length())));
+        }
+
+        // 특정 패턴을 피하기 위해 단순 배열 섞기(셔플링)
+        char[] passwordArray = password.toString().toCharArray();
+        for (int i = passwordArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = passwordArray[i];
+            passwordArray[i] = passwordArray[j];
+            passwordArray[j] = temp;
+        }
+
+        return new String(passwordArray);
     }
 
 }

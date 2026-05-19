@@ -11,6 +11,49 @@
 
     <link href="/css/mngStyle.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function getCsrfTokenFromCookie() {
+            let name = "XSRF-TOKEN=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        $(document).ready(function() {
+            // 모든 관리자 AJAX 요청에 CSRF 헤더 세팅
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-XSRF-TOKEN", getCsrfTokenFromCookie());
+                    }
+                }
+            });
+
+            // 관리자 내 모든 일반 form POST 요청 시 hidden input 자동 생성
+            $(document).on('submit', 'form', function() {
+                let method = $(this).attr('method');
+                if (method && method.toUpperCase() === 'POST') {
+                    if ($(this).find('input[name="_csrf"]').length === 0) {
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: '_csrf',
+                            value: getCsrfTokenFromCookie()
+                        }).appendTo($(this));
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 

@@ -80,6 +80,12 @@ public class PopupController {
     @PostMapping("/save")
     public String save(PopupDTO popup, HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+
+        // [보안/안정성] 세션 만료 체크
+        if (admin == null) {
+            throw new IllegalStateException("관리자 세션이 만료되었습니다. 다시 로그인해주세요.");
+        }
+
         if (popup.getUseYn() == null) popup.setUseYn("N");
 
         boolean isUpdate = (popup.getPopSeq() != null); // 신규/수정 여부 판별
@@ -90,19 +96,27 @@ public class PopupController {
         } else {
             popup.setRegId(admin.getAdmId());
             popupMapper.insertPopup(popup);
+
+            // [검증] INSERT 직후 PK가 제대로 DTO에 바인딩되었는지 확인
+            if (popup.getPopSeq() == null) {
+                throw new RuntimeException("팝업 등록 중 오류가 발생했습니다. (PK 반환 실패)");
+            }
         }
 
         // 파일 업로드 처리
         if (popup.getUploadFile() != null && !popup.getUploadFile().isEmpty()) {
             try {
-                // ★ [보완] 수정(Update) 시 새 파일을 올렸다면, 기존 파일은 논리적 삭제 처리
+                // 수정(Update) 시 새 파일을 올렸다면, 기존 파일은 논리적 삭제 처리
                 if (isUpdate) {
                     boardMapper.deleteFilesByRefTarget("TB_POPUP", popup.getPopSeq());
                 }
 
                 MultipartFile file = popup.getUploadFile();
                 String orgName = file.getOriginalFilename();
-                String ext = orgName.substring(orgName.lastIndexOf("."));
+                String ext = "";
+                if (orgName != null && orgName.contains(".")) {
+                    ext = orgName.substring(orgName.lastIndexOf("."));
+                }
                 String saveName = UUID.randomUUID().toString() + ext;
 
                 File dest = new File(uploadDir + "popup/" + saveName);
@@ -113,6 +127,7 @@ public class PopupController {
 
                 FileDTO fileDTO = new FileDTO();
                 fileDTO.setRefTable("TB_POPUP");
+                // 새로 생성된 popSeq 또는 기존 popSeq 매핑
                 fileDTO.setRefSeq(popup.getPopSeq());
                 fileDTO.setOrgFileNm(orgName);
                 fileDTO.setSaveFileNm(saveName);
@@ -144,7 +159,7 @@ public class PopupController {
         // 1. 팝업 테이블 논리적 삭제 (TB_POPUP의 DEL_YN = 'Y')
         popupMapper.deletePopup(popSeq);
 
-        // 2. ★ [보완] 해당 팝업에 연결된 이미지 파일 논리적 삭제 (TB_FILE의 DEL_YN = 'Y')
+        // 2. 해당 팝업에 연결된 이미지 파일 논리적 삭제 (TB_FILE의 DEL_YN = 'Y')
         boardMapper.deleteFilesByRefTarget("TB_POPUP", popSeq);
 
         // 검색 및 페이징 파라미터 유지

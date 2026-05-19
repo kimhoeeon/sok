@@ -4,6 +4,7 @@ import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.domain.PageDTO;
+import org.mtf.sok.mapper.CampaignMapper;
 import org.mtf.sok.mapper.MemberMapper;
 import org.mtf.sok.mapper.SponsorMapper;
 import org.mtf.sok.service.TossPaymentService;
@@ -32,6 +33,9 @@ public class SponsorController {
 
     @Autowired
     private TossPaymentService tossPaymentService;
+
+    @Autowired
+    private CampaignMapper campaignMapper;
 
     // ==========================================
     // 1. 가입자(회원) 관리 목록 및 상세
@@ -116,21 +120,32 @@ public class SponsorController {
             }
         }
 
-        // 2. [추가된 로직] 토스페이먼츠 실제 취소/환불 API 호출
-        if (("CANCEL".equals(donation.getPayStatus()) || "REFUND".equals(donation.getPayStatus()))) {
-            try {
-                // 기존 결제 내역을 조회하여 PaymentKey를 가져옴
-                DonationDTO originData = sponsorMapper.selectDonation(donation.getPaySeq());
+        // 2. 토스페이먼츠 실제 취소/환불 API 호출
+        try {
+            DonationDTO originData = sponsorMapper.selectDonation(donation.getPaySeq());
 
+            // 토스페이먼츠 실제 취소/환불 API 호출
+            if (("CANCEL".equals(donation.getPayStatus()) || "REFUND".equals(donation.getPayStatus()))) {
                 // 이미 결제가 완료된 건(DONE)에 대해서만 토스 취소 호출
                 if ("DONE".equals(originData.getPayStatus()) && originData.getPaymentKey() != null) {
+
                     tossPaymentService.cancelPayment(originData.getPaymentKey(), donation.getCancelRsn());
+
+                    // 환불이 성공적으로 승인되면, 해당 캠페인의 누적 모금액을 차감합니다.
+                    if (originData.getCampSeq() != null) {
+                        campaignMapper.addCurrentAmount(originData.getCampSeq(), originData.getPayAmt().negate());
+                    }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 중 오류가 발생했습니다: " + e.getMessage());
-                return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
             }
+
+            // 취소/환불 성공 시 혹은 단순 상태 변경 시 우리 DB 상태 업데이트
+            sponsorMapper.updateDonationStatus(donation);
+            rttr.addFlashAttribute("successMessage", "상태가 정상적으로 변경되었습니다.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 중 오류가 발생했습니다: " + e.getMessage());
+            return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
         }
 
         // 3. 토스 취소 성공 시 우리 DB 상태 업데이트
@@ -158,7 +173,6 @@ public class SponsorController {
         for (MemberDTO mbr : list) {
             List<Object> row = new ArrayList<>();
             row.add(mbr.getMbrSeq());
-            // 상태값 추가
             row.add("Y".equals(mbr.getWithdrawYn()) ? "탈퇴" : "정상");
             row.add("CORP".equals(mbr.getMbrType()) ? "기업/단체" : "개인");
             row.add("Y".equals(mbr.getIsDonor()) ? "Y" : "N");

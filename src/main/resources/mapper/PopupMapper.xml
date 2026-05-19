@@ -30,7 +30,7 @@
         SELECT * FROM TB_POPUP WHERE POP_SEQ = #{popSeq}
     </select>
 
-    <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO">
+    <insert id="insertPopup" parameterType="org.mtf.sok.domain.PopupDTO" useGeneratedKeys="true" keyProperty="popSeq" keyColumn="POP_SEQ">
         INSERT INTO TB_POPUP (
             TITLE, CONTENT, WIDTH, HEIGHT, TOP_POS, LEFT_POS, START_DT, END_DT, USE_YN, REG_ID, REG_DT, DEL_YN
         ) VALUES (
@@ -65,12 +65,5 @@
           AND NOW() BETWEEN START_DT AND END_DT
         ORDER BY REG_DT DESC
     </select>
-
-    <update id="deleteFilesByRefTarget">
-        UPDATE TB_FILE
-        SET DEL_YN = 'Y'
-        WHERE REF_TABLE = #{refTable}
-          AND REF_SEQ = #{refSeq}
-    </update>
 
 </mapper>

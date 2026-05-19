@@ -2,6 +2,7 @@ package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.CertificateDTO;
 import org.mtf.sok.mapper.CertificateMapper;
+import org.mtf.sok.service.DirectSendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ public class FrontCertificateController {
 
     @Autowired
     private CertificateMapper certificateMapper;
+
+    @Autowired
+    private DirectSendService directSendService;
 
     // 1. 증명서 신청 화면 (GET)
     @GetMapping("/apply")
@@ -34,8 +38,12 @@ public class FrontCertificateController {
                 return ResponseEntity.badRequest().body("동일한 행사에 대해 이미 신청 중이거나 발급된 내역이 존재합니다.");
             }
 
-            // 이상 없으면 DB Insert
+            // 1. DB에 접수 내역 저장
             certificateMapper.insertCertificate(certDTO);
+
+            // 2. 발주사 관리자에게 신규 발급 요청 알림 메일 즉시 발송
+            directSendService.sendCertificateApplyAlert(certDTO);
+
             return ResponseEntity.ok("증명서 신청이 성공적으로 접수되었습니다.");
 
         } catch (Exception e) {
