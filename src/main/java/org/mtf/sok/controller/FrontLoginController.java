@@ -94,6 +94,7 @@ public class FrontLoginController {
             String tempPw = generateSecureTempPassword();
 
             member.setMbrPw(passwordEncoder.encode(tempPw));
+
             memberMapper.updatePassword(member);
 
             if ("phone".equals(authMethod)) {
@@ -111,24 +112,27 @@ public class FrontLoginController {
     }
 
     private String generateSecureTempPassword() {
-        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
-        String numbers = "0123456789";
+        String upperCase = "ABCDEFGHJKMNPQRSTUVWXYZ";
+        String lowerCase = "abcdefghjkmnpqrstuvwxyz";
+        String numbers = "23456789";
         String specialChars = "!@#$%^&*";
         String combinedChars = upperCase + lowerCase + numbers + specialChars;
 
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder(10);
 
+        // 보안 정책을 위해 각 유형별로 최소 1글자씩 무작위로 먼저 뽑아서 조합
         password.append(lowerCase.charAt(random.nextInt(lowerCase.length())));
         password.append(upperCase.charAt(random.nextInt(upperCase.length())));
         password.append(numbers.charAt(random.nextInt(numbers.length())));
         password.append(specialChars.charAt(random.nextInt(specialChars.length())));
 
+        // 10자리 중 나머지 6자리를 전체 문자열에서 무작위로 채움
         for(int i = 4; i < 10; i++) {
             password.append(combinedChars.charAt(random.nextInt(combinedChars.length())));
         }
 
+        // 특정 패턴이 유추되지 않도록 배열에 담아 순서를 무작위로 섞음 (Shuffle)
         char[] passwordArray = password.toString().toCharArray();
         for (int i = passwordArray.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
