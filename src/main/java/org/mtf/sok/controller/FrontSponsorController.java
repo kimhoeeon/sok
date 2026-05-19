@@ -9,6 +9,7 @@ import org.mtf.sok.mapper.DonationMapper;
 import org.mtf.sok.mapper.StatsMapper;
 import org.mtf.sok.service.TossPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,9 @@ public class FrontSponsorController {
     @Autowired
     private CampaignMapper campaignMapper;
 
+    @Value("${toss.client.key}")
+    private String tossClientKey;
+
     // 1. 후원하기 메인 화면
     @GetMapping("/donate")
     public String donateForm(Model model) {
@@ -44,6 +48,8 @@ public class FrontSponsorController {
 
         CampaignDTO campaign = campaignMapper.selectActiveCampaign();
         model.addAttribute("campaign", campaign);
+
+        model.addAttribute("tossClientKey", tossClientKey);
 
         return "sponsor/donate";
     }
@@ -138,8 +144,6 @@ public class FrontSponsorController {
         DonationDTO donation = new DonationDTO();
         donation.setOrderId(orderId);
         donation.setPayStatus("CANCEL");
-
-        // [핵심 2] cheerMsg(응원 메시지) 대신 목적에 맞는 cancelRsn(취소 사유) 필드에 사유를 저장
         donation.setCancelRsn(message);
 
         donationMapper.updateDonationStatus(donation);

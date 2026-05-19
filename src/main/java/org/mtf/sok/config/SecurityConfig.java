@@ -1,6 +1,7 @@
 package org.mtf.sok.config;
 
 import org.mtf.sok.domain.AdminDTO;
+import org.mtf.sok.domain.MemberDTO; // ★ 누락 방지 임포트
 import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.security.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // CSRF 방어를 활성화하되, AJAX 통신에서 JS가 쿠키로 토큰을 읽을 수 있도록 설정 (JSP/JS 환경 최적화)
         http.csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeRequests()
                 .antMatchers("/mng/login").permitAll()
-                .antMatchers("/mng/**").hasRole("ADMIN")
+                .antMatchers("/mng/**").hasAnyRole("ADMIN", "DEVELOPER")
                 .antMatchers("/mypage/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
@@ -83,7 +83,7 @@ public class SecurityConfig {
             response.setContentType("text/html; charset=UTF-8");
 
             if (uri.startsWith("/mng")) {
-                response.getWriter().write("<script>alert('관리자 권한이 없습니다.'); location.href='/';</script>");
+                response.getWriter().write("<script>alert('접근 권한이 없습니다.'); location.href='/mng/main';</script>");
             } else {
                 response.getWriter().write("<script>alert('접근 권한이 없습니다.'); location.href='/';</script>");
             }
@@ -91,21 +91,32 @@ public class SecurityConfig {
         };
     }
 
+    // =========================================================================
+    // [핵심 변경] 로그인 성공 핸들러 - 소셜 유저 연락처 누락 검증 로직 추가
+    // =========================================================================
     @Bean
     public AuthenticationSuccessHandler customSuccessHandler() {
         return (request, response, authentication) -> {
             PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
 
+            // 1. 관리자 로그인인 경우
             if (principal.getAdminDTO() != null) {
                 AdminDTO admin = principal.getAdminDTO();
                 request.getSession().setAttribute("adminLogin", admin);
-
-                // 데이터 무결성을 위해 일반 회원 권한(userLogin) 더미 세션을 주입하던 로직 전면 제거
-
                 response.sendRedirect("/mng/main");
             }
+            // 2. 일반 회원(소셜 로그인 포함) 로그인인 경우
             else {
-                request.getSession().setAttribute("userLogin", principal.getMemberDTO());
+                MemberDTO member = principal.getMemberDTO();
+                request.getSession().setAttribute("userLogin", member);
+
+                // [추가된 낚아채기 로직] 전화번호가 DB에 없는 유저(최초 소셜 가입자)라면 추가 정보 창으로 강제 이동
+                if (member.getPhone() == null || member.getPhone().trim().isEmpty()) {
+                    response.sendRedirect("/oauth2/extraForm");
+                    return; // 리다이렉트 후 바로 종료
+                }
+
+                // 기존 정상 유저라면 메인 페이지로 이동
                 response.sendRedirect("/");
             }
         };

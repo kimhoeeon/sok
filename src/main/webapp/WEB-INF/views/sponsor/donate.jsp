@@ -308,4 +308,50 @@
             }
         });
     }
+
+    // Controller에서 전달받은 실제/테스트 클라이언트 키 주입
+    const tossClientKey = '${tossClientKey}';
+    const tossPayments = TossPayments(tossClientKey);
+
+    // 폼 제출(결제하기 버튼) 이벤트를 가로채서 토스페이먼츠 호출
+    $(document).ready(function() {
+        $('#btn_submit_donate').on('click', function(e) {
+            e.preventDefault();
+
+            const amount = $('input[name="payAmt"]').val();
+            if (!amount || amount < 1000) {
+                alert('최소 1,000원 이상 입력해 주세요.');
+                return;
+            }
+
+            // 1. 우리 서버에 결제 요청 정보 사전 등록 (Init)
+            $.ajax({
+                url: '/sponsor/donate/init',
+                type: 'POST',
+                data: $('#donateForm').serialize(),
+                success: function(orderId) {
+
+                    // 2. 토스페이먼츠 결제창 호출
+                    tossPayments.requestPayment('카드', {
+                        amount: amount,
+                        orderId: orderId,
+                        orderName: 'SOK 스페셜올림픽코리아 후원금',
+                        customerName: '${not empty userLogin.mbrNm ? userLogin.mbrNm : "익명후원자"}',
+                        customerEmail: '${not empty userLogin.email ? userLogin.email : "anonymous@sokorea.or.kr"}',
+                        successUrl: window.location.origin + '/sponsor/donate/success',
+                        failUrl: window.location.origin + '/sponsor/donate/fail'
+                    }).catch(function (error) {
+                        if (error.code === 'USER_CANCEL') {
+                            alert('결제를 취소하셨습니다.');
+                        } else {
+                            alert(error.message);
+                        }
+                    });
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText || '결제 초기화에 실패했습니다. 관리자에게 문의해 주세요.');
+                }
+            });
+        });
+    });
 </script>

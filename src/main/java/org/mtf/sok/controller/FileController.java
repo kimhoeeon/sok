@@ -12,26 +12,25 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/mng/file")
 public class FileController {
 
     @Value("${file.upload.dir}")
     private String uploadDir;
 
-    // [1] 에디터 이미지 업로드 (로컬 저장)
-    @PostMapping("/uploadImage")
+    // [1] 에디터 이미지 업로드 (관리자 전용 - /mng/ 경로 명시)
+    @PostMapping("/mng/file/uploadImage")
     public ResponseEntity<?> uploadEditorImage(@RequestParam("file") MultipartFile file) {
         return saveLocalFile(file, "editor/");
     }
 
-    // [2] 게시판 일반 첨부파일 업로드 (로컬 저장)
-    @PostMapping("/uploadAttachment")
+    // [2] 게시판 일반 첨부파일 업로드 (관리자 전용 - /mng/ 경로 명시)
+    @PostMapping("/mng/file/uploadAttachment")
     public ResponseEntity<?> uploadAttachment(@RequestParam("file") MultipartFile file) {
         return saveLocalFile(file, "attachments/");
     }
 
-    // [3] 로컬 첨부파일 다운로드 로직
-    @GetMapping("/download")
+    // [3] 로컬 첨부파일 다운로드 로직 (일반 사용자 접근 가능 - /file/download 로 분리)
+    @GetMapping("/file/download")
     public void downloadFile(@RequestParam("filePath") String filePath,
                              @RequestParam("fileName") String fileName,
                              HttpServletResponse response) throws IOException {
@@ -46,10 +45,20 @@ public class FileController {
             response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
             response.setContentLength((int) file.length());
 
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-            BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-            FileCopyUtils.copy(in, out);
-            out.flush();
+            BufferedInputStream in = null;
+            BufferedOutputStream out = null;
+            try {
+                in = new BufferedInputStream(new FileInputStream(file));
+                out = new BufferedOutputStream(response.getOutputStream());
+                FileCopyUtils.copy(in, out);
+                out.flush();
+            } finally {
+                // [핵심 수정 2] 메모리 누수를 방지하기 위해 스트림을 안전하게 닫아줍니다.
+                if (in != null) in.close();
+                if (out != null) out.close();
+            }
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일을 찾을 수 없습니다.");
         }
     }
 
@@ -78,7 +87,13 @@ public class FileController {
             if (!dir.exists()) dir.mkdirs();
 
             String originalName = file.getOriginalFilename();
-            String extension = originalName.substring(originalName.lastIndexOf("."));
+            String extension = "";
+
+            // [핵심 수정 3] 확장자가 없는 파일이 올라왔을 때 에러(NullPointerException) 방지
+            if (originalName != null && originalName.contains(".")) {
+                extension = originalName.substring(originalName.lastIndexOf("."));
+            }
+
             String savedName = UUID.randomUUID().toString() + extension;
 
             file.transferTo(new File(dirPath + savedName));
@@ -88,5 +103,4 @@ public class FileController {
             return ResponseEntity.internalServerError().body("서버 오류 발생");
         }
     }
-
 }
