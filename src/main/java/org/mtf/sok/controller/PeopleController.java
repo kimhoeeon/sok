@@ -5,6 +5,7 @@ import org.mtf.sok.domain.BoardDTO;
 import org.mtf.sok.domain.FileDTO;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.BoardMapper;
+import org.mtf.sok.util.XssUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -97,9 +98,11 @@ public class PeopleController {
         // 2. 인물 기본 정보 저장
         if (isUpdate) {
             board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");
+            board.setContent(XssUtil.cleanXss(board.getContent()));
             boardMapper.updateBoard(board);
         } else {
             board.setRegId(admin != null ? admin.getAdmId() : "SYSTEM");
+            board.setContent(XssUtil.cleanXss(board.getContent()));
             boardMapper.insertBoard(board);
         }
 

@@ -24,4 +24,6 @@ public interface StatsMapper {
 
     // 프론트엔드 사용자 방문 로그 인서트
     void insertVisitLog(@Param("visitIp") String visitIp, @Param("userAgent") String userAgent);
+
+    void insertOrUpdateVisitor();
 }

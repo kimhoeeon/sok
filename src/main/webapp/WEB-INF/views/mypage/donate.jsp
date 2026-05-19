@@ -40,9 +40,7 @@
                                 <div class="donation_item">
                                     <div class="donation_top">
                                         <div class="tit">기부내역</div>
-                                        <div class="border" style="cursor:pointer;"
-                                             onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}"
-                                                                                         pattern="yyyy-MM-dd"/>', ${item.payAmt})">
+                                        <div class="border" style="cursor:pointer;" onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd"/>', ${item.payAmt})">
                                             기부증서
                                         </div>
                                     </div>

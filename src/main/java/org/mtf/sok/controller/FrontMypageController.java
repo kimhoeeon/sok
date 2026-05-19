@@ -35,14 +35,13 @@ public class FrontMypageController {
             return "redirect:/login/basic";
         }
 
-        // DB에서 최신 회원 정보를 다시 조회하여 화면에 전달 (세션 정보가 구버전일 수 있으므로)
         MemberDTO memberInfo = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
         model.addAttribute("member", memberInfo);
 
         return "mypage/info";
     }
 
-    // 2. 프로필 수정 처리 (AJAX)
+    // 2. 프로필 수정 처리 (info.jsp의 AJAX URL '/mypage/updateProc'와 일치)
     @PostMapping("/updateProc")
     @ResponseBody
     public ResponseEntity<String> updateProc(MemberDTO updateDto, HttpSession session) {
@@ -53,7 +52,7 @@ public class FrontMypageController {
         }
 
         try {
-
+            // 이메일 및 전화번호 중복 체크 (본인 제외)
             if (memberMapper.checkDuplicateEmail(updateDto.getEmail(), loginUser.getMbrSeq()) > 0) {
                 return ResponseEntity.badRequest().body("이미 가입된 이메일 입니다. 관리자에게 문의해 주세요.");
             }
@@ -61,18 +60,16 @@ public class FrontMypageController {
                 return ResponseEntity.badRequest().body("이미 가입된 연락처 입니다. 관리자에게 문의해 주세요.");
             }
 
-            // 1. 보안: 클라이언트에서 조작하지 못하도록 세션의 회원 PK 번호를 강제 주입
+            // 보안: 클라이언트 조작 방지용 PK 세팅
             updateDto.setMbrSeq(loginUser.getMbrSeq());
 
-            // 2. DB 업데이트 실행
+            // DB 업데이트 실행
             memberMapper.updateMemberProfile(updateDto);
 
-            // 3. [핵심] 업데이트된 최신 정보를 DB에서 다시 조회하여 세션 갱신
-            // (그래야 새로고침 시 변경된 프로필 사진과 정보가 헤더/화면에 즉시 반영됨)
+            // 세션 갱신 (info.jsp에서 sessionScope 기반으로 화면을 그리므로 필수)
             MemberDTO refreshedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
             session.setAttribute("userLogin", refreshedUser);
 
-            // JSP의 alert(response)에 들어갈 성공 메시지 반환
             return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
 
         } catch (Exception e) {
@@ -81,20 +78,19 @@ public class FrontMypageController {
         }
     }
 
-    // 3. 마이페이지 (기부현황 화면)
+    // 3. 마이페이지 (기부현황 화면 - donate.jsp 와 DonationMapper 완벽 일치)
     @GetMapping("/donate")
     public String mypageDonate(HttpSession session, Model model) {
         MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-
-        // 로그인 체크
         if (loginUser == null) {
-            return "redirect:/login";
+            return "redirect:/login/basic"; // 권한 필터가 있더라도 안전장치
         }
 
-        // 회원의 누적 통계 및 내역 리스트 가져오기
+        // DonationMapper.xml 에 정의된 파라미터(mbrSeq)와 정확히 일치하는 메서드 호출
         DonationDTO summary = donationMapper.selectDonationSummary(loginUser.getMbrSeq());
         List<DonationDTO> list = donationMapper.selectDonationList(loginUser.getMbrSeq());
 
+        // donate.jsp 가 요구하는 ${summary} 와 ${list} 변수 바인딩
         model.addAttribute("summary", summary);
         model.addAttribute("list", list);
 
@@ -105,7 +101,7 @@ public class FrontMypageController {
     @GetMapping("/leave")
     public String leaveForm(HttpSession session, Model model) {
         if (session.getAttribute("userLogin") == null) {
-            return "redirect:/login";
+            return "redirect:/login/basic";
         }
         return "mypage/leave";
     }
@@ -120,10 +116,8 @@ public class FrontMypageController {
         }
 
         try {
-            // DB에 탈퇴 상태 업데이트
+            // DB 탈퇴 처리
             memberMapper.updateWithdrawal(loginUser.getMbrSeq());
-
-            // 처리 완료 후 로그인 세션 파기
             session.invalidate();
 
             return ResponseEntity.ok("스페셜올림픽코리아 회원 탈퇴가 완료되었습니다.\n그동안 이용해 주셔서 감사합니다.");
@@ -137,7 +131,7 @@ public class FrontMypageController {
     @GetMapping("/terms/personal")
     public String personalTermsForm(HttpSession session, Model model) {
         if (session.getAttribute("userLogin") == null) {
-            return "redirect:/login";
+            return "redirect:/login/basic";
         }
         return "mypage/personal_terms";
     }
@@ -147,22 +141,14 @@ public class FrontMypageController {
     @ResponseBody
     public ResponseEntity<?> personalTermsProc(MemberDTO memberDTO, HttpSession session) {
         MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
-            return ResponseEntity.status(401).body("로그인이 필요합니다.");
-        }
+        if (loginUser == null) return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
         try {
-            // 현재 로그인된 회원의 시퀀스 세팅
             memberDTO.setMbrSeq(loginUser.getMbrSeq());
-
-            // DB 업데이트 실행 (체크박스 해제 시 넘어오는 null 방어)
-            if(memberDTO.getAgreeOptionalYn() == null) {
-                memberDTO.setAgreeOptionalYn("N");
-            }
+            if(memberDTO.getAgreeOptionalYn() == null) memberDTO.setAgreeOptionalYn("N");
 
             memberMapper.updateOptionalAgreement(memberDTO);
 
-            // 업데이트된 최신 정보로 세션 갱신
             MemberDTO updatedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
             session.setAttribute("userLogin", updatedUser);
 
@@ -177,7 +163,7 @@ public class FrontMypageController {
     @GetMapping("/terms/service")
     public String serviceTermsForm(HttpSession session, Model model) {
         if (session.getAttribute("userLogin") == null) {
-            return "redirect:/login";
+            return "redirect:/login/basic";
         }
         return "mypage/service_terms";
     }
@@ -187,22 +173,14 @@ public class FrontMypageController {
     @ResponseBody
     public ResponseEntity<?> serviceTermsProc(MemberDTO memberDTO, HttpSession session) {
         MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
-            return ResponseEntity.status(401).body("로그인이 필요합니다.");
-        }
+        if (loginUser == null) return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
         try {
-            // 현재 로그인된 회원의 시퀀스 세팅
             memberDTO.setMbrSeq(loginUser.getMbrSeq());
-
-            // 체크박스 해제 시 넘어오는 null 방어
-            if(memberDTO.getMarketingYn() == null) {
-                memberDTO.setMarketingYn("N");
-            }
+            if(memberDTO.getMarketingYn() == null) memberDTO.setMarketingYn("N");
 
             memberMapper.updateMarketingAgreement(memberDTO);
 
-            // 업데이트된 최신 정보로 세션 갱신
             MemberDTO updatedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
             session.setAttribute("userLogin", updatedUser);
 
