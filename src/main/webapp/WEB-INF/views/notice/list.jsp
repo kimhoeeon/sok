@@ -63,7 +63,7 @@
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
                                 <li class="${item.isNotice eq 'Y' ? 'import' : ''}"
-                                    onclick="location.href='/notice/detail?brdSeq=${item.brdSeq}'"
+                                    onclick="location.href='/notice/detail?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}'"
                                     style="cursor: pointer;">
 
                                     <div class="tit ${not empty item.fileList ? 'file' : ''}">

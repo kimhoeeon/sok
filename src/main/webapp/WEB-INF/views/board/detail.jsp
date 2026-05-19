@@ -76,7 +76,7 @@
                     <c:forEach var="file" items="${board.fileList}" varStatus="status">
                         <div>
                             ${status.count}.
-                            <a href="${file.filePath}" target="_blank" download class="hover-glow text-decoration-none">
+                                <a href="/file/download?filePath=${file.filePath}&fileName=${file.orgFileNm}" class="hover-glow text-decoration-none">
                                 <c:out value="${file.orgFileNm}"/>
                                 <span style="color: #777;">
                                     (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
