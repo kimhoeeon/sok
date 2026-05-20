@@ -64,16 +64,11 @@
                                     <c:set var="badgeClass" value="sponsor"/>
                                     <c:choose>
                                         <c:when test="${item.category eq '선수'}"><c:set var="badgeClass" value="player"/></c:when>
-                                        <c:when test="${item.category eq '아티스트'}"><c:set var="badgeClass"
-                                                                                         value="artist"/></c:when>
-                                        <c:when test="${item.category eq '패밀리'}"><c:set var="badgeClass"
-                                                                                        value="family"/></c:when>
-                                        <c:when test="${item.category eq '프렌즈'}"><c:set var="badgeClass"
-                                                                                        value="friends"/></c:when>
-                                        <c:when test="${item.category eq '스폰서'}"><c:set var="badgeClass"
-                                                                                        value="sponsor"/></c:when>
-                                        <c:when test="${item.category eq '소식'}"><c:set var="badgeClass"
-                                                                                       value="news"/></c:when>
+                                        <c:when test="${item.category eq '아티스트'}"><c:set var="badgeClass" value="artist"/></c:when>
+                                        <c:when test="${item.category eq '패밀리'}"><c:set var="badgeClass" value="family"/></c:when>
+                                        <c:when test="${item.category eq '프렌즈'}"><c:set var="badgeClass" value="friends"/></c:when>
+                                        <c:when test="${item.category eq '스폰서'}"><c:set var="badgeClass" value="sponsor"/></c:when>
+                                        <c:when test="${item.category eq '소식'}"><c:set var="badgeClass" value="news"/></c:when>
                                     </c:choose>
 
                                     <li>
@@ -82,8 +77,9 @@
                                             <div class="txtBox">
                                                 <div class="badge ${badgeClass}">${not empty item.category ? item.category : '-'}</div>
                                                 <div class="tit">
-                                                    <c:if test="${item.isNotice eq 'Y'}"><span
-                                                            style="color: #DF0031; font-size: 14px; vertical-align: middle; margin-right: 5px;">[메인]</span></c:if>
+                                                    <c:if test="${item.isNotice eq 'Y'}">
+                                                        <span style="color: #DF0031; font-size: 14px; vertical-align: middle; margin-right: 5px;">[메인]</span>
+                                                    </c:if>
                                                         ${item.title}
                                                 </div>
                                             </div>
@@ -93,8 +89,7 @@
                                                         <img src="${item.fileList[0].filePath}" alt="썸네일 이미지">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="/img/logo.png" alt="기본 썸네일"
-                                                             style="object-fit: contain; padding: 30px; background: #f9f9f9; border: 1px solid #eee;">
+                                                        <img src="/img/logo.png" alt="기본 썸네일" style="object-fit: contain; padding: 30px; background: #f9f9f9; border: 1px solid #eee;">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
@@ -109,22 +104,25 @@
                         <div class="paging">
                             <c:if test="${pageMaker.prev}">
                                 <a href="javascript:goPage(1)" class="first"><img src="/img/btn_first.gif" alt="처음"></a>
-                                <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev"><img
-                                        src="/img/btn_prev.gif" alt="이전"></a>
+                                <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev">
+                                    <img src="/img/btn_prev.gif" alt="이전">
+                                </a>
                             </c:if>
 
                             <ol>
                                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                                     <li>
-                                        <a href="javascript:goPage(${num})"
-                                           class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">${num}</a>
+                                        <a href="javascript:goPage(${num})" class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">
+                                            ${num}
+                                        </a>
                                     </li>
                                 </c:forEach>
                             </ol>
 
                             <c:if test="${pageMaker.next}">
-                                <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next"><img
-                                        src="/img/btn_next.gif" alt="다음"></a>
+                                <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next">
+                                    <img src="/img/btn_next.gif" alt="다음">
+                                </a>
                             </c:if>
                         </div>
                     </c:if>

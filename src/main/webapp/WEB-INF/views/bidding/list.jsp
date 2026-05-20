@@ -43,8 +43,7 @@
                             </select>
                         </div>
                         <div class="input">
-                            <input type="text" name="searchKeyword" value="${params.searchKeyword}"
-                                   placeholder="검색어를 입력하세요.">
+                            <input type="text" name="searchKeyword" value="${params.searchKeyword}" placeholder="검색어를 입력하세요.">
                             <a href="javascript:void(0);" onclick="searchData()" class="search_btn"></a>
                         </div>
                     </form>
@@ -66,7 +65,7 @@
                                     style="cursor: pointer;">
 
                                     <div class="tit ${not empty item.fileList ? 'file' : ''}">
-                                            <%-- 관리자에서 설정한 진행중/마감 상태 표시 --%>
+                                        <%-- 관리자에서 설정한 진행중/마감 상태 표시 --%>
                                         <c:choose>
                                             <c:when test="${item.category eq '진행중'}">
                                                 <span style="color:var(--mainColor); margin-right:5px; font-weight:900;">[진행중]</span>
@@ -75,7 +74,7 @@
                                                 <span style="color:#777; margin-right:5px; font-weight:900;">[마감]</span>
                                             </c:when>
                                         </c:choose>
-                                            ${item.title}
+                                        ${item.title}
                                     </div>
 
                                     <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
@@ -90,22 +89,25 @@
                 <div class="paging">
                     <c:if test="${pageMaker.prev}">
                         <a href="javascript:goPage(1)" class="first"><img src="/img/btn_first.gif" alt="처음"></a>
-                        <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev"><img
-                                src="/img/btn_prev.gif" alt="이전"></a>
+                        <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev">
+                            <img src="/img/btn_prev.gif" alt="이전">
+                        </a>
                     </c:if>
 
                     <ol>
                         <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                             <li>
-                                <a href="javascript:goPage(${num})"
-                                   class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">${num}</a>
+                                <a href="javascript:goPage(${num})" class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">
+                                    ${num}
+                                </a>
                             </li>
                         </c:forEach>
                     </ol>
 
                     <c:if test="${pageMaker.next}">
-                        <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next"><img src="/img/btn_next.gif"
-                                                                                                alt="다음"></a>
+                        <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next">
+                            <img src="/img/btn_next.gif" alt="다음">
+                        </a>
                     </c:if>
                 </div>
             </c:if>
