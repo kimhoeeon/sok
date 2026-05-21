@@ -63,6 +63,16 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/certificate/detail">
+                                <c:param name="certSeq" value="${item.certSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="searchType" value="${params.searchType}" />
+                                <c:param name="searchStatus" value="${params.searchStatus}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.certSeq}</td>
                                 <td><span class="badge bg-secondary">${item.certType}</span></td>
@@ -80,7 +90,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <a href="/mng/certificate/detail?certSeq=${item.certSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light">상세 확인</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">상세 확인</a>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -64,9 +64,18 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/sponsor/donate/detail">
+                                <c:param name="paySeq" value="${item.paySeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="payType" value="${params.payType}" />
+                                <c:param name="searchStatus" value="${params.searchStatus}" />
+                            </c:url>
+
                             <tr>
                                 <td class="text-start">
-                                    <a href="/mng/sponsor/donate/detail?paySeq=${item.paySeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="text-info text-decoration-none fw-bold hover-glow">
+                                    <a href="${detailUrl}" class="text-info text-decoration-none fw-bold hover-glow">
                                         ${item.orderId}
                                     </a>
                                 </td>
@@ -90,7 +99,7 @@
                                 </td>
                                 <td class="text-muted"><fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd HH:mm" /></td>
                                 <td>
-                                    <a href="/mng/sponsor/donate/detail?paySeq=${item.paySeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="btn btn-sm btn-outline-light">확인</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">확인</a>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -51,6 +51,15 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/popup/form">
+                                <c:param name="popSeq" value="${item.popSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                                <c:param name="searchUseYnOnly" value="${params.searchUseYnOnly}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.popSeq}</td>
 
@@ -66,7 +75,7 @@
                                 </td>
 
                                 <td class="text-start">
-                                    <a href="/mng/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="fw-bold text-dark text-decoration-none hover-glow">
+                                    <a href="${detailUrl}" class="fw-bold text-dark text-decoration-none hover-glow">
                                         ${item.title}
                                     </a>
                                 </td>
@@ -94,7 +103,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="/mng/popup/form?popSeq=${item.popSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/mng/popup/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="popSeq" value="${item.popSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">

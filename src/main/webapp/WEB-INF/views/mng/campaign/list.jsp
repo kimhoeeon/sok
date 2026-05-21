@@ -49,40 +49,47 @@
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach var="c" items="${list}" varStatus="status">
+                        <c:forEach var="item" items="${list}" varStatus="status">
+
+                            <c:url var="detailUrl" value="/mng/campaign/form">
+                                <c:param name="campSeq" value="${item.campSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                                <c:param name="searchUseYn" value="${params.searchUseYn}" />
+                            </c:url>
+
                             <tr>
                                 <td>${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount) - status.index}</td>
                                 <td>
-                                    <c:if test="${not empty c.thumbPath}">
-                                        <img src="${c.thumbPath}" alt="썸네일"
-                                             style="width: 60px; height: 45px; object-fit: cover; border-radius: 4px;">
+                                    <c:if test="${not empty item.thumbPath}">
+                                        <img src="${item.thumbPath}" alt="썸네일" style="width: 60px; height: 45px; object-fit: cover; border-radius: 4px;">
                                     </c:if>
-                                    <c:if test="${empty c.thumbPath}">
+                                    <c:if test="${empty item.thumbPath}">
                                         <span class="text-muted">-</span>
                                     </c:if>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/mng/campaign/form?campSeq=${c.campSeq}&pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}&searchUseYn=${params.searchUseYn}"
-                                       class="text-dark text-decoration-none action-hover fw-bold">
-                                        ${c.title}
+                                    <a href="${detailUrl}" class="text-dark text-decoration-none action-hover fw-bold">
+                                        ${item.title}
                                     </a>
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${c.startDt}" pattern="yyyy.MM.dd"/> ~
-                                    <fmt:formatDate value="${c.endDt}" pattern="yyyy.MM.dd"/>
+                                    <fmt:formatDate value="${item.startDt}" pattern="yyyy.MM.dd"/> ~
+                                    <fmt:formatDate value="${item.endDt}" pattern="yyyy.MM.dd"/>
                                 </td>
-                                <td><fmt:formatNumber value="${c.goalAmt}" pattern="#,###"/>원</td>
+                                <td><fmt:formatNumber value="${item.goalAmt}" pattern="#,###"/>원</td>
                                 <td>
-                                    <span class="badge ${c.achievementRate >= 100 ? 'bg-success' : 'bg-primary'} bg-opacity-75">
-                                        ${c.achievementRate}%
+                                    <span class="badge ${item.achievementRate >= 100 ? 'bg-success' : 'bg-primary'} bg-opacity-75">
+                                        ${item.achievementRate}%
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge ${c.useYn == 'Y' ? 'bg-info' : 'bg-secondary'} bg-opacity-75 text-dark">
-                                        ${c.useYn == 'Y' ? '노출' : '미노출'}
+                                    <span class="badge ${item.useYn == 'Y' ? 'bg-info' : 'bg-secondary'} bg-opacity-75 text-dark">
+                                        ${item.useYn == 'Y' ? '노출' : '미노출'}
                                     </span>
                                 </td>
-                                <td><fmt:formatDate value="${c.regDt}" pattern="yyyy.MM.dd"/></td>
+                                <td><fmt:formatDate value="${item.regDt}" pattern="yyyy.MM.dd"/></td>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
@@ -95,8 +102,11 @@
         <div class="d-flex justify-content-center mt-5">
             <ul class="pagination pagination-custom m-0">
                 <c:if test="${pageMaker.prev}">
-                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})"><i
-                            class="bi bi-chevron-left"></i></a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:goPage(${pageMaker.startPage - 1})">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
                 </c:if>
                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                     <li class="page-item ${pageMaker.cri.pageNum == num ? 'active' : ''}">
@@ -104,8 +114,11 @@
                     </li>
                 </c:forEach>
                 <c:if test="${pageMaker.next}">
-                    <li class="page-item"><a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})"><i
-                            class="bi bi-chevron-right"></i></a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:goPage(${pageMaker.endPage + 1})">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
                 </c:if>
             </ul>
         </div>

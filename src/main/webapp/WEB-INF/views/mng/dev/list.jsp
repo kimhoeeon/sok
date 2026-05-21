@@ -131,6 +131,16 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
+
+                                <c:url var="detailUrl" value="/mng/dev/detail">
+                                    <c:param name="reqSeq" value="${item.reqSeq}" />
+                                    <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                    <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                    <c:param name="searchType" value="${params.searchType}" />
+                                    <c:param name="searchStatus" value="${params.searchStatus}" />
+                                    <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                                </c:url>
+
                                 <tr>
                                     <td>
                                         <input class="form-check-input chk-item" type="checkbox" name="reqSeqs" value="${item.reqSeq}">
@@ -143,7 +153,7 @@
                                         </c:if>
                                     </td>
                                     <td class="text-start">
-                                        <a href="/mng/dev/detail?reqSeq=${item.reqSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="text-dark text-decoration-none fw-bold hover-glow">
+                                        <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
                                             ${item.title}
                                         </a>
                                         <c:if test="${item.commentCnt > 0}">

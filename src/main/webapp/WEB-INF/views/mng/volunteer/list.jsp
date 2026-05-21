@@ -57,6 +57,15 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/volunteer/detail">
+                                <c:param name="volSeq" value="${item.volSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="searchSupportArea" value="${params.searchSupportArea}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.volSeq}</td>
                                 <td>
@@ -74,7 +83,7 @@
                                 </td>
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
-                                    <a href="/mng/volunteer/detail?volSeq=${item.volSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&searchSupportArea=${params.searchSupportArea}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-secondary">상세보기</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary">상세보기</a>
                                 </td>
                             </tr>
                         </c:forEach>

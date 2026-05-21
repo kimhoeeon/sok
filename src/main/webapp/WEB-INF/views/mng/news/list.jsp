@@ -67,6 +67,16 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/news/form">
+                                <c:param name="brdSeq" value="${item.brdSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="category" value="${params.category}" />
+                                <c:param name="searchType" value="${params.searchType}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.brdSeq}</td>
                                 <td>
@@ -76,7 +86,7 @@
                                     <c:if test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:if>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/mng/news/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="text-dark text-decoration-none fw-bold hover-glow">
+                                    <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
                                         <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">중요</span></c:if>
                                         ${item.title}
                                     </a>
@@ -85,7 +95,7 @@
                                 <td>${item.viewCnt}</td>
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
-                                    <a href="/mng/news/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/mng/news/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제 후 복구가 어렵습니다. 정말 삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">

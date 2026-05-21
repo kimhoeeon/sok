@@ -65,6 +65,17 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/sponsor/member/detail">
+                                <c:param name="mbrSeq" value="${item.mbrSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="withdrawYn" value="${params.withdrawYn}" />
+                                <c:param name="mbrType" value="${params.mbrType}" />
+                                <c:param name="isDonor" value="${params.isDonor}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.mbrSeq}</td>
                                 <td>
@@ -74,7 +85,7 @@
                                     </c:choose>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/mng/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&withdrawYn=${params.withdrawYn}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="text-dark text-decoration-none fw-bold hover-glow">
+                                    <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
                                         ${item.mbrNm} <span class="text-muted fw-normal ms-1">(${item.mbrId})</span>
                                     </a>
                                     <c:if test="${item.withdrawYn eq 'Y'}">
@@ -87,7 +98,7 @@
                                 <td class="fw-bold">${item.totalDonateCnt} 회</td>
                                 <td class="text-success fw-bold"><fmt:formatNumber value="${item.totalDonateAmt}" pattern="#,###" /> 원</td>
                                 <td>
-                                    <a href="/mng/sponsor/member/detail?mbrSeq=${item.mbrSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&mbrType=${params.mbrType}&isDonor=${params.isDonor}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light">상세보기</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">상세보기</a>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -53,6 +53,15 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
+
+                            <c:url var="detailUrl" value="/mng/bidding/form">
+                                <c:param name="brdSeq" value="${item.brdSeq}" />
+                                <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                <c:param name="amount" value="${pageMaker.cri.amount}" />
+                                <c:param name="category" value="${params.category}" />
+                                <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                            </c:url>
+
                             <tr>
                                 <td>${item.brdSeq}</td>
                                 <td>
@@ -66,14 +75,14 @@
                                     </c:choose>
                                 </td>
                                 <td class="text-start">
-                                    <a href="/mng/bidding/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="text-dark text-decoration-none fw-bold hover-glow">
+                                    <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
                                         ${item.title}
                                     </a>
                                 </td>
                                 <td>${item.viewCnt}</td>
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
-                                    <a href="/mng/bidding/form?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
                                     <form action="/mng/bidding/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
