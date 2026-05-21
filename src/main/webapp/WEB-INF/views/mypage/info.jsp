@@ -150,34 +150,13 @@
                             <label><span>지역</span></label>
                             <div class="input">
                                 <div class="select">
-                                    <select name="region1">
-                                        <option value="">선택</option>
-                                        <option value="서울" ${sessionScope.userLogin.region1 eq '서울' ? 'selected' : ''}>
-                                            서울
-                                        </option>
-                                        <option value="경기도" ${sessionScope.userLogin.region1 eq '경기도' ? 'selected' : ''}>
-                                            경기도
-                                        </option>
-                                        <option value="부산" ${sessionScope.userLogin.region1 eq '부산' ? 'selected' : ''}>
-                                            부산
-                                        </option>
-                                        <option value="충청도" ${sessionScope.userLogin.region1 eq '충청도' ? 'selected' : ''}>
-                                            충청도
-                                        </option>
+                                    <select name="region1" id="region1">
+                                        <option value="">시/도 선택</option>
                                     </select>
                                 </div>
                                 <div class="select">
-                                    <select name="region2">
-                                        <option value="">선택</option>
-                                        <option value="관악구" ${sessionScope.userLogin.region2 eq '관악구' ? 'selected' : ''}>
-                                            관악구
-                                        </option>
-                                        <option value="노원구" ${sessionScope.userLogin.region2 eq '노원구' ? 'selected' : ''}>
-                                            노원구
-                                        </option>
-                                        <option value="중구" ${sessionScope.userLogin.region2 eq '중구' ? 'selected' : ''}>
-                                            중구
-                                        </option>
+                                    <select name="region2" id="region2">
+                                        <option value="">구/군 선택</option>
                                     </select>
                                 </div>
                             </div>
@@ -196,6 +175,64 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+    // 1. 전국 구/군 데이터 배열 (빠짐없이 추가 완료)
+    var regionData = {
+        "서울": ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
+        "부산": ["강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"],
+        "대구": ["남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구", "군위군"],
+        "인천": ["강화군", "계양구", "남동구", "동구", "미추홀구", "부평구", "서구", "연수구", "옹진군", "중구"],
+        "광주": ["광산구", "남구", "동구", "북구", "서구"],
+        "대전": ["대덕구", "동구", "서구", "유성구", "중구"],
+        "울산": ["남구", "동구", "북구", "울주군", "중구"],
+        "세종": ["세종특별자치시"],
+        "경기": ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"],
+        "강원": ["강릉시", "고성군", "동해시", "삼척시", "속초시", "양구군", "양양군", "영월군", "원주시", "인제군", "정선군", "철원군", "춘천시", "태백시", "평창군", "홍천군", "화천군", "횡성군"],
+        "충북": ["괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "제천시", "증평군", "진천군", "청주시", "충주시"],
+        "충남": ["계룡시", "공주시", "금산군", "논산시", "당진시", "보령시", "부여군", "서산시", "서천군", "아산시", "예산군", "천안시", "청양군", "태안군", "홍성군"],
+        "전북": ["고창군", "군산시", "김제시", "남원시", "무주군", "부안군", "순창군", "완주군", "익산시", "임실군", "장수군", "전주시", "정읍시", "진안군"],
+        "전남": ["강진군", "고흥군", "곡성군", "광양시", "구례군", "나주시", "담양군", "목포시", "무안군", "보성군", "순천시", "신안군", "여수시", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"],
+        "경북": ["경산시", "경주시", "고령군", "구미시", "김천시", "문경시", "봉화군", "상주시", "성주군", "안동시", "영덕군", "영양군", "영주시", "영천시", "예천군", "울릉군", "울진군", "의성군", "청도군", "청송군", "칠곡군", "포항시"],
+        "경남": ["거제시", "거창군", "고성군", "김해시", "남해군", "밀양시", "사천시", "산청군", "양산시", "의령군", "진주시", "창녕군", "창원시", "통영시", "하동군", "함안군", "함양군", "합천군"],
+        "제주": ["서귀포시", "제주시"]
+    };
+
+    $(document).ready(function() {
+        // 기존 회원의 저장된 지역 값 불러오기
+        var savedRegion1 = "${sessionScope.userLogin.region1}";
+        var savedRegion2 = "${sessionScope.userLogin.region2}";
+
+        var $region1 = $("#region1");
+        var $region2 = $("#region2");
+
+        // 시/도(region1) 드롭다운 초기화
+        $.each(regionData, function(sido, guguns) {
+            var isSelected = (sido === savedRegion1) ? "selected" : "";
+            $region1.append("<option value='" + sido + "' " + isSelected + ">" + sido + "</option>");
+        });
+
+        // 구/군(region2) 드롭다운 갱신 함수
+        function updateRegion2(sido, targetGugun) {
+            $region2.empty().append("<option value=''>구/군 선택</option>");
+            if(sido && regionData[sido]) {
+                $.each(regionData[sido], function(index, gugun) {
+                    var isSelected = (gugun === targetGugun) ? "selected" : "";
+                    $region2.append("<option value='" + gugun + "' " + isSelected + ">" + gugun + "</option>");
+                });
+            }
+        }
+
+        // 페이지 진입 시 저장된 값에 맞춰 region2 세팅
+        if(savedRegion1) {
+            updateRegion2(savedRegion1, savedRegion2);
+        }
+
+        // 사용자가 시/도(region1)를 변경할 때 동작할 이벤트
+        $region1.on("change", function() {
+            var selectedSido = $(this).val();
+            updateRegion2(selectedSido, ""); // 시도를 바꾸면 구군은 초기화됨
+        });
+    });
+
     // 이메일 도메인 자동입력
     function setEmailDomain() {
         var domain = document.getElementById("emailDomain").value;
