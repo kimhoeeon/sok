@@ -61,9 +61,15 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li class="${item.isNotice eq 'Y' ? 'import' : ''}"
-                                    onclick="location.href='/notice/detail?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}'"
-                                    style="cursor: pointer;">
+
+                                <c:url var="detailUrl" value="/notice/detail">
+                                    <c:param name="brdSeq" value="${item.brdSeq}" />
+                                    <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                    <c:param name="searchType" value="${params.searchType}" />
+                                    <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                                </c:url>
+
+                                <li class="${item.isNotice eq 'Y' ? 'import' : ''}" onclick="location.href='${detailUrl}'" style="cursor: pointer;">
 
                                     <div class="tit ${not empty item.fileList ? 'file' : ''}">
                                         ${item.title}
