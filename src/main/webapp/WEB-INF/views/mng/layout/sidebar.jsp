@@ -97,9 +97,13 @@
     </ul>
 
     <div class="mt-4 pt-3 border-top" style="border-color: rgba(255,255,255,0.05) !important;">
-        <a class="nav-link d-flex align-items-center text-danger hover-glow p-2" href="/mng/logout" style="border-radius: 8px; background: rgba(230, 25, 56, 0.1); transition: 0.3s;">
+        <a class="nav-link d-flex align-items-center text-danger hover-glow p-2" href="#" onclick="event.preventDefault(); document.getElementById('adminLogoutForm').submit();" style="border-radius: 8px; background: rgba(230, 25, 56, 0.1); transition: 0.3s; cursor: pointer;">
             <i class="bi bi-box-arrow-right fs-5 me-2"></i>
             <span class="fw-bold">로그아웃</span>
         </a>
     </div>
 </div>
+
+<form id="adminLogoutForm" action="/mng/logout" method="post" style="display: none;">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>

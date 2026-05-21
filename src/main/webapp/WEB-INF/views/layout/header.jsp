@@ -121,7 +121,7 @@
                                         <c:when test="${not empty sessionScope.userLogin}">
                                             <a href="/mypage/donate">기부내역</a>
                                             <a href="/mypage/info">마이페이지</a>
-                                            <a href="/logout">로그아웃</a>
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('userLogoutForm').submit();">로그아웃</a>
                                         </c:when>
                                         <c:otherwise>
                                             <a href="/login">로그인</a>
@@ -144,7 +144,7 @@
                         <div class="site_map_top_btn">
                             <c:choose>
                                 <c:when test="${not empty sessionScope.userLogin}">
-                                    <a href="/logout" class="login">LOGOUT</a>
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('userLogoutForm').submit();" class="login">LOGOUT</a>
                                 </c:when>
                                 <c:otherwise>
                                     <a href="/login" class="login">LOGIN</a>
@@ -204,3 +204,7 @@
             </div>
         </div>
     </div>
+
+    <form id="userLogoutForm" action="/logout" method="post" style="display: none;">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    </form>
