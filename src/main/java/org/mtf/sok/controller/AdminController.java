@@ -36,14 +36,6 @@ public class AdminController {
         return "mng/login";
     }
 
-    // 로그아웃 처리
-    @PostMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("adminLogin");
-        session.invalidate();
-        return "redirect:/mng/login";
-    }
-
     // =========================================================
     // 관리자 대시보드 (방문 통계 및 요약 위젯 데이터 세팅)
     // =========================================================

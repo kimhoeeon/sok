@@ -23,9 +23,20 @@ public class Criteria {
         this.pageNum = pageNum <= 0 ? 1 : pageNum;
     }
 
-    // [개선] 1페이지당 개수를 비정상적으로 크게 요청하여 DB/서버를 다운시키는 공격 방어 (최대 100개)
     public void setAmount(int amount) {
-        this.amount = (amount <= 0 || amount > 100) ? 10 : amount;
+        // [추가된 로직] 엑셀 다운로드 등 전체 데이터 조회를 위한 특수 값(1,000,000)은 방어 로직을 예외로 통과시킵니다.
+        if (amount == 1000000) {
+            this.amount = amount;
+            return;
+        }
+
+        // [기존 방어 로직] 악의적인 파라미터 조작으로 인한 DB(Memory) 과부하 방지
+        // 0 이하의 값이 들어오거나, 100 이상의 무리한 값이 들어오면 기본값 10으로 강제 고정
+        if (amount <= 0 || amount > 100) {
+            this.amount = 10;
+        } else {
+            this.amount = amount;
+        }
     }
 
     public int getSkip() {

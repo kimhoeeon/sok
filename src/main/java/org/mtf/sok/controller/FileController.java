@@ -9,6 +9,8 @@ import org.springframework.util.FileCopyUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -19,8 +21,25 @@ public class FileController {
 
     // [1] 에디터 이미지 업로드 (관리자 전용 - /mng/ 경로 명시)
     @PostMapping("/mng/file/uploadImage")
-    public ResponseEntity<?> uploadEditorImage(@RequestParam("file") MultipartFile file) {
-        return saveLocalFile(file, "editor/");
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> uploadEditorImage(@RequestParam("file") MultipartFile file) {
+        Map<String, Object> responseData = new HashMap<>();
+
+        // 기존 공통 로직을 그대로 재활용하여 파일 저장 수행
+        ResponseEntity<?> result = saveLocalFile(file, "editor/");
+
+        // 저장 성공 시 (200 OK) JSON 규격에 맞게 포장
+        if (result.getStatusCode().is2xxSuccessful()) {
+            responseData.put("responseCode", "success");
+            responseData.put("url", result.getBody()); // saveLocalFile이 반환한 String URL
+            return ResponseEntity.ok(responseData);
+        }
+        // 저장 실패 시 에러 메시지 포장
+        else {
+            responseData.put("responseCode", "error");
+            responseData.put("message", result.getBody());
+            return ResponseEntity.status(result.getStatusCode()).body(responseData);
+        }
     }
 
     // [2] 게시판 일반 첨부파일 업로드 (관리자 전용 - /mng/ 경로 명시)
@@ -35,9 +54,26 @@ public class FileController {
                              @RequestParam("fileName") String fileName,
                              HttpServletResponse response) throws IOException {
 
+        // ★ [보안 1차 방어] 상위 디렉토리 이동 문자열 포함 여부 검사
+        if (filePath == null || filePath.contains("..") || filePath.contains("%2e") || filePath.contains("%2E")) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 파일 경로 요청입니다.");
+            return;
+        }
+
         // filePath는 "/upload/attachments/uuid.ext" 형태이므로 실제 물리 경로로 변환
         String realPath = uploadDir + filePath.replace("/upload/", "");
         File file = new File(realPath);
+
+        // ★ [보안 2차 방어] 정규화된 경로(CanonicalPath)를 통한 실제 위치 검증
+        // getCanonicalPath()는 '../'나 './' 기호들을 모두 계산한 후의 최종 실제 경로를 반환합니다.
+        String canonicalUploadDir = new File(uploadDir).getCanonicalPath();
+        String canonicalFilePath = file.getCanonicalPath();
+
+        // 요청한 파일의 최종 위치가 업로드 폴더 내부가 아니라면 접근 차단!
+        if (!canonicalFilePath.startsWith(canonicalUploadDir)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "허용되지 않은 디렉토리 접근입니다.");
+            return;
+        }
 
         if (file.exists()) {
             String encodedFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
@@ -53,7 +89,7 @@ public class FileController {
                 FileCopyUtils.copy(in, out);
                 out.flush();
             } finally {
-                // [핵심 수정 2] 메모리 누수를 방지하기 위해 스트림을 안전하게 닫아줍니다.
+                // 메모리 누수를 방지하기 위해 스트림을 안전하게 닫아줍니다.
                 if (in != null) in.close();
                 if (out != null) out.close();
             }

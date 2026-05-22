@@ -48,6 +48,8 @@ dependencies {
     // 네이버 클라우드 Object Storage 연동을 위한 AWS S3 SDK
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.500'
 
+    implementation 'org.jsoup:jsoup:1.15.3' // XSS 방어용 Jsoup 추가
+
     // 4. Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

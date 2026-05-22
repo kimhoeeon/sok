@@ -109,7 +109,6 @@
         });
     });
 
-    // Summernote 이미지 서버 전송 AJAX
     function uploadSummernoteImage(file, editor) {
         var data = new FormData();
         data.append("file", file);
@@ -119,16 +118,21 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            success: function(data) {
-                if(data.responseCode === "success") {
-                    // 항상 브라우저에서 접근 가능한 URL이 삽입됨 (/upload/summernote/...)
+            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            success: function (data) {
+                // ★ 핵심 2: 백엔드가 반환하는 JSON 규격(responseCode, url)에 맞춰 이미지 삽입
+                if (data.responseCode === 'success') {
                     $(editor).summernote('insertImage', data.url);
                 } else {
-                    alert("이미지 업로드에 실패했습니다.");
+                    alert(data.message || '이미지 업로드에 실패했습니다.');
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error(textStatus + " " + errorThrown);
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("업로드 에러:", textStatus, errorThrown);
+                alert('서버와 통신 중 오류가 발생했습니다.');
             }
         });
     }

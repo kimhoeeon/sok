@@ -64,8 +64,10 @@
         VALUES (#{reqSeq}, #{content}, #{regId})
     </insert>
 
-    <update id="deleteComment">
-        UPDATE TB_DEV_COMMENT SET DEL_YN = 'Y' WHERE CMT_SEQ = #{cmtSeq}
+    <update id="deleteComment" parameterType="long">
+        UPDATE TB_DEV_COMMENT
+        SET DEL_YN = 'Y'
+        WHERE CMT_SEQ = #{cmtSeq}
     </update>
 
     <select id="selectRequestStatusCount" resultType="java.util.Map">

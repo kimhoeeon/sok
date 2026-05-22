@@ -83,7 +83,7 @@
                     <option value="DONE" ${donation.payStatus eq 'DONE' ? 'selected' : ''}>결제 완료 처리</option>
                     <option value="CANCEL" ${donation.payStatus eq 'CANCEL' ? 'selected' : ''}>결제 취소 처리</option>
 
-                    <c:if test="${sessionScope.adminLogin.mbrId eq 'meetingfan' or donation.payStatus eq 'REFUND'}">
+                    <c:if test="${sessionScope.adminLogin.admId eq 'meetingfan' or donation.payStatus eq 'REFUND'}">
                         <option value="REFUND" ${donation.payStatus eq 'REFUND' ? 'selected' : ''}>환불 완료 처리 (Master 권한)</option>
                     </c:if>
                 </select>

@@ -43,8 +43,8 @@ public class SponsorController {
     @GetMapping("/member/list")
     public String memberList(@ModelAttribute MemberDTO params, Model model) {
 
-        List<MemberDTO> list = memberMapper.selectMemberList(params);
-        int total = memberMapper.selectMemberListCount(params);
+        List<MemberDTO> list = sponsorMapper.selectMemberList(params);
+        int total = sponsorMapper.selectMemberTotalCount(params);
         PageDTO pageMaker = new PageDTO(params, total);
 
         model.addAttribute("list", list);

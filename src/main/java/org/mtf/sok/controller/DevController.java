@@ -167,6 +167,30 @@ public class DevController {
         return "redirect:/mng/dev/detail";
     }
 
+    // ==========================================
+    // 유지보수 요청(DEV) 댓글 삭제 처리
+    // ==========================================
+    @PostMapping("/deleteComment")
+    public String deleteComment(@RequestParam("cmtSeq") Long cmtSeq,
+                                @RequestParam("devSeq") Long devSeq,
+                                RedirectAttributes rttr) {
+
+        try {
+            // 1. 댓글 논리 삭제 (DEL_YN = 'Y')
+            devMapper.deleteComment(cmtSeq);
+
+            // 2. 성공 메시지 전달
+            rttr.addFlashAttribute("successMessage", "댓글이 정상적으로 삭제되었습니다.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("errorMessage", "댓글 삭제 중 오류가 발생했습니다.");
+        }
+
+        // 3. 삭제 후 다시 해당 게시글 상세 페이지로 리다이렉트
+        return "redirect:/mng/dev/detail?devSeq=" + devSeq;
+    }
+
     // 파일 업로드 공통 내부 헬퍼
     private void uploadFiles(List<MultipartFile> files, String refTable, Long refSeq) {
         if (files != null && !files.isEmpty()) {

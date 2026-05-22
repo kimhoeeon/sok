@@ -142,9 +142,10 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${sessionScope.adminLogin.mbrId eq cmt.regId}">
+                        <c:if test="${sessionScope.adminLogin.admId eq cmt.regId}">
                             <div class="text-end mt-2">
                                 <form action="/mng/dev/deleteComment" method="post" class="d-inline" onsubmit="return confirm('코멘트를 삭제하시겠습니까?');">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <input type="hidden" name="cmtSeq" value="${cmt.cmtSeq}">
                                     <input type="hidden" name="reqSeq" value="${request.reqSeq}">
                                     <input type="hidden" name="pageNum" value="${params.pageNum}">

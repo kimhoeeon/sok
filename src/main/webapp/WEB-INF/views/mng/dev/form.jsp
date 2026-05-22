@@ -23,6 +23,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/dev/saveRequest" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <div class="row mb-4 glassmorphism-box p-4 border-0">
 
             <div class="col-md-6 mb-4">
@@ -77,19 +79,38 @@
             callbacks: {
                 onImageUpload: function(files) {
                     for (var i = 0; i < files.length; i++) {
-                        var data = new FormData();
-                        data.append("file", files[i]);
-                        var editor = this;
-                        $.ajax({
-                            data: data, type: "POST", url: "/mng/file/uploadImage",
-                            contentType: false, processData: false,
-                            success: function(data) {
-                                if(data.responseCode === "success") $(editor).summernote('insertImage', data.url);
-                            }
-                        });
+                        uploadSummernoteImage(files[i], this);
                     }
                 }
             }
         });
     });
+
+    function uploadSummernoteImage(file, editor) {
+        var data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "/mng/file/uploadImage",
+            contentType: false,
+            processData: false,
+            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            success: function (data) {
+                // ★ 핵심 2: 백엔드가 반환하는 JSON 규격(responseCode, url)에 맞춰 이미지 삽입
+                if (data.responseCode === 'success') {
+                    $(editor).summernote('insertImage', data.url);
+                } else {
+                    alert(data.message || '이미지 업로드에 실패했습니다.');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("업로드 에러:", textStatus, errorThrown);
+                alert('서버와 통신 중 오류가 발생했습니다.');
+            }
+        });
+    }
 </script>
