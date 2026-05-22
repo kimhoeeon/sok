@@ -162,7 +162,7 @@ public class ReportController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
 
-        // 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
+        /*// 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
         FileDTO fileParams = new FileDTO();
         fileParams.setRefTable("TB_BOARD");
         fileParams.setRefSeq(brdSeq);
@@ -173,7 +173,10 @@ public class ReportController {
             for (FileDTO file : fileList) {
                 fileController.deleteLocalFile(file.getFilePath());
             }
-        }
+        }*/
+
+        // 첨부파일 DB 논리 삭제 (DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
 
         // 3. 기존 글 삭제 로직
         boardMapper.deleteBoard(brdSeq);

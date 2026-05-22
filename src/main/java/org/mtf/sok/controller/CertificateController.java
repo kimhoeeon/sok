@@ -52,7 +52,7 @@ public class CertificateController {
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam Long certSeq,
                                @RequestParam String status,
-                               @RequestParam(required = false) String rejectReason, // ★ 추가
+                               @RequestParam(required = false) String rejectReason, // 추가
                                @ModelAttribute("params") CertificateDTO params,
                                RedirectAttributes rttr) {
 

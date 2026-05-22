@@ -101,18 +101,18 @@
         $(document).ready(function () {
             // 폼 제출 검증
             $("#loginForm").submit(function (e) {
-                var mbrId = $("#mbrId").val().trim();
-                var mbrPw = $("#mbrPw").val().trim();
+                var username = $("#username").val().trim();
+                var password = $("#password").val().trim();
 
-                if (mbrId === "") {
+                if (username === "") {
                     showError("아이디를 입력해주세요.");
-                    $("#mbrId").focus();
+                    $("#username").focus();
                     e.preventDefault();
                     return false;
                 }
-                if (mbrPw === "") {
+                if (password === "") {
                     showError("비밀번호를 입력해주세요.");
-                    $("#mbrPw").focus();
+                    $("#password").focus();
                     e.preventDefault();
                     return false;
                 }
@@ -130,7 +130,7 @@
 
             // 비밀번호 표시/숨기기 토글 로직
             $("#togglePassword").on("click", function() {
-                var passwordInput = $("#mbrPw");
+                var passwordInput = $("#password");
                 var eyeIcon = $("#eyeIcon");
 
                 if (passwordInput.attr("type") === "password") {
@@ -166,24 +166,26 @@
     </c:if>
 
     <form id="loginForm" action="/loginProc" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <div class="mb-4">
-            <label for="mbrId" class="form-label text-uppercase">Admin ID</label>
+            <label for="username" class="form-label text-uppercase">Admin ID</label>
             <div class="input-group" style="height: 50px;">
-                        <span class="input-group-text search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
-                            <i class="bi bi-person text-muted"></i>
-                        </span>
-                <input type="text" class="form-control search-bar border-start-0" id="mbrId" name="mbrId"
+                <span class="input-group-text search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
+                    <i class="bi bi-person text-muted"></i>
+                </span>
+                <input type="text" class="form-control search-bar border-start-0" id="username" name="username"
                        placeholder="아이디를 입력하세요" autocomplete="off">
             </div>
         </div>
 
         <div class="mb-5">
-            <label for="mbrPw" class="form-label text-uppercase">Password</label>
+            <label for="password" class="form-label text-uppercase">Password</label>
             <div class="input-group" style="height: 50px;">
                 <span class="input-group-text search-bar border-end-0" style="background-color: rgba(0,0,0,0.2) !important;">
                     <i class="bi bi-lock text-muted"></i>
                 </span>
-                <input type="password" class="form-control search-bar border-start-0 border-end-0" id="mbrPw" name="mbrPw"
+                <input type="password" class="form-control search-bar border-start-0 border-end-0" id="password" name="password"
                        placeholder="비밀번호를 입력하세요">
                 <span class="input-group-text search-bar border-start-0" id="togglePassword" style="cursor: pointer; background-color: rgba(0,0,0,0.2) !important;">
                     <i class="bi bi-eye-slash text-muted" id="eyeIcon"></i>
@@ -209,5 +211,10 @@
         }
     };
 </script>
+<c:if test="${not empty errorMessage}">
+    <script>
+        alert("${errorMessage}");
+    </script>
+</c:if>
 </body>
 </html>

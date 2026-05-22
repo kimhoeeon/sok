@@ -1,7 +1,7 @@
 package org.mtf.sok.config;
 
 import org.mtf.sok.domain.AdminDTO;
-import org.mtf.sok.domain.MemberDTO; // ★ 누락 방지 임포트
+import org.mtf.sok.domain.MemberDTO; // 누락 방지 임포트
 import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.security.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,8 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/login/basic")
                 .loginProcessingUrl("/loginProc")
-                .usernameParameter("mbrId")
-                .passwordParameter("mbrPw")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .successHandler(customSuccessHandler())
                 .failureHandler(customFailureHandler())
                 .and()

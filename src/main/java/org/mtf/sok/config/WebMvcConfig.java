@@ -1,6 +1,5 @@
 package org.mtf.sok.config;
 
-import org.mtf.sok.interceptor.LoginInterceptor;
 import org.mtf.sok.interceptor.VisitorInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +13,6 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
-    private LoginInterceptor loginInterceptor;
-
-    @Autowired
     private VisitorInterceptor visitorInterceptor;
 
     @Value("${file.upload.dir}")
@@ -26,9 +22,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         // 1. 관리자 로그인 인터셉터
-        registry.addInterceptor(loginInterceptor)
+        /*registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/mng/**")
-                .excludePathPatterns("/mng/login", "/mng/loginProc", "/mng/logout", "/css/**", "/js/**", "/images/**", "/img/**");
+                .excludePathPatterns("/mng/login", "/mng/loginProc", "/mng/logout", "/css/**", "/js/**", "/images/**", "/img/**");*/
 
         // 2. 방문자 접속 로그 수집 인터셉터
         registry.addInterceptor(visitorInterceptor)

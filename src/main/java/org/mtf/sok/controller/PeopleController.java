@@ -154,6 +154,9 @@ public class PeopleController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
+        // 첨부파일 DB 논리 삭제 (DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
+
         boardMapper.deleteBoard(brdSeq);
 
         rttr.addAttribute("pageNum", params.getPageNum());

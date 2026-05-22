@@ -23,12 +23,14 @@
         <div class="sub_content">
             <div class="login_wrap">
                 <form action="/loginProc" method="post" id="loginForm" class="login_form_box">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
                     <div class="login_box">
                         <div class="id">
-                            <input type="text" name="mbrId" placeholder="아이디를 입력해 주세요." required>
+                            <input type="text" name="username" placeholder="아이디를 입력해 주세요." required>
                         </div>
                         <div class="passward">
-                            <input type="password" name="mbrPw" placeholder="비밀번호를 입력해 주세요." required>
+                            <input type="password" name="password" placeholder="비밀번호를 입력해 주세요." required>
                         </div>
                         <div class="btn">
                             <a href="javascript:void(0);" onclick="document.getElementById('loginForm').submit(); return false;" class="login">로그인</a>
@@ -44,10 +46,8 @@
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
-<script>
-    // 로그인 실패 시 컨트롤러에서 보낸 errorMessage(Model 객체) 띄우기
-    var msg = "<c:out value='${errorMessage}'/>";
-    if (msg !== "") {
-        alert(msg);
-    }
-</script>
+<c:if test="${not empty errorMessage}">
+    <script>
+        alert("${errorMessage}");
+    </script>
+</c:if>

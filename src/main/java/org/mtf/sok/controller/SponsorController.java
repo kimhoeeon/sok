@@ -148,9 +148,6 @@ public class SponsorController {
             return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
         }
 
-        // 3. 토스 취소 성공 시 우리 DB 상태 업데이트
-        sponsorMapper.updateDonationStatus(donation);
-
         rttr.addAttribute("paySeq", donation.getPaySeq());
         rttr.addAttribute("pageNum", donation.getPageNum());
         rttr.addAttribute("amount", donation.getAmount());

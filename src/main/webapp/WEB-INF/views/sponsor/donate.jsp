@@ -214,9 +214,9 @@
 <script>
     let currentAmount = 0;
 
-    // 발주사에서 발급받을 토스페이먼츠 클라이언트 키 (테스트용 키 삽입)
-    const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
-    const tossPayments = TossPayments(clientKey);
+    // 1. Controller에서 전달받은 실제/테스트 클라이언트 키 주입 (중복 선언 제거)
+    const tossClientKey = '${tossClientKey}';
+    const tossPayments = TossPayments(tossClientKey);
 
     function openDonatePopup() {
         $('#supportPopup').fadeIn(200);
@@ -251,9 +251,9 @@
         $('#displayAmount').text(currentAmount.toLocaleString() + ' 원');
     }
 
-    // 토스 페이먼츠 결제창 호출 로직
+    // 2. 토스 페이먼츠 결제창 호출 로직 (HTML의 기부하기 버튼과 연결됨)
     function requestTossPayment() {
-        // 1. 로그인 체크
+        // 로그인 체크
         const isLogin = ${not empty sessionScope.userLogin};
         if (!isLogin) {
             alert("로그인 후 기부가 가능합니다. 로그인 페이지로 이동합니다.");
@@ -261,13 +261,13 @@
             return;
         }
 
-        // 2. 금액 체크
+        // 금액 체크
         if (currentAmount < 1000) {
             alert("기부 금액은 1,000원 이상이어야 합니다.");
             return;
         }
 
-        // 3. 팝업창 내 데이터 수집
+        // 팝업창 내 데이터 수집
         var cheerMsg = $('#cheerMsg').val();
         var isAnon = $('#isAnon').is(':checked') ? 'Y' : 'N';
 
@@ -277,7 +277,7 @@
             customerName = '익명후원자';
         }
 
-        // 4. 백엔드로 결제 초기화(주문번호 채번 및 WAIT 상태 저장) 요청
+        // 백엔드로 결제 초기화(주문번호 채번 및 WAIT 상태 저장) 요청
         $.ajax({
             url: '/sponsor/donate/init',
             type: 'POST',
@@ -287,7 +287,7 @@
                 cheerMsg: cheerMsg
             },
             success: function (orderId) {
-                // 5. 서버에서 받아온 검증된 orderId로 토스 결제창 호출
+                // 서버에서 받아온 검증된 orderId로 토스 결제창 호출
                 tossPayments.requestPayment('카드', {
                     amount: currentAmount,
                     orderId: orderId,
@@ -308,50 +308,4 @@
             }
         });
     }
-
-    // Controller에서 전달받은 실제/테스트 클라이언트 키 주입
-    const tossClientKey = '${tossClientKey}';
-    const tossPayments = TossPayments(tossClientKey);
-
-    // 폼 제출(결제하기 버튼) 이벤트를 가로채서 토스페이먼츠 호출
-    $(document).ready(function() {
-        $('#btn_submit_donate').on('click', function(e) {
-            e.preventDefault();
-
-            const amount = $('input[name="payAmt"]').val();
-            if (!amount || amount < 1000) {
-                alert('최소 1,000원 이상 입력해 주세요.');
-                return;
-            }
-
-            // 1. 우리 서버에 결제 요청 정보 사전 등록 (Init)
-            $.ajax({
-                url: '/sponsor/donate/init',
-                type: 'POST',
-                data: $('#donateForm').serialize(),
-                success: function(orderId) {
-
-                    // 2. 토스페이먼츠 결제창 호출
-                    tossPayments.requestPayment('카드', {
-                        amount: amount,
-                        orderId: orderId,
-                        orderName: 'SOK 스페셜올림픽코리아 후원금',
-                        customerName: '${not empty userLogin.mbrNm ? userLogin.mbrNm : "익명후원자"}',
-                        customerEmail: '${not empty userLogin.email ? userLogin.email : "anonymous@sokorea.or.kr"}',
-                        successUrl: window.location.origin + '/sponsor/donate/success',
-                        failUrl: window.location.origin + '/sponsor/donate/fail'
-                    }).catch(function (error) {
-                        if (error.code === 'USER_CANCEL') {
-                            alert('결제를 취소하셨습니다.');
-                        } else {
-                            alert(error.message);
-                        }
-                    });
-                },
-                error: function(xhr) {
-                    alert(xhr.responseText || '결제 초기화에 실패했습니다. 관리자에게 문의해 주세요.');
-                }
-            });
-        });
-    });
 </script>

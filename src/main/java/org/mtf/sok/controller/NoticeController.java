@@ -142,11 +142,11 @@ public class NoticeController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
 
+        // 첨부파일 DB 논리 삭제 (DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
+
         // 1. 게시글 본문 논리적 삭제 (기존 유지, DEL_YN = 'Y')
         boardMapper.deleteBoard(brdSeq);
-
-        // 2. [수정됨] 물리적 파일 삭제 로직 제거 -> 파일 테이블 논리적 삭제 적용
-        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
 
         // 페이징/검색어 유지
         rttr.addAttribute("pageNum", params.getPageNum());

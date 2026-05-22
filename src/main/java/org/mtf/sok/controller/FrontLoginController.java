@@ -50,20 +50,7 @@ public class FrontLoginController {
         return "member/login_basic";
     }
 
-    @PostMapping("/loginProc")
-    public String loginProc(MemberDTO memberDTO, HttpSession session, RedirectAttributes rttr) {
-        MemberDTO loginUser = memberMapper.selectMemberForLogin(memberDTO);
-
-        if (loginUser != null) {
-            session.setAttribute("userLogin", loginUser);
-            return "redirect:/";
-        } else {
-            rttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "redirect:/login/basic";
-        }
-    }
-
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";

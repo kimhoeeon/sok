@@ -170,10 +170,12 @@
                             <label><span>자동입력방지</span></label>
                             <div class="input prevention">
                                 <div class="prevention_wrap">
-                                    <div class="prevention_img"><img src="/img/prevention_img.png" alt="자동입력방지"></div>
-                                    <input type="text" id="captchaText" required>
+                                    <div class="prevention_img">
+                                        <img src="/certificate/captchaImg" id="captchaImg" alt="자동입력방지" style="width: 150px; height: 50px;">
+                                    </div>
+                                    <input type="text" id="captchaText" name="captchaText" required autocomplete="off">
                                     <button type="button"><img src="/img/sound_icon.png" alt="다시 듣기"></button>
-                                    <button type="button"><img src="/img/restore_icon.png" alt="리셋"></button>
+                                    <button type="button" onclick="refreshCaptcha()"><img src="/img/restore_icon.png" alt="리셋"></button>
                                 </div>
                                 <div class="txt">자동등록방지 숫자를 순서대로 입력하세요.</div>
                             </div>
@@ -196,6 +198,12 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+    // 기존 스크립트 영역 내부에 추가
+    function refreshCaptcha() {
+        // URL 끝에 타임스탬프를 달아주어 브라우저 캐시를 무시하고 무조건 새 이미지를 받아옴
+        document.getElementById('captchaImg').src = '/certificate/captchaImg?t=' + new Date().getTime();
+    }
+
     // 이메일 도메인 선택 스크립트
     function setEmailDomain() {
         var domain = document.getElementById("emailDomain").value;
@@ -209,30 +217,25 @@
         }
     }
 
-    // 증명서 신청 폼 제출
     function submitCertificate() {
-        // HTML5 기본 유효성 검사 체크
         var form = document.getElementById("certApplyForm");
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
 
-        // 약관 동의 체크 여부 확인
         if (!document.getElementById("agreeYn").checked) {
             alert("개인정보처리방침에 동의해 주세요.");
             return;
         }
 
-        // 전화번호 및 이메일 병합
         var phone = $("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val();
         $("#phone").val(phone);
 
         var email = $("#email1").val() + "@" + $("#email2").val();
         $("#email").val(email);
 
-        // AJAX 폼 전송
-        var formData = $(form).serialize();
+        var formData = $(form).serialize(); // 이제 name="captchaText"가 있어서 정상적으로 값이 포함됨
 
         $.ajax({
             type: "POST",
@@ -240,13 +243,17 @@
             data: formData,
             success: function (response) {
                 alert(response);
-                // 신청 성공 시 발급상태 확인 페이지 또는 메인으로 이동
                 location.href = "/certificate/status";
             },
             error: function (xhr) {
-                // 중복 에러 등 서버 에러 메시지 노출 (스토리보드 기재 문구)
                 if (xhr.status === 400) {
                     alert(xhr.responseText);
+
+                    // 캡차 번호가 틀렸을 경우 쾌적한 UX를 위해 자동으로 이미지 새로고침 및 입력창 비우기
+                    if(xhr.responseText.includes("자동입력방지")) {
+                        refreshCaptcha();
+                        $('#captchaText').val('').focus();
+                    }
                 } else {
                     alert("처리 중 오류가 발생했습니다.");
                 }

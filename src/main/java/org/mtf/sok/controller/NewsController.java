@@ -160,7 +160,7 @@ public class NewsController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
 
-        // 1. 물리 파일 삭제를 위해 연결된 파일 목록 조회
+        /*// 1. 물리 파일 삭제를 위해 연결된 파일 목록 조회
         FileDTO fileParams = new FileDTO();
         fileParams.setRefTable("TB_BOARD");
         fileParams.setRefSeq(brdSeq);
@@ -171,7 +171,10 @@ public class NewsController {
             for (FileDTO file : fileList) {
                 fileController.deleteLocalFile(file.getFilePath());
             }
-        }
+        }*/
+
+        // 첨부파일 DB 논리 삭제 (DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
 
         // 3. 게시글 DB 삭제
         boardMapper.deleteBoard(brdSeq);

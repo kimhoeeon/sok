@@ -27,9 +27,9 @@
             <div class="mypage_wrap">
                 <ul class="sub_top_tab">
                     <li class="on"><a href="/mypage/info">프로필 수정</a></li>
-                    <li><a href="">서비스 이용 동의</a></li>
-                    <li><a href="">개인정보 제3자 제공 동의</a></li>
-                    <li><a href="">스페셜올림픽코리아 탈퇴</a></li>
+                    <li><a href="/mypage/terms/service">서비스 이용 동의</a></li>
+                    <li><a href="/mypage/terms/personal">개인정보 제3자 제공 동의</a></li>
+                    <li><a href="/mypage/leave">스페셜올림픽코리아 탈퇴</a></li>
                 </ul>
 
                 <form id="profileForm" class="profile_info" onsubmit="return false;">

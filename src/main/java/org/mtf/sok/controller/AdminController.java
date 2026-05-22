@@ -5,10 +5,7 @@ import org.mtf.sok.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -40,7 +37,7 @@ public class AdminController {
     }
 
     // 로그아웃 처리
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("adminLogin");
         session.invalidate();
@@ -51,11 +48,7 @@ public class AdminController {
     // 관리자 대시보드 (방문 통계 및 요약 위젯 데이터 세팅)
     // =========================================================
     @GetMapping({"", "/", "/main"})
-    public String main(HttpSession session, Model model) {
-        if (session.getAttribute("adminLogin") == null) {
-            return "redirect:/mng/login";
-        }
-
+    public String main(Model model) {
         boolean dbStatus = false;
         try {
             // 1. DB 핑(Ping) 테스트
@@ -99,33 +92,4 @@ public class AdminController {
         return "mng/main";
     }
 
-    // =========================================================
-    // 차트용 데이터 API (Base64 인코딩 깨짐 완벽 해결)
-    // =========================================================
-    @GetMapping("/api/stats/visitor")
-    @ResponseBody
-    public List<Map<String, Object>> getVisitorStats(@RequestParam String period) {
-        List<Map<String, Object>> list = statsMapper.selectVisitorTrend(period);
-        return fixBase64Label(list);
-    }
-
-    @GetMapping("/api/stats/apply")
-    @ResponseBody
-    public List<Map<String, Object>> getApplyStats(@RequestParam String period) {
-        List<Map<String, Object>> list = statsMapper.selectApplyTrend(period);
-        return fixBase64Label(list);
-    }
-
-    // [핵심 해결 로직] Key 대소문자 상관없이 Map 안에 있는 모든 byte[]를 String으로 강제 변환
-    private List<Map<String, Object>> fixBase64Label(List<Map<String, Object>> list) {
-        for (Map<String, Object> map : list) {
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                // MyBatis가 어떤 Key 이름으로 반환하든 값이 byte[] (이진 데이터)이면 문자열로 덮어씀
-                if (entry.getValue() instanceof byte[]) {
-                    map.put(entry.getKey(), new String((byte[]) entry.getValue()));
-                }
-            }
-        }
-        return list;
-    }
 }

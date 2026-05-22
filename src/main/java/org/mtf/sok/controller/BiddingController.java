@@ -30,9 +30,6 @@ public class BiddingController {
     @Autowired
     private BoardMapper boardMapper;
 
-    @Autowired
-    private FileController fileController;
-
     @Value("${file.upload.dir}")
     private String uploadDir;
 
@@ -137,18 +134,21 @@ public class BiddingController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long brdSeq, @ModelAttribute BoardDTO params, RedirectAttributes rttr) {
 
-        // ★ 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
+        /*// 1. 삭제할 게시글의 첨부파일 목록 먼저 조회
         FileDTO fileParams = new FileDTO();
         fileParams.setRefTable("TB_BOARD");
         fileParams.setRefSeq(brdSeq);
         List<FileDTO> fileList = boardMapper.selectFiles(fileParams);
 
-        // ★ 2. 서버 로컬에서 실제 물리 파일 삭제
+        // 2. 서버 로컬에서 실제 물리 파일 삭제
         if (fileList != null && !fileList.isEmpty()) {
             for (FileDTO file : fileList) {
                 fileController.deleteLocalFile(file.getFilePath());
             }
-        }
+        }*/
+
+        // 첨부파일 DB 논리 삭제 (DEL_YN = 'Y')
+        boardMapper.deleteFilesByRefTarget("TB_BOARD", brdSeq);
 
         // 3. 기존 글 삭제 로직
         boardMapper.deleteBoard(brdSeq);

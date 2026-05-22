@@ -3,7 +3,7 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.domain.VolunteerDTO;
 import org.mtf.sok.mapper.VolunteerMapper;
-import org.mtf.sok.service.DirectSendService; // ★ 알림 서비스 임포트
+import org.mtf.sok.service.DirectSendService; // 알림 서비스 임포트
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class VolunteerController {
     private VolunteerMapper volunteerMapper;
 
     @Autowired
-    private DirectSendService directSendService; // ★ 알림 서비스 주입
+    private DirectSendService directSendService; // 알림 서비스 주입
 
     @GetMapping("/list")
     public String list(@ModelAttribute VolunteerDTO params, Model model) {
