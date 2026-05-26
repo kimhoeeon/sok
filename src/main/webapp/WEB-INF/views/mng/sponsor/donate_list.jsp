@@ -86,20 +86,38 @@
                                         <c:otherwise><span class="badge bg-secondary">일시</span></c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td><span class="badge bg-white border border-secondary">${item.payMethod}</span></td>
-                                <td class="text-success fw-bold"><fmt:formatNumber value="${item.payAmt}" pattern="#,###" />원</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${empty item.payMethod}">
+                                            <span class="text-muted">-</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge bg-white border border-secondary">${item.payMethod}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td class="text-success fw-bold"><fmt:formatNumber value="${item.payAmt}" pattern="#,##0" />원</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.payStatus eq 'DONE'}"><span class="text-success fw-bold">결제완료</span></c:when>
-                                        <c:when test="${item.payStatus eq 'WAIT'}"><span class="text-warning">입금대기</span></c:when>
+                                        <c:when test="${item.payStatus eq 'WAIT'}"><span class="text-warning fw-bold">입금대기</span></c:when>
                                         <c:when test="${item.payStatus eq 'CANCEL'}"><span class="text-danger">결제취소</span></c:when>
                                         <c:when test="${item.payStatus eq 'REFUND'}"><span class="text-danger">환불완료</span></c:when>
                                         <c:otherwise><span class="text-muted">${item.payStatus}</span></c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td class="text-muted"><fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd HH:mm" /></td>
+                                <td class="text-muted">
+                                    <c:choose>
+                                        <c:when test="${empty item.payDt}">
+                                            -
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd HH:mm" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>
-                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">확인</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary">상세보기</a>
                                 </td>
                             </tr>
                         </c:forEach>

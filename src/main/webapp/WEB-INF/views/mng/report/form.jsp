@@ -9,15 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
-<style>
-    .note-editor.note-frame { border: 1px solid #474761 !important; }
-    .note-editing-area .note-editable { background-color: #151521; color: #fff; font-size: 14px; }
-    .note-toolbar { background-color: #1e1e2d !important; border-bottom: 1px solid #474761 !important; }
-    .note-btn { color: #fff !important; background-color: #2b2b40 !important; border-color: #474761 !important; }
-    .note-btn:hover { background-color: #e61938 !important; color: #fff !important; }
-    .note-modal-content { background-color: #1e1e2d; color: #fff; border: 1px solid #474761; }
-</style>
-
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">활동보고서 ${empty report.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/report/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
@@ -111,6 +102,7 @@
         $('#summernote').summernote({
             height: 400,
             lang: "ko-KR",
+            dialogsInBody: true,
             placeholder: '보고서에 대한 요약 설명이나 목차 등을 입력해주세요.',
             callbacks: {
                 onImageUpload: function(files) {
@@ -136,16 +128,24 @@
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },
             success: function (data) {
-                // ★ 핵심 2: 백엔드가 반환하는 JSON 규격(responseCode, url)에 맞춰 이미지 삽입
                 if (data.responseCode === 'success') {
+                    // 서버에서 넘겨준 진짜 이미지 경로(data.url)를 에디터에 삽입
                     $(editor).summernote('insertImage', data.url);
                 } else {
                     alert(data.message || '이미지 업로드에 실패했습니다.');
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error("업로드 에러:", textStatus, errorThrown);
-                alert('서버와 통신 중 오류가 발생했습니다.');
+                console.error("업로드 에러 :", textStatus, errorThrown);
+                console.error("HTTP 상태 코드 :", jqXHR.status); // 403인지 500인지 콘솔에 명확히 출력
+
+                if (jqXHR.status === 403) {
+                    alert('보안 검증(CSRF)에 실패했습니다. 페이지를 새로고침(F5) 해주세요.');
+                } else if (jqXHR.status === 413) {
+                    alert('파일 용량이 너무 큽니다. 더 작은 이미지를 올려주세요.');
+                } else {
+                    alert('서버 오류로 이미지 업로드에 실패했습니다. (코드: ' + jqXHR.status + ')');
+                }
             }
         });
     }

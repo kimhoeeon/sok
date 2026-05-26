@@ -98,7 +98,7 @@
                                 <td class="fw-bold">${item.totalDonateCnt} 회</td>
                                 <td class="text-success fw-bold"><fmt:formatNumber value="${item.totalDonateAmt}" pattern="#,###" /> 원</td>
                                 <td>
-                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">상세보기</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary">상세보기</a>
                                 </td>
                             </tr>
                         </c:forEach>

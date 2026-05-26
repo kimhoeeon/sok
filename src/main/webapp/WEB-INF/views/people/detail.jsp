@@ -36,7 +36,7 @@
         <div class="view_wrap">
             <div class="view_detail center">
                 <div>
-                    ${board.content}
+                    <c:out value="${board.content}" escapeXml="false" />
                 </div>
             </div>
 

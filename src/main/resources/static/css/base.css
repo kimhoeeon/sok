@@ -1,4 +1,14 @@
 /* 공통적용 */
+
+/* ==========================================
+   에디터 및 텍스트 기본 태그 스타일 복구
+   (reset.css에 의해 무력화된 속성 재활성화)
+   ========================================== */
+b, strong { font-weight: bold; }
+i, em { font-style: italic; }
+u { text-decoration: underline; }
+s, strike, del { text-decoration: line-through; }
+
 html {scroll-behavior:smooth;}
 body {overflow-x: hidden;}
 body.scroll-lock {overflow-y: hidden;}

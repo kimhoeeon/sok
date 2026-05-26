@@ -7,13 +7,13 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">결제(기부) 상세 내역</h3>
-    <a href="/mng/sponsor/donate/list?pageNum=${params.pageNum}&amount=${params.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
+    <a href="/mng/sponsor/donate/list?pageNum=${params.pageNum}&amount=${params.amount}&payType=${params.payType}&searchStatus=${params.searchStatus}" class="btn btn-outline-secondary"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
 <div class="row g-4">
     <div class="col-xl-8">
         <div class="premium-card p-5 h-100">
-            <h5 class="fw-bold text-dark border-bottom border-secondary pb-3 mb-4"><i class="bi bi-receipt text-info me-2"></i> 주문 및 결제 상세 정보</h5>
+            <h5 class="fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-receipt text-info me-2"></i> 주문 및 결제 상세 정보</h5>
 
             <div class="row mb-3">
                 <div class="col-md-3 text-muted">주문번호</div>
@@ -27,30 +27,35 @@
                 <div class="col-md-3 text-muted">후원 유형 / 수단</div>
                 <div class="col-md-9 text-dark">
                     <span class="badge bg-secondary me-2">${donation.payType eq 'REGULAR' ? '정기후원' : '일시후원'}</span>
-                    ${donation.payMethod}
+                    ${not empty donation.payMethod ? donation.payMethod : '-'}
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3 text-muted">결제금액</div>
-                <div class="col-md-9 text-success fw-bold fs-5"><fmt:formatNumber value="${donation.payAmt}" pattern="#,###" /> 원</div>
+                <div class="col-md-9 text-success fw-bold fs-5"><fmt:formatNumber value="${donation.payAmt}" pattern="#,##0" /> 원</div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-3 text-muted">결제 일시</div>
-                <div class="col-md-9 text-muted"><fmt:formatDate value="${donation.payDt}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+                <div class="col-md-9 text-muted">
+                    <c:choose>
+                        <c:when test="${empty donation.payDt}">-</c:when>
+                        <c:otherwise><fmt:formatDate value="${donation.payDt}" pattern="yyyy-MM-dd HH:mm:ss" /></c:otherwise>
+                    </c:choose>
+                </div>
             </div>
 
             <c:if test="${not empty donation.cheerMsg}">
-                <h5 class="fw-bold text-dark border-bottom border-secondary pb-3 mb-4 mt-5"><i class="bi bi-chat-heart text-danger me-2"></i> 후원자 응원 메시지</h5>
-                <div class="p-4 rounded text-dark" style="background: rgba(255,255,255,0.03); border: 1px solid #474761; white-space: pre-wrap;">${donation.cheerMsg}</div>
+                <h5 class="fw-bold text-dark border-bottom pb-3 mb-4 mt-5"><i class="bi bi-chat-heart text-danger me-2"></i> 후원자 응원 메시지</h5>
+                <div class="p-4 rounded text-dark bg-light border" style="white-space: pre-wrap;">${donation.cheerMsg}</div>
             </c:if>
         </div>
     </div>
 
     <div class="col-xl-4">
-        <div class="premium-card p-4 h-100 glassmorphism-box border-0">
+        <div class="premium-card p-4 h-100 border-0 shadow-sm">
             <h5 class="fw-bold text-dark mb-4"><i class="bi bi-gear-fill me-2 text-primary"></i> 결제 상태 관리</h5>
 
-            <div class="p-4 rounded text-center mb-4 border border-secondary" style="background-color: #151521;">
+            <div class="p-4 rounded text-center mb-4 border bg-light">
                 <span class="d-block text-muted mb-2">현재 상태</span>
                 <c:choose>
                     <c:when test="${donation.payStatus eq 'DONE'}"><h2 class="text-success fw-bold m-0">결제 완료</h2></c:when>
@@ -68,7 +73,7 @@
                 </c:choose>
             </div>
 
-            <hr class="border-secondary my-4">
+            <hr class="my-4 text-muted">
 
             <form action="/mng/sponsor/donate/updateStatus" method="post">
                 <input type="hidden" name="paySeq" value="${donation.paySeq}">
@@ -78,7 +83,7 @@
                 <input type="hidden" name="searchStatus" value="${params.searchStatus}">
 
                 <label class="form-label text-muted mb-2" style="font-size: 13px;">상태 변경 (PG사 API 연동 필요)</label>
-                <select name="payStatus" id="payStatusSelect" class="form-select search-bar mb-3 border-danger" onchange="toggleCancelReason()">
+                <select name="payStatus" id="payStatusSelect" class="form-select mb-3 border-danger" onchange="toggleCancelReason()">
                     <option value="WAIT" ${donation.payStatus eq 'WAIT' ? 'selected' : ''}>입금 대기 (무통장)</option>
                     <option value="DONE" ${donation.payStatus eq 'DONE' ? 'selected' : ''}>결제 완료 처리</option>
                     <option value="CANCEL" ${donation.payStatus eq 'CANCEL' ? 'selected' : ''}>결제 취소 처리</option>
@@ -90,7 +95,7 @@
 
                 <div id="cancelReasonDiv" style="display: ${donation.payStatus eq 'CANCEL' or donation.payStatus eq 'REFUND' ? 'block' : 'none'};">
                     <label class="form-label text-danger mb-2" style="font-size: 13px;">취소/환불 사유 입력</label>
-                    <input type="text" name="cancelRsn" id="cancelRsn" class="form-control search-bar border-danger mb-3" placeholder="예: 고객 단순 변심" value="${not empty donation.cancelRsn ? donation.cancelRsn : donation.refundRsn}">
+                    <input type="text" name="cancelRsn" id="cancelRsn" class="form-control border-danger mb-3" placeholder="예: 고객 단순 변심" value="${not empty donation.cancelRsn ? donation.cancelRsn : donation.refundRsn}">
                 </div>
 
                 <button type="submit" class="btn btn-outline-danger w-100 py-2" onclick="return confirm('결제 상태를 강제로 변경하시겠습니까?');">상태 강제 저장</button>

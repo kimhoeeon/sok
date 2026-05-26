@@ -89,7 +89,7 @@
 
             <div class="view_detail">
                 <div>
-                    ${board.content}
+                    <c:out value="${board.content}" escapeXml="false" />
                 </div>
             </div>
 

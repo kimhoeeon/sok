@@ -132,11 +132,20 @@ public class FileController {
 
             String savedName = UUID.randomUUID().toString() + extension;
 
-            file.transferTo(new File(dirPath + savedName));
+            // 운영체제(Win/Mac/Linux) 상관없이 무조건 절대 경로로 파일 생성
+            File targetFile = new File(dir.getAbsolutePath(), savedName);
+
+            // 물리적 파일 저장
+            file.transferTo(targetFile);
             String fileUrl = "/upload/" + subDir + savedName;
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("서버 오류 발생");
+            // 에러가 났을 때 원인을 정확히 볼 수 있도록 콘솔에 에러 출력
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("파일 저장 실패: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("서버 내부 오류: " + e.getMessage());
         }
     }
 }

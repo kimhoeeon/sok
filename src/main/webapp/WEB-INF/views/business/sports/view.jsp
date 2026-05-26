@@ -25,7 +25,7 @@
                 </div>
                 <div class="sport_info">
                     <div class="txt">
-                        ${not empty board.content ? board.content : '-'}
+                        <c:out value="${not empty board.content ? board.content : '-'}" escapeXml="false" />
                     </div>
                     <c:if test="${not empty board.fileList}">
                         <div class="down">

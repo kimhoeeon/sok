@@ -19,6 +19,7 @@ public class VolunteerDTO extends Criteria {
     // [신규 추가] 상태 관리 및 알림 발송을 위한 핵심 필드
     private String email;       // 이메일 (결과 알림 발송용)
     private String status;      // 처리상태 (WAIT: 대기, APPR: 승인, DONE: 완료, REJECT: 반려)
+    private String searchStatus;
     private String rejectRsn;   // 반려(거절) 사유
 
     private Date regDt;         // 신청일시
