@@ -44,7 +44,7 @@
             <div class="nav_wrap">
                 <ul class="menu">
                     <li class="has-sub">
-                        <a href="#">SOK</a>
+                        <a href="#">SOK 소개</a>
                         <ul class="sub_menu">
                             <li><a href="/intro/about">SOK 소개</a></li>
                             <li><a href="/intro/greeting">인사말</a></li>
@@ -52,9 +52,9 @@
                             <li><a href="/intro/way">오시는 길</a></li>
                         </ul>
                     </li>
-                    <li><a href="/people/list">함께하는 사람들</a></li>
+                    <li><a href="/people/list">SOK 스토리</a></li>
                     <li class="has-sub">
-                        <a href="#">주요사업</a>
+                        <a href="#">사업소개</a>
                         <ul class="sub_menu">
                             <li><a href="/business/sports">스포츠</a></li>
                             <li><a href="/business/culture">문화예술</a></li>
@@ -63,7 +63,7 @@
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a href="#">뉴스·자료</a>
+                        <a href="#">알림공간</a>
                         <ul class="sub_menu">
                             <li><a href="/notice/list">공지사항</a></li>
                             <li><a href="/management/list">경영공시</a></li>
@@ -73,7 +73,7 @@
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a href="#">신청·참여</a>
+                        <a href="#">참여공간</a>
                         <ul class="sub_menu">
                             <li><a href="/sponsor/donate">후원하기</a></li>
                             <li><a href="/volunteer/apply">자원봉사 신청</a></li>
@@ -160,7 +160,7 @@
                     <div class="site_map_nav">
                         <ul class="dept1">
                             <li>
-                                <a href="#"><span>SOK</span></a>
+                                <a href="#"><span>SOK 소개</span></a>
                                 <ul class="dept2">
                                     <li><a href="/intro/about"><span>SOK 소개</span></a></li>
                                     <li><a href="/intro/greeting"><span>인사말</span></a></li>
@@ -169,10 +169,10 @@
                                 </ul>
                             </li>
                             <li class="link_menu">
-                                <a href="/people/list"><span>함께하는 사람들</span></a>
+                                <a href="/people/list"><span>SOK 스토리</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>주요사업</span></a>
+                                <a href="#"><span>사업소개</span></a>
                                 <ul class="dept2">
                                     <li><a href="/business/sports"><span>스포츠</span></a></li>
                                     <li><a href="/business/culture"><span>문화예술</span></a></li>
@@ -181,7 +181,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><span>뉴스·자료</span></a>
+                                <a href="#"><span>알림공간</span></a>
                                 <ul class="dept2">
                                     <li><a href="/notice/list"><span>공지사항</span></a></li>
                                     <li><a href="/management/list"><span>경영공시</span></a></li>
@@ -191,7 +191,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><span>신청·참여</span></a>
+                                <a href="#"><span>참여공간</span></a>
                                 <ul class="dept2">
                                     <li><a href="/sponsor/donate"><span>후원하기</span></a></li>
                                     <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>

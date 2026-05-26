@@ -12,7 +12,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>주요사업</span><span>스포츠</span><span>국내대회개최</span>
+                    <span>사업소개</span><span>스포츠</span><span>국내대회개최</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">국내대회개최</div>

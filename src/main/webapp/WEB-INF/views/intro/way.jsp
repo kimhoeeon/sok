@@ -9,7 +9,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>SOK</span><span>오시는 길</span>
+                    <span>SOK 소개</span><span>오시는 길</span>
                 </div>
                 <!--
 

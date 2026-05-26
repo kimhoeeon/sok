@@ -12,7 +12,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>신청·참여</span><span>후원하기</span>
+                    <span>참여공간</span><span>후원하기</span>
                 </div>
                 <div class="sub_top_tit" id="tts_sub_top">후원하기</div>
                 <div class="sound_btn">

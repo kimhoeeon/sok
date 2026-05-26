@@ -1,5 +1,6 @@
 package org.mtf.sok.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.AdminMapper;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Slf4j
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
 
@@ -53,8 +55,9 @@ public class PrincipalDetailsService implements UserDetailsService {
                 }
 
                 if (!isAllowed) {
-                    // 허용되지 않은 IP일 경우 즉시 예외 발생
-                    System.out.println("❌ 관리자 IP 차단됨: " + clientIp);
+                    // ★ 수정됨: System.out.println 대신 log.warn으로 단 한 줄의 깔끔한 경고 로그만 출력
+                    log.warn("🚨 보안 차단: 등록되지 않은 IP({})에서 관리자 계정({}) 로그인을 시도했습니다.", clientIp, admin.getAdmId());
+
                     throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
                 }
             }

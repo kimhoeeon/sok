@@ -10,7 +10,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>뉴스·자료</span><span>활동보고서</span>
+                    <span>알림공간</span><span>활동보고서</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">활동보고서</div>

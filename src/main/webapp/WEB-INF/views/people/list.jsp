@@ -10,7 +10,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>함께하는 사람들</span>
+                    <span>SOK 스토리</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">스포츠 안에서 더욱 빛나는 <br/>그들의 이야기를 만나보세요.</div>

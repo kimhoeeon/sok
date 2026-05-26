@@ -8,7 +8,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>신청·참여</span><span>자원봉사 신청</span>
+                    <span>참여공간</span><span>자원봉사 신청</span>
                 </div>
                 <div class="sub_top_tit" id="tts_sub_top"><span>자원봉사 신청</span></div>
                 <div class="sound_btn">

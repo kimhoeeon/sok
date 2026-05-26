@@ -12,7 +12,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>주요사업</span><span>문화예술</span>
+                    <span>사업소개</span><span>문화예술</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">문화예술</div>
@@ -53,7 +53,7 @@
                     <img src="/img/culture_art_img.png" alt="미술대회 포스터">
                 </div>
                 <div class="btn link_btn">
-                    <a href="">온라인 전시관 보러가기</a>
+                    <a href="https://sokorea.or.kr/sok/art_contest.html">온라인 전시관 보러가기</a>
                 </div>
             </div>
             <div class="cult_mento">

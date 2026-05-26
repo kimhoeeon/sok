@@ -5,7 +5,7 @@
     <div class="inner">
         <div class="tbox">
             <div class="nav">
-                <a href="./index.html" class="ft_logo"><img src="/img/logo_b.png"></a>
+                <a href="/" class="ft_logo"><img src="/img/logo_b.png"></a>
                 <div class="menu_wrap">
                     <ul class="menu">
                         <li>
@@ -39,12 +39,12 @@
             <div class="right">
                 <ul class="f_sns">
                     <li>
-                        <a href="">
+                        <a href="https://www.instagram.com/specialolympics_korea/" target="_blank">
                             <img src="/img/sns_insta.png" alt="인스타그램 바로가기">
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="https://blog.naver.com/specialolympicskorea" target="_blank">
                             <img src="/img/sns_blog.png" alt="네이버 블로그 바로가기">
                         </a>
                     </li>
@@ -57,7 +57,7 @@
                         <a href="/rules/terms">이용약관</a>
                     </li>
                     <li>
-                        <a href="/rules/policy">운영규정</a>
+                        <a href="/rules/policy">관련규정</a>
                     </li>
                 </ul>
             </div>

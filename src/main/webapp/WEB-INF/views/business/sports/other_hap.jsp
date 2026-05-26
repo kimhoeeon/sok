@@ -12,7 +12,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>주요사업</span><span>스포츠</span><span>기타</span>
+                    <span>사업소개</span><span>스포츠</span><span>기타</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">기타</div>
@@ -47,7 +47,6 @@
             <div class="contest">
                 <ul class="contest_tab column">
                     <li><a href="/business/sports/other">중증발달장애인 운동프로그램</a></li>
-                    <li><a href="/business/sports/other-one">통합스포츠 한마음 대회</a></li>
                     <li class="on"><a href="/business/sports/other-hap">선수건강증진프로그램(HAP)</a></li>
                 </ul>
             </div>

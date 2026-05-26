@@ -35,7 +35,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>뉴스·자료</span><span>${boardName}</span>
+                    <span>알림공간</span><span>${boardName}</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">${boardName}</div>

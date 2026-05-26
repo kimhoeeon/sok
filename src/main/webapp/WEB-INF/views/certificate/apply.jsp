@@ -8,9 +8,9 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>신청·참여</span><span>증명서 신청 절차</span>
+                    <span>참여공간</span><span>증명서 신청</span>
                 </div>
-                <div class="sub_top_tit" id="tts_sub_top"><span>증명서 신청 절차</span></div>
+                <div class="sub_top_tit" id="tts_sub_top"><span>증명서 신청</span></div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
