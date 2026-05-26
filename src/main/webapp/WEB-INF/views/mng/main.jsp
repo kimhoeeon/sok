@@ -29,6 +29,15 @@
     .quick-link-card:hover span {
         color: #009ef7 !important;
     }
+
+    /* 인기 페이지 전용 호버 효과 */
+    .top-page-item {
+        background-color: transparent !important;
+        transition: background-color 0.2s ease;
+    }
+    .top-page-item:hover {
+        background-color: #f8f9fa !important; /* 마우스 올렸을 때 옅은 회색 */
+    }
 </style>
 
 <div class="row align-items-center mb-4">
@@ -122,12 +131,14 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="page" items="${topPages}" varStatus="status">
-                            <div class="list-group-item bg-transparent border-secondary border-opacity-25 d-flex justify-content-between align-items-center px-0 py-3">
+                            <div class="list-group-item border-secondary border-opacity-25 d-flex justify-content-between align-items-center px-0 py-3 top-page-item"
+                                 style="cursor: pointer;"
+                                 onclick="openBoardDetail('${page.brdType}', ${page.brdSeq})">
                                 <div class="text-truncate" style="max-width: 75%;">
                                     <span class="badge bg-white text-dark fw-semibold me-2" style="width: 25px;">${status.count}</span>
-                                    <span class="text-dark" style="font-size: 14px;">${page.TITLE}</span>
+                                    <span class="text-dark" style="font-size: 14px;">${page.title}</span>
                                 </div>
-                                <span class="badge bg-secondary rounded-pill fw-normal" style="font-size: 11px;">${page.VIEW_CNT} Hit</span>
+                                <span class="badge bg-secondary rounded-pill fw-normal" style="font-size: 11px;">${page.viewCnt} Hit</span>
                             </div>
                         </c:forEach>
                     </c:otherwise>
@@ -350,6 +361,19 @@
         $(btn).parent().find('.btn').removeClass('active');
         $(btn).addClass('active');
     }
+
+    function openBoardDetail(brdType, brdSeq) {
+        // brdType이 비어있지 않으면 소문자로 변환 (예: NOTICE -> notice)
+        var typeStr = brdType ? brdType.toLowerCase() : "notice";
+
+        // ★ 수정: 관리자(/mng/) 경로 대신 사용자 프론트엔드 경로로 변경
+        // (만약 프론트 경로가 /board/notice/detail 형식이라면 "/board/" + typeStr + "..." 형태로 수정해 주세요)
+        var url = "/" + typeStr + "/detail?brdSeq=" + brdSeq;
+
+        // 새 창(새 탭)으로 열기
+        window.open(url, '_blank');
+    }
+
 </script>
 
 <%@ include file="layout/footer.jsp" %>

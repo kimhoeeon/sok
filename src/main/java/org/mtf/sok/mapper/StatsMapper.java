@@ -2,6 +2,8 @@ package org.mtf.sok.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.mtf.sok.domain.BoardDTO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +13,7 @@ public interface StatsMapper {
     Map<String, Object> selectSummaryStats();
 
     // 상위 조회 페이지 TOP 5
-    List<Map<String, Object>> selectTopPages();
+    List<BoardDTO> selectTopPages();
 
     // 방문자 추이 데이터 (기간별)
     List<Map<String, Object>> selectVisitorTrend(@Param("periodType") String periodType);

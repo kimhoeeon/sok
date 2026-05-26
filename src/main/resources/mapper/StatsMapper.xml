@@ -15,11 +15,12 @@
         FROM DUAL
     </select>
 
-    <select id="selectTopPages" resultType="java.util.Map">
+    <select id="selectTopPages" resultType="org.mtf.sok.domain.BoardDTO">
         SELECT
-            CAST(TITLE AS CHAR) AS TITLE,
+            BRD_SEQ,
+            TITLE,
             VIEW_CNT,
-            CAST(BRD_TYPE AS CHAR) AS BRD_TYPE
+            BRD_TYPE
         FROM TB_BOARD
         WHERE DEL_YN = 'N'
         ORDER BY VIEW_CNT DESC
