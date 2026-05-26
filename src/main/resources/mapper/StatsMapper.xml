@@ -16,7 +16,10 @@
     </select>
 
     <select id="selectTopPages" resultType="java.util.Map">
-        SELECT TITLE, VIEW_CNT, BRD_TYPE
+        SELECT
+            CAST(TITLE AS CHAR) AS TITLE,
+            VIEW_CNT,
+            CAST(BRD_TYPE AS CHAR) AS BRD_TYPE
         FROM TB_BOARD
         WHERE DEL_YN = 'N'
         ORDER BY VIEW_CNT DESC
