@@ -73,7 +73,11 @@
     </sql>
 
     <select id="selectDonationList" resultType="org.mtf.sok.domain.DonationDTO">
-        SELECT D.*, M.MBR_NM, M.MBR_ID, M.PHONE
+        SELECT
+        D.*,
+        M.MBR_NM AS MBR_NM,
+        M.MBR_ID AS MBR_ID,
+        M.PHONE AS PHONE
         FROM TB_DONATION_PAYMENT D
         LEFT JOIN TB_MEMBER M ON D.MBR_SEQ = M.MBR_SEQ
         WHERE 1=1
@@ -83,13 +87,19 @@
     </select>
 
     <select id="selectDonationTotalCount" resultType="int">
-        SELECT COUNT(*) FROM TB_DONATION_PAYMENT D
+        SELECT COUNT(*)
+        FROM TB_DONATION_PAYMENT D
+        LEFT JOIN TB_MEMBER M ON D.MBR_SEQ = M.MBR_SEQ
         WHERE 1=1
         <include refid="donateSearchCondition"/>
     </select>
 
     <select id="selectDonation" resultType="org.mtf.sok.domain.DonationDTO">
-        SELECT D.*, M.MBR_NM, M.MBR_ID, M.PHONE
+        SELECT
+            D.*,
+            M.MBR_NM AS MBR_NM,
+            M.MBR_ID AS MBR_ID,
+            M.PHONE AS PHONE
         FROM TB_DONATION_PAYMENT D
                  LEFT JOIN TB_MEMBER M ON D.MBR_SEQ = M.MBR_SEQ
         WHERE D.PAY_SEQ = #{paySeq}

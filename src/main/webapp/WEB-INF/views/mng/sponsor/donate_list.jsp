@@ -79,7 +79,18 @@
                                         ${item.orderId}
                                     </a>
                                 </td>
-                                <td class="text-start text-dark">${item.mbrNm} <span class="text-muted" style="font-size: 12px;">(${item.mbrId})</span></td>
+                                <td class="text-start text-dark">
+                                    <c:choose>
+                                        <c:when test="${empty item.mbrNm}">
+                                            <span class="text-muted" style="font-size: 13px;">
+                                                <i class="bi bi-person-x"></i> 알 수 없는 회원
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${item.mbrNm} <span class="text-muted" style="font-size: 12px;">(${item.mbrId})</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.payType eq 'REGULAR'}"><span class="badge bg-primary">정기 (${item.regularRound}회)</span></c:when>

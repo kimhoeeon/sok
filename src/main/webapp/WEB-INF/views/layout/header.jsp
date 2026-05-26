@@ -35,6 +35,9 @@
         .main-popup .popup-footer input { margin-right: 5px; vertical-align: middle; }
         .main-popup .popup-footer button { color: #fff; background: none; border: none; font-size: 13px; cursor: pointer; }
     </style>
+
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 

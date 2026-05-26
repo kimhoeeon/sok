@@ -284,7 +284,11 @@
             data: {
                 payAmt: currentAmount,
                 payType: 'ONCE', // 일시결제
-                cheerMsg: cheerMsg
+                cheerMsg: cheerMsg,
+                _csrf: getCsrfTokenFromCookie()
+                <c:if test="${not empty campaign}">
+                ,campSeq: ${campaign.campSeq}
+                </c:if>
             },
             success: function (orderId) {
                 // 서버에서 받아온 검증된 orderId로 토스 결제창 호출

@@ -61,10 +61,13 @@ public class FrontSponsorController {
         try {
             // 로그인 유저 맵핑
             MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-            if (loginUser != null) {
-                donation.setMbrSeq(loginUser.getMbrSeq());
-                donation.setMbrNm(loginUser.getMbrNm());
+
+            if (loginUser == null) {
+                return ResponseEntity.status(401).body("로그인이 필요합니다.");
             }
+
+            donation.setMbrSeq(loginUser.getMbrSeq());
+            donation.setMbrNm(loginUser.getMbrNm());
 
             // 고유 주문번호 생성 (토스페이먼츠 요구사항)
             String orderId = UUID.randomUUID().toString().replace("-", "") + System.currentTimeMillis();
@@ -100,7 +103,7 @@ public class FrontSponsorController {
             }
 
             // 결제 금액 검증
-            if (donation.getPayAmt().longValue() != amount) {
+            if (donation.getPayAmt().compareTo(BigDecimal.valueOf(amount)) != 0) {
                 throw new Exception("결제 금액이 일치하지 않습니다. (위변조 의심)");
             }
 
