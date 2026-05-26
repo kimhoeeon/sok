@@ -24,7 +24,7 @@
                 <li><a href="/notice/list">공지사항</a></li>
                 <li class="on"><a href="/management/list">경영공시</a></li>
                 <li><a href="/bidding/list">입찰정보</a></li>
-                <li><a href="/news/list">보도자료</a></li>
+                <li><a href="/news/list">자료실</a></li>
                 <li><a href="/report/list">활동보고서</a></li>
             </ul>
         </div>

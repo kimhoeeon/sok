@@ -68,7 +68,7 @@
                             <li><a href="/notice/list">공지사항</a></li>
                             <li><a href="/management/list">경영공시</a></li>
                             <li><a href="/bidding/list">입찰정보</a></li>
-                            <li><a href="/news/list">보도자료</a></li>
+                            <li><a href="/news/list">자료실</a></li>
                             <li><a href="/report/list">활동보고서</a></li>
                         </ul>
                     </li>
@@ -186,7 +186,7 @@
                                     <li><a href="/notice/list"><span>공지사항</span></a></li>
                                     <li><a href="/management/list"><span>경영공시</span></a></li>
                                     <li><a href="/bidding/list"><span>입찰정보</span></a></li>
-                                    <li><a href="/news/list"><span>보도자료</span></a></li>
+                                    <li><a href="/news/list"><span>자료실</span></a></li>
                                     <li><a href="/report/list"><span>활동보고서</span></a></li>
                                 </ul>
                             </li>

@@ -10,10 +10,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>알림공간</span><span>보도자료</span>
+                    <span>알림공간</span><span>자료실</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">보도자료</div>
+                <div class="sub_top_tit" id="tts_sub_top">자료실</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -25,7 +25,7 @@
                 <li><a href="/notice/list">공지사항</a></li>
                 <li><a href="/management/list">경영공시</a></li>
                 <li><a href="/bidding/list">입찰정보</a></li>
-                <li class="on"><a href="/news/list">보도자료</a></li>
+                <li class="on"><a href="/news/list">자료실</a></li>
                 <li><a href="/report/list">활동보고서</a></li>
             </ul>
         </div>
