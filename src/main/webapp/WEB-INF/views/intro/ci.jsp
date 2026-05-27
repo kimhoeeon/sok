@@ -26,7 +26,7 @@
                 </div>
             </div>
             <ul class="sub_top_tab">
-                <li><a href="/management/list">경영공시</a></li>
+                <li><a href="/management/list">운영자료</a></li>
                 <li><a href="/intro/rules">관련규정</a></li>
                 <li class="on"><a href="/intro/ci">CI</a></li>
             </ul>

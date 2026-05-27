@@ -20,7 +20,7 @@
                 data-taret=tts_2
 
                 -->
-                <div class="sub_top_tit" id="tts_sub_top">경영공시</div>
+                <div class="sub_top_tit" id="tts_sub_top">운영자료</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <ul class="sub_top_tab">
-                <li class="on"><a href="/management/list">경영공시</a></li>
+                <li class="on"><a href="/management/list">운영자료</a></li>
                 <li><a href="/intro/rules">관련규정</a></li>
                 <li><a href="/intro/ci">CI</a></li>
             </ul>
@@ -62,7 +62,7 @@
                     <c:choose>
                         <c:when test="${empty list}">
                             <li style="text-align: center; padding: 60px 0; color: #777;">
-                                등록된 경영공시 내역이 없습니다.
+                                등록된 운영자료 내역이 없습니다.
                             </li>
                         </c:when>
                         <c:otherwise>

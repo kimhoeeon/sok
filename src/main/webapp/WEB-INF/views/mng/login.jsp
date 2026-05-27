@@ -165,7 +165,7 @@
         </div>
     </c:if>
 
-    <form id="loginForm" action="/mng/loginProc" method="post">
+    <form id="loginForm" action="/common/loginProc" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
         <div class="mb-4">

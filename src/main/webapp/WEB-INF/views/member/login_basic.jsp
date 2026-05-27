@@ -22,7 +22,7 @@
         </div>
         <div class="sub_content">
             <div class="login_wrap">
-                <form action="/loginProc" method="post" id="loginForm" class="login_form_box">
+                <form action="/common/loginProc" method="post" id="loginForm" class="login_form_box">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                     <div class="login_box">

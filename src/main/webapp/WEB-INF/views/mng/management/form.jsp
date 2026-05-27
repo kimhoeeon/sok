@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">경영공시 ${empty management.brdSeq ? '등록' : '수정'}</h3>
+    <h3 class="fw-bold text-dark">운영자료 ${empty management.brdSeq ? '등록' : '수정'}</h3>
     <a href="/mng/management/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 

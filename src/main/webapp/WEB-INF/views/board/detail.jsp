@@ -31,7 +31,7 @@
     </c:when>
     <c:when test="${board.brdType eq 'MANAGEMENT'}">
         <c:set var="boardUrl" value="/management"/>
-        <c:set var="boardName" value="경영공시"/>
+        <c:set var="boardName" value="운영자료"/>
     </c:when>
 </c:choose>
 
@@ -67,7 +67,7 @@
                     <li class="${board.brdType eq 'PRESS' ? 'on' : ''}"><a href="/press/list">자료실</a></li>
                     <li class="${board.brdType eq 'REPORT' ? 'on' : ''}"><a href="/report/list">활동보고서</a></li>
                     <li class="${board.brdType eq 'NEWS' ? 'on' : ''}"><a href="/news/list">스페셜올림픽코리아 소식</a></li>
-                    &lt;%&ndash;<li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">경영공시</a></li>&ndash;%&gt;
+                    &lt;%&ndash;<li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">운영자료</a></li>&ndash;%&gt;
                 </ul>
             </c:if>
         </div>--%>

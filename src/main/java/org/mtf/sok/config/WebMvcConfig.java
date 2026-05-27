@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 1. 관리자 로그인 인터셉터
         /*registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/mng/**")
-                .excludePathPatterns("/mng/login", "/mng/loginProc", "/mng/logout", "/css/**", "/js/**", "/images/**", "/img/**");*/
+                .excludePathPatterns("/mng/login", "/common/loginProc", "/mng/logout", "/css/**", "/js/**", "/images/**", "/img/**");*/
 
         // 2. 방문자 접속 로그 수집 인터셉터
         registry.addInterceptor(visitorInterceptor)

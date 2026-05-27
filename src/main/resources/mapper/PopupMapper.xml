@@ -26,7 +26,7 @@
         </if>
     </select>
 
-    <select id="selectPopup" parameterType="int" resultType="org.mtf.sok.domain.PopupDTO">
+    <select id="selectPopup" parameterType="long" resultType="org.mtf.sok.domain.PopupDTO">
         SELECT * FROM TB_POPUP WHERE POP_SEQ = #{popSeq}
     </select>
 
@@ -54,7 +54,7 @@
         WHERE POP_SEQ = #{popSeq}
     </update>
 
-    <update id="deletePopup" parameterType="int">
+    <update id="deletePopup" parameterType="long">
         UPDATE TB_POPUP SET DEL_YN = 'Y', MOD_DT = NOW() WHERE POP_SEQ = #{popSeq}
     </update>
 

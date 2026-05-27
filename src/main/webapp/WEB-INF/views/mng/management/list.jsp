@@ -6,7 +6,7 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">경영공시 관리</h3>
+    <h3 class="fw-bold text-dark">운영자료 관리</h3>
     <a href="/mng/management/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
 </div>
 
@@ -49,7 +49,7 @@
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr>
-                            <td colspan="6" class="py-5 text-muted">등록된 경영공시가 없습니다.</td>
+                            <td colspan="6" class="py-5 text-muted">등록된 운영자료가 없습니다.</td>
                         </tr>
                     </c:when>
                     <c:otherwise>

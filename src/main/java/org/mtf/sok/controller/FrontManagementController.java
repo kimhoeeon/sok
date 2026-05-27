@@ -29,7 +29,7 @@ public class FrontManagementController {
 
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
-        // 경영공시 게시판 코드 세팅
+        // 운영자료 게시판 코드 세팅
         params.setBrdType("MANAGEMENT");
 
         // 1. 목록 및 전체 개수 조회

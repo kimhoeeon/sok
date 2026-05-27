@@ -60,7 +60,7 @@
                 <a class="nav-link ${param.menuId eq 'press' ? 'active text-dark' : ''}" href="/mng/press/list">자료실 관리</a>
                 <a class="nav-link ${param.menuId eq 'report' ? 'active text-dark' : ''}" href="/mng/report/list">활동보고서 관리</a>
                 <a class="nav-link ${param.menuId eq 'news' ? 'active text-dark' : ''}" href="/mng/news/list">SOK 소식 관리</a>
-                <a class="nav-link ${param.menuId eq 'management' ? 'active text-dark' : ''}" href="/mng/management/list">경영공시 관리</a>
+                <a class="nav-link ${param.menuId eq 'management' ? 'active text-dark' : ''}" href="/mng/management/list">운영자료 관리</a>
             </div>
         </li>
 
