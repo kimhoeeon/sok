@@ -53,12 +53,14 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu show" id="collapseMenuManage">
-                <a class="nav-link ${param.menuId eq 'people' ? 'active text-dark' : ''}" href="/mng/people/list">함께하는 사람들 관리</a>
+                <a class="nav-link ${param.menuId eq 'people' ? 'active text-dark' : ''}" href="/mng/people/list">SOK 스토리 관리</a>
                 <a class="nav-link ${param.menuId eq 'notice' ? 'active text-dark' : ''}" href="/mng/notice/list">공지사항 관리</a>
-                <a class="nav-link ${param.menuId eq 'press' ? 'active text-dark' : ''}" href="/mng/press/list">자료실 관리</a>
-                <a class="nav-link ${param.menuId eq 'management' ? 'active text-dark' : ''}" href="/mng/management/list">경영공시 관리</a>
                 <a class="nav-link ${param.menuId eq 'bidding' ? 'active text-dark' : ''}" href="/mng/bidding/list">입찰정보 관리</a>
+                <a class="nav-link ${param.menuId eq 'careers' ? 'active text-dark' : ''}" href="/mng/careers/list">채용정보 관리</a>
+                <a class="nav-link ${param.menuId eq 'press' ? 'active text-dark' : ''}" href="/mng/press/list">자료실 관리</a>
                 <a class="nav-link ${param.menuId eq 'report' ? 'active text-dark' : ''}" href="/mng/report/list">활동보고서 관리</a>
+                <a class="nav-link ${param.menuId eq 'news' ? 'active text-dark' : ''}" href="/mng/news/list">SOK 소식 관리</a>
+                <a class="nav-link ${param.menuId eq 'management' ? 'active text-dark' : ''}" href="/mng/management/list">경영공시(운영자료) 관리</a>
             </div>
         </li>
 

@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/mng/notice")
-public class NoticeController {
+@RequestMapping("/mng/news")
+public class NewsController {
 
     @Autowired
     private BoardMapper boardMapper;
@@ -35,7 +35,7 @@ public class NoticeController {
 
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
-        params.setBrdType("NOTICE"); // 통합 게시판 중 공지사항만 조회
+        params.setBrdType("NEWS");
 
         // 페이징 처리 및 목록 조회
         List<BoardDTO> list = boardMapper.selectBoardList(params);
@@ -45,7 +45,7 @@ public class NoticeController {
         model.addAttribute("list", list);
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("params", params); // 검색/페이징 상태 유지용
-        return "mng/notice/list";
+        return "mng/news/list";
     }
 
     @GetMapping("/form")
@@ -66,8 +66,8 @@ public class NoticeController {
             board.setIsNotice("N"); // 기본값 세팅
         }
 
-        model.addAttribute("notice", board);
-        return "mng/notice/form";
+        model.addAttribute("news", board);
+        return "mng/news/form";
     }
 
     @PostMapping("/save")
@@ -76,7 +76,7 @@ public class NoticeController {
 
         boolean isUpdate = (board.getBrdSeq() != null);
 
-        board.setBrdType("NOTICE");
+        board.setBrdType("NEWS");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
         if (isUpdate) {
@@ -90,7 +90,7 @@ public class NoticeController {
         }
 
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
-            String savePath = uploadDir + "notice/";
+            String savePath = uploadDir + "news/";
             File folder = new File(savePath);
             if (!folder.exists()) folder.mkdirs();
 
@@ -109,7 +109,7 @@ public class NoticeController {
                         fileDTO.setRefSeq(board.getBrdSeq());
                         fileDTO.setOrgFileNm(originalFileName);
                         fileDTO.setSaveFileNm(savedFileName);
-                        fileDTO.setFilePath("/upload/notice/" + savedFileName);
+                        fileDTO.setFilePath("/upload/news/" + savedFileName);
                         fileDTO.setFileSize(file.getSize());
                         fileDTO.setFileExt(ext);
 
@@ -132,7 +132,7 @@ public class NoticeController {
             rttr.addAttribute("amount", board.getAmount());
         }
 
-        return "redirect:/mng/notice/list";
+        return "redirect:/mng/news/list";
     }
 
     // 게시글 삭제 시 로컬 물리 파일 완전히 삭제 연동
@@ -151,7 +151,7 @@ public class NoticeController {
         rttr.addAttribute("searchType", params.getSearchType());
         rttr.addAttribute("searchKeyword", params.getSearchKeyword());
 
-        return "redirect:/mng/notice/list";
+        return "redirect:/mng/news/list";
     }
 
     // 공지사항 엑셀 다운로드
@@ -159,7 +159,7 @@ public class NoticeController {
     public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
         params.setPageNum(1);
         params.setAmount(1000000);
-        params.setBrdType("NOTICE"); // 공지사항 게시판만
+        params.setBrdType("NEWS");
 
         List<BoardDTO> list = boardMapper.selectBoardList(params);
         List<String> headers = Arrays.asList("연번", "카테고리", "중요여부", "제목", "조회수", "등록일시");
@@ -175,6 +175,6 @@ public class NoticeController {
             row.add(board.getRegDt());
             data.add(row);
         }
-        ExcelUtils.download(response, "공지사항_내역", headers, data);
+        ExcelUtils.download(response, "SOK소식_내역", headers, data);
     }
 }

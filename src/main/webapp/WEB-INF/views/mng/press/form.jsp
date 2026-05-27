@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="currentMenu" value="news" scope="request" />
+<c:set var="currentMenu" value="press" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -9,14 +9,14 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">${empty news.brdSeq ? 'SOK 소식 등록' : 'SOK 소식 상세/수정'}</h3>
+    <h3 class="fw-bold text-dark">${empty press.brdSeq ? '자료실 등록' : '자료실 상세/수정'}</h3>
 
-    <a href="/mng/news/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">목록으로</a>
+    <a href="/mng/press/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">목록으로</a>
 </div>
 
 <div class="premium-card p-4">
-    <form action="/mng/news/save" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="brdSeq" value="${news.brdSeq}">
+    <form action="/mng/press/save" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="brdSeq" value="${press.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
         <input type="hidden" name="searchType" value="${params.searchType}">
@@ -27,19 +27,19 @@
                 <label class="form-label text-muted">카테고리</label>
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${news.category eq '공지' or empty news.category ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${press.category eq '공지' or empty press.category ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat1">공지</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${news.category eq '입찰' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${press.category eq '입찰' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat2">입찰</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${news.category eq '서류' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${press.category eq '서류' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat3">서류</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${news.category eq '리포트' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${press.category eq '리포트' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat4">리포트</label>
                     </div>
                 </div>
@@ -48,23 +48,23 @@
             <div class="col-md-6 mb-3">
                 <label class="form-label text-muted">중요 여부</label>
                 <div class="form-check form-switch mt-2">
-                    <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${news.isNotice eq 'Y' ? 'checked' : ''}>
+                    <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${press.isNotice eq 'Y' ? 'checked' : ''}>
                     <label class="form-check-label text-dark" for="isNotice">상단 중요 공지로 설정</label>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제목</label>
-                <input type="text" name="title" class="form-control search-bar" value="${news.title}" required placeholder="제목을 입력하세요">
+                <input type="text" name="title" class="form-control search-bar" value="${press.title}" required placeholder="제목을 입력하세요">
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
                 <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
-                <c:if test="${not empty news.thumbPath}">
+                <c:if test="${not empty press.thumbPath}">
                     <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
                         <span class="text-dark align-middle me-2">현재 등록된 썸네일: </span>
-                        <img src="${news.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
+                        <img src="${press.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
                     </div>
                 </c:if>
             </div>
@@ -77,7 +77,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">본문 내용</label>
-                <textarea id="summernote" name="content">${news.content}</textarea>
+                <textarea id="summernote" name="content">${press.content}</textarea>
             </div>
         </div>
 

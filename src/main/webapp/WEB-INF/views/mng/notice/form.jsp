@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">${empty board.brdSeq ? '공지사항 등록' : '공지사항 상세/수정'}</h3>
+    <h3 class="fw-bold text-dark">${empty notice.brdSeq ? '공지사항 등록' : '공지사항 상세/수정'}</h3>
 
     <a href="/mng/notice/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
     <i class="bi bi-list"></i> 목록으로
@@ -18,7 +18,7 @@
 
 <div class="premium-card p-4">
     <form action="/mng/notice/save" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="brdSeq" value="${board.brdSeq}">
+        <input type="hidden" name="brdSeq" value="${notice.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
         <input type="hidden" name="searchType" value="${params.searchType}">
@@ -29,19 +29,19 @@
                 <label class="form-label text-muted">카테고리</label>
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${board.category eq '공지' or empty board.category ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${notice.category eq '공지' or empty notice.category ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat1">공지</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${board.category eq '입찰' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${notice.category eq '입찰' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat2">입찰</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${board.category eq '서류' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${notice.category eq '서류' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat3">서류</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${board.category eq '리포트' ? 'checked' : ''}>
+                        <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${notice.category eq '리포트' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat4">리포트</label>
                     </div>
                 </div>
@@ -50,14 +50,14 @@
             <div class="col-md-6 mb-3">
                 <label class="form-label text-muted">중요 여부</label>
                 <div class="form-check form-switch mt-2">
-                    <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${board.isNotice eq 'Y' ? 'checked' : ''}>
+                    <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${notice.isNotice eq 'Y' ? 'checked' : ''}>
                     <label class="form-check-label text-dark" for="isNotice">상단 중요 공지로 설정</label>
                 </div>
             </div>
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">제목</label>
-                <input type="text" name="title" class="form-control search-bar" value="${board.title}" required placeholder="제목을 입력하세요">
+                <input type="text" name="title" class="form-control search-bar" value="${notice.title}" required placeholder="제목을 입력하세요">
             </div>
 
             <div class="col-12 mb-3">
@@ -68,7 +68,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">본문 내용</label>
-                <textarea id="summernote" name="content"><c:out value="${board.content}" escapeXml="false" /></textarea>
+                <textarea id="summernote" name="content"><c:out value="${notice.content}" escapeXml="false" /></textarea>
             </div>
         </div>
 

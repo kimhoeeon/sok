@@ -2,45 +2,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentMenu" value="news" scope="request" />
+<c:set var="currentMenu" value="careers" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">SOK 소식 관리</h3>
-    <div>
-        <button type="button" class="btn btn-success px-4 fw-bold me-2" onclick="downloadExcel()">
-            <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
-        </button>
-        <a href="/mng/news/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
-    </div>
+    <h3 class="fw-bold text-dark">채용정보 관리</h3>
+    <a href="/mng/careers/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
 </div>
 
 <div class="premium-card p-4">
-    <form id="searchForm" action="/mng/news/list" method="get" class="d-flex justify-content-end mb-4">
+    <form id="searchForm" action="/mng/careers/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
-        <div class="input-group shadow-sm" style="max-width: 700px;">
+        <div class="input-group shadow-sm" style="max-width: 600px;">
             <select name="amount" class="form-select search-bar" style="max-width: 90px;" onchange="searchData()">
                 <option value="10" ${pageMaker.cri.amount == 10 ? 'selected' : ''}>10개</option>
                 <option value="20" ${pageMaker.cri.amount == 20 ? 'selected' : ''}>20개</option>
                 <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
             </select>
 
-            <select name="category" class="form-select search-bar border-start-0" style="max-width: 140px;">
-                <option value="">전체 카테고리</option>
-                <option value="공지" ${params.category eq '공지' ? 'selected' : ''}>공지</option>
-                <option value="입찰" ${params.category eq '입찰' ? 'selected' : ''}>입찰</option>
-                <option value="서류" ${params.category eq '서류' ? 'selected' : ''}>서류</option>
-                <option value="리포트" ${params.category eq '리포트' ? 'selected' : ''}>리포트</option>
+            <select name="category" class="form-select search-bar border-start-0" style="max-width: 150px;">
+                <option value="">전체 상태</option>
+                <option value="진행중" ${params.category eq '진행중' ? 'selected' : ''}>진행중</option>
+                <option value="마감" ${params.category eq '마감' ? 'selected' : ''}>마감</option>
             </select>
 
-            <select name="searchType" class="form-select search-bar border-start-0" style="max-width: 120px;">
-                <option value="all" ${params.searchType eq 'all' ? 'selected' : ''}>전체</option>
-                <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>제목</option>
-                <option value="content" ${params.searchType eq 'content' ? 'selected' : ''}>내용</option>
-            </select>
-
-            <input type="text" name="searchKeyword" class="form-control search-bar border-start-0" placeholder="검색어 입력" value="${params.searchKeyword}">
+            <input type="text" name="searchKeyword" class="form-control search-bar border-start-0" placeholder="공고명 검색" value="${params.searchKeyword}">
             <button class="btn btn-secondary border-start-0" type="button" onclick="searchData()" style="border: 1px solid #474761;"><i class="bi bi-search"></i> 검색</button>
         </div>
     </form>
@@ -50,9 +37,8 @@
             <thead style="background-color: #f8f9fa;">
                 <tr>
                     <th width="8%" class="text-dark border-bottom py-3">연번</th>
-                    <th width="12%" class="text-dark border-bottom py-3">카테고리</th>
-                    <th width="8%" class="text-dark border-bottom py-3">중요</th>
-                    <th class="text-dark border-bottom py-3">제목</th>
+                    <th width="12%" class="text-dark border-bottom py-3">진행상태</th>
+                    <th class="text-dark border-bottom py-3">공고명</th>
                     <th width="10%" class="text-dark border-bottom py-3">조회수</th>
                     <th width="15%" class="text-dark border-bottom py-3">등록일시</th>
                     <th width="15%" class="text-dark border-bottom py-3">관리</th>
@@ -62,45 +48,46 @@
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr>
-                            <td colspan="7" class="py-5 text-muted">조회된 데이터가 없습니다.</td>
+                            <td colspan="6" class="py-5 text-muted">등록된 공고가 없습니다.</td>
                         </tr>
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
 
-                            <c:url var="detailUrl" value="/mng/news/form">
+                            <c:url var="detailUrl" value="/mng/careers/form">
                                 <c:param name="brdSeq" value="${item.brdSeq}" />
                                 <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
                                 <c:param name="amount" value="${pageMaker.cri.amount}" />
                                 <c:param name="category" value="${params.category}" />
-                                <c:param name="searchType" value="${params.searchType}" />
                                 <c:param name="searchKeyword" value="${params.searchKeyword}" />
                             </c:url>
 
                             <tr>
                                 <td>${item.brdSeq}</td>
                                 <td>
-                                    <span class="badge ${item.category eq '입찰' ? 'bg-primary' : (item.category eq '공지' ? 'bg-danger' : 'bg-secondary')}">${item.category}</span>
-                                </td>
-                                <td>
-                                    <c:if test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:if>
+                                    <c:choose>
+                                        <c:when test="${item.category eq '진행중'}">
+                                            <span class="badge bg-success px-3 py-2">진행중</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge bg-secondary px-3 py-2">마감</span>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                                 <td class="text-start">
                                     <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
-                                        <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">중요</span></c:if>
                                         ${item.title}
                                     </a>
-                                    <c:if test="${not empty item.fileList}"><i class="bi bi-paperclip text-muted ms-1"></i></c:if>
                                 </td>
                                 <td>${item.viewCnt}</td>
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
                                     <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
-                                    <form action="/mng/news/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제 후 복구가 어렵습니다. 정말 삭제하시겠습니까?');">
+                                    <form action="/mng/careers/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
                                         <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-                                        <input type="hidden" name="category" value="${params.category}"> <input type="hidden" name="searchType" value="${params.searchType}">
+                                        <input type="hidden" name="category" value="${params.category}">
                                         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
                                     </form>
@@ -142,13 +129,5 @@
     function searchData() {
         document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
-    }
-    // 엑셀 다운로드 함수 추가
-    function downloadExcel() {
-        var form = document.getElementById('searchForm');
-        var originalAction = form.action;
-        form.action = '/mng/news/excel';
-        form.submit();
-        form.action = originalAction;
     }
 </script>

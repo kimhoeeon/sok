@@ -30,9 +30,6 @@ public class PressController {
     @Autowired
     private BoardMapper boardMapper;
 
-    @Autowired
-    private FileController fileController;
-
     @Value("${file.upload.dir}")
     private String uploadDir;
 
@@ -112,9 +109,9 @@ public class PressController {
             boardMapper.insertBoard(board);
         }
 
-        // 3. [일반 첨부파일 처리] news 폴더에 저장
+        // 3. [일반 첨부파일 처리] press 폴더에 저장
         if (board.getUploadFiles() != null && !board.getUploadFiles().isEmpty()) {
-            String savePath = uploadDir + "news/";
+            String savePath = uploadDir + "press/";
             File folder = new File(savePath);
             if (!folder.exists()) folder.mkdirs();
 
