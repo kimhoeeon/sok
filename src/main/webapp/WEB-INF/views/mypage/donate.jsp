@@ -10,7 +10,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>마이페이지</span><span>기부현황</span>
+                    <span>기부내역</span>
                 </div>
                 <div class="sub_top_tit" id="tts_sub_top"><span><c:out value="${sessionScope.userLogin.mbrNm}"/> 님</span></div>
                 <div class="sound_btn">
