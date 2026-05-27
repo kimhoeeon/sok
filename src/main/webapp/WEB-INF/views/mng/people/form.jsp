@@ -45,10 +45,10 @@
                         <input class="form-check-input" type="radio" name="category" value="스폰서" id="cat5" ${people.category eq '스폰서' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat5">스폰서</label>
                     </div>
-                    <div class="form-check">
+                    <%--<div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="소식" id="cat6" ${people.category eq '소식' ? 'checked' : ''}>
                         <label class="form-check-label text-dark" for="cat6">소식</label>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
 

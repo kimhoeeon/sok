@@ -6,7 +6,7 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">함께하는 사람들 관리</h3>
+    <h3 class="fw-bold text-dark">SOK 스토리 관리</h3>
     <a href="/mng/people/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
 </div>
 
@@ -28,7 +28,7 @@
                 <option value="패밀리" ${params.category eq '패밀리' ? 'selected' : ''}>패밀리</option>
                 <option value="프렌즈" ${params.category eq '프렌즈' ? 'selected' : ''}>프렌즈</option>
                 <option value="스폰서" ${params.category eq '스폰서' ? 'selected' : ''}>스폰서</option>
-                <option value="소식" ${params.category eq '소식' ? 'selected' : ''}>소식</option>
+                <%--<option value="소식" ${params.category eq '소식' ? 'selected' : ''}>소식</option>--%>
             </select>
 
             <input type="text" name="searchKeyword" class="form-control search-bar border-start-0" placeholder="이름 또는 직책 검색" value="${params.searchKeyword}">

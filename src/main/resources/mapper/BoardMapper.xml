@@ -3,6 +3,10 @@
 <mapper namespace="org.mtf.sok.mapper.BoardMapper">
 
     <sql id="boardSearchCondition">
+        <if test="category != null and category != ''">
+            AND CATEGORY = #{category}
+        </if>
+
         <if test="searchKeyword != null and searchKeyword != ''">
             <choose>
                 <when test="searchType == 'title'">

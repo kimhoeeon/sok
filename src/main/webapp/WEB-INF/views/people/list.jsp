@@ -68,7 +68,7 @@
                                         <c:when test="${item.category eq '패밀리'}"><c:set var="badgeClass" value="family"/></c:when>
                                         <c:when test="${item.category eq '프렌즈'}"><c:set var="badgeClass" value="friends"/></c:when>
                                         <c:when test="${item.category eq '스폰서'}"><c:set var="badgeClass" value="sponsor"/></c:when>
-                                        <c:when test="${item.category eq '소식'}"><c:set var="badgeClass" value="news"/></c:when>
+                                        <%--<c:when test="${item.category eq '소식'}"><c:set var="badgeClass" value="news"/></c:when>--%>
                                     </c:choose>
 
                                     <li>
