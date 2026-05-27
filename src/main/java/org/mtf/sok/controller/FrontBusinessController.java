@@ -6,12 +6,11 @@ import org.mtf.sok.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/business")
@@ -41,12 +40,88 @@ public class FrontBusinessController {
         return "business/sports/list";
     }
 
-    // [사업소식] 상세 - sports_view.html
-    @GetMapping("/sports/view")
-    public String sportsView(@RequestParam("brdSeq") Long brdSeq, @ModelAttribute("params") BoardDTO params, Model model) {
-        boardMapper.updateViewCnt(brdSeq);
-        BoardDTO board = boardMapper.selectBoard(brdSeq);
-        model.addAttribute("board", board);
+    // 35개 종목 데이터를 메모리에 캐싱 (향후 DB의 TB_SPORTS 테이블로 전환하기 용이한 구조)
+    private static final Map<String, Map<String, String>> SPORTS_DATA = new HashMap<>();
+
+    static {
+        // ==========================================
+        // [1] 구기 스포츠 (10개)
+        // ==========================================
+        addSport("tennis", "테니스", "[Special Olympic] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("softball", "소프트볼", "[Special Olympic] 하계스포츠", "");
+        addSport("netball", "넷볼", "[Special Olympic] 하계스포츠", "");
+        addSport("handball", "핸드볼", "[Special Olympic] 하계스포츠", "");
+        addSport("volleyball", "배구", "[Special Olympic] 동계스포츠 [Unified Sports] 통합스포츠", "/file/volleyball.pdf");
+        addSport("tabletennis", "탁구", "[Special Olympic] 하계스포츠 [Unified Sports] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("football", "축구", "[Special Olympic] 하계스포츠 [Unified Sports] 하계스포츠", "");
+        addSport("futsal", "풋살", "[INAS] 하계스포츠", "");
+        addSport("basketball", "농구", "[Special Olympic] 하계스포츠 [Unified Sports] 하계스포츠 [INAS] 하계스포츠", "/file/basketball.pdf");
+        addSport("badminton", "배드민턴", "[Special Olympic] 하계스포츠 [Unified Sports] 하계스포츠", "/file/badminton.hwp");
+
+        // ==========================================
+        // [2] 수상·해양 스포츠 (5개)
+        // ==========================================
+        addSport("yacht", "요트", "[Special Olympic] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("kayak", "카약", "[Special Olympic] 하계스포츠", "");
+        addSport("outdoorswim", "실외수영", "[Special Olympic] 하계스포츠", "");
+        addSport("swim", "수영", "[Special Olympic] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("rowing", "조정", "[INAS] 하계스포츠", "");
+
+        // ==========================================
+        // [3] 개인기록 스포츠 (4개)
+        // ==========================================
+        addSport("athletics", "육상", "[Special Olympic] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("cycling", "사이클", "[Special Olympic] 하계스포츠 [INAS] 하계스포츠", "");
+        addSport("weightlifting", "역도", "[Special Olympic] 하계스포츠", "/file/weightlifting.hwp");
+        addSport("rollerskate", "롤러스케이트", "[Special Olympic] 하계스포츠", "/file/rollerskate.pdf");
+
+        // ==========================================
+        // [4] 기타 스포츠 (8개)
+        // ==========================================
+        addSport("judo", "유도", "[Special Olympic] 하계스포츠", "");
+        addSport("rhythmic", "리듬체조", "[Special Olympic] 하계스포츠", "");
+        addSport("gymnastics", "기계체조", "[Special Olympic] 하계스포츠", "");
+        addSport("horseback", "승마", "[Special Olympic] 하계스포츠", "");
+        addSport("cricket", "크리켓", "[Special Olympic] 하계스포츠", "");
+        addSport("bowling", "볼링", "[Special Olympic] 하계스포츠", "");
+        addSport("golf", "골프", "[Special Olympic] 하계스포츠", "/file/golf.pdf");
+        addSport("bocce", "보체", "[Special Olympic] 하계스포츠", "/file/bocce.pdf");
+
+        // ==========================================
+        // [5] 동계 스포츠 (8개)
+        // ==========================================
+        addSport("floorhockey", "플로어하키", "[Special Olympic] 동계스포츠 [Unified Sports] 통합스포츠", "/file/floorhockey.hwp");
+        addSport("figureskate", "피겨스케이트", "[Special Olympic] 동계스포츠", "/file/figureskate.hwp");
+        addSport("speedskate", "스피드스케이트", "[Special Olympic] 동계스포츠", "/file/speedskate.hwp");
+        addSport("snowboard", "스노보드", "[Special Olympic] 동계스포츠", "/file/snowboard.hwp");
+        addSport("snowshoe", "스노슈잉", "[Special Olympic] 동계스포츠", "/file/snowshoe.hwp");
+        addSport("crosscountry", "크로스컨트리", "[Special Olympic] 동계스포츠", "/file/crosscountry.hwp");
+        addSport("nordicski", "노르딕스키", "[INAS] 동계스포츠", "");
+        addSport("alpineski", "알파인스키", "[INAS] 동계스포츠", "/file/alpineski.hwp");
+    }
+
+    // 맵 데이터 초기화를 위한 헬퍼 메서드
+    private static void addSport(String id, String name, String desc, String fileUrl) {
+        Map<String, String> data = new HashMap<>();
+        data.put("name", name);
+        data.put("description", desc);
+        data.put("fileUrl", fileUrl);
+        SPORTS_DATA.put(id, data);
+    }
+
+    // [사업소식] 상세
+    @GetMapping("/sports/{sportId}")
+    public String sportDetail(@PathVariable String sportId, Model model) {
+
+        // 1. 유효하지 않은 종목 URL 방어 로직
+        if (!SPORTS_DATA.containsKey(sportId)) {
+            return "redirect:/business/sports/list";
+        }
+
+        // 2. 공통 view.jsp에 데이터 전달
+        model.addAttribute("sportId", sportId);
+        model.addAttribute("sport", SPORTS_DATA.get(sportId));
+
         return "business/sports/view";
     }
 

@@ -10,10 +10,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>알림공간</span><span>활동보고서</span>
+                    <span>알림공간</span><span>스페셜올림픽코리아 소식</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">활동보고서</div>
+                <div class="sub_top_tit" id="tts_sub_top">스페셜올림픽코리아 소식</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -30,87 +30,72 @@
                 <li class="on"><a href="/news/list">스페셜올림픽코리아 소식</a></li>
             </ul>
         </div>
-        <div class="sub_content gallery_wrap report">
 
-            <div class="board_top">
-                <div class="total">총 <span><fmt:formatNumber value="${pageMaker.total}" pattern="#,###"/></span>건</div>
-                <div class="search_box">
-                    <form action="/report/list" method="get" id="searchForm" class="search_box">
-                        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+        <div class="sub_content">
 
-                        <div class="select">
-                            <select name="searchType">
-                                <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>제목</option>
-                                <option value="content" ${params.searchType eq 'content' ? 'selected' : ''}>내용</option>
-                            </select>
-                        </div>
-                        <div class="input">
-                            <input type="text" name="searchKeyword" value="${params.searchKeyword}" placeholder="검색어를 입력하세요.">
-                            <a href="javascript:void(0);" onclick="searchData()" class="search_btn"></a>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <div class="board_gallery">
+                <div class="board_gallery_box">
 
-            <div class="board_list">
-                <ul>
                     <c:choose>
                         <c:when test="${empty list}">
-                            <li style="text-align: center; padding: 60px 0; color: #777;">
-                                등록된 활동보고서가 없습니다.
-                            </li>
+                            <div style="text-align: center; padding: 60px 0; color: #777;">
+                                등록된 스페셜올림픽코리아 소식이 없습니다.
+                            </div>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="item" items="${list}">
-                                <li onclick="location.href='/report/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
-
-                                    <div>
-                                        <c:choose>
-                                            <c:when test="${not empty item.thumbPath}">
-                                                <img src="${item.thumbPath}" alt="${item.title} 썸네일">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="/img/logo.png" alt="스페셜올림픽코리아 로고" style="object-fit: contain; padding: 30px; background-color: #f8f9fa;">
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-
-                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
-
-                                    <div class="tit">${item.title}</div>
-                                </li>
-                            </c:forEach>
+                            <ul>
+                                <c:forEach var="item" items="${list}">
+                                    <li>
+                                        <a class="viewGallery" href="/news/detail?brdSeq=${item.brdSeq}">
+                                            <div class="txtBox">
+                                                <div class="badge news">소식</div>
+                                                <div class="tit">${item.title}</div>
+                                            </div>
+                                            <div class="thumbBox">
+                                                <c:choose>
+                                                    <c:when test="${not empty item.thumbPath}">
+                                                        <img src="${item.thumbPath}" alt="${item.title} 썸네일">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="/img/thum_img.png" alt="썸네일 이미지">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
                         </c:otherwise>
                     </c:choose>
-                </ul>
-            </div>
 
-            <c:if test="${pageMaker.total > 0}">
-                <div class="paging">
-                    <c:if test="${pageMaker.prev}">
-                        <a href="javascript:goPage(1)" class="first"><img src="/img/btn_first.gif" alt="처음"></a>
-                        <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev">
-                            <img src="/img/btn_prev.gif" alt="이전">
-                        </a>
-                    </c:if>
-
-                    <ol>
-                        <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                            <li>
-                                <a href="javascript:goPage(${num})" class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">
-                                    ${num}
+                    <c:if test="${pageMaker.total > 0}">
+                        <div class="paging">
+                            <c:if test="${pageMaker.prev}">
+                                <a href="javascript:goPage(1)" class="first"><img src="/img/btn_first.gif" alt="처음"></a>
+                                <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev">
+                                    <img src="/img/btn_prev.gif" alt="이전">
                                 </a>
-                            </li>
-                        </c:forEach>
-                    </ol>
+                            </c:if>
 
-                    <c:if test="${pageMaker.next}">
-                        <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next">
-                            <img src="/img/btn_next.gif" alt="다음">
-                        </a>
+                            <ol>
+                                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                                    <li>
+                                        <a href="javascript:goPage(${num})" class="${pageMaker.cri.pageNum == num ? 'this' : 'other'}">
+                                            ${num}
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ol>
+
+                            <c:if test="${pageMaker.next}">
+                                <a href="javascript:goPage(${pageMaker.endPage + 1})" class="next">
+                                    <img src="/img/btn_next.gif" alt="다음">
+                                </a>
+                            </c:if>
+                        </div>
                     </c:if>
                 </div>
-            </c:if>
+            </div>
         </div>
     </div>
 </div>
@@ -121,12 +106,6 @@
     // 페이지 이동 스크립트
     function goPage(pageNum) {
         document.getElementById('searchForm').pageNum.value = pageNum;
-        document.getElementById('searchForm').submit();
-    }
-
-    // 검색 버튼 클릭 스크립트
-    function searchData() {
-        document.getElementById('searchForm').pageNum.value = 1;
         document.getElementById('searchForm').submit();
     }
 </script>

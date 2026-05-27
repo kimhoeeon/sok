@@ -46,61 +46,61 @@
                     <div class="sports_item">
                         <div class="tit">동계 스포츠</div>
                         <ul class="list">
-                            <li><a href="/business/sports/view?brdSeq=1">플로어하키</a></li>
-                            <li><a href="">피겨스케이트</a></li>
-                            <li><a href="">스피드스케이트</a></li>
-                            <li><a href="">스노보드</a></li>
-                            <li><a href="">스노슈잉</a></li>
-                            <li><a href="">크로스컨트리</a></li>
-                            <li><a href="">노르딕스키</a></li>
-                            <li><a href="">알파인스키</a></li>
+                            <li><a href="/business/sports/floorhockey">플로어하키</a></li>
+                            <li><a href="/business/sports/figureskate">피겨스케이트</a></li>
+                            <li><a href="/business/sports/speedskate">스피드스케이트</a></li>
+                            <li><a href="/business/sports/snowboard">스노보드</a></li>
+                            <li><a href="/business/sports/snowshoe">스노슈잉</a></li>
+                            <li><a href="/business/sports/crosscountry">크로스컨트리</a></li>
+                            <li><a href="/business/sports/nordicski">노르딕스키</a></li>
+                            <li><a href="/business/sports/alpineski">알파인스키</a></li>
                         </ul>
                     </div>
                     <div class="sports_item">
                         <div class="tit">구기 스포츠</div>
                         <ul class="list">
-                            <li><a href="">테니스</a></li>
-                            <li><a href="">소프트볼</a></li>
-                            <li><a href="">넷볼</a></li>
-                            <li><a href="">핸드볼</a></li>
-                            <li><a href="">배구</a></li>
-                            <li><a href="">탁구</a></li>
-                            <li><a href="">축구</a></li>
-                            <li><a href="">풋살</a></li>
-                            <li><a href="">농구</a></li>
-                            <li><a href="">배드민턴</a></li>
+                            <li><a href="/business/sports/tennis">테니스</a></li>
+                            <li><a href="/business/sports/softball">소프트볼</a></li>
+                            <li><a href="/business/sports/netball">넷볼</a></li>
+                            <li><a href="/business/sports/handball">핸드볼</a></li>
+                            <li><a href="/business/sports/volleyball">배구</a></li>
+                            <li><a href="/business/sports/tabletennis">탁구</a></li>
+                            <li><a href="/business/sports/football">축구</a></li>
+                            <li><a href="/business/sports/futsal">풋살</a></li>
+                            <li><a href="/business/sports/basketball">농구</a></li>
+                            <li><a href="/business/sports/badminton">배드민턴</a></li>
                         </ul>
                     </div>
                     <div class="sports_item">
                         <div class="tit">수상·해양 스포츠</div>
                         <ul class="list">
-                            <li><a href="">요트</a></li>
-                            <li><a href="">카약</a></li>
-                            <li><a href="">실외수영</a></li>
-                            <li><a href="">수영</a></li>
-                            <li><a href="">조정</a></li>
+                            <li><a href="/business/sports/yacht">요트</a></li>
+                            <li><a href="/business/sports/kayak">카약</a></li>
+                            <li><a href="/business/sports/outdoorswim">실외수영</a></li>
+                            <li><a href="/business/sports/swim">수영</a></li>
+                            <li><a href="/business/sports/rowing">조정</a></li>
                         </ul>
                     </div>
                     <div class="sports_item">
                         <div class="tit">개인기록 스포츠</div>
                         <ul class="list">
-                            <li><a href="">육상</a></li>
-                            <li><a href="">사이클</a></li>
-                            <li><a href="">역도</a></li>
-                            <li><a href="">롤러스케이트</a></li>
+                            <li><a href="/business/sports/athletics">육상</a></li>
+                            <li><a href="/business/sports/cycling">사이클</a></li>
+                            <li><a href="/business/sports/weightlifting">역도</a></li>
+                            <li><a href="/business/sports/rollerskate">롤러스케이트</a></li>
                         </ul>
                     </div>
                     <div class="sports_item">
                         <div class="tit">기타 스포츠</div>
                         <ul class="list">
-                            <li><a href="">유도</a></li>
-                            <li><a href="">리듬체조</a></li>
-                            <li><a href="">기계체조</a></li>
-                            <li><a href="">승마</a></li>
-                            <li><a href="">크리켓</a></li>
-                            <li><a href="">볼링</a></li>
-                            <li><a href="">골프</a></li>
-                            <li><a href="">보체</a></li>
+                            <li><a href="/business/sports/judo">유도</a></li>
+                            <li><a href="/business/sports/rhythmic">리듬체조</a></li>
+                            <li><a href="/business/sports/gymnastics">기계체조</a></li>
+                            <li><a href="/business/sports/horseback">승마</a></li>
+                            <li><a href="/business/sports/cricket">크리켓</a></li>
+                            <li><a href="/business/sports/bowling">볼링</a></li>
+                            <li><a href="/business/sports/golf">골프</a></li>
+                            <li><a href="/business/sports/bocce">보체</a></li>
                         </ul>
                     </div>
 
