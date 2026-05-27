@@ -167,6 +167,7 @@
 
     <form id="loginForm" action="/common/loginProc" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="hidden" name="loginType" value="admin">
 
         <div class="mb-4">
             <label for="username" class="form-label text-uppercase">Admin ID</label>

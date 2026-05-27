@@ -77,7 +77,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             memberEntity.setSnsId(providerId);
             memberEntity.setLoginType("KAKAO"); // 관리자 페이지 회원 목록 필터링 연동용
             memberEntity.setMbrType("INDIVIDUAL"); // 소셜 가입자는 기본적으로 개인회원
-            memberEntity.setMbrRole("ROLE_USER");
+            memberEntity.setMbrRole("USER");
             memberEntity.setWithdrawYn("N"); // 탈퇴 여부 기본값 설정
 
             // DB에 인서트 (MemberMapper의 일반 회원가입 쿼리 재사용)

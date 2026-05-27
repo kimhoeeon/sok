@@ -74,7 +74,7 @@
                         <div class="form_box essen">
                             <label><span>기관명</span></label>
                             <div class="input">
-                                <input type="text" name="instNm" required>
+                                <input type="text" name="mbrNm" required>
                             </div>
                         </div>
                         <div class="form_box essen">
@@ -109,13 +109,13 @@
                         <div class="form_box essen">
                             <label><span>담당자명</span></label>
                             <div class="input">
-                                <input type="text" name="mgrNm" required>
+                                <input type="text" name="managerNm" required>
                             </div>
                         </div>
                         <div class="form_box essen">
                             <label><span>직함/직위</span></label>
                             <div class="input">
-                                <input type="text" name="mgrPos" required>
+                                <input type="text" name="managerPos" required>
                             </div>
                         </div>
                         <div class="form_box essen">

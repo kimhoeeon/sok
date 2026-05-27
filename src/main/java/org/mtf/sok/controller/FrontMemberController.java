@@ -65,6 +65,9 @@ public class FrontMemberController {
             // 3) 비밀번호 안전하게 암호화 (Spring Security)
             memberDTO.setMbrPw(passwordEncoder.encode(memberDTO.getMbrPw()));
 
+            memberDTO.setMbrType("CORP");
+            memberDTO.setLoginType("GENERAL");
+
             // 4) DB 저장
             memberMapper.insertMember(memberDTO);
 

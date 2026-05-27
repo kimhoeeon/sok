@@ -24,6 +24,7 @@
             <div class="login_wrap">
                 <form action="/common/loginProc" method="post" id="loginForm" class="login_form_box">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input type="hidden" name="loginType" value="member">
 
                     <div class="login_box">
                         <div class="id">

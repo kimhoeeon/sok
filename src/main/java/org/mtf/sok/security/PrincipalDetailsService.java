@@ -31,48 +31,57 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        // 1. 관리자 테이블 먼저 조회
-        AdminDTO admin = adminMapper.selectAdminById(username);
+        // ★ 로그인 폼에서 넘어온 loginType (admin / member) 값을 가로채어 확인
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String loginType = request.getParameter("loginType");
 
-        if (admin != null) {
-            // [추가된 로직] resultMap을 사용하지 않으므로 IP 목록을 수동으로 조회하여 DTO에 세팅
-            List<String> allowedIps = adminMapper.selectAdminIps(admin.getAdmSeq());
-            admin.setAllowedIpList(allowedIps);
+        // ==========================================
+        // 1. [관리자 로그인] 폼에서 요청한 경우
+        // ==========================================
+        if ("admin".equals(loginType)) {
+            AdminDTO admin = adminMapper.selectAdminById(username);
 
-            // [보안강화] 현재 접속한 클라이언트 IP 확인
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-            String clientIp = RequestUtils.getClientIp(request);
+            if (admin != null) {
+                // [보안 로직 유지] IP 목록 수동 조회 및 DTO 세팅
+                List<String> allowedIps = adminMapper.selectAdminIps(admin.getAdmSeq());
+                admin.setAllowedIpList(allowedIps);
 
-            // DB에 등록된 허용 IP가 1개 이상 존재하는 경우에만 검사 수행
-            if (admin.getAllowedIpList() != null && !admin.getAllowedIpList().isEmpty() && admin.getAllowedIpList().get(0) != null) {
-                boolean isAllowed = false;
+                // 현재 접속한 클라이언트 IP 확인
+                String clientIp = RequestUtils.getClientIp(request);
 
-                for (String allowedIp : admin.getAllowedIpList()) {
-                    if (clientIp.equals(allowedIp)) {
-                        isAllowed = true;
-                        break;
+                // DB에 등록된 허용 IP가 1개 이상 존재하는 경우에만 검사 수행
+                if (admin.getAllowedIpList() != null && !admin.getAllowedIpList().isEmpty() && admin.getAllowedIpList().get(0) != null) {
+                    boolean isAllowed = false;
+
+                    for (String allowedIp : admin.getAllowedIpList()) {
+                        if (clientIp.equals(allowedIp)) {
+                            isAllowed = true;
+                            break;
+                        }
+                    }
+
+                    if (!isAllowed) {
+                        log.warn("🚨 보안 차단: 등록되지 않은 IP({})에서 관리자 계정({}) 로그인을 시도했습니다.", clientIp, admin.getAdmId());
+                        throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
                     }
                 }
 
-                if (!isAllowed) {
-                    // ★ 수정됨: System.out.println 대신 log.warn으로 단 한 줄의 깔끔한 경고 로그만 출력
-                    log.warn("🚨 보안 차단: 등록되지 않은 IP({})에서 관리자 계정({}) 로그인을 시도했습니다.", clientIp, admin.getAdmId());
-
-                    throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
-                }
+                // 검증 통과 시 로그인 시간 업데이트 및 객체 리턴
+                adminMapper.updateLoginTime(admin.getAdmId());
+                return new PrincipalDetails(admin);
             }
-
-            // 검증 통과 시 로그인 시간 업데이트 및 객체 리턴
-            adminMapper.updateLoginTime(admin.getAdmId());
-            return new PrincipalDetails(admin);
+        }
+        // ==========================================
+        // 2. [사용자 프론트 로그인] 폼에서 요청한 경우
+        // ==========================================
+        else {
+            MemberDTO member = memberMapper.selectMemberById(username);
+            if (member != null) {
+                return new PrincipalDetails(member);
+            }
         }
 
-        // 2. 관리자가 아니면 일반 회원 테이블 조회
-        MemberDTO member = memberMapper.selectMemberById(username);
-        if (member != null) {
-            return new PrincipalDetails(member);
-        }
-
-        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
+        // 아이디가 없거나, 타입이 맞지 않으면 로그인 실패 처리
+        throw new UsernameNotFoundException("가입되지 않은 아이디이거나, 잘못된 비밀번호입니다.");
     }
 }

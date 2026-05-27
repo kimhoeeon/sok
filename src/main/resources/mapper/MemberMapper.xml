@@ -19,41 +19,26 @@
         ) VALUES (
         #{mbrId},
         #{mbrPw},
-        <choose>
-            <when test="instNm != null and instNm != ''">#{instNm}</when>
-            <otherwise>#{mbrNm}</otherwise>
-        </choose>
-        ,
+        #{mbrNm},
         <choose>
             <when test="mbrRole != null and mbrRole != ''">#{mbrRole}</when>
             <otherwise>'USER'</otherwise>
-        </choose>
-        ,
+        </choose>,
         <choose>
             <when test="mbrType != null and mbrType != ''">#{mbrType}</when>
             <otherwise>'INDIVIDUAL'</otherwise>
-        </choose>
-        ,
+        </choose>,
         #{instType},
         <choose>
             <when test="loginType != null and loginType != ''">#{loginType}</when>
             <otherwise>'GENERAL'</otherwise>
-        </choose>
-        ,
+        </choose>,
         #{snsType},
         #{snsId},
         #{bizNo},
         #{bizFilePath},
-        <choose>
-            <when test="mgrNm != null and mgrNm != ''">#{mgrNm}</when>
-            <otherwise>#{managerNm}</otherwise>
-        </choose>
-        ,
-        <choose>
-            <when test="mgrPos != null and mgrPos != ''">#{mgrPos}</when>
-            <otherwise>#{managerPos}</otherwise>
-        </choose>
-        ,
+        #{managerNm},
+        #{managerPos},
         #{phone},
         #{email},
         'N',
@@ -124,12 +109,12 @@
                 REGION2 = #{region2},
             </if>
 
-            <if test="mbrType == 'INSTITUTION'">
-                <if test="mgrNm != null and mgrNm != ''">
-                    MANAGER_NM = #{mgrNm},
+            <if test="mbrType == 'CORP'">
+                <if test="managerNm != null and managerNm != ''">
+                    MANAGER_NM = #{managerNm},
                 </if>
-                <if test="mgrPos != null and mgrPos != ''">
-                    MANAGER_POS = #{mgrPos},
+                <if test="managerPos != null and managerPos != ''">
+                    MANAGER_POS = #{managerPos},
                 </if>
                 <if test="bizNo != null and bizNo != ''">
                     BIZ_NO = #{bizNo},

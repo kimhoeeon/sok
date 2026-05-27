@@ -39,10 +39,6 @@ public class MemberDTO extends Criteria {
     private String agreeOptionalYn;
     private String marketingYn;
 
-    private String instNm;      // 회원가입 폼에서 넘어오는 기관명 파라미터 매핑용
-    private String mgrNm;       // 회원가입 폼에서 넘어오는 담당자명 파라미터 매핑용
-    private String mgrPos;      // 회원가입 폼에서 넘어오는 직함 파라미터 매핑용
-
     // --- 스토리보드 항목 반영 추가 ---
     private Integer totalDonateCnt; // 누적 후원 건수
     private Long totalDonateAmt;    // 누적 후원 금액
