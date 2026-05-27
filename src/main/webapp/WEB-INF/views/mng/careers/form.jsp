@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="currentMenu" value="bidding" scope="request"/>
+<c:set var="currentMenu" value="careers" scope="request"/>
 <%@ include file="../layout/header.jsp" %>
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -9,14 +9,14 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">입찰정보 ${empty bidding.brdSeq ? '등록' : '수정'}</h3>
-    <a href="/mng/bidding/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}"
+    <h3 class="fw-bold text-dark">채용정보 ${empty careers.brdSeq ? '등록' : '수정'}</h3>
+    <a href="/mng/careers/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchKeyword=${params.searchKeyword}"
        class="btn btn-outline-light"><i class="bi bi-list"></i> 목록</a>
 </div>
 
 <div class="premium-card p-4">
-    <form action="/mng/bidding/save" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="brdSeq" value="${bidding.brdSeq}">
+    <form action="/mng/careers/save" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="brdSeq" value="${careers.brdSeq}">
 
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
@@ -28,12 +28,12 @@
                 <div class="d-flex gap-3 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="진행중"
-                               id="cat1" ${bidding.category eq '진행중' or empty bidding.category ? 'checked' : ''}>
+                               id="cat1" ${careers.category eq '진행중' or empty careers.category ? 'checked' : ''}>
                         <label class="form-check-label text-dark fw-bold text-success" for="cat1">진행중</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="category" value="마감"
-                               id="cat2" ${bidding.category eq '마감' ? 'checked' : ''}>
+                               id="cat2" ${careers.category eq '마감' ? 'checked' : ''}>
                         <label class="form-check-label text-dark text-muted" for="cat2">마감</label>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">입찰 공고명</label>
-                <input type="text" name="title" class="form-control search-bar" value="${bidding.title}" required
+                <input type="text" name="title" class="form-control search-bar" value="${careers.title}" required
                        placeholder="예) 2026 스페셜올림픽코리아 홈페이지 리뉴얼 용역 입찰 공고">
             </div>
 
@@ -52,12 +52,12 @@
                     과업지시서, 입찰참가신청서 등을 모두 선택하세요.
                 </div>
 
-                <c:if test="${not empty bidding.fileList}">
+                <c:if test="${not empty careers.fileList}">
                     <div class="mt-3 p-3 border rounded"
                          style="border-color: #474761 !important; background-color: #151521;">
                         <span class="d-block text-muted mb-2">기존 첨부파일 목록</span>
                         <ul class="list-unstyled mb-0">
-                            <c:forEach var="file" items="${bidding.fileList}">
+                            <c:forEach var="file" items="${careers.fileList}">
                                 <li class="text-dark mb-1">
                                     <i class="bi bi-file-earmark-arrow-down me-2 text-info"></i> ${file.orgFileNm}
                                     <span class="text-muted ms-2"
@@ -71,7 +71,7 @@
 
             <div class="col-12 mb-3">
                 <label class="form-label text-muted">상세 공고 내용</label>
-                <textarea id="summernote" name="content">${bidding.content}</textarea>
+                <textarea id="summernote" name="content">${careers.content}</textarea>
             </div>
         </div>
 

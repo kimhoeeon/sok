@@ -36,6 +36,11 @@
             <div class="board_gallery">
                 <div class="board_gallery_box">
 
+                    <form id="searchForm" action="/news/list" method="get" style="display:none;">
+                        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+                        <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+                    </form>
+
                     <c:choose>
                         <c:when test="${empty list}">
                             <div style="text-align: center; padding: 60px 0; color: #777;">

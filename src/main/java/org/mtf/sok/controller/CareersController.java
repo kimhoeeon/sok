@@ -95,7 +95,7 @@ public class CareersController {
                 if (!file.isEmpty()) {
                     try {
                         String originalFileName = file.getOriginalFilename();
-                        String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                        String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                         String savedFileName = UUID.randomUUID().toString() + ext;
 
                         File targetFile = new File(savePath + savedFileName);
@@ -165,7 +165,7 @@ public class CareersController {
     public void downloadExcel(@ModelAttribute BoardDTO params, HttpServletResponse response) throws Exception {
         params.setPageNum(1);
         params.setAmount(1000000);
-        params.setBrdType("BIDDING");
+        params.setBrdType("CAREERS");
 
         List<BoardDTO> list = boardMapper.selectBoardList(params);
         List<String> headers = Arrays.asList("연번", "카테고리", "중요여부", "제목", "조회수", "등록일시");

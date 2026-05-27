@@ -9,21 +9,29 @@
         <c:set var="boardUrl" value="/notice"/>
         <c:set var="boardName" value="공지사항"/>
     </c:when>
-    <c:when test="${board.brdType eq 'MANAGEMENT'}">
-        <c:set var="boardUrl" value="/management"/>
-        <c:set var="boardName" value="경영공시"/>
-    </c:when>
     <c:when test="${board.brdType eq 'BIDDING'}">
         <c:set var="boardUrl" value="/bidding"/>
         <c:set var="boardName" value="입찰정보"/>
     </c:when>
-    <c:when test="${board.brdType eq 'NEWS'}">
-        <c:set var="boardUrl" value="/news"/>
+    <c:when test="${board.brdType eq 'CAREERS'}">
+        <c:set var="boardUrl" value="/careers"/>
+        <c:set var="boardName" value="채용정보"/>
+    </c:when>
+    <c:when test="${board.brdType eq 'PRESS'}">
+        <c:set var="boardUrl" value="/press"/>
         <c:set var="boardName" value="자료실"/>
     </c:when>
     <c:when test="${board.brdType eq 'REPORT'}">
         <c:set var="boardUrl" value="/report"/>
         <c:set var="boardName" value="활동보고서"/>
+    </c:when>
+    <c:when test="${board.brdType eq 'NEWS'}">
+        <c:set var="boardUrl" value="/news"/>
+        <c:set var="boardName" value="SOK 소식"/>
+    </c:when>
+    <c:when test="${board.brdType eq 'MANAGEMENT'}">
+        <c:set var="boardUrl" value="/management"/>
+        <c:set var="boardName" value="경영공시"/>
     </c:when>
 </c:choose>
 
@@ -48,10 +56,12 @@
 
             <ul class="sub_top_tab">
                 <li class="${board.brdType eq 'NOTICE' ? 'on' : ''}"><a href="/notice/list">공지사항</a></li>
-                <li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">경영공시</a></li>
                 <li class="${board.brdType eq 'BIDDING' ? 'on' : ''}"><a href="/bidding/list">입찰정보</a></li>
-                <li class="${board.brdType eq 'NEWS' ? 'on' : ''}"><a href="/press/list">자료실</a></li>
+                <li class="${board.brdType eq 'CAREERS' ? 'on' : ''}"><a href="/careers/list">채용정보</a></li>
+                <li class="${board.brdType eq 'PRESS' ? 'on' : ''}"><a href="/press/list">자료실</a></li>
                 <li class="${board.brdType eq 'REPORT' ? 'on' : ''}"><a href="/report/list">활동보고서</a></li>
+                <li class="${board.brdType eq 'NEWS' ? 'on' : ''}"><a href="/news/list">스페셜올림픽코리아 소식</a></li>
+                <li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">경영공시</a></li>
             </ul>
         </div>
         <div class="sub_top view_top" style="padding: 0; padding-bottom: 20px;">

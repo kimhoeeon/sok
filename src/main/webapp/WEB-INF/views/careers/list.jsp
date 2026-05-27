@@ -33,7 +33,7 @@
             <div class="board_top">
                 <div class="total">총 <span><fmt:formatNumber value="${pageMaker.total}" pattern="#,###"/></span>건</div>
                 <div class="search_box">
-                    <form action="/bidding/list" method="get" id="searchForm" class="search_box">
+                    <form action="/careers/list" method="get" id="searchForm" class="search_box">
                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
                         <div class="select">
@@ -62,7 +62,7 @@
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
                                 <li class="${item.isNotice eq 'Y' ? 'import' : ''}"
-                                    onclick="location.href='/bidding/detail?brdSeq=${item.brdSeq}'"
+                                    onclick="location.href='/careers/detail?brdSeq=${item.brdSeq}'"
                                     style="cursor: pointer;">
 
                                     <div class="tit ${not empty item.fileList ? 'file' : ''}">

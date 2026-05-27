@@ -66,7 +66,7 @@ public class CampaignController {
             try {
                 MultipartFile tFile = campaign.getThumbFile();
                 String originalFileName = tFile.getOriginalFilename();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                 String savedFileName = UUID.randomUUID().toString() + "_thumb" + ext;
 
                 tFile.transferTo(new File(thumbSavePath + savedFileName));

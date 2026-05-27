@@ -77,16 +77,16 @@ public class PressController {
         board.setBrdType("PRESS");
         if(board.getIsNotice() == null) board.setIsNotice("N");
 
-        // 1. [썸네일 처리] news 폴더 하위의 thumb 폴더에 저장
+        // 1. [썸네일 처리] press 폴더 하위의 thumb 폴더에 저장
         if (board.getThumbFile() != null && !board.getThumbFile().isEmpty()) {
-            String thumbSavePath = uploadDir + "news/thumb/";
+            String thumbSavePath = uploadDir + "press/thumb/";
             File folder = new File(thumbSavePath);
             if (!folder.exists()) folder.mkdirs();
 
             try {
                 MultipartFile tFile = board.getThumbFile();
                 String originalFileName = tFile.getOriginalFilename();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                 String savedFileName = UUID.randomUUID().toString() + "_thumb" + ext;
 
                 File targetFile = new File(thumbSavePath + savedFileName);
@@ -119,7 +119,7 @@ public class PressController {
                 if (!file.isEmpty()) {
                     try {
                         String originalFileName = file.getOriginalFilename();
-                        String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                        String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                         String savedFileName = UUID.randomUUID().toString() + ext;
 
                         File targetFile = new File(savePath + savedFileName);

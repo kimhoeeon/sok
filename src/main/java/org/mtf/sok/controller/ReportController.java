@@ -90,7 +90,7 @@ public class ReportController {
             try {
                 MultipartFile tFile = board.getThumbFile();
                 String originalFileName = tFile.getOriginalFilename();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                 String savedFileName = UUID.randomUUID().toString() + "_thumb" + ext;
 
                 File targetFile = new File(thumbSavePath + savedFileName);
@@ -124,7 +124,7 @@ public class ReportController {
                 if (!file.isEmpty()) {
                     try {
                         String originalFileName = file.getOriginalFilename();
-                        String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                        String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                         String savedFileName = UUID.randomUUID().toString() + ext;
 
                         File targetFile = new File(savePath + savedFileName);
