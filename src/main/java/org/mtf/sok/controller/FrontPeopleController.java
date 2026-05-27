@@ -24,10 +24,10 @@ public class FrontPeopleController {
     @Autowired
     private BoardMapper boardMapper;
 
-    // 1. 함께하는 사람들 목록 화면
+    // 1. SOK 스토리 목록 화면
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
-        // 함께하는 사람들 게시판 코드 세팅
+        // SOK 스토리 게시판 코드 세팅
         params.setBrdType("PEOPLE");
 
         // 목록 및 전체 개수 조회
@@ -61,7 +61,7 @@ public class FrontPeopleController {
         return "people/list";
     }
 
-    // 2. 함께하는 사람들 전용 상세 페이지 이동 메서드
+    // 2. SOK 스토리 전용 상세 페이지 이동 메서드
     @GetMapping("/detail")
     public String detail(@RequestParam Long brdSeq, @ModelAttribute("params") BoardDTO params, Model model) {
         // 조회수 1 증가
@@ -72,7 +72,7 @@ public class FrontPeopleController {
 
         model.addAttribute("board", board);
 
-        // 함께하는 사람들 전용 상세 뷰 페이지로 연결
+        // SOK 스토리 전용 상세 뷰 페이지로 연결
         return "people/detail";
     }
 }

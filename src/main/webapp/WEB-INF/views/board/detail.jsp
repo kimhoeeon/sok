@@ -40,7 +40,7 @@
 <div id="container">
     <div class="inner">
 
-        <div class="sub_top depth_2">
+        <%--<div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
                     <span>
@@ -67,13 +67,14 @@
                     <li class="${board.brdType eq 'PRESS' ? 'on' : ''}"><a href="/press/list">자료실</a></li>
                     <li class="${board.brdType eq 'REPORT' ? 'on' : ''}"><a href="/report/list">활동보고서</a></li>
                     <li class="${board.brdType eq 'NEWS' ? 'on' : ''}"><a href="/news/list">스페셜올림픽코리아 소식</a></li>
-                    <%--<li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">경영공시</a></li>--%>
+                    &lt;%&ndash;<li class="${board.brdType eq 'MANAGEMENT' ? 'on' : ''}"><a href="/management/list">경영공시</a></li>&ndash;%&gt;
                 </ul>
             </c:if>
-        </div>
-        <div class="sub_top view_top" style="padding: 0; padding-bottom: 20px;">
+        </div>--%>
+
+        <div class="sub_top view_top">
             <div class="sub_top_box">
-                <div class="sub_top_tit" id="tts_title_top" style="font-size: 2em;">
+                <div class="sub_top_tit" id="tts_title_top">
                     <c:out value="${board.title}"/>
                 </div>
                 <div class="sound_btn">

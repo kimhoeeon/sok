@@ -31,7 +31,7 @@ public class PeopleController {
 
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
-        params.setBrdType("PEOPLE"); // 함께하는 사람들 전용 타입
+        params.setBrdType("PEOPLE"); // SOK 스토리 전용 타입
 
         List<BoardDTO> list = boardMapper.selectBoardList(params);
         int total = boardMapper.selectBoardTotalCount(params);
