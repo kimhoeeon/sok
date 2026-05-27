@@ -33,10 +33,10 @@
 .main_top_bnr {margin-top: 90px;}
 .main_top_bnr .m_img {display: none;}
 
-.main_apply_box{margin-bottom: 50px; background-color: #E1F6FF; border-radius: 20px; background-image: url(/img/main_apply_box_img.png); background-repeat: no-repeat;padding: 70px 100px; background-size: 220px; background-position: bottom right 100px;}
-.main_apply_box .tit{font-size: 2em;}
-.main_apply_box .desc{font-size: 1.25em; margin: 20px 0 40px;}
-.main_apply_box a{color: #fff; display: inline-block; background: #000; border-radius: 20px;padding: 12px 24px;}
+.main_apply_box{margin-bottom: 50px; background-color: #E1F6FF; border-radius: 20px; background-image: url(/img/main_apply_bg.webp); background-repeat: no-repeat; background-position: top center; padding: 170px 100px; }
+.main_apply_box .tit{font-size: 2em; color: #fff;}
+.main_apply_box .desc{font-size: 1.25em; margin: 20px 0 40px; color: #fff;}
+.main_apply_box a{color: #000; display: inline-block; background: #fff; border-radius: 20px;padding: 12px 24px;}
 
 .main_apply_how ul{display: grid; grid-template-columns: repeat(5, 1fr);}
 .main_apply_how ul li{position: relative;}
@@ -579,6 +579,7 @@
 .sports_wrap .comt{margin-top: 30px; font-weight: 500;}
 .sub_top_badge{display: flex; gap: 10px;}
 .sub_top_badge span{padding: 5px 20px;border-radius: 10px; color: #fff;background: #DF0031; display: inline-block;}
+.sub_top_badge.blue span{background: #2e387f;}
 .sport_info{margin-top: 20px;}
 .sport_info .txt{margin-bottom: 20px;}
 .sport_info .down a{display: inline-flex; align-items: center; gap: 10px; color: #DF0031; padding: 16px 24px; border: 1px solid #DF0031;border-radius: 20px;}
@@ -586,7 +587,7 @@
 
 .sports_view .tit{ font-size: 2.5em;font-weight: 700;margin-bottom: 60px; font-family: "NanumSquareNeoExtraBold";}
 .sports_view .img_item{display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;}
-.sports_view .img_item img{aspect-ratio: 1 / 0.72; display: block; object-fit: cover;}
+.sports_view .img_item img{aspect-ratio: 1 / 0.72; width: 100%; display: block; object-fit: cover;}
 .sports_view .btn button{background: #000; color: #fff;padding: 12px 48px; border-radius: 20px;}
 
 .contest{text-align: center;}
@@ -730,3 +731,12 @@
 .league_table tbody td{border: 1px solid #d5d5d5;padding: 12px 0; vertical-align: middle; text-align: center;}
 .league_table tbody td img{vertical-align: middle; max-width: 40px;}
 .league_table tbody td.korea img{max-width: 60px;}
+
+.swiper_sub_t {position: relative;}
+.swiper_control { position: absolute;right: 0;top: 230px;z-index: 10;display: flex;align-items: center;gap: 12px;}
+.swiper_count {color: #000;font-size: 14px;line-height: 1;}
+.swiper_count span{display: inline-block;margin: 0 3px;}
+.sub_t_prev,
+.sub_t_next {display: flex;align-items: center;justify-content: center;width: 24px;height: 24px;padding: 0;border: 0;background: transparent;cursor: pointer;}
+.sub_t_prev img,
+.sub_t_next img {width: 100%;display: block;}

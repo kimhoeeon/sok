@@ -23,10 +23,11 @@
 
             <ul class="sub_top_tab">
                 <li class="on"><a href="/notice/list">공지사항</a></li>
-                <li><a href="/management/list">경영공시</a></li>
                 <li><a href="/bidding/list">입찰정보</a></li>
-                <li><a href="/news/list">자료실</a></li>
+                <li><a href="/careers/list">채용정보</a></li>
+                <li><a href="/press/list">자료실</a></li>
                 <li><a href="/report/list">활동보고서</a></li>
+                <li><a href="/news/list">스페셜올림픽코리아 소식</a></li>
             </ul>
         </div>
         <div class="sub_content board_wrap">

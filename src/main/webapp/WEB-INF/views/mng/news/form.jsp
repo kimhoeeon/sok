@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="currentMenu" value="news" scope="request" />
+<c:set var="currentMenu" value="press" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -9,13 +9,13 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">${empty news.brdSeq ? '보도자료 등록' : '보도자료 상세/수정'}</h3>
+    <h3 class="fw-bold text-dark">${empty news.brdSeq ? '자료실 등록' : '자료실 상세/수정'}</h3>
 
-    <a href="/mng/news/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">목록으로</a>
+    <a href="/mng/press/list?pageNum=${params.pageNum}&amount=${params.amount}&category=${params.category}&searchType=${params.searchType}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">목록으로</a>
 </div>
 
 <div class="premium-card p-4">
-    <form action="/mng/news/save" method="post" enctype="multipart/form-data">
+    <form action="/mng/press/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="brdSeq" value="${news.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">

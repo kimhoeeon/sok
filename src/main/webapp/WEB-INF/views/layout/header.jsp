@@ -47,17 +47,19 @@
             <div class="nav_wrap">
                 <ul class="menu">
                     <li class="has-sub">
-                        <a href="#">SOK 소개</a>
+                        <a href="/intro/greeting">SOK 소개</a>
                         <ul class="sub_menu">
-                            <li><a href="/intro/about">SOK 소개</a></li>
                             <li><a href="/intro/greeting">인사말</a></li>
-                            <li><a href="/intro/ci">CI</a></li>
+                            <li><a href="/intro/about">단체소개</a></li>
+                            <li><a href="/intro/org">조직구성</a></li>
+                            <li><a href="javascript:alert('준비중입니다.');">위원회</a></li>
+                            <li><a href="/management/list">운영자료</a></li>
                             <li><a href="/intro/way">오시는 길</a></li>
                         </ul>
                     </li>
                     <li><a href="/people/list">SOK 스토리</a></li>
                     <li class="has-sub">
-                        <a href="#">사업소개</a>
+                        <a href="/business/sports">사업소개</a>
                         <ul class="sub_menu">
                             <li><a href="/business/sports">스포츠</a></li>
                             <li><a href="/business/culture">문화예술</a></li>
@@ -66,20 +68,22 @@
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a href="#">알림공간</a>
+                        <a href="/notice/list">알림공간</a>
                         <ul class="sub_menu">
                             <li><a href="/notice/list">공지사항</a></li>
-                            <li><a href="/management/list">경영공시</a></li>
                             <li><a href="/bidding/list">입찰정보</a></li>
-                            <li><a href="/news/list">자료실</a></li>
+                            <li><a href="/careers/list">채용정보</a></li>
+                            <li><a href="/press/list">자료실</a></li>
                             <li><a href="/report/list">활동보고서</a></li>
+                            <li><a href="/news/list">스페셜올림픽코리아 소식</a></li>
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a href="#">참여공간</a>
+                        <a href="/sponsor/donate">참여공간</a>
                         <ul class="sub_menu">
                             <li><a href="/sponsor/donate">후원하기</a></li>
                             <li><a href="/volunteer/apply">자원봉사 신청</a></li>
+                            <li><a href="http://110.45.238.25/login.do" target="_blank">선수등록</a></li>
                             <li><a href="/certificate/apply">증명서 신청</a></li>
                         </ul>
                     </li>
@@ -114,6 +118,13 @@
                     </li>
                     <li class="utils_item">
                         <a href="/sponsor/donate" class="donate_btn">후원하기</a>
+                    </li>
+                    <li class="utils_item ml-12">
+                        <div>
+                            <a href="" class="h_search_btn" aria-label="검색">
+                                <img src="/img/ico_search.png" alt="돋보기 이미지">
+                            </a>
+                        </div>
                     </li>
                     <li class="utils_item flex">
                         <ul>
@@ -163,11 +174,13 @@
                     <div class="site_map_nav">
                         <ul class="dept1">
                             <li>
-                                <a href="#"><span>SOK 소개</span></a>
+                                <a href="/intro/greeting"><span>SOK 소개</span></a>
                                 <ul class="dept2">
-                                    <li><a href="/intro/about"><span>SOK 소개</span></a></li>
                                     <li><a href="/intro/greeting"><span>인사말</span></a></li>
-                                    <li><a href="/intro/ci"><span>CI</span></a></li>
+                                    <li><a href="/intro/about"><span>단체소개</span></a></li>
+                                    <li><a href="/intro/org"><span>조직구성</span></a></li>
+                                    <li><a href="javascript:alert('준비중입니다.');"><span>위원회</span></a></li>
+                                    <li><a href="/management/list"><span>운영자료</span></a></li>
                                     <li><a href="/intro/way"><span>오시는 길</span></a></li>
                                 </ul>
                             </li>
@@ -175,7 +188,7 @@
                                 <a href="/people/list"><span>SOK 스토리</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>사업소개</span></a>
+                                <a href="/business/sports"><span>사업소개</span></a>
                                 <ul class="dept2">
                                     <li><a href="/business/sports"><span>스포츠</span></a></li>
                                     <li><a href="/business/culture"><span>문화예술</span></a></li>
@@ -184,20 +197,22 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><span>알림공간</span></a>
+                                <a href="/notice/list"><span>알림공간</span></a>
                                 <ul class="dept2">
                                     <li><a href="/notice/list"><span>공지사항</span></a></li>
-                                    <li><a href="/management/list"><span>경영공시</span></a></li>
                                     <li><a href="/bidding/list"><span>입찰정보</span></a></li>
-                                    <li><a href="/news/list"><span>자료실</span></a></li>
+                                    <li><a href="/careers/list"><span>채용정보</span></a></li>
+                                    <li><a href="/press/list"><span>자료실</span></a></li>
                                     <li><a href="/report/list"><span>활동보고서</span></a></li>
+                                    <li><a href="/news/list"><span>스페셜올림픽코리아 소식</span></a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><span>참여공간</span></a>
+                                <a href="/sponsor/donate"><span>참여공간</span></a>
                                 <ul class="dept2">
                                     <li><a href="/sponsor/donate"><span>후원하기</span></a></li>
                                     <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>
+                                    <li><a href="http://110.45.238.25/login.do" target="_blank"><span>선수등록</span></a></li>
                                     <li><a href="/certificate/apply"><span>증명서 신청</span></a></li>
                                 </ul>
                             </li>
@@ -205,8 +220,46 @@
                     </div>
                 </div>
             </div>
+            <div class="header_search_layer">
+                <div class="inner">
+                    <div class="header_search_box">
+                        <input type="text" id="searchText" placeholder="검색어를 입력하세요">
+                        <button type="button" class="search_submit">
+                            <img src="/img/ico_search_main.png" alt="검색">
+                        </button>
+                    </div>
+                    <button type="button" class="search_close" aria-label="검색 닫기">
+                        <img src="/img/ico_close.png" alt="닫기">
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- 플로팅 -->
+    <div class="floating_menu">
+        <a href="/sponsor/donate">
+            <img src="/img/ico_floating01.png" alt="플로팅 아이콘">
+            <span>후원하기</span>
+        </a>
+        <a href="/volunteer/apply">
+            <img src="/img/ico_floating02.png" alt="플로팅 아이콘">
+            <span>자원봉사 신청</span>
+        </a>
+        <a href="/certificate/apply">
+            <img src="/img/ico_floating03.png" alt="플로팅 아이콘">
+            <span>증명서 신청</span>
+        </a>
+        <a href="http://110.45.238.25/login.do" target="_blank">
+            <img src="/img/ico_floating04.png" alt="플로팅 아이콘">
+            <span>선수등록</span>
+        </a>
+        <a href="/rules/privacy">
+            <img src="/img/ico_floating05.png" alt="플로팅 아이콘">
+            <span>정관 및 규정</span>
+        </a>
+    </div>
+    <!-- //플로팅 -->
 
     <form id="userLogoutForm" action="/logout" method="post" style="display: none;">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

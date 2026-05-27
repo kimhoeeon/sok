@@ -95,7 +95,7 @@
 	.main_slide_wrap .swiper-slide .m_img {display: block;}
     .paging-wrap{bottom: 20px !important}
 
-    .main_apply_box{padding: 30px 50px; background-size: 140px;background-position: bottom right 50px;}
+    .main_apply_box{padding: 80px 50px; background-size: cover;}
     .main_apply_box .tit{font-size: 1.5em;}
     .main_apply_box a{font-size: 1em;}
     .main_apply_box .desc{font-size: 1em; margin: 10px 0 20px;}
@@ -269,7 +269,7 @@
 
     .main_top .flex .go_link{flex-shrink: 0;padding: 6px 12px; font-size: 0.875em;}
     .main_top .flex .go_link::after{width: 18px; height: 18px; background-size: cover;}
-    .main_apply_box{margin-bottom: 30px; padding: 20px 30px;background-size: 60px;background-position: bottom right 30px;}
+    .main_apply_box{margin-bottom: 30px; padding: 50px 30px;}
     .main_apply_box .tit{font-size: 1.125em;}
     .main_apply_box .desc{font-size: 0.875em;}
     .main_apply_box a{padding: 8px 12px; font-size: 0.875em;}

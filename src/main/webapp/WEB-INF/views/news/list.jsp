@@ -10,10 +10,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>알림공간</span><span>자료실</span>
+                    <span>알림공간</span><span>활동보고서</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">자료실</div>
+                <div class="sub_top_tit" id="tts_sub_top">활동보고서</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -23,24 +23,24 @@
 
             <ul class="sub_top_tab">
                 <li><a href="/notice/list">공지사항</a></li>
-                <li><a href="/management/list">경영공시</a></li>
                 <li><a href="/bidding/list">입찰정보</a></li>
-                <li class="on"><a href="/news/list">자료실</a></li>
+                <li><a href="/careers/list">채용정보</a></li>
+                <li><a href="/press/list">자료실</a></li>
                 <li><a href="/report/list">활동보고서</a></li>
+                <li class="on"><a href="/news/list">스페셜올림픽코리아 소식</a></li>
             </ul>
         </div>
-        <div class="sub_content gallery_wrap">
+        <div class="sub_content gallery_wrap report">
 
             <div class="board_top">
                 <div class="total">총 <span><fmt:formatNumber value="${pageMaker.total}" pattern="#,###"/></span>건</div>
                 <div class="search_box">
-                    <form action="/news/list" method="get" id="searchForm" class="search_box">
+                    <form action="/report/list" method="get" id="searchForm" class="search_box">
                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
                         <div class="select">
                             <select name="searchType">
-                                <option value="all" ${params.searchType eq 'all' ? 'selected' : ''}>전체</option>
-                                <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>글제목</option>
+                                <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>제목</option>
                                 <option value="content" ${params.searchType eq 'content' ? 'selected' : ''}>내용</option>
                             </select>
                         </div>
@@ -57,12 +57,12 @@
                     <c:choose>
                         <c:when test="${empty list}">
                             <li style="text-align: center; padding: 60px 0; color: #777;">
-                                등록된 보도자료가 없습니다.
+                                등록된 활동보고서가 없습니다.
                             </li>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li onclick="location.href='/news/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
+                                <li onclick="location.href='/report/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
 
                                     <div>
                                         <c:choose>
@@ -75,18 +75,9 @@
                                         </c:choose>
                                     </div>
 
-                                    <c:if test="${not empty item.category}">
-                                        <div class="badge">${item.category}</div>
-                                    </c:if>
-                                    <c:if test="${empty item.category}">
-                                        <div class="badge" style="visibility: hidden;">-</div>
-                                    </c:if>
+                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
 
                                     <div class="tit">${item.title}</div>
-
-                                    <div class="nae">${item.content.replaceAll("<[^>]*>", "")}</div>
-
-                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
                                 </li>
                             </c:forEach>
                         </c:otherwise>

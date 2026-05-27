@@ -852,7 +852,7 @@ $(document).ready(function () {
         $('#infoGrid').html(html);
     }
 
-    // 클릭만!
+    // 👉 클릭만!
     $('.map_btn').on('click', function () {
 
         const region = $(this).data('prov');
@@ -871,5 +871,33 @@ $(document).ready(function () {
 
     // 초기값
     renderCards('seoul');
+
+});
+
+$(document).ready(function () {
+
+    $('.h_search_btn').on('click', function (e) {
+        e.preventDefault();
+
+        const $searchLayer = $('.header_search_layer');
+
+        $searchLayer.toggleClass('open');
+
+        if ($searchLayer.hasClass('open')) {
+            $('.has_dropdown').removeClass('open');
+            $searchLayer.find('input').focus();
+        }
+    });
+
+    $('.search_close').on('click', function () {
+        $('#searchText').val('');
+        $('.header_search_layer').removeClass('open');
+    });
+
+    $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') {
+            $('.header_search_layer').removeClass('open');
+        }
+    });
 
 });

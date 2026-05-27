@@ -3,52 +3,65 @@
 
 <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
-<div class="sub_visual" style="background-color: #003b70; display: flex; align-items: center; justify-content: center; min-height: 250px;">
-    <div class="inner" style="text-align: center; color: #fff;">
-        <h2 style="font-size: 40px; font-weight: bold; margin-bottom: 15px;">회원가입</h2>
-        <p style="font-size: 18px; color: rgba(255, 255, 255, 0.8);">소셜 계정 추가 정보 입력</p>
-    </div>
-</div>
+<div id="container">
+    <div class="inner">
 
-<div class="sub_content">
-    <div class="inner" style="max-width: 600px; margin: 80px auto;">
-
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h3 style="font-size: 24px; font-weight: bold; color: #333;">환영합니다, ${userLogin.mbrNm}님!</h3>
-            <p style="color: #666; margin-top: 15px; line-height: 1.6;">
-                안전한 서비스 이용 및 증명서 발급, 후원 내역 관리를 위해<br>
-                추가 연락처 정보와 약관 동의가 필요합니다.
-            </p>
-        </div>
-
-        <form id="extraInfoForm" style="background: #f8f9fa; padding: 40px; border-radius: 12px; border: 1px solid #e9ecef;">
-
-            <div class="form-group" style="margin-bottom: 25px;">
-                <label for="phone" style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">휴대전화 번호 <span style="color: #dc3545;">*</span></label>
-                <input type="text" id="phone" name="phone" placeholder="'-' 없이 숫자만 입력" required
-                       style="width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px;">
-            </div>
-
-            <div class="form-group" style="margin-bottom: 30px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">마케팅 정보 수신 동의 (선택)</label>
-                <div style="background: #fff; border: 1px solid #ced4da; padding: 15px; border-radius: 6px;">
-                    <label style="cursor: pointer; display: flex; align-items: center; margin: 0;">
-                        <input type="checkbox" name="marketingYn" value="Y" style="width: 20px; height: 20px; margin-right: 10px;">
-                        <span style="color: #555;">이메일 및 SMS 홍보 정보 수신에 동의합니다.</span>
-                    </label>
+        <div class="sub_top">
+            <div class="sub_top_box">
+                <div class="sub_top_nav">
+                    <span>회원가입</span>
+                </div>
+                <div class="sub_top_tit" id="tts_sub_top">소셜 계정 추가 정보 입력</div>
+                <div class="sound_btn">
+                    <button type="button" class="play" data-target="tts_sub_top">
+                        소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div style="text-align: center;">
-                <button type="button" id="btnSubmitExtra"
-                        style="width: 100%; padding: 16px; background: #005baa; color: #fff; font-size: 18px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s;">
-                    입력 완료 및 메인으로 이동
-                </button>
+        <div class="sub_content">
+            <div class="inner" style="max-width: 600px; margin: 80px auto;">
+
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h3 style="font-size: 24px; font-weight: bold; color: #333;">환영합니다, ${userLogin.mbrNm}님!</h3>
+                    <p style="color: #666; margin-top: 15px; line-height: 1.6;">
+                        안전한 서비스 이용 및 증명서 발급, 후원 내역 관리를 위해<br>
+                        추가 연락처 정보와 약관 동의가 필요합니다.
+                    </p>
+                </div>
+
+                <form id="extraInfoForm" style="background: #f8f9fa; padding: 40px; border-radius: 12px; border: 1px solid #e9ecef;">
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label for="phone" style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">휴대전화 번호 <span style="color: #dc3545;">*</span></label>
+                        <input type="text" id="phone" name="phone" placeholder="'-' 없이 숫자만 입력" required style="width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">마케팅 정보 수신 동의 (선택)</label>
+                        <div style="background: #fff; border: 1px solid #ced4da; padding: 15px; border-radius: 6px;">
+                            <label style="cursor: pointer; display: flex; align-items: center; margin: 0;">
+                                <input type="checkbox" name="marketingYn" value="Y" style="width: 20px; height: 20px; margin-right: 10px;">
+                                <span style="color: #555;">이메일 및 SMS 홍보 정보 수신에 동의합니다.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button type="button" id="btnSubmitExtra" style="width: 100%; padding: 16px; background: #005baa; color: #fff; font-size: 18px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s;">
+                            입력 완료 및 메인으로 이동
+                        </button>
+                    </div>
+                </form>
+
             </div>
-        </form>
+        </div>
 
     </div>
 </div>
+
+<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 <script>
     $(document).ready(function() {
@@ -84,5 +97,3 @@
         });
     });
 </script>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

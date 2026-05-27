@@ -14,6 +14,15 @@ public class FrontIntroController {
     @GetMapping("/greeting")
     public String greeting() { return "intro/greeting"; }
 
+    @GetMapping("/org")
+    public String org() { return "intro/org"; }
+
+    @GetMapping("/disclosure")
+    public String disclosure() { return "intro/disclosure"; }
+
+    @GetMapping("/rules")
+    public String rules() { return "intro/rules"; }
+
     @GetMapping("/ci")
     public String ci() { return "intro/ci"; }
 

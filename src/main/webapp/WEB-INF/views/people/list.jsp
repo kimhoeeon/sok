@@ -43,9 +43,9 @@
                     <li class="${params.category eq '스폰서' ? 'on' : ''}">
                         <a href="/people/list?category=스폰서">스폰서</a>
                     </li>
-                    <li class="${params.category eq '소식' ? 'on' : ''}">
+                    <%--<li class="${params.category eq '소식' ? 'on' : ''}">
                         <a href="/people/list?category=소식">소식</a>
-                    </li>
+                    </li>--%>
                 </ul>
             </div>
 

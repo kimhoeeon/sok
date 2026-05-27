@@ -7,11 +7,19 @@
 <div id="container">
     <div class="inner">
 
+        <!-- section -->
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>알림공간</span><span>경영공시</span>
+                    <span>SOK 소개</span><span>운영자료</span>
                 </div>
+                <!--
+
+                --소리듣기 재사용--
+                id=tts_2
+                data-taret=tts_2
+
+                -->
                 <div class="sub_top_tit" id="tts_sub_top">경영공시</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
@@ -19,15 +27,14 @@
                     </button>
                 </div>
             </div>
-
             <ul class="sub_top_tab">
-                <li><a href="/notice/list">공지사항</a></li>
                 <li class="on"><a href="/management/list">경영공시</a></li>
-                <li><a href="/bidding/list">입찰정보</a></li>
-                <li><a href="/news/list">자료실</a></li>
-                <li><a href="/report/list">활동보고서</a></li>
+                <li><a href="/intro/rules">관련규정</a></li>
+                <li><a href="/intro/ci">CI</a></li>
             </ul>
         </div>
+        <!-- //section -->
+
         <div class="sub_content board_wrap">
             <div class="board_top">
                 <div class="total">총 <span><fmt:formatNumber value="${pageMaker.total}" pattern="#,###"/></span>건</div>

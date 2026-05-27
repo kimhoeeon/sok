@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentMenu" value="news" scope="request" />
+<c:set var="currentMenu" value="press" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">보도자료 관리</h3>
+    <h3 class="fw-bold text-dark">자료실 관리</h3>
     <div>
         <button type="button" class="btn btn-success px-4 fw-bold me-2" onclick="downloadExcel()">
             <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
         </button>
-        <a href="/mng/news/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
+        <a href="/mng/press/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
     </div>
 </div>
 
 <div class="premium-card p-4">
-    <form id="searchForm" action="/mng/news/list" method="get" class="d-flex justify-content-end mb-4">
+    <form id="searchForm" action="/mng/press/list" method="get" class="d-flex justify-content-end mb-4">
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 
         <div class="input-group shadow-sm" style="max-width: 700px;">
@@ -68,7 +68,7 @@
                     <c:otherwise>
                         <c:forEach var="item" items="${list}">
 
-                            <c:url var="detailUrl" value="/mng/news/form">
+                            <c:url var="detailUrl" value="/mng/press/form">
                                 <c:param name="brdSeq" value="${item.brdSeq}" />
                                 <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
                                 <c:param name="amount" value="${pageMaker.cri.amount}" />
@@ -96,7 +96,7 @@
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
                                     <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
-                                    <form action="/mng/news/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제 후 복구가 어렵습니다. 정말 삭제하시겠습니까?');">
+                                    <form action="/mng/press/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제 후 복구가 어렵습니다. 정말 삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
                                         <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
@@ -147,7 +147,7 @@
     function downloadExcel() {
         var form = document.getElementById('searchForm');
         var originalAction = form.action;
-        form.action = '/mng/news/excel';
+        form.action = '/mng/press/excel';
         form.submit();
         form.action = originalAction;
     }

@@ -73,7 +73,7 @@
     }
 
     // 페이지 로드 시 쿠키 검사 후 팝업 띄우기
-    $(document).ready(function() {
+    document.addEventListener("DOMContentLoaded", function() {
         <c:if test="${not empty popupList}">
         <c:forEach var="popup" items="${popupList}">
         var pSeq = "${popup.popSeq}";
@@ -81,7 +81,11 @@
 
         // 해당 팝업의 쿠키가 'done'이 아니면 화면에 노출
         if (cookieData !== "done") {
-            $("#main_popup_" + pSeq).fadeIn(200);
+            var popupTarget = document.getElementById("main_popup_" + pSeq);
+            if (popupTarget) {
+                // jQuery의 fadeIn(200) 대신 순수 JS의 display block 사용
+                popupTarget.style.display = "block";
+            }
         }
         </c:forEach>
         </c:if>
