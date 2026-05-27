@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-success px-4 fw-bold me-2" onclick="downloadExcel()">
             <i class="bi bi-file-earmark-excel me-1"></i> 엑셀 다운로드
         </button>
-        <a href="/mng/dev/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 새 요청 등록</a>
+        <a href="/mng/dev/form" class="btn btn-primary px-4"><i class="bi bi-pencil-square"></i> 새 요청 등록</a>
     </div>
 </div>
 

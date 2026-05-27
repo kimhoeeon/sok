@@ -82,7 +82,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-neon px-5 py-2 fs-5">저장하기</button>
+            <button type="submit" class="btn btn-primary px-5 py-2 fs-5">저장하기</button>
         </div>
     </form>
 </div>

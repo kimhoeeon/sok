@@ -180,7 +180,7 @@
                     <input type="file" name="uploadFiles" class="form-control search-bar form-control-sm" multiple>
                     <small class="text-muted mt-1 d-block">추가 참고 파일 (선택사항)</small>
                 </div>
-                <button type="submit" class="btn btn-neon px-4 py-2">코멘트 등록</button>
+                <button type="submit" class="btn btn-primary px-4 py-2">코멘트 등록</button>
             </div>
         </form>
     </div>

@@ -7,7 +7,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">활동보고서 관리</h3>
-    <a href="/mng/report/form" class="btn btn-neon px-4"><i class="bi bi-pencil-square"></i> 등록</a>
+    <a href="/mng/report/form" class="btn btn-primary px-4"><i class="bi bi-pencil-square"></i> 등록</a>
 </div>
 
 <div class="premium-card p-4">

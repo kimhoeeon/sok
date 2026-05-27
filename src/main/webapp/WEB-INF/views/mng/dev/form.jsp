@@ -55,7 +55,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-neon px-5 py-3 fs-5 w-50">요청글 등록 (개발사 알림 발송)</button>
+            <button type="submit" class="btn btn-primary px-5 py-3 fs-5 w-50">요청글 등록 (개발사 알림 발송)</button>
         </div>
     </form>
 </div>

@@ -194,7 +194,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-neon w-100 py-3 fs-5" style="border-radius: 8px;">
+        <button type="submit" class="btn btn-primary w-100 py-3 fs-5" style="border-radius: 8px;">
             Sign In <i class="bi bi-arrow-right-short fs-4 align-middle"></i>
         </button>
     </form>

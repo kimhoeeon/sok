@@ -6,100 +6,97 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold text-dark">팝업 상세 설정</h3>
+    <h3 class="fw-bold text-dark">${empty popup.popSeq ? '팝업 등록' : '팝업 상세/수정'}</h3>
+
     <a href="/mng/popup/list?pageNum=${params.pageNum}&amount=${params.amount}&searchKeyword=${params.searchKeyword}&searchUseYnOnly=${params.searchUseYnOnly}" class="btn btn-outline-light"><i class="bi bi-list"></i> 목록으로</a>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-lg-10">
-        <div class="premium-card p-5">
-            <form action="/mng/popup/save" method="post" enctype="multipart/form-data" onsubmit="return validatePopup()">
-                <input type="hidden" name="popSeq" value="${popup.popSeq}">
-                <input type="hidden" name="pageNum" value="${params.pageNum}">
-                <input type="hidden" name="amount" value="${params.amount}">
-                <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
-                <input type="hidden" name="searchUseYnOnly" value="${params.searchUseYnOnly}">
+<div class="premium-card p-4">
+    <form action="/mng/popup/save" method="post" enctype="multipart/form-data" onsubmit="return validatePopup()">
+        <input type="hidden" name="popSeq" value="${popup.popSeq}">
+        <input type="hidden" name="pageNum" value="${params.pageNum}">
+        <input type="hidden" name="amount" value="${params.amount}">
+        <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+        <input type="hidden" name="searchUseYnOnly" value="${params.searchUseYnOnly}">
 
-                <div class="row g-4">
-                    <div class="col-md-8">
-                        <div class="mb-4">
-                            <label class="form-label text-muted">팝업 제목</label>
-                            <input type="text" name="title" class="form-control search-bar fs-5 fw-bold" value="${popup.title}" required placeholder="관리용 제목을 입력하세요">
-                        </div>
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="mb-4">
+                    <label class="form-label text-muted">팝업 제목</label>
+                    <input type="text" name="title" class="form-control search-bar fs-5 fw-bold" value="${popup.title}" required placeholder="관리용 제목을 입력하세요">
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">게시 시작 일시</label>
-                                <fmt:formatDate value="${popup.startDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtStartDt" />
-                                <input type="datetime-local" name="startDt" id="startDt" class="form-control search-bar" value="${fmtStartDt}" required>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">게시 종료 일시</label>
-                                <fmt:formatDate value="${popup.endDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtEndDt" />
-                                <input type="datetime-local" name="endDt" id="endDt" class="form-control search-bar" value="${fmtEndDt}" required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">가로 크기 (Width, px)</label>
-                                <input type="number" name="width" class="form-control search-bar" value="${popup.width != null ? popup.width : 400}" required placeholder="예: 400">
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">세로 크기 (Height, px)</label>
-                                <input type="number" name="height" class="form-control search-bar" value="${popup.height != null ? popup.height : 500}" required placeholder="예: 500">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">상단 위치 (Top, px)</label>
-                                <input type="number" name="topPos" class="form-control search-bar" value="${popup.topPos != null ? popup.topPos : 100}" required placeholder="예: 100">
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted">좌측 위치 (Left, px)</label>
-                                <input type="number" name="leftPos" class="form-control search-bar" value="${popup.leftPos != null ? popup.leftPos : 100}" required placeholder="예: 100">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label text-muted">노출 여부 설정</label>
-                            <div class="form-check form-switch mt-2">
-                                <input class="form-check-input" type="checkbox" role="switch" id="useYn" name="useYn" value="Y" ${popup.useYn eq 'Y' ? 'checked' : ''}>
-                                <label class="form-check-label text-dark" for="useYn">활성화 시 설정된 기간 동안 메인 화면에 팝업이 노출됩니다.</label>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">게시 시작 일시</label>
+                        <fmt:formatDate value="${popup.startDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtStartDt" />
+                        <input type="datetime-local" name="startDt" id="startDt" class="form-control search-bar" value="${fmtStartDt}" required>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="p-3 rounded border border-secondary text-center" style="background: rgba(0,0,0,0.2);">
-                            <label class="form-label text-muted d-block text-start mb-3">팝업 이미지 (이미지 파일 전용)</label>
-
-                            <div class="mb-3">
-                                <c:choose>
-                                    <c:when test="${not empty popup.popupImage}">
-                                        <img id="imgPreview" src="${popup.popupImage.filePath}" class="img-fluid rounded border border-secondary shadow">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div id="noImg" class="py-5 bg-white rounded text-muted">
-                                            <i class="bi bi-image fs-1 d-block mb-2"></i>
-                                            이미지 미리보기
-                                        </div>
-                                        <img id="imgPreview" class="img-fluid rounded border border-secondary shadow" style="display:none;">
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-
-                            <input type="file" name="uploadFile" id="uploadFile" class="form-control search-bar form-control-sm" accept="image/*" onchange="previewImage(this)">
-                        </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">게시 종료 일시</label>
+                        <fmt:formatDate value="${popup.endDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtEndDt" />
+                        <input type="datetime-local" name="endDt" id="endDt" class="form-control search-bar" value="${fmtEndDt}" required>
                     </div>
                 </div>
 
-                <div class="text-center mt-5">
-                    <button type="submit" class="btn btn-neon px-5 py-3 fs-5">팝업 설정 저장하기</button>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">가로 크기 (Width, px)</label>
+                        <input type="number" name="width" class="form-control search-bar" value="${popup.width != null ? popup.width : 400}" required placeholder="예: 400">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">세로 크기 (Height, px)</label>
+                        <input type="number" name="height" class="form-control search-bar" value="${popup.height != null ? popup.height : 500}" required placeholder="예: 500">
+                    </div>
                 </div>
-            </form>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">상단 위치 (Top, px)</label>
+                        <input type="number" name="topPos" class="form-control search-bar" value="${popup.topPos != null ? popup.topPos : 100}" required placeholder="예: 100">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label text-muted">좌측 위치 (Left, px)</label>
+                        <input type="number" name="leftPos" class="form-control search-bar" value="${popup.leftPos != null ? popup.leftPos : 100}" required placeholder="예: 100">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted">노출 여부 설정</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" role="switch" id="useYn" name="useYn" value="Y" ${popup.useYn eq 'Y' ? 'checked' : ''}>
+                        <label class="form-check-label text-dark" for="useYn">활성화 시 설정된 기간 동안 메인 화면에 팝업이 노출됩니다.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="p-3 rounded border border-secondary text-center" style="background: rgba(0,0,0,0.2);">
+                    <label class="form-label text-muted d-block text-start mb-3">팝업 이미지 (이미지 파일 전용)</label>
+
+                    <div class="mb-3">
+                        <c:choose>
+                            <c:when test="${not empty popup.popupImage}">
+                                <img id="imgPreview" src="${popup.popupImage.filePath}" class="img-fluid rounded border border-secondary shadow">
+                            </c:when>
+                            <c:otherwise>
+                                <div id="noImg" class="py-5 bg-white rounded text-muted">
+                                    <i class="bi bi-image fs-1 d-block mb-2"></i>
+                                    이미지 미리보기
+                                </div>
+                                <img id="imgPreview" class="img-fluid rounded border border-secondary shadow" style="display:none;">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
+                    <input type="file" name="uploadFile" id="uploadFile" class="form-control search-bar form-control-sm" accept="image/*" onchange="previewImage(this)">
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="text-center mt-5">
+            <button type="submit" class="btn btn-primary px-5 py-3 fs-5">팝업 설정 저장하기</button>
+        </div>
+    </form>
 </div>
 
 <%@ include file="../layout/footer.jsp" %>
