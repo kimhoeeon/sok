@@ -15,7 +15,6 @@
         <div class="premium-card p-5">
             <form action="/mng/popup/save" method="post" enctype="multipart/form-data" onsubmit="return validatePopup()">
                 <input type="hidden" name="popSeq" value="${popup.popSeq}">
-
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">
                 <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
@@ -31,16 +30,37 @@
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted">게시 시작 일시</label>
-                                <input type="datetime-local" name="startDt" id="startDt" class="form-control search-bar"
-                                       value="<fmt:formatDate value='${popup.startDt}' pattern='yyyy-MM-dd\"T\"HH:mm'/>" required>
+                                <fmt:formatDate value="${popup.startDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtStartDt" />
+                                <input type="datetime-local" name="startDt" id="startDt" class="form-control search-bar" value="${fmtStartDt}" required>
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted">게시 종료 일시</label>
-                                <input type="datetime-local" name="endDt" id="endDt" class="form-control search-bar"
-                                       value="<fmt:formatDate value='${popup.endDt}' pattern='yyyy-MM-dd\"T\"HH:mm'/>" required>
+                                <fmt:formatDate value="${popup.endDt}" pattern="yyyy-MM-dd'T'HH:mm" var="fmtEndDt" />
+                                <input type="datetime-local" name="endDt" id="endDt" class="form-control search-bar" value="${fmtEndDt}" required>
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-muted">가로 크기 (Width, px)</label>
+                                <input type="number" name="width" class="form-control search-bar" value="${popup.width != null ? popup.width : 400}" required placeholder="예: 400">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-muted">세로 크기 (Height, px)</label>
+                                <input type="number" name="height" class="form-control search-bar" value="${popup.height != null ? popup.height : 500}" required placeholder="예: 500">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-muted">상단 위치 (Top, px)</label>
+                                <input type="number" name="topPos" class="form-control search-bar" value="${popup.topPos != null ? popup.topPos : 100}" required placeholder="예: 100">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-muted">좌측 위치 (Left, px)</label>
+                                <input type="number" name="leftPos" class="form-control search-bar" value="${popup.leftPos != null ? popup.leftPos : 100}" required placeholder="예: 100">
+                            </div>
+                        </div>
                         <div class="mb-4">
                             <label class="form-label text-muted">노출 여부 설정</label>
                             <div class="form-check form-switch mt-2">

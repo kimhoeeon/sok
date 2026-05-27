@@ -36,7 +36,7 @@
             <thead style="background-color: #f8f9fa;">
                 <tr>
                     <th width="5%" class="text-dark border-bottom py-3">연번</th>
-                    <th width="12%" class="text-dark border-bottom py-3">썸네일</th>
+                    <th width="12%" class="text-dark border-bottom py-3">미리보기</th>
                     <th class="text-dark border-bottom py-3">팝업 제목</th>
                     <th width="22%" class="text-dark border-bottom py-3">게시 기간</th>
                     <th width="10%" class="text-dark border-bottom py-3">진행상태</th>
