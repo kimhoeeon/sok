@@ -198,6 +198,15 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+
+    $(document).ready(function() {
+        // 연락처 입력란(phone2, phone3)에 숫자만 입력되도록 실시간 필터링
+        $('#phone2, #phone3').on('input', function() {
+            var val = $(this).val().replace(/[^0-9]/g, ''); // 숫자가 아닌 모든 문자 제거
+            $(this).val(val);
+        });
+    });
+
     // 기존 스크립트 영역 내부에 추가
     function refreshCaptcha() {
         // URL 끝에 타임스탬프를 달아주어 브라우저 캐시를 무시하고 무조건 새 이미지를 받아옴
@@ -229,13 +238,25 @@
             return;
         }
 
-        var phone = $("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val();
+        // 전화번호 자릿수 2차 검증 (가운데 자리는 3~4자리, 끝 자리는 4자리)
+        var phone2Val = $("#phone2").val();
+        var phone3Val = $("#phone3").val();
+
+        if (phone2Val.length < 3 || phone3Val.length < 4) {
+            alert("연락처를 정확히 입력해 주세요.");
+            $("#phone2").focus();
+            return;
+        }
+
+        // 전화번호 조립
+        var phone = $("#phone1").val() + "-" + phone2Val + "-" + phone3Val;
         $("#phone").val(phone);
 
+        // 이메일 조립
         var email = $("#email1").val() + "@" + $("#email2").val();
         $("#email").val(email);
 
-        var formData = $(form).serialize(); // 이제 name="captchaText"가 있어서 정상적으로 값이 포함됨
+        var formData = $(form).serialize();
 
         $.ajax({
             type: "POST",
