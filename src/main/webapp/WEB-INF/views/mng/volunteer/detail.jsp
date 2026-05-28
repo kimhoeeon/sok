@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary px-5 py-2">정보 업데이트</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2">정보 업데이트</button>
                 </div>
             </form>
 

@@ -37,7 +37,17 @@
                 <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
 
                 <div class="mb-3">
-                    <label class="text-muted mb-1">회원명 (아이디)</label>
+                    <div class="d-flex align-items-center mb-1">
+                        <label class="text-muted mb-0 me-2">회원명 (아이디)</label>
+                        <c:choose>
+                            <c:when test="${member.loginType eq 'KAKAO'}">
+                                <span class="badge text-dark shadow-sm" style="background-color: #FEE500; font-size: 0.75rem;"><i class="bi bi-chat-fill me-1"></i>카카오</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge bg-secondary shadow-sm" style="font-size: 0.75rem;">일반</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                     <input type="text" class="form-control search-bar" value="${member.mbrNm} (${member.mbrId})" disabled>
                 </div>
                 <div class="mb-3">

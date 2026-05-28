@@ -88,8 +88,17 @@
                                     <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
                                         ${item.mbrNm} <span class="text-muted fw-normal ms-1">(${item.mbrId})</span>
                                     </a>
+
+                                    <c:choose>
+                                        <c:when test="${item.loginType eq 'KAKAO'}">
+                                            <span class="badge ms-1 text-dark shadow-sm" style="background-color: #FEE500; font-size: 11px;"><i class="bi bi-chat-fill me-1"></i>카카오</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge bg-secondary ms-1 shadow-sm" style="font-size: 11px;">일반</span>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <c:if test="${item.withdrawYn eq 'Y'}">
-                                        <span class="badge bg-danger ms-2" style="font-size: 11px;">탈퇴</span>
+                                        <span class="badge bg-danger ms-1" style="font-size: 11px;">탈퇴</span>
                                     </c:if>
                                     <c:if test="${item.isDonor eq 'Y'}"><i class="bi bi-heart-fill text-danger ms-1" style="font-size: 12px;"></i></c:if>
                                 </td>
