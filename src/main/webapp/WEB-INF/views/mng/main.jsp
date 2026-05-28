@@ -243,6 +243,8 @@
     </div>
 </div>
 
+<%@ include file="layout/footer.jsp" %>
+
 <script>
     var visitorChart, applyChart;
     document.addEventListener("DOMContentLoaded", function () {
@@ -375,5 +377,3 @@
     }
 
 </script>
-
-<%@ include file="layout/footer.jsp" %>
