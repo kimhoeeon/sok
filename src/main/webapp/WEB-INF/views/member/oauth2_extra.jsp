@@ -35,16 +35,14 @@
 
                     <div class="form-group" style="margin-bottom: 25px;">
                         <label for="phone" style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">휴대전화 번호 <span style="color: #dc3545;">*</span></label>
-                        <input type="text" id="phone" name="phone" placeholder="'-' 없이 숫자만 입력" required style="width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px;">
+                        <input type="text" id="phone" name="phone" placeholder="예: 010-1234-5678" required maxlength="13" style="width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 30px;">
                         <label style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">마케팅 정보 수신 동의 (선택)</label>
-                        <div style="background: #fff; border: 1px solid #ced4da; padding: 15px; border-radius: 6px;">
-                            <label style="cursor: pointer; display: flex; align-items: center; margin: 0;">
-                                <input type="checkbox" name="marketingYn" value="Y" style="width: 20px; height: 20px; margin-right: 10px;">
-                                <span style="color: #555;">이메일 및 SMS 홍보 정보 수신에 동의합니다.</span>
-                            </label>
+                        <div style="background: #fff; border: 1px solid #ced4da; padding: 15px; border-radius: 6px; display: flex; align-items: center;">
+                            <input type="checkbox" id="marketingYn" name="marketingYn" value="Y" style="width: 20px; height: 20px; margin-right: 10px; cursor: pointer; flex-shrink: 0; appearance: auto;">
+                            <label for="marketingYn" style="color: #555; cursor: pointer; margin: 0; padding-top: 2px;">이메일 및 SMS 홍보 정보 수신에 동의합니다.</label>
                         </div>
                     </div>
 
@@ -65,6 +63,22 @@
 
 <script>
     $(document).ready(function() {
+
+        $('#phone').on('input', function() {
+            var val = $(this).val().replace(/[^0-9]/g, ''); // 입력된 값에서 숫자만 남김
+            var formatted = '';
+
+            if (val.length < 4) {
+                formatted = val;
+            } else if (val.length < 8) {
+                formatted = val.substring(0, 3) + '-' + val.substring(3);
+            } else {
+                formatted = val.substring(0, 3) + '-' + val.substring(3, 7) + '-' + val.substring(7, 11);
+            }
+
+            $(this).val(formatted);
+        });
+
         $('#btnSubmitExtra').on('click', function() {
             var phone = $('#phone').val().trim();
             if(phone === '') {
@@ -74,8 +88,8 @@
             }
 
             // 숫자만 입력되었는지 정규식 검사
-            if(!/^[0-9]+$/.test(phone)) {
-                alert('휴대전화 번호는 숫자만 입력해 주세요.');
+            if(!/^010-\d{3,4}-\d{4}$/.test(phone)) {
+                alert('휴대전화 번호는 010으로 시작하는 올바른 번호 형식으로 입력해 주세요.');
                 $('#phone').focus();
                 return;
             }

@@ -164,14 +164,14 @@
                         <div class="agree_check">
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" class="chk-req" required>
+                                    <input type="checkbox" name="agreeAge" value="Y" class="chk-req" required>
                                     <span class="chk_box"></span>
                                     <div>[필수] 만 14세 이상입니다.</div>
                                 </label>
                             </div>
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" class="chk-req" required>
+                                    <input type="checkbox" name="agreeService" value="Y" class="chk-req" required>
                                     <span class="chk_box"></span>
                                     <div>[필수] 서비스 이용약관 동의</div>
                                 </label>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" class="chk-req" required>
+                                    <input type="checkbox" name="agreePrivacy" value="Y" class="chk-req" required>
                                     <span class="chk_box"></span>
                                     <div>[필수] 개인정보 처리 방침 동의</div>
                                 </label>

@@ -37,6 +37,10 @@ public class FrontVolunteerController {
                 volunteerDTO.setApplyCnt(1);
             }
 
+            if (!"Y".equals(volunteerDTO.getAgreeYn())) {
+                return ResponseEntity.badRequest().body("개인정보 수집·이용에 동의해 주세요.");
+            }
+
             // DB 저장
             volunteerMapper.insertVolunteer(volunteerDTO);
 
