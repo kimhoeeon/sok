@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>인식개선</span>
+                    <span>사업소개</span><span>인식개선</span><span>슈퍼블루 캠페인</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">인식개선</div>
+                <div class="sub_top_tit" id="tts_sub_top">슈퍼블루 캠페인</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">

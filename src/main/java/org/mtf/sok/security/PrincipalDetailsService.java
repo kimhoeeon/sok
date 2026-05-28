@@ -62,7 +62,8 @@ public class PrincipalDetailsService implements UserDetailsService {
 
                     if (!isAllowed) {
                         log.warn("🚨 보안 차단: 등록되지 않은 IP({})에서 관리자 계정({}) 로그인을 시도했습니다.", clientIp, admin.getAdmId());
-                        throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
+                        //throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
+                        throw new UsernameNotFoundException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
                     }
                 }
 

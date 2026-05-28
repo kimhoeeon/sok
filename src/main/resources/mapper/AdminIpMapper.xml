@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.AdminIpMapper">
+
+    <select id="selectAllAdmins" resultType="org.mtf.sok.domain.AdminDTO">
+        SELECT ADM_SEQ, ADM_ID, ADM_NM, ADM_ROLE, REG_DT, LAST_LOGIN_DT
+        FROM TB_ADMIN
+        ORDER BY REG_DT DESC
+    </select>
+
+    <select id="selectIpsByAdmSeq" parameterType="long" resultType="org.mtf.sok.domain.AdminIpDTO">
+        SELECT IP_SEQ, ADM_SEQ, ALLOW_IP, DESCRIPTION, REG_DT
+        FROM TB_ADMIN_IP
+        WHERE ADM_SEQ = #{admSeq}
+        ORDER BY REG_DT DESC
+    </select>
+
+    <select id="checkDuplicateIp" parameterType="org.mtf.sok.domain.AdminIpDTO" resultType="int">
+        SELECT COUNT(IP_SEQ)
+        FROM TB_ADMIN_IP
+        WHERE ADM_SEQ = #{admSeq} AND ALLOW_IP = #{allowIp}
+    </select>
+
+    <insert id="insertAdminIp" parameterType="org.mtf.sok.domain.AdminIpDTO">
+        INSERT INTO TB_ADMIN_IP (ADM_SEQ, ALLOW_IP, DESCRIPTION, REG_DT)
+        VALUES (#{admSeq}, #{allowIp}, #{description}, NOW())
+    </insert>
+
+    <delete id="deleteAdminIp" parameterType="long">
+        DELETE FROM TB_ADMIN_IP WHERE IP_SEQ = #{ipSeq}
+    </delete>
+
+</mapper>

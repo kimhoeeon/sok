@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>문화예술</span>
+                    <span>사업소개</span><span>문화예술</span><span>스페셜올림픽 미술대회</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">문화예술</div>
+                <div class="sub_top_tit" id="tts_sub_top">스페셜올림픽 미술대회</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">

@@ -78,10 +78,16 @@
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0;">
 
         <div class="d-flex justify-content-end align-items-center p-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
+
+            <a href="/mng/admin/ip/list" class="btn btn-dark me-3 shadow-sm" style="border-radius: 8px; padding: 8px 16px;">
+                <i class="bi bi-shield-check"></i> 접근 IP 관리
+            </a>
+
             <div class="d-flex align-items-center glassmorphism-box px-4 py-2">
                 <i class="bi bi-person-circle fs-3 me-2 neon-icon"></i>
                 <span class="fw-bold text-dark">${adminLogin.admNm} 관리자님</span>
             </div>
+
         </div>
 
         <div class="p-5 flex-grow-1 overflow-auto">

@@ -9,10 +9,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>스포츠</span>
+                    <span>사업소개</span><span>스포츠</span><span>종목소개</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">스포츠</div>
+                <div class="sub_top_tit" id="tts_sub_top">종목소개</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
