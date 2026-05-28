@@ -40,6 +40,18 @@
                 <div class="col-md-9 text-muted"><fmt:formatDate value="${certificate.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
             </div>
 
+            <div class="row mb-4 border-top pt-3 border-light">
+                <div class="col-md-3 text-muted">개인정보 동의</div>
+                <div class="col-md-9 text-dark d-flex align-items-center">
+                    <span class="badge bg-${certificate.agreeYn eq 'Y' ? 'success' : 'danger'} me-2">${certificate.agreeYn}</span>
+                    <c:if test="${not empty certificate.agreeDt}">
+                        <span class="text-muted" style="font-size: 0.85rem;">
+                            (동의일시: <fmt:formatDate value="${certificate.agreeDt}" pattern="yyyy-MM-dd HH:mm:ss"/>)
+                        </span>
+                    </c:if>
+                </div>
+            </div>
+
             <h5 class="fw-bold text-dark border-bottom border-secondary pb-3 mb-4 mt-5"><i class="bi bi-chat-left-text me-2 text-warning"></i> 발급 용도</h5>
             <div class="p-4 rounded text-dark mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid #474761; min-height: 100px; white-space: pre-wrap;">${certificate.usePurpose}</div>
 

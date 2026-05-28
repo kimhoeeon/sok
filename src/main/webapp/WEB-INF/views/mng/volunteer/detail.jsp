@@ -25,6 +25,11 @@
                     <span class="fw-bold ${volunteer.agreeYn eq 'Y' ? 'text-dark' : 'text-danger'}">
                         ${volunteer.agreeYn eq 'Y' ? '동의 완료' : '미동의 (확인 필요)'}
                     </span>
+                    <c:if test="${not empty volunteer.agreeDt}">
+                        <span class="d-block text-secondary mt-1" style="font-size: 12px;">
+                            <i class="bi bi-clock me-1"></i><fmt:formatDate value="${volunteer.agreeDt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </span>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -41,17 +46,6 @@
                     <i class="bi bi-circle-fill position-absolute text-warning" style="left: -21px; top: 3px; font-size: 10px;"></i>
                     <span class="d-block text-warning" style="font-size: 12px;">현재 관리자 확인 및 배정 대기중</span>
                 </div>
-            </div>
-
-            <div class="mt-5 text-end border-top border-secondary pt-3">
-                <form action="/mng/volunteer/delete" method="post" onsubmit="return confirm('해당 자원봉사 신청 내역을 삭제(취소)하시겠습니까?');">
-                    <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
-                    <input type="hidden" name="pageNum" value="${params.pageNum}">
-                    <input type="hidden" name="amount" value="${params.amount}">
-                    <input type="hidden" name="searchSupportArea" value="${params.searchSupportArea}">
-                    <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
-                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3 me-1"></i> 신청 내역 삭제</button>
-                </form>
             </div>
         </div>
     </div>
@@ -103,6 +97,18 @@
                     <button type="submit" class="btn btn-primary px-5 py-2">정보 업데이트</button>
                 </div>
             </form>
+
+            <form action="/mng/volunteer/delete" method="post" class="mt-2" onsubmit="return confirm('해당 자원봉사 신청 내역을 삭제(취소)하시겠습니까? 삭제 후 복구할 수 없습니다.');">
+                <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
+                <input type="hidden" name="pageNum" value="${params.pageNum}">
+                <input type="hidden" name="amount" value="${params.amount}">
+                <input type="hidden" name="searchSupportArea" value="${params.searchSupportArea}">
+                <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+                <button type="submit" class="btn btn-outline-danger w-100 py-2">
+                    <i class="bi bi-trash3 me-1"></i> 신청 내역 삭제
+                </button>
+            </form>
+
         </div>
     </div>
 </div>

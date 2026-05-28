@@ -162,7 +162,20 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form_row">
+                        <div class="form_box">
+                            <label><span>마케팅 수신 (선택)</span></label>
+                            <div class="input" style="display: flex; align-items: center; min-height: 50px;">
+                                <div class="form-check form-switch" style="font-size: 1.2rem; margin: 0;">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="marketingToggle" style="cursor:pointer;"
+                                    ${sessionScope.userLogin.marketingYn eq 'Y' ? 'checked' : ''} onchange="toggleMarketing(this)">
+                                    <label class="form-check-label ms-2" for="marketingToggle" style="font-size: 1rem; cursor: pointer; transform: translateY(2px); display: inline-block;">
+                                        이메일 및 SMS 홍보 정보 수신 동의
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="btn save_btn">
                         <button type="button" onclick="submitProfile()">저장하기</button>
                     </div>
@@ -277,6 +290,24 @@
             },
             error: function (xhr) {
                 alert("프로필 수정 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 마케팅 수신 동의 실시간 토글 AJAX
+    function toggleMarketing(checkbox) {
+        var marketingYn = checkbox.checked ? 'Y' : 'N';
+
+        $.ajax({
+            url: '/mypage/updateMarketing',
+            type: 'POST',
+            data: { marketingYn: marketingYn },
+            success: function(res) {
+                alert('마케팅 수신 동의 설정이 정상적으로 변경되었습니다.');
+            },
+            error: function() {
+                alert('설정 변경 중 오류가 발생했습니다.');
+                checkbox.checked = !checkbox.checked; // 실패 시 원래 스위치 상태로 되돌림
             }
         });
     }

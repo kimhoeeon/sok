@@ -4,15 +4,14 @@ import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.DonationMapper;
 import org.mtf.sok.mapper.MemberMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -188,6 +187,27 @@ public class FrontMypageController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("동의 처리 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PostMapping("/mypage/updateMarketing")
+    @ResponseBody
+    public ResponseEntity<?> updateMarketing(@RequestParam String marketingYn, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        try {
+            MemberDTO memberDTO = new MemberDTO();
+            // 현재 로그인된 사용자의 시퀀스 번호와 변경할 Y/N 값을 세팅
+            memberDTO.setMbrSeq(principalDetails.getMemberDTO().getMbrSeq());
+            memberDTO.setMarketingYn(marketingYn);
+
+            // 기존에 만들어두신 Mapper 실행
+            memberMapper.updateMarketingAgreement(memberDTO);
+
+            // 시큐리티 세션 내의 정보도 동기화 (새로고침 시 풀림 방지)
+            principalDetails.getMemberDTO().setMarketingYn(marketingYn);
+
+            return ResponseEntity.ok("변경 완료");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("변경 실패");
         }
     }
 }

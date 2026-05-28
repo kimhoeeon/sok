@@ -90,7 +90,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light">상세 확인</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary">상세보기</a>
                                 </td>
                             </tr>
                         </c:forEach>

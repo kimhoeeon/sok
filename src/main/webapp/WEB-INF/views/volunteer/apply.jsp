@@ -91,8 +91,7 @@
                         <div class="form_box sub_box essen">
                             <label><span>행사명</span></label>
                             <div class="input">
-                                <input type="text" name="eventNm" id="eventNm" required
-                                       placeholder="참여를 희망하는 행사명을 입력해주세요">
+                                <input type="text" name="eventNm" id="eventNm" required placeholder="참여를 희망하는 행사명을 입력해주세요">
                             </div>
                         </div>
                     </div>
@@ -168,6 +167,15 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+
+    $(document).ready(function() {
+        // 연락처 입력란(phone2, phone3)에 숫자만 입력되도록 실시간 필터링
+        $('#phone2, #phone3').on('input', function() {
+            var val = $(this).val().replace(/[^0-9]/g, ''); // 숫자가 아닌 모든 문자 제거
+            $(this).val(val);
+        });
+    });
+
     function submitVolunteer() {
         var form = document.getElementById("volunteerForm");
 
@@ -186,7 +194,17 @@
         }
 
         // 전화번호 조립
-        var phoneStr = $("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val();
+        var phone2Val = $("#phone2").val();
+        var phone3Val = $("#phone3").val();
+
+        if (phone2Val.length < 3 || phone3Val.length < 4) {
+            alert("연락처를 정확히 입력해 주세요.");
+            $("#phone2").focus();
+            return;
+        }
+
+        // 전화번호 조립
+        var phoneStr = $("#phone1").val() + "-" + phone2Val + "-" + phone3Val;
         $("#phone").val(phoneStr);
 
         var formData = $(form).serialize();

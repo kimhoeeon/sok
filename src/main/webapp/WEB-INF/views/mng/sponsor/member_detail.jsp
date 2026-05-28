@@ -66,6 +66,40 @@
                     </div>
                 </c:if>
 
+                <hr class="border-secondary my-4" style="opacity: 0.15;">
+                <h6 class="fw-bold text-dark mb-3">약관 및 수신 동의 내역</h6>
+
+                <div class="mb-3">
+                    <label class="text-muted mb-1">필수 약관 동의</label>
+                    <div class="p-3 border rounded bg-light" style="font-size: 13px;">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>만 14세 이상 확인</span>
+                            <span class="badge bg-${member.agreeAgeYn eq 'Y' ? 'success' : 'danger'}">${member.agreeAgeYn}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>서비스 이용약관</span>
+                            <span class="badge bg-${member.agreeServiceYn eq 'Y' ? 'success' : 'danger'}">${member.agreeServiceYn}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>개인정보 처리방침</span>
+                            <span class="badge bg-${member.agreePrivacyYn eq 'Y' ? 'success' : 'danger'}">${member.agreePrivacyYn}</span>
+                        </div>
+                        <div class="text-muted mt-2 pt-2 border-top border-secondary border-opacity-25" style="font-size: 12px;">
+                            <i class="bi bi-clock"></i> 필수 동의 일시: <fmt:formatDate value="${member.agreeDt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted mb-1">마케팅 수신 동의 (선택)</label>
+                    <div class="p-3 border rounded bg-light d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                        <span>이메일 및 SMS 홍보 수신</span>
+                        <span class="badge bg-${member.marketingYn eq 'Y' ? 'primary' : 'secondary'}">
+                            ${empty member.marketingYn ? 'N' : member.marketingYn}
+                        </span>
+                    </div>
+                </div>
+
                 <div class="text-end mt-4">
                     <button type="submit" class="btn btn-outline-primary px-4">회원 정보 수정</button>
                 </div>
