@@ -19,6 +19,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher; // 매처 임포트 추가
 import org.springframework.security.web.util.matcher.OrRequestMatcher;      // 매처 임포트 추가
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 
 @Configuration
@@ -75,23 +76,50 @@ public class SecurityConfig {
     @Bean
     public AuthenticationEntryPoint customAuthenticationEntryPoint() {
         return (request, response, authException) -> {
-            String requestURI = request.getRequestURI();
-            response.setContentType("text/html; charset=UTF-8");
-            if (requestURI != null && requestURI.startsWith("/mng")) {
-                response.getWriter().println("<script>alert('관리자 로그인이 필요한 서비스입니다.'); location.href='/mng/login';</script>");
+            // AJAX 요청 여부 판별 (jQuery 등 대부분의 비동기 통신 라이브러리가 헤더에 포함)
+            String ajaxHeader = request.getHeader("X-Requested-With");
+            boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+
+            if (isAjax) {
+                // 비동기 요청일 경우 401 에러 반환
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요합니다.");
             } else {
-                response.getWriter().println("<script>alert('로그인이 필요한 서비스입니다.'); location.href='/login/basic?redirect=" + requestURI + "';</script>");
+                // 일반 요청일 경우 기존처럼 스크립트 알럿 처리 (단, location.replace 사용)
+                String requestURI = request.getRequestURI();
+                response.setContentType("text/html; charset=UTF-8");
+                if (requestURI != null && requestURI.startsWith("/mng")) {
+                    response.getWriter().println("<script>alert('관리자 로그인이 필요한 서비스입니다.'); location.replace('/mng/login');</script>");
+                } else {
+                    response.getWriter().println("<script>alert('로그인이 필요한 서비스입니다.'); location.replace('/login/basic?redirect=" + requestURI + "');</script>");
+                }
+                response.getWriter().flush();
             }
-            response.getWriter().flush();
         };
     }
 
     @Bean
     public AccessDeniedHandler customAccessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().println("<script>alert('해당 페이지에 대한 접근 권한이 없습니다.'); history.back();</script>");
-            response.getWriter().flush();
+            // AJAX 요청 여부 판별
+            String ajaxHeader = request.getHeader("X-Requested-With");
+            boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+
+            if (isAjax) {
+                // 비동기 요청일 경우 403 에러 반환
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "접근 권한이 없습니다.");
+            } else {
+                response.setContentType("text/html; charset=UTF-8");
+                String requestURI = request.getRequestURI();
+
+                // 접근하려던 목적지가 관리자(/mng) 경로인 경우 관리자 로그인으로 쫓아냄
+                if (requestURI != null && requestURI.startsWith("/mng")) {
+                    response.getWriter().println("<script>alert('관리자 권한이 필요한 페이지입니다.'); location.replace('/mng/login');</script>");
+                } else {
+                    // 그 외 사용자 프론트 페이지 내에서의 권한 부족인 경우 프론트 메인으로 쫓아냄
+                    response.getWriter().println("<script>alert('해당 페이지에 대한 접근 권한이 없습니다.'); location.replace('/');</script>");
+                }
+                response.getWriter().flush();
+            }
         };
     }
 
