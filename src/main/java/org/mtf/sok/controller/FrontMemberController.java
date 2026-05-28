@@ -42,6 +42,12 @@ public class FrontMemberController {
                 return ResponseEntity.badRequest().body("필수 입력 정보가 누락되었습니다.");
             }
 
+            if (!"Y".equals(memberDTO.getAgreeAgeYn()) ||
+                    !"Y".equals(memberDTO.getAgreeServiceYn()) ||
+                    !"Y".equals(memberDTO.getAgreePrivacyYn())) {
+                return ResponseEntity.badRequest().body("필수 약관에 모두 동의하셔야 가입이 가능합니다.");
+            }
+
             // 2) 아이디 중복 체크 방어 로직
             if (memberMapper.checkDuplicateId(memberDTO.getMbrId()) > 0) {
                 return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");

@@ -38,6 +38,10 @@ public class MemberDTO extends Criteria {
 
     private String agreeOptionalYn;
     private String marketingYn;
+    private String agreeAgeYn;      // 만 14세 이상 확인 동의 (Y/N)
+    private String agreeServiceYn;  // 서비스 이용약관 동의 (Y/N)
+    private String agreePrivacyYn;  // 개인정보 처리방침 동의 (Y/N)
+    private Date agreeDt;           // 필수 약관 동의 일시
 
     // --- 스토리보드 항목 반영 추가 ---
     private Integer totalDonateCnt; // 누적 후원 건수

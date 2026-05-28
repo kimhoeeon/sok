@@ -16,6 +16,8 @@ public class VolunteerDTO extends Criteria {
     private String freqType;    // 봉사희망횟수 (ONCE, OFTEN)
     private String agreeYn;     // 개인정보동의여부
 
+    private Date agreeDt;       // 동의 일시
+
     // [신규 추가] 상태 관리 및 알림 발송을 위한 핵심 필드
     private String email;       // 이메일 (결과 알림 발송용)
     private String status;      // 처리상태 (WAIT: 대기, APPR: 승인, DONE: 완료, REJECT: 반려)

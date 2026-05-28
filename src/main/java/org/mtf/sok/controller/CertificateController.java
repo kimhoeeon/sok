@@ -51,14 +51,14 @@ public class CertificateController {
 
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam Long certSeq,
-                               @RequestParam String status,
-                               @RequestParam(required = false) String rejectReason, // 추가
+                               @RequestParam String issueStatus,
+                               @RequestParam(required = false) String rejectReason,
                                @ModelAttribute("params") CertificateDTO params,
                                RedirectAttributes rttr) {
 
         CertificateDTO certificate = new CertificateDTO();
         certificate.setCertSeq(certSeq);
-        certificate.setIssueStatus(status);
+        certificate.setIssueStatus(issueStatus);
         certificate.setRejectRsn(rejectReason);
 
         // 1. DB 상태 업데이트
@@ -66,7 +66,7 @@ public class CertificateController {
 
         // 2. [핵심 추가] 처리 완료 또는 반려 시 신청자에게 결과 알림 메일/SMS 발송
         try {
-            if ("DONE".equals(status) || "REJECT".equals(status)) {
+            if ("DONE".equals(issueStatus) || "REJECT".equals(issueStatus)) {
                 // 알림을 보내기 위해 업데이트된 증명서의 전체 정보(이메일, 연락처 등)를 다시 조회
                 CertificateDTO updatedCert = certificateMapper.selectCertificate(certSeq);
                 directSendService.sendCertificateResultAlert(updatedCert);

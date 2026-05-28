@@ -22,6 +22,9 @@ public class CertificateDTO extends Criteria {
     private Date issueDt;
     private String delYn;
 
+    private String agreeYn; // 개인정보 수집·이용 동의 (Y/N)
+    private Date agreeDt;   // 동의 일시
+
     // 검색 파라미터 (유지)
     private String searchType;
     private String searchStatus;

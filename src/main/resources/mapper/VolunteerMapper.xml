@@ -60,9 +60,9 @@
 
     <insert id="insertVolunteer" parameterType="org.mtf.sok.domain.VolunteerDTO" useGeneratedKeys="true" keyProperty="volSeq">
         INSERT INTO TB_VOLUNTEER_APPLY (
-            SUPPORT_AREA, EVENT_NM, APPLY_NM, PHONE, EMAIL, APPLY_CNT, FREQ_TYPE, AGREE_YN, STATUS, REG_DT, DEL_YN
+            SUPPORT_AREA, EVENT_NM, APPLY_NM, PHONE, EMAIL, APPLY_CNT, FREQ_TYPE, AGREE_YN, AGREE_DT, STATUS, REG_DT, DEL_YN
         ) VALUES (
-                     #{supportArea}, #{eventNm}, #{applyNm}, #{phone}, #{email}, #{applyCnt}, #{freqType}, #{agreeYn}, 'WAIT', NOW(), 'N'
+                     #{supportArea}, #{eventNm}, #{applyNm}, #{phone}, #{email}, #{applyCnt}, #{freqType}, #{agreeYn}, NOW(), 'WAIT', NOW(), 'N'
                  )
     </insert>
 

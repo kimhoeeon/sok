@@ -61,10 +61,12 @@
     <insert id="insertCertificate" parameterType="org.mtf.sok.domain.CertificateDTO" useGeneratedKeys="true" keyProperty="certSeq">
         INSERT INTO TB_CERTIFICATE_APPLY (
             CERT_TYPE, ISSUE_STATUS, APPLY_NM, PHONE, EMAIL,
-            USE_PURPOSE, BELONG_TO, REMARK, REG_DT, DEL_YN
+            USE_PURPOSE, BELONG_TO, REMARK, REG_DT, DEL_YN,
+            AGREE_YN, AGREE_DT
         ) VALUES (
                      #{certType}, 'WAIT', #{applyNm}, #{phone}, #{email},
-                     #{usePurpose}, #{belongTo}, #{remark}, NOW(), 'N'
+                     #{usePurpose}, #{belongTo}, #{remark}, NOW(), 'N',
+                     #{agreeYn}, NOW()
                  )
     </insert>
 

@@ -15,7 +15,8 @@
         INSERT INTO TB_MEMBER (
         MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, INST_TYPE, LOGIN_TYPE,
         SNS_TYPE, SNS_ID, BIZ_NO, BIZ_FILE_PATH, MANAGER_NM, MANAGER_POS,
-        PHONE, EMAIL, IS_DONOR, JOIN_DT, WITHDRAW_YN
+        PHONE, EMAIL, IS_DONOR, JOIN_DT, WITHDRAW_YN,
+        AGREE_AGE_YN, AGREE_SERVICE_YN, AGREE_PRIVACY_YN, AGREE_DT
         ) VALUES (
         #{mbrId},
         #{mbrPw},
@@ -43,7 +44,8 @@
         #{email},
         'N',
         NOW(),
-        'N'
+        'N',
+        #{agreeAgeYn}, #{agreeServiceYn}, #{agreePrivacyYn}, NOW()
         )
     </insert>
 
