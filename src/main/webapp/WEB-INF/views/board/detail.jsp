@@ -106,7 +106,7 @@
             </c:if>
 
             <div class="view_detail">
-                <div>
+                <div class="editor-content">
                     <c:out value="${board.content}" escapeXml="false" />
                 </div>
             </div>
@@ -156,3 +156,34 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
+<script>
+    $(document).ready(function() {
+        // ★ 에디터 본문 내 링크 자동화 처리 스크립트
+        $('.editor-content a').each(function() {
+            var url = $(this).attr('href');
+            if (!url) return;
+
+            // 1. 모든 본문 링크를 강제로 새창에서 열리도록 설정 (보안 속성 추가)
+            $(this).attr('target', '_blank');
+            $(this).attr('rel', 'noopener noreferrer');
+
+            // 2. 유튜브 링크 정규식 (youtube.com, youtu.be 모두 감지)
+            var ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            var match = url.match(ytRegex);
+
+            // 3. 유튜브 링크가 맞다면 반응형 플레이어(iframe)를 링크 바로 아래에 자동 삽입
+            if (match && match[1]) {
+                var videoId = match[1];
+                var iframeHtml = '<div class="video_container" style="margin-top: 15px; margin-bottom: 25px;">' +
+                    '<iframe src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                    '</div>';
+
+                // 중복 삽입을 방지하기 위해 바로 뒤에 video_container가 없는 경우에만 추가
+                if(!$(this).next().hasClass('video_container')) {
+                    $(this).after(iframeHtml);
+                }
+            }
+        });
+    });
+</script>

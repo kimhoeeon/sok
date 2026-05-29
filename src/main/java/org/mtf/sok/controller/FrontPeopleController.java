@@ -70,6 +70,15 @@ public class FrontPeopleController {
         // 게시글 상세 조회
         BoardDTO board = boardMapper.selectBoard(brdSeq);
 
+        // ★ 신규 추가: 상세 페이지에서 노출할 다중 프로필 이미지(첨부파일) 목록 조회 로직
+        FileDTO fileParam = new FileDTO();
+        fileParam.setRefTable("TB_BOARD");
+        fileParam.setRefSeq(brdSeq);
+        List<FileDTO> fileList = boardMapper.selectFiles(fileParam);
+
+        // 조회된 파일 리스트를 board 객체에 담아 JSP로 전달
+        board.setFileList(fileList);
+
         model.addAttribute("board", board);
 
         // SOK 스토리 전용 상세 뷰 페이지로 연결

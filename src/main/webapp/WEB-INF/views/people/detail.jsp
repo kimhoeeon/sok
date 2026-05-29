@@ -34,8 +34,19 @@
             </div>
         </div>
         <div class="view_wrap">
+
+            <c:if test="${not empty board.fileList}">
+                <div class="profile_images" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 50px;">
+                    <c:forEach var="file" items="${board.fileList}">
+                        <div style="text-align: center;">
+                            <img src="${file.filePath}" alt="${file.orgFileNm}" style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
+
             <div class="view_detail center">
-                <div>
+                <div class="editor-content">
                     <c:out value="${board.content}" escapeXml="false" />
                 </div>
             </div>
@@ -49,3 +60,33 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
+<script>
+    $(document).ready(function() {
+        // ★ 에디터 본문 내 링크 자동화 처리 스크립트 (유튜브 및 새창 열기)
+        $('.editor-content a').each(function() {
+            var url = $(this).attr('href');
+            if (!url) return;
+
+            // 새창에서 열리도록 설정
+            $(this).attr('target', '_blank');
+            $(this).attr('rel', 'noopener noreferrer');
+
+            // 유튜브 링크 추출 정규식
+            var ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            var match = url.match(ytRegex);
+
+            // 유튜브 영상이 감지되면 iframe 생성
+            if (match && match[1]) {
+                var videoId = match[1];
+                var iframeHtml = '<div class="video_container" style="margin-top: 15px; margin-bottom: 25px;">' +
+                    '<iframe src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                    '</div>';
+
+                if(!$(this).next().hasClass('video_container')) {
+                    $(this).after(iframeHtml);
+                }
+            }
+        });
+    });
+</script>

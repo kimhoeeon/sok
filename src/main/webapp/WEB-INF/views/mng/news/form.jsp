@@ -8,6 +8,22 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
+<style>
+    /* ★ 신규 추가: Summernote 링크 삽입 팝업 UI/UX 개선 */
+    /* 1. 프론트에서 자동 처리하므로 혼동을 유발하는 새창열기/프로토콜 체크박스 숨김 */
+    .note-modal-form .checkbox {
+        display: none !important;
+    }
+    /* 2. 팝업 하단에 링크 삽입 버튼이 딱 붙어있는 디자인 버그 해결 */
+    .note-modal-footer {
+        padding: 15px 20px 20px 0 !important;
+        height: auto !important;
+    }
+    .note-modal-footer .note-btn {
+        margin-right: 0 !important;
+    }
+</style>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">${empty news.brdSeq ? 'SOK 소식 등록' : 'SOK 소식 상세/수정'}</h3>
 
@@ -99,6 +115,13 @@
             lang: "ko-KR",               // 한글 설정
             dialogsInBody: true,
             placeholder: '본문 내용을 입력해주세요.',
+            fontNames: [
+                'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+                'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
+                'Tahoma', 'Times New Roman', 'Verdana',
+                'NanumSquareNeo', '맑은 고딕', '굴림', '돋움', '바탕', '궁서'
+            ],
+            fontNamesIgnoreCheck: ['NanumSquareNeo'],
             callbacks: {
                 onImageUpload: function(files) {
                     // 다중 이미지 업로드 처리

@@ -58,11 +58,17 @@
                                             </div>
                                             <div class="thumbBox">
                                                 <c:choose>
+                                                    <%-- 1순위: 관리자가 명시적으로 등록한 썸네일(THUMB_PATH)이 있으면 우선 사용 --%>
                                                     <c:when test="${not empty item.thumbPath}">
                                                         <img src="${item.thumbPath}" alt="${item.title} 썸네일">
                                                     </c:when>
+                                                    <%-- 2순위: 썸네일은 없지만, 컨트롤러가 조회해 온 첨부파일(fileList)이 있다면 그중 첫 번째 파일을 사용 --%>
+                                                    <c:when test="${not empty item.fileList and item.fileList.size() > 0}">
+                                                        <img src="${item.fileList[0].filePath}" alt="${item.title} 첨부 이미지">
+                                                    </c:when>
+                                                    <%-- 3순위: 둘 다 없으면 기본 SOK 로고 썸네일 노출 --%>
                                                     <c:otherwise>
-                                                        <img src="/img/thum_img.png" alt="썸네일 이미지">
+                                                        <img src="/img/thum_img.png" alt="기본 썸네일 이미지">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
