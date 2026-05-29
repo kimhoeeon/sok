@@ -128,7 +128,7 @@
                                 <textarea readonly>[ 개인정보처리방침 ]&#10;&#10;스페셜올림픽코리아(이하 ‘회사’ 라 함)는 귀하의 개인정보보호를 매우 중요시하며, 『개인정보보호법』을 준수 하고 있습니다. 회사는 개인정보처리방침을 통하여 귀하께서 제공하시는 개인정보가 어떠한 용도와 방식으 로 이용되고 있으며 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다. 이 개인정보처리방침의 순서는 다음과 같습니다.&#10;&#10;1. 수집하는 개인정보의 항목 및 수집방법&#10;&#10;회사는 회원가입 시 서비스 이용을 위해 필요한 최소한의 개인정보만을 수집합니다. 귀하가 회사(는)의 서비스를 이용하기 위해서는 회원가입 시 필수항목과 선택항목이 있는데, 메일수신여부 등과 같은 선택 항목은 입력하지 않더라도 서비스 이용에는 제한이 없습니다.&#10;&#10;[홈페이지 회원가입 시 수집항목]&#10;- 필수항목 : 성명, 아이디, 비밀번호, 주소, 연락처(전화번호, 휴대폰번호)&#10;- 선택항목 : 이메일, 메일수신여부&#10;- 서비스 이용 과정이나 서비스 제공 업무 처리 과정에서 다음과 같은 정보들이 자동으로 생성되어 수집 될 수 있습니다. : 서비스 이용기록, 접속 로그, 쿠키, 접속 IP 정보</textarea>
                                 <div class="agree">
                                     <label>
-                                        <input type="checkbox" id="agreeYn" name="agreeYn" value="Y" required>
+                                        <input type="checkbox" id="agreeYn" name="agreeYn" value="Y">
                                         <div class="chk_box"></div>
                                         <div>이용약관에 동의합니다.</div>
                                     </label>
@@ -174,7 +174,7 @@
                                         <img src="/certificate/captchaImg" id="captchaImg" alt="자동입력방지" style="width: 150px; height: 50px;">
                                     </div>
                                     <input type="text" id="captchaText" name="captchaText" required autocomplete="off">
-                                    <button type="button"><img src="/img/sound_icon.png" alt="다시 듣기"></button>
+                                    <button type="button" onclick="playCaptchaAudio()"><img src="/img/sound_icon.png" alt="다시 듣기"></button>
                                     <button type="button" onclick="refreshCaptcha()"><img src="/img/restore_icon.png" alt="리셋"></button>
                                 </div>
                                 <div class="txt">자동등록방지 숫자를 순서대로 입력하세요.</div>
@@ -207,10 +207,29 @@
         });
     });
 
-    // 기존 스크립트 영역 내부에 추가
+    // 캡차 이미지 새로고침
     function refreshCaptcha() {
-        // URL 끝에 타임스탬프를 달아주어 브라우저 캐시를 무시하고 무조건 새 이미지를 받아옴
-        document.getElementById('captchaImg').src = '/certificate/captchaImg?t=' + new Date().getTime();
+        // 브라우저 캐시를 완벽히 회피하기 위해 타임스탬프와 랜덤 난수를 이중으로 부여합니다.
+        var newUrl = '/certificate/captchaImg?t=' + new Date().getTime() + '&r=' + Math.random();
+
+        // id가 captchaImg인 요소뿐만 아니라, prevention_img 클래스 안의 모든 이미지를 찾아 교체
+        // (PC/모바일 등 화면 분리로 인해 img 태그가 2개 이상일 경우를 완벽 방어)
+        $('#captchaImg, .prevention_img img').attr('src', newUrl);
+
+        // 새로고침 시 사용자가 기존에 입력했던 틀린 값은 깔끔하게 지워주고 포커스 이동
+        $('#captchaText').val('').focus();
+    }
+
+    // 캡차 음성 다시 듣기 함수
+    function playCaptchaAudio() {
+        // 백엔드 컨트롤러에 /certificate/captchaAudio 와 같은 매핑이 필요합니다.
+        var audioUrl = '/certificate/captchaAudio?t=' + new Date().getTime();
+        var audio = new Audio(audioUrl);
+
+        audio.play().catch(function(error) {
+            console.log("Audio play error: ", error);
+            alert("음성 캡차를 불러올 수 없습니다. 브라우저 설정 또는 서버 API를 확인해 주세요.");
+        });
     }
 
     // 이메일 도메인 선택 스크립트

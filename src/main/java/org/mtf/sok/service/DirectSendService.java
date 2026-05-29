@@ -434,7 +434,11 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            // SMS 발송 시 에러 스트림 안전 처리
+            int responseCode = con.getResponseCode();
+            java.io.InputStream stream = (responseCode >= 200 && responseCode < 300) ? con.getInputStream() : con.getErrorStream();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -442,16 +446,23 @@ public class DirectSendService {
             }
             in.close();
 
-            JsonNode responseObj = objectMapper.readTree(response.toString());
-            if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
-                responseDto.setResultCode("SUCCESS");
-                responseDto.setResultMessage("성공");
-                log.info("DirectSend SMS 발송 성공");
+            if (responseCode >= 200 && responseCode < 300) {
+                JsonNode responseObj = objectMapper.readTree(response.toString());
+                if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
+                    responseDto.setResultCode("SUCCESS");
+                    responseDto.setResultMessage("성공");
+                    log.info("DirectSend SMS 발송 성공");
+                } else {
+                    responseDto.setResultCode("FAIL");
+                    responseDto.setResultMessage("실패");
+                    log.warn("DirectSend SMS 발송 실패: {}", response.toString());
+                }
             } else {
                 responseDto.setResultCode("FAIL");
-                responseDto.setResultMessage("실패");
-                log.warn("DirectSend SMS 발송 실패: {}", response.toString());
+                responseDto.setResultMessage("HTTP 에러: " + responseCode);
+                log.error("DirectSend SMS 발송 실패 (HTTP 에러): {}", response.toString());
             }
+
         } catch (Exception e) {
             log.error("SMS Send Error", e);
             responseDto.setResultCode("FAIL");

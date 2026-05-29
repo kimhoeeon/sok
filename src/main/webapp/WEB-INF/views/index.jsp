@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<style>
+    /* ★ 팝업 전용 커스텀 체크박스 스타일 추가 */
+    .popup-footer { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #222; color: #fff; }
+    .popup-footer label { display: flex; align-items: center; cursor: pointer; gap: 8px; margin: 0; }
+    .popup-footer input[type="checkbox"] { display: none; } /* appearance:none 으로 숨겨진 기본 인풋 완전히 숨김 */
+    .popup-footer .chk_box { width: 24px; height: 24px; flex-shrink: 0; background: url(/img/pop_check_off.png) no-repeat center; background-size: contain; }
+    .popup-footer input[type="checkbox"]:checked + .chk_box { background: url(/img/pop_check_on.png) no-repeat center; background-size: contain; }
+    .popup-footer button { cursor: pointer; background: inherit; border: none; color: #fff; font-weight: bold; font-size: 16px; padding: 0; }
+</style>
+
 <c:if test="${not empty popupList}">
     <c:forEach var="popup" items="${popupList}">
         <div id="main_popup_${popup.popSeq}" class="main-popup"
@@ -20,10 +30,13 @@
             </div>
 
             <div class="popup-footer">
-                <label style="cursor: pointer; margin: 0;">
-                    <input type="checkbox" id="chk_hide_${popup.popSeq}"> 오늘 하루 보지 않기
+                <!-- ★ SOK 프로젝트 전용 chk_box 구조로 완벽 교체 -->
+                <label for="chk_hide_${popup.popSeq}">
+                    <input type="checkbox" id="chk_hide_${popup.popSeq}">
+                    <div class="chk_box"></div>
+                    <span>오늘 하루 보지 않기</span>
                 </label>
-                <button type="button" onclick="closePopup(${popup.popSeq});">닫기 [X]</button>
+                <button type="button" onclick="closePopup('${popup.popSeq}');">닫기 [X]</button>
             </div>
 
         </div>
@@ -31,59 +44,45 @@
 </c:if>
 
 <script>
-    // 쿠키 설정 함수 (1일 기준)
+    // 1. 완벽한 자정(23:59:59) 기준 쿠키 만료 설정
     function setPopupCookie(name, value, expiredays) {
-        var todayDate = new Date();
-        todayDate.setDate(todayDate.getDate() + expiredays);
-        document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toUTCString() + ";";
+        let todayDate = new Date();
+        todayDate.setHours(23, 59, 59, 999);
+        document.cookie = name + "=" + encodeURIComponent(value) + "; path=/; expires=" + todayDate.toUTCString() + ";";
     }
 
-    // 쿠키 가져오기 함수
+    // 2. 정규식을 활용한 안전한 쿠키 읽기
     function getPopupCookie(name) {
-        var nameOfCookie = name + "=";
-        var x = 0;
-        while (x <= document.cookie.length) {
-            var y = (x + nameOfCookie.length);
-            if (document.cookie.substring(x, y) == nameOfCookie) {
-                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) {
-                    endOfCookie = document.cookie.length;
-                }
-                return unescape(document.cookie.substring(y, endOfCookie));
-            }
-            x = document.cookie.indexOf(" ", x) + 1;
-            if (x == 0) break;
-        }
-        return "";
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
-    // 팝업 닫기 동작
+    // 3. 팝업 닫기 및 쿠키 굽기 로직
     function closePopup(popSeq) {
-        var chkBox = document.getElementById("chk_hide_" + popSeq);
+        let chkBox = document.getElementById("chk_hide_" + popSeq);
 
-        // '오늘 하루 보지 않기' 체크 시 쿠키 생성
         if (chkBox && chkBox.checked) {
             setPopupCookie("sok_popup_" + popSeq, "done", 1);
         }
 
-        // 팝업 숨김 처리
-        var popupDiv = document.getElementById("main_popup_" + popSeq);
+        let popupDiv = document.getElementById("main_popup_" + popSeq);
         if (popupDiv) {
             popupDiv.style.display = "none";
         }
     }
 
-    // 페이지 로드 시 쿠키 검사 후 팝업 띄우기
+    // 4. 페이지 로드 시 쿠키 검사 (let 활용으로 다중 팝업 스코프 충돌 방지)
     document.addEventListener("DOMContentLoaded", function() {
         <c:if test="${not empty popupList}">
         <c:forEach var="popup" items="${popupList}">
-        var pSeq = "${popup.popSeq}";
-        var cookieData = getPopupCookie("sok_popup_" + pSeq);
+        let pSeq_${popup.popSeq} = "${popup.popSeq}";
+        let cookieData_${popup.popSeq} = getPopupCookie("sok_popup_" + pSeq_${popup.popSeq});
 
-        // 해당 팝업의 쿠키가 'done'이 아니면 화면에 노출
-        if (cookieData !== "done") {
-            var popupTarget = document.getElementById("main_popup_" + pSeq);
+        if (cookieData_${popup.popSeq} !== "done") {
+            let popupTarget = document.getElementById("main_popup_" + pSeq_${popup.popSeq});
             if (popupTarget) {
-                // jQuery의 fadeIn(200) 대신 순수 JS의 display block 사용
                 popupTarget.style.display = "block";
             }
         }

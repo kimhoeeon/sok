@@ -6,10 +6,9 @@ import org.mtf.sok.service.DirectSendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/volunteer")
@@ -30,8 +29,16 @@ public class FrontVolunteerController {
     // 2. 자원봉사 신청 처리 (POST - AJAX)
     @PostMapping("/applyProc")
     @ResponseBody
-    public ResponseEntity<?> applyProc(VolunteerDTO volunteerDTO) {
+    public ResponseEntity<?> applyProc(VolunteerDTO volunteerDTO,
+                                       @RequestParam(value = "captchaText", required = false) String captchaText,
+                                       HttpSession session) {
         try {
+            // 세션 캡차 일치 여부 검증
+            String sessionCaptcha = (String) session.getAttribute("captcha");
+            if (sessionCaptcha == null || captchaText == null || !sessionCaptcha.equals(captchaText)) {
+                return ResponseEntity.badRequest().body("자동입력방지 숫자가 일치하지 않습니다.");
+            }
+
             // 화면 폼에 참여 인원(applyCnt) 입력란이 없으므로 기본값 1명으로 세팅
             if (volunteerDTO.getApplyCnt() == null) {
                 volunteerDTO.setApplyCnt(1);
@@ -46,6 +53,9 @@ public class FrontVolunteerController {
 
             // 2. 발주사 관리자에게 신규 접수 알림 메일 즉시 발송
             directSendService.sendVolunteerApplyAlert(volunteerDTO);
+
+            //검증 성공 시 세션에서 캡차 데이터 제거 (재사용 방지)
+            session.removeAttribute("captcha");
 
             return ResponseEntity.ok("자원봉사 신청이 성공적으로 접수되었습니다.");
 

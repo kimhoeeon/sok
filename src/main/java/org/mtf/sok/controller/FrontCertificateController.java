@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.List;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
 
 @Controller
 @RequestMapping("/certificate")
@@ -31,7 +35,7 @@ public class FrontCertificateController {
         return "certificate/apply";
     }
 
-    // [추가] 캡차(자동입력방지) 동적 이미지 생성 엔드포인트
+    // 캡차(자동입력방지) 동적 이미지 생성 엔드포인트
     @GetMapping("/captchaImg")
     public void getCaptchaImg(HttpServletResponse response, HttpSession session) throws Exception {
         // 1. 5자리 랜덤 숫자 생성
@@ -71,6 +75,57 @@ public class FrontCertificateController {
         // 캐시 방지 헤더 설정
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
         ImageIO.write(image, "jpeg", response.getOutputStream());
+    }
+
+    // 캡차 음성 듣기 동적 오디오 생성 엔드포인트
+    @GetMapping("/captchaAudio")
+    public void getCaptchaAudio(HttpServletResponse response, HttpSession session) throws Exception {
+        String sessionCaptcha = (String) session.getAttribute("captcha");
+
+        if (sessionCaptcha == null || sessionCaptcha.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "캡차가 존재하지 않습니다.");
+            return;
+        }
+
+        // WAV 오디오 파일로 응답 설정
+        response.setContentType("audio/wav");
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+
+        try {
+            AudioInputStream appendedStream = null;
+
+            // 세션에 저장된 캡차 숫자를 한 글자씩 순회하며 오디오 파일 병합
+            for (char c : sessionCaptcha.toCharArray()) {
+                InputStream is = getClass().getResourceAsStream("/static/audio/" + c + ".wav");
+
+                if (is == null) {
+                    throw new RuntimeException("음성 파일을 찾을 수 없습니다: " + c + ".wav");
+                }
+
+                AudioInputStream clipStream = AudioSystem.getAudioInputStream(is);
+
+                if (appendedStream == null) {
+                    appendedStream = clipStream;
+                } else {
+                    // 두 오디오 스트림을 하나로 이어붙임
+                    appendedStream = new AudioInputStream(
+                            new SequenceInputStream(appendedStream, clipStream),
+                            appendedStream.getFormat(),
+                            appendedStream.getFrameLength() + clipStream.getFrameLength()
+                    );
+                }
+            }
+
+            // 병합된 최종 오디오 스트림을 브라우저로 전송
+            if (appendedStream != null) {
+                AudioSystem.write(appendedStream, AudioFileFormat.Type.WAVE, response.getOutputStream());
+                appendedStream.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "음성 캡차 생성 중 오류가 발생했습니다.");
+        }
     }
 
     // 2. 증명서 신청 처리 (POST - AJAX)

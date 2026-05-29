@@ -111,6 +111,10 @@
                 REGION2 = #{region2},
             </if>
 
+            <if test="marketingYn != null and marketingYn != ''">
+                MARKETING_YN = #{marketingYn},
+            </if>
+
             <if test="mbrType == 'CORP'">
                 <if test="managerNm != null and managerNm != ''">
                     MANAGER_NM = #{managerNm},
