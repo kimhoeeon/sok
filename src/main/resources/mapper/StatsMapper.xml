@@ -66,7 +66,6 @@
         'DONATE' as type,
         IFNULL(PAY_DT, REG_DT) AS REG_DT
         FROM TB_DONATION_PAYMENT
-        -- ★ 수정됨: 결제 대기나 취소가 아닌, 결제 완료(DONE)된 실제 기부 건수만 차트에 반영
         WHERE PAY_STATUS = 'DONE'
         AND IFNULL(PAY_DT, REG_DT) >= DATE_SUB(NOW(),
         <choose>
