@@ -9,18 +9,28 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 
 <style>
-    /* ★ 신규 추가: Summernote 링크 삽입 팝업 UI/UX 개선 */
-    /* 1. 프론트에서 자동 처리하므로 혼동을 유발하는 새창열기/프로토콜 체크박스 숨김 */
+    /* 1. Summernote 링크 삽입 팝업 UI/UX 개선 */
     .note-modal-form .checkbox {
         display: none !important;
     }
-    /* 2. 팝업 하단에 링크 삽입 버튼이 딱 붙어있는 디자인 버그 해결 */
     .note-modal-footer {
         padding: 15px 20px 20px 0 !important;
         height: auto !important;
     }
     .note-modal-footer .note-btn {
         margin-right: 0 !important;
+    }
+
+    /* 2. ★ 신규 추가: 전체화면(Fullscreen) 레이아웃 깨짐 방지용 */
+    .note-editor.note-frame.fullscreen {
+        z-index: 9999 !important;
+        background: #ffffff !important;
+    }
+    /* JS로 제어할 임시 클래스 (전체화면 시 기준점을 가두는 요소 무력화) */
+    .disable-backdrop {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        transform: none !important;
     }
 </style>
 
@@ -167,6 +177,21 @@
                     }
                 }
             }
+        });
+
+        // 전체화면 버튼 클릭 이벤트 감지하여 부모의 CSS 속성(backdrop-filter) 임시 해제
+        $(document).on('click', '.note-btn.btn-fullscreen', function() {
+            // Summernote가 클래스를 토글할 시간을 벌어주기 위해 0.05초 대기 후 상태 확인
+            setTimeout(function() {
+                var isFullscreen = $('.note-editor').hasClass('fullscreen');
+                if (isFullscreen) {
+                    // 전체화면 상태일 때 가두는 속성을 가진 부모의 효과 제거
+                    $('.glassmorphism-box, .premium-card').addClass('disable-backdrop');
+                } else {
+                    // 원래 화면으로 복귀 시 유리 효과 원상복구
+                    $('.glassmorphism-box, .premium-card').removeClass('disable-backdrop');
+                }
+            }, 50);
         });
 
         // 수정 시 기존 URL이 있으면 미리보기 즉시 실행
