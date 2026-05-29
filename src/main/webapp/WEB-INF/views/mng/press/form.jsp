@@ -18,7 +18,6 @@
         height: auto !important;
     }
     .note-modal-footer .note-btn {
-        margin-right: 0 !important;
         float: unset;
     }
 
