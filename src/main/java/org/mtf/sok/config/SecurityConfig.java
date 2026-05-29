@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 
-        // [수정] 다중 로그아웃 엔드포인트를 완벽하게 지원하는 시큐리티 로그아웃 설정 체인
+        // 다중 로그아웃 엔드포인트를 완벽하게 지원하는 시큐리티 로그아웃 설정 체인
         http.logout()
                 .logoutRequestMatcher(new OrRequestMatcher(
                         new AntPathRequestMatcher("/logout", "POST"),     // 사용자 로그아웃 가로채기

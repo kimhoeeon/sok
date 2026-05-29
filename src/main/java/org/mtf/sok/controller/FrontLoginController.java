@@ -50,10 +50,18 @@ public class FrontLoginController {
         return "member/login_basic";
     }
 
-    @PostMapping("/logout")
-    public String logout(HttpSession session) {
+    // 사용자 로그아웃 GET 요청 방어 (사용자 메인으로 이동)
+    @GetMapping("/logout")
+    public String userLogoutFallback(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    // 관리자 로그아웃 GET 요청 방어 (관리자 로그인 페이지로 이동)
+    @GetMapping("/mng/logout")
+    public String mngLogoutFallback(HttpSession session) {
+        session.invalidate();
+        return "redirect:/mng/login";
     }
 
     @GetMapping("/findPw")
