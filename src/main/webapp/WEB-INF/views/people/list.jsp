@@ -78,9 +78,9 @@
                                                 <div class="badge ${badgeClass}">${not empty item.category ? item.category : '-'}</div>
                                                 <div class="tit">
                                                     <c:if test="${item.isNotice eq 'Y'}">
-                                                        <span style="color: #DF0031; font-size: 14px; vertical-align: middle; margin-right: 5px;">[메인]</span>
+                                                        <span style="color: #DF0031; font-size: 14px; vertical-align: middle; margin-right: 5px;">[중요]</span>
                                                     </c:if>
-                                                        ${item.title}
+                                                    ${item.title}
                                                 </div>
                                             </div>
                                             <div class="thumbBox">

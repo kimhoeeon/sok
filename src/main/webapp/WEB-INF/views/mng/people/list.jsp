@@ -71,7 +71,7 @@
                             <td><span class="badge bg-secondary">${item.category}</span></td>
                             <td class="text-start">
                                 <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
-                                    <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">메인</span></c:if>
+                                    <c:if test="${item.isNotice eq 'Y'}"><span class="badge bg-danger me-1">중요</span></c:if>
                                     ${item.title}
                                 </a>
                             </td>
