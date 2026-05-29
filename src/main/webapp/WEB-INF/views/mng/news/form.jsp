@@ -19,6 +19,7 @@
     }
     .note-modal-footer .note-btn {
         margin-right: 0 !important;
+        float: unset;
     }
 
     /* 2. ★ 신규 추가: 전체화면(Fullscreen) 레이아웃 깨짐 방지용 */
