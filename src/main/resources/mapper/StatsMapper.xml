@@ -8,7 +8,6 @@
 
     <select id="selectSummaryStats" resultType="java.util.Map">
         SELECT
-            -- ★ 수정됨: TB_MEMBER의 정적 플래그 대신, 실제 결제 완료(DONE)된 고유 회원 수를 실시간으로 카운트
             (SELECT COUNT(DISTINCT MBR_SEQ) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonorCnt,
             (SELECT IFNULL(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonationAmt,
             (SELECT COUNT(*) FROM TB_DEV_REQUEST WHERE STATUS = 'WAITING' AND DEL_YN = 'N')     AS waitTicketCnt,
@@ -34,19 +33,19 @@
             <when test="periodType == 'DAY'">
                 SELECT CAST(DATE_FORMAT(VISIT_DT, '%m-%d') AS CHAR) as label, COUNT(*) as cnt
                 FROM TB_VISIT_LOG
-                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 7 DAY)
                 GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <when test="periodType == 'MONTH'">
                 SELECT CAST(DATE_FORMAT(VISIT_DT, '%Y-%m') AS CHAR) as label, COUNT(*) as cnt
                 FROM TB_VISIT_LOG
-                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 12 MONTH)
                 GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <otherwise>
                 SELECT CONCAT(MONTH(VISIT_DT), '월 ', CEILING((DAY(VISIT_DT) + WEEKDAY(VISIT_DT - INTERVAL (DAY(VISIT_DT) - 1) DAY)) / 7), '째주') as label, COUNT(*) as cnt
                 FROM TB_VISIT_LOG
-                WHERE VISIT_DT >= DATE_SUB(NOW(), INTERVAL 8 WEEK)
+                WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 8 WEEK)
                 GROUP BY label ORDER BY MIN(VISIT_DT)
             </otherwise>
         </choose>
@@ -67,7 +66,7 @@
         IFNULL(PAY_DT, REG_DT) AS REG_DT
         FROM TB_DONATION_PAYMENT
         WHERE PAY_STATUS = 'DONE'
-        AND IFNULL(PAY_DT, REG_DT) >= DATE_SUB(NOW(),
+        AND IFNULL(PAY_DT, REG_DT) <![CDATA[ >= ]]> DATE_SUB(NOW(),
         <choose>
             <when test="periodType == 'DAY'">INTERVAL 7 DAY</when>
             <when test="periodType == 'MONTH'">INTERVAL 12 MONTH</when>
@@ -85,7 +84,7 @@
         'VOL' as type,
         REG_DT
         FROM TB_VOLUNTEER_APPLY
-        WHERE REG_DT >= DATE_SUB(NOW(),
+        WHERE REG_DT <![CDATA[ >= ]]> DATE_SUB(NOW(),
         <choose>
             <when test="periodType == 'DAY'">INTERVAL 7 DAY</when>
             <when test="periodType == 'MONTH'">INTERVAL 12 MONTH</when>
