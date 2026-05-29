@@ -19,9 +19,9 @@
     </select>
 
     <insert id="insertDonation" parameterType="org.mtf.sok.domain.DonationDTO">
-        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT,
+        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT,
                                          REGULAR_ROUND)
-        VALUES (#{orderId}, #{mbrSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), 1)
+        VALUES (#{orderId}, #{mbrSeq}, #{campSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), 1)
     </insert>
 
     <select id="selectDonationByOrderId" parameterType="string" resultType="org.mtf.sok.domain.DonationDTO">

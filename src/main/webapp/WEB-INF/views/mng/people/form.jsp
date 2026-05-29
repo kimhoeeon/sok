@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="currentMenu" value="people" scope="request" />
 <%@ include file="../layout/header.jsp" %>
@@ -105,13 +106,21 @@
                 <input type="file" name="uploadFiles" class="form-control search-bar" multiple accept="image/*">
 
                 <c:if test="${not empty people.fileList}">
-                    <div class="mt-3 p-3 border rounded d-flex flex-wrap gap-3" style="border-color: #474761 !important; background-color: #151521;">
-                        <c:forEach var="file" items="${people.fileList}">
-                            <div class="text-center">
-                                <img src="${file.filePath}" alt="프로필" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #474761;">
-                                <span class="d-block text-muted mt-1" style="font-size: 11px;">${file.orgFileNm}</span>
-                            </div>
-                        </c:forEach>
+                    <div class="mt-3 p-3 border rounded">
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
+                        <ul class="list-unstyled mb-0">
+                            <c:forEach var="file" items="${people.fileList}">
+                                 <li class="mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
+                                        </span>
+                                    </a>
+                                 </li>
+                            </c:forEach>
+                        </ul>
                     </div>
                 </c:if>
             </div>

@@ -77,15 +77,19 @@
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 여러 개의 PDF, HWP, DOCX 파일 등을 첨부할 수 있습니다.</div>
 
                 <c:if test="${not empty management.fileList}">
-                    <div class="mt-3 p-3 border rounded" style="border-color: #474761 !important; background-color: #151521;">
-
-                        <span class="d-block text-muted mb-2"><i class="bi bi-folder-check"></i> 기존 첨부파일 목록</span>
+                    <div class="mt-3 p-3 border rounded">
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${management.fileList}">
-                                <li class="text-white mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
-                                    <i class="bi bi-file-earmark-text text-info me-2"></i> ${file.orgFileNm}
-                                    <span class="text-muted ms-2" style="font-size: 12px;">(<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0" /> KB)</span>
-                                </li>
+                                 <li class="mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
+                                        </span>
+                                    </a>
+                                 </li>
                             </c:forEach>
                         </ul>
                     </div>
