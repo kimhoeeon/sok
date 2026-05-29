@@ -21,7 +21,7 @@
         float: unset;
     }
 
-    /* 2. ★ 신규 추가: 전체화면(Fullscreen) 레이아웃 깨짐 방지용 */
+    /* 2. 전체화면(Fullscreen) 레이아웃 깨짐 방지용 */
     .note-editor.note-frame.fullscreen {
         z-index: 9999 !important;
         background: #ffffff !important;
