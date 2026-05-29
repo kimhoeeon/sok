@@ -83,7 +83,10 @@
                                     <span class="badge ${item.category eq '입찰' ? 'bg-primary' : (item.category eq '공지' ? 'bg-danger' : 'bg-secondary')}">${item.category}</span>
                                 </td>
                                 <td>
-                                    <c:if test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:if>
+                                    <c:choose>
+                                        <c:when test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
                                 </td>
                                 <td class="text-start">
                                     <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">

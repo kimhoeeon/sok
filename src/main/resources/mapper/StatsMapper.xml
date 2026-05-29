@@ -7,11 +7,13 @@
     </select>
 
     <select id="selectSummaryStats" resultType="java.util.Map">
-        SELECT (SELECT COUNT(*) FROM TB_MEMBER WHERE IS_DONOR = 'Y' AND WITHDRAW_YN = 'N')         AS totalDonorCnt,
-               (SELECT IFNULL(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonationAmt,
-               (SELECT COUNT(*) FROM TB_DEV_REQUEST WHERE STATUS = 'WAITING' AND DEL_YN = 'N')     AS waitTicketCnt,
-               (SELECT COUNT(*) FROM TB_VISIT_LOG WHERE DATE(VISIT_DT) = CURDATE())                AS todayVisitor,
-               (SELECT COUNT(*) FROM TB_VISIT_LOG)                                                 AS totalVisitor
+        SELECT
+            -- ★ 수정됨: TB_MEMBER의 정적 플래그 대신, 실제 결제 완료(DONE)된 고유 회원 수를 실시간으로 카운트
+            (SELECT COUNT(DISTINCT MBR_SEQ) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonorCnt,
+            (SELECT IFNULL(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonationAmt,
+            (SELECT COUNT(*) FROM TB_DEV_REQUEST WHERE STATUS = 'WAITING' AND DEL_YN = 'N')     AS waitTicketCnt,
+            (SELECT COUNT(*) FROM TB_VISIT_LOG WHERE DATE(VISIT_DT) = CURDATE())                AS todayVisitor,
+            (SELECT COUNT(*) FROM TB_VISIT_LOG)                                                 AS totalVisitor
         FROM DUAL
     </select>
 
@@ -57,14 +59,16 @@
         FROM (
         SELECT
         <choose>
-            <when test="periodType == 'DAY'">CAST(DATE_FORMAT(REG_DT, '%m-%d') AS CHAR)</when>
-            <when test="periodType == 'MONTH'">CAST(DATE_FORMAT(REG_DT, '%Y-%m') AS CHAR)</when>
-            <otherwise>CONCAT(MONTH(REG_DT), '월 ', CEILING((DAY(REG_DT) + WEEKDAY(REG_DT - INTERVAL (DAY(REG_DT) - 1) DAY)) / 7), '째주')</otherwise>
+            <when test="periodType == 'DAY'">CAST(DATE_FORMAT(IFNULL(PAY_DT, REG_DT), '%m-%d') AS CHAR)</when>
+            <when test="periodType == 'MONTH'">CAST(DATE_FORMAT(IFNULL(PAY_DT, REG_DT), '%Y-%m') AS CHAR)</when>
+            <otherwise>CONCAT(MONTH(IFNULL(PAY_DT, REG_DT)), '월 ', CEILING((DAY(IFNULL(PAY_DT, REG_DT)) + WEEKDAY(IFNULL(PAY_DT, REG_DT) - INTERVAL (DAY(IFNULL(PAY_DT, REG_DT)) - 1) DAY)) / 7), '째주')</otherwise>
         </choose> as label,
         'DONATE' as type,
-        REG_DT
+        IFNULL(PAY_DT, REG_DT) AS REG_DT
         FROM TB_DONATION_PAYMENT
-        WHERE REG_DT >= DATE_SUB(NOW(),
+        -- ★ 수정됨: 결제 대기나 취소가 아닌, 결제 완료(DONE)된 실제 기부 건수만 차트에 반영
+        WHERE PAY_STATUS = 'DONE'
+        AND IFNULL(PAY_DT, REG_DT) >= DATE_SUB(NOW(),
         <choose>
             <when test="periodType == 'DAY'">INTERVAL 7 DAY</when>
             <when test="periodType == 'MONTH'">INTERVAL 12 MONTH</when>
