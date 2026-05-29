@@ -12,16 +12,23 @@
     </sql>
 
     <select id="selectCampaignList" resultType="org.mtf.sok.domain.CampaignDTO">
+        SELECT C.*,
+        CASE
+        WHEN C.currentAmt > 0 AND (C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0) &lt; 1 THEN 1
+        ELSE COALESCE(ROUND((C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0)), 0)
+        END AS achievementRate
+        FROM (
         SELECT
-        CAMP_SEQ, TITLE, THUMB_PATH, GOAL_AMT, CURRENT_AMT, START_DT, END_DT, USE_YN, REG_DT,
-        -- 프론트엔드 노출용 달성률(%) 및 D-Day 계산 로직 추가
-        FLOOR((CURRENT_AMT / GOAL_AMT) * 100) AS achievementRate,
+        CAMP_SEQ, TITLE, THUMB_PATH, GOAL_AMT, START_DT, END_DT, USE_YN, REG_DT,
+        (SELECT COALESCE(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS currentAmt,
+        (SELECT COUNT(PAY_SEQ) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS donorCount,
         DATEDIFF(END_DT, CURDATE()) AS dDay
         FROM TB_CAMPAIGN
         WHERE DEL_YN = 'N'
         <include refid="searchCondition"/>
         ORDER BY REG_DT DESC
         LIMIT #{offset}, #{amount}
+        ) C
     </select>
 
     <select id="selectCampaignTotalCount" resultType="int">
@@ -29,20 +36,40 @@
     </select>
 
     <select id="selectCampaign" resultType="org.mtf.sok.domain.CampaignDTO">
-        SELECT * FROM TB_CAMPAIGN WHERE CAMP_SEQ = #{campSeq} AND DEL_YN = 'N'
+        SELECT C.*,
+               CASE
+                   WHEN C.currentAmt > 0 AND (C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0) &lt; 1 THEN 1
+                   ELSE COALESCE(ROUND((C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0)), 0)
+                   END AS achievementRate
+        FROM (
+                 SELECT
+                     CAMP_SEQ, TITLE, CONTENT, THUMB_PATH, GOAL_AMT, START_DT, END_DT, USE_YN, REG_ID, REG_DT, MOD_ID, MOD_DT, DEL_YN,
+                     (SELECT COALESCE(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS currentAmt,
+                     (SELECT COUNT(PAY_SEQ) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS donorCount
+                 FROM TB_CAMPAIGN
+                 WHERE CAMP_SEQ = #{campSeq} AND DEL_YN = 'N'
+             ) C
     </select>
 
     <select id="selectActiveCampaign" resultType="org.mtf.sok.domain.CampaignDTO">
-        SELECT
-            *,
-            FLOOR((CURRENT_AMT / GOAL_AMT) * 100) AS achievementRate,
-            DATEDIFF(END_DT, CURDATE()) AS dDay
-        FROM TB_CAMPAIGN
-        WHERE DEL_YN = 'N'
-          AND USE_YN = 'Y'
-          AND CURDATE() BETWEEN START_DT AND END_DT
-        ORDER BY REG_DT DESC
-        LIMIT 1
+        SELECT C.*,
+               CASE
+                   WHEN C.currentAmt > 0 AND (C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0) &lt; 1 THEN 1
+                   ELSE COALESCE(ROUND((C.currentAmt * 100.0) / NULLIF(C.GOAL_AMT, 0)), 0)
+                   END AS achievementRate
+        FROM (
+                 SELECT
+                     CAMP_SEQ, TITLE, CONTENT, THUMB_PATH, GOAL_AMT, START_DT, END_DT, USE_YN, REG_ID, REG_DT, MOD_ID, MOD_DT, DEL_YN,
+                     (SELECT COALESCE(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS currentAmt,
+                     (SELECT COUNT(PAY_SEQ) FROM TB_DONATION_PAYMENT WHERE CAMP_SEQ = TB_CAMPAIGN.CAMP_SEQ AND PAY_STATUS = 'DONE') AS donorCount,
+                     DATEDIFF(END_DT, CURDATE()) AS dDay
+                 FROM TB_CAMPAIGN
+                 WHERE DEL_YN = 'N'
+                   AND USE_YN = 'Y'
+                   AND CURDATE() BETWEEN START_DT AND END_DT
+                 ORDER BY REG_DT DESC
+                 LIMIT 1
+             ) C
     </select>
 
     <insert id="insertCampaign" parameterType="org.mtf.sok.domain.CampaignDTO" useGeneratedKeys="true" keyProperty="campSeq">

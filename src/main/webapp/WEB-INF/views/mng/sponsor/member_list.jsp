@@ -51,7 +51,7 @@
                     <th width="8%" class="text-dark border-bottom py-3">No.</th>
                     <th width="10%" class="text-dark border-bottom py-3">회원구분</th>
                     <th class="text-start text-dark border-bottom py-3">회원명 (아이디)</th>
-                    <th width="15%" class="text-dark border-bottom py-3">연락처</th>
+                    <th width="12%" class="text-dark border-bottom py-3">연락처</th>
                     <th width="12%" class="text-dark border-bottom py-3">가입일</th>
                     <th width="12%" class="text-dark border-bottom py-3">누적 기부횟수</th>
                     <th width="15%" class="text-dark border-bottom py-3">누적 기부금액</th>

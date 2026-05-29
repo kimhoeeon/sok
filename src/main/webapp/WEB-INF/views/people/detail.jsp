@@ -69,16 +69,21 @@
 
 <script>
     $(document).ready(function() {
-        // 관리자 폼에서 등록한 전용 유튜브 URL 렌더링
+        // 관리자 폼에서 등록한 전용 유튜브 URL 렌더링 및 유효성 검사
         var ytContainer = $('#mainYoutubeContainer');
         if (ytContainer.length > 0) {
             var url = ytContainer.data('url');
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             var match = url.match(regExp);
+
             if (match && match[2].length === 11) {
+                // 정상적인 유튜브 링크일 경우 iframe 생성
                 var videoId = match[2];
                 var iframeHtml = '<iframe src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                 ytContainer.html(iframeHtml);
+            } else {
+                // 유효하지 않은 유튜브 링크일 경우 해당 컨테이너를 포함하는 전체 영역을 숨김 처리
+                ytContainer.closest('.youtube_main_video').hide();
             }
         }
 

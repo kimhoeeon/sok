@@ -104,16 +104,15 @@
 
                 <div class="support_form">
                     <div class="support_form_top">
-                        <div class="tit">함께 걷고, 보고, 배우는 훈련장애인 야유회</div>
-                        <div class="cost"><fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원</div>
-                        <div class="join">총 <fmt:formatNumber value="${summary.totalDonorCnt}" pattern="#,###"/>명 참여중
-                        </div>
+                        <div class="tit">${not empty campaign ? campaign.title : '진행중인 캠페인이 없습니다.'}</div>
+                        <div class="cost"><fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원</div>
+                        <div class="join">총 <fmt:formatNumber value="${not empty campaign ? campaign.donorCount : 0}" pattern="#,###"/>명 참여중</div>
                         <div class="join_graph">
-                            <div class="bar"></div>
+                            <div class="bar" style="width: ${not empty campaign ? (campaign.achievementRate > 100 ? 100 : campaign.achievementRate) : 0}%;"></div>
                             <div class="txt">
                                 <div class="ongoing">이번 달 목표를 향해 달려가고 있어요!</div>
                                 <div class="total">
-                                    총 <fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원 달성
+                                    총 <fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원 달성
                                 </div>
                             </div>
                         </div>
@@ -123,10 +122,10 @@
                         <ul class="current_box">
                             <li class="total">
                                 <div class="gu">
-                                    총 기부 (<fmt:formatNumber value="${summary.totalDonorCnt}" pattern="#,###"/>명)
+                                    총 기부 (<fmt:formatNumber value="${not empty campaign ? campaign.donorCount : 0}" pattern="#,###"/>명)
                                 </div>
                                 <div class="nae">
-                                    <fmt:formatNumber value="${summary.totalDonationAmt}" pattern="#,###"/>원
+                                    <fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원
                                 </div>
                             </li>
                         </ul>

@@ -46,6 +46,9 @@ public class CampaignDTO extends Criteria {
     private Integer achievementRate; // 달성률 (%)
     private Integer dDay;            // 남은 기간 (일)
 
+    // 캠페인 참여(결제 완료) 인원 수
+    private Integer donorCount;
+
     // 검색 조건 추가 (관리자용)
     private String searchKeyword;
     private String searchUseYn;

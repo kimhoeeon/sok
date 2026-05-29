@@ -65,7 +65,7 @@
             </div>
 
             <div class="col-12 mb-3">
-                <label class="form-label text-muted" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
+                <label class="form-label text-info fw-bold"><i class="bi bi-image me-1"></i>목록 썸네일 이미지 <span class="text-muted fw-normal" style="font-size: 0.85rem;">(단일 첨부, 권장 비율 16:9)</span></label>
                 <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
 
                 <c:if test="${not empty news.thumbPath}">
@@ -85,8 +85,8 @@
                     <div class="mt-3 p-3 border rounded">
                         <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
                         <ul class="list-unstyled mb-0">
-                            <c:forEach var="file" items="${news.fileList}">
-                                 <li class="mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                            <c:forEach var="file" items="${news.fileList}" varStatus="status">
+                                 <li class="${!status.last ? 'mb-2 pb-1 border-bottom' : ''}" ${!status.last ? 'style="border-color: rgba(0,0,0,0.05) !important;"' : ''}>
                                     <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
                                         <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
                                         <span>${file.orgFileNm}</span>

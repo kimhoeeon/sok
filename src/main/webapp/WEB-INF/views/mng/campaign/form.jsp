@@ -74,24 +74,30 @@
                 <input type="date" name="startDt" class="form-control"
                        value="<fmt:formatDate value='${campaign.startDt}' pattern='yyyy-MM-dd'/>" required>
             </div>
+
             <div class="col-md-4">
                 <label class="form-label">모금 종료일 <span class="text-danger">*</span></label>
                 <input type="date" name="endDt" class="form-control"
                        value="<fmt:formatDate value='${campaign.endDt}' pattern='yyyy-MM-dd'/>" required>
             </div>
+
             <div class="col-md-4">
-                <label class="form-label">목표 모금액 (원) <span class="text-danger">*</span></label>
-                <input type="number" name="goalAmt" class="form-control" value="${campaign.goalAmt}" required
-                       placeholder="목표 금액 (숫자만 입력)">
+                <label class="form-label text-danger fw-bold">목표 모금액 (원) <span class="text-danger">*</span></label>
+                <input type="text" name="goalAmt" class="form-control border-danger"
+                       value="<fmt:formatNumber value='${campaign.goalAmt}' pattern='0'/>" required
+                       placeholder="숫자만 입력 (예: 10000000)"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> 소수점 없이 양의 정수로만 입력해주세요.</div>
             </div>
 
-            <div class="col-12">
-                <label class="form-label">목록 썸네일 <span class="text-muted ms-2" style="font-size: 0.85rem;">(가로 세로 비율 4:3 이미지를 권장합니다)</span></label>
-                <input type="file" name="thumbFile" class="form-control" accept="image/*">
+            <div class="col-12 mb-3">
+                <label class="form-label text-info fw-bold"><i class="bi bi-image me-1"></i>목록 썸네일 이미지 <span class="text-muted fw-normal" style="font-size: 0.85rem;">(단일 첨부, 권장 비율 4:3)</span></label>
+                <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
+
                 <c:if test="${not empty campaign.thumbPath}">
-                    <div class="mt-3 p-3 rounded" style="background-color: #1e1e2d; display: inline-block;">
-                        <img src="${campaign.thumbPath}" alt="현재 썸네일" style="height: 100px; border-radius: 4px;">
-                        <input type="hidden" name="thumbPath" value="${campaign.thumbPath}">
+                    <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
+                        <span class="text-dark align-middle me-2">현재 등록된 썸네일: </span>
+                        <img src="${campaign.thumbPath}" alt="썸네일 미리보기" style="height: 60px; border-radius: 4px; object-fit: cover;">
                     </div>
                 </c:if>
             </div>
