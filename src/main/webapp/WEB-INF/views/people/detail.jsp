@@ -45,6 +45,12 @@
                 </div>
             </c:if>
 
+            <c:if test="${not empty board.youtubeUrl}">
+                <div class="youtube_main_video" style="max-width: 800px; margin: 0 auto 50px;">
+                    <div class="video_container" id="mainYoutubeContainer" data-url="${board.youtubeUrl}"></div>
+                </div>
+            </c:if>
+
             <div class="view_detail center">
                 <div class="editor-content">
                     <c:out value="${board.content}" escapeXml="false" />
@@ -63,7 +69,20 @@
 
 <script>
     $(document).ready(function() {
-        // ★ 에디터 본문 내 링크 자동화 처리 스크립트 (유튜브 및 새창 열기)
+        // 관리자 폼에서 등록한 전용 유튜브 URL 렌더링
+        var ytContainer = $('#mainYoutubeContainer');
+        if (ytContainer.length > 0) {
+            var url = ytContainer.data('url');
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                var videoId = match[2];
+                var iframeHtml = '<iframe src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                ytContainer.html(iframeHtml);
+            }
+        }
+
+        // 에디터 본문 내 링크 자동화 처리 스크립트 (유튜브 및 새창 열기)
         $('.editor-content a').each(function() {
             var url = $(this).attr('href');
             if (!url) return;

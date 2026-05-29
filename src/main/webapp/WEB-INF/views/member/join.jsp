@@ -164,14 +164,14 @@
                         <div class="agree_check">
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" name="agreeAge" value="Y" class="chk-req" required>
+                                    <input type="checkbox" name="agreeAgeYn" value="Y" class="chk-req">
                                     <span class="chk_box"></span>
                                     <div>[필수] 만 14세 이상입니다.</div>
                                 </label>
                             </div>
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" name="agreeService" value="Y" class="chk-req" required>
+                                    <input type="checkbox" name="agreeServiceYn" value="Y" class="chk-req">
                                     <span class="chk_box"></span>
                                     <div>[필수] 서비스 이용약관 동의</div>
                                 </label>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="agree_item">
                                 <label>
-                                    <input type="checkbox" name="agreePrivacy" value="Y" class="chk-req" required>
+                                    <input type="checkbox" name="agreePrivacyYn" value="Y" class="chk-req">
                                     <span class="chk_box"></span>
                                     <div>[필수] 개인정보 처리 방침 동의</div>
                                 </label>
@@ -219,16 +219,24 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
-    // 1. 전체 동의 체크박스 로직
-    $('#chkAll').on('click', function () {
-        var isChecked = $(this).is(':checked');
-        $('.agree_check input[type="checkbox"]').prop('checked', isChecked);
-    });
+    $(document).ready(function() {
+        // 1. 전체 동의 체크박스 로직
+        $('#chkAll').on('click', function () {
+            var isChecked = $(this).is(':checked');
+            $('.agree_check input[type="checkbox"]').prop('checked', isChecked);
+        });
 
-    $('.agree_check input[type="checkbox"]').on('click', function () {
-        var total = $('.agree_check input[type="checkbox"]').length;
-        var checked = $('.agree_check input[type="checkbox"]:checked').length;
-        $('#chkAll').prop('checked', total === checked);
+        $('.agree_check input[type="checkbox"]').on('click', function () {
+            var total = $('.agree_check input[type="checkbox"]').length;
+            var checked = $('.agree_check input[type="checkbox"]:checked').length;
+            $('#chkAll').prop('checked', total === checked);
+        });
+
+        // 2. 연락처 및 사업자번호 숫자만 입력되도록 실시간 필터링
+        $('#phone2, #phone3, #bizNoInput').on('input', function() {
+            var val = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(val);
+        });
     });
 
     // 2. 이메일 도메인 자동입력
@@ -269,6 +277,14 @@
     // 5. 최종 서브밋 로직
     function submitJoin() {
         var form = document.getElementById("joinForm");
+
+        // 필수 이용약관 동의 명시적 검증 처리 (Silent Fail 방지)
+        if (!$('input[name="agreeAgeYn"]').is(':checked') ||
+            !$('input[name="agreeServiceYn"]').is(':checked') ||
+            !$('input[name="agreePrivacyYn"]').is(':checked')) {
+            alert("필수 이용약관에 모두 동의해 주세요.");
+            return;
+        }
 
         // 브라우저 기본 유효성 검사 (required 필드 체크)
         if (!form.checkValidity()) {

@@ -91,7 +91,7 @@
                 <img src="/img/ico_close.png" alt="닫기">
             </button>
         </div>
-        <div class="donations_card">
+        <div class="donations_card" id="certificateArea">
             <div class="card_tit">기부증서</div>
             <div class="card_name"><c:out value="${sessionScope.userLogin.mbrNm}"/></div>
             <ul>
@@ -116,8 +116,8 @@
             <div class="company">스페셜코리아올림픽</div>
         </div>
         <div class="btn down_btn">
-            <button type="button" class="down">이미지 다운로드</button>
-            <button type="button" class="share">카카오톡 공유</button>
+            <button type="button" class="down" onclick="downloadCertificate()">이미지 다운로드</button>
+            <button type="button" class="share" onclick="shareKakao()">카카오톡 공유</button>
         </div>
 
         <div class="donations_btn">
@@ -128,7 +128,15 @@
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"></script>
+
 <script>
+    if (!Kakao.isInitialized()) {
+        Kakao.init('96c765806d01c47a180599a9f9d158b6');
+    }
+
     // 단일 기부증서 팝업 열기
     function openDonationPopup(dateStr, amt) {
         var d = new Date(dateStr);
@@ -153,4 +161,47 @@
     $('.popup_close_btn').on('click', function () {
         $('#donationsPopup').fadeOut(200);
     });
+
+    // 이미지 다운로드 기능
+    function downloadCertificate() {
+        var target = document.getElementById('certificateArea');
+
+        // 고해상도(scale: 2)로 캡처 진행
+        html2canvas(target, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: null
+        }).then(function(canvas) {
+            // 가상 <a> 태그를 만들어 다운로드 트리거
+            var el = document.createElement("a");
+            el.href = canvas.toDataURL("image/png");
+            el.download = "스페셜올림픽코리아_기부증서.png";
+            el.click();
+        });
+    }
+
+    // 카카오톡 공유 기능
+    function shareKakao() {
+        Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: '스페셜올림픽코리아 기부증서',
+                description: '<c:out value="${sessionScope.userLogin.mbrNm}"/>님의 따뜻한 나눔으로 발달장애인들의 꿈과 희망을 응원해 주셔서 감사합니다.',
+                imageUrl: 'https://meetingtest.store/img/og_img.jpg',
+                link: {
+                    mobileWebUrl: window.location.origin,
+                    webUrl: window.location.origin,
+                },
+            },
+            buttons: [
+                {
+                    title: '홈페이지 방문하기',
+                    link: {
+                        mobileWebUrl: window.location.origin,
+                        webUrl: window.location.origin,
+                    },
+                },
+            ],
+        });
+    }
 </script>

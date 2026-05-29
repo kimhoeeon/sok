@@ -173,7 +173,7 @@
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 }
             },
-            // ★ 비고(description) 데이터 함께 전송
+            // 비고(description) 데이터 함께 전송
             data: {admSeq: admSeq, allowIp: allowIp, description: description},
             success: function (res) {
                 $('#newIpInput').val('');

@@ -16,7 +16,7 @@
         MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, INST_TYPE, LOGIN_TYPE,
         SNS_TYPE, SNS_ID, BIZ_NO, BIZ_FILE_PATH, MANAGER_NM, MANAGER_POS,
         PHONE, EMAIL, IS_DONOR, JOIN_DT, WITHDRAW_YN,
-        AGREE_AGE_YN, AGREE_SERVICE_YN, AGREE_PRIVACY_YN, AGREE_DT
+        AGREE_AGE_YN, AGREE_SERVICE_YN, AGREE_PRIVACY_YN, MARKETING_YN, AGREE_DT
         ) VALUES (
         #{mbrId},
         #{mbrPw},
@@ -45,7 +45,12 @@
         'N',
         NOW(),
         'N',
-        #{agreeAgeYn}, #{agreeServiceYn}, #{agreePrivacyYn}, NOW()
+        #{agreeAgeYn}, #{agreeServiceYn}, #{agreePrivacyYn},
+        <choose>
+            <when test="marketingYn != null and marketingYn != ''">#{marketingYn}</when>
+            <otherwise>'N'</otherwise>
+        </choose>,
+        NOW()
         )
     </insert>
 
@@ -161,7 +166,6 @@
         UPDATE TB_MEMBER SET MBR_PW = #{mbrPw} WHERE MBR_ID = #{mbrId}
     </update>
 
-    <!-- 이메일 중복 체크 (mbrSeq가 있으면 본인 이메일은 중복에서 제외) -->
     <select id="checkDuplicateEmail" resultType="int">
         SELECT COUNT(MBR_SEQ) FROM TB_MEMBER
         WHERE EMAIL = #{email} AND WITHDRAW_YN = 'N'
@@ -170,7 +174,6 @@
         </if>
     </select>
 
-    <!-- 연락처 중복 체크 -->
     <select id="checkDuplicatePhone" resultType="int">
         SELECT COUNT(MBR_SEQ) FROM TB_MEMBER
         WHERE PHONE = #{phone} AND WITHDRAW_YN = 'N'

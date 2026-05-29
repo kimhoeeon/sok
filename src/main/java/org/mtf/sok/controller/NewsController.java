@@ -71,13 +71,35 @@ public class NewsController {
     }
 
     @PostMapping("/save")
-    public String save(BoardDTO board, HttpSession session, RedirectAttributes rttr) {
+    public String save(BoardDTO board,
+                       @RequestParam(value = "thumbFile", required = false) MultipartFile thumbFile,
+                       HttpSession session, RedirectAttributes rttr) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
 
         boolean isUpdate = (board.getBrdSeq() != null);
 
         board.setBrdType("NEWS");
         if(board.getIsNotice() == null) board.setIsNotice("N");
+
+        // ★ 핵심 추가: 썸네일 이미지 업로드 및 경로 설정 (DB 저장 전에 실행)
+        if (thumbFile != null && !thumbFile.isEmpty()) {
+            String savePath = uploadDir + "news/thumb/";
+            File folder = new File(savePath);
+            if (!folder.exists()) folder.mkdirs();
+
+            try {
+                String originalFileName = thumbFile.getOriginalFilename();
+                String ext = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+                String savedFileName = "thumb_" + UUID.randomUUID().toString() + ext;
+
+                File targetFile = new File(savePath + savedFileName);
+                thumbFile.transferTo(targetFile);
+
+                board.setThumbPath("/upload/news/thumb/" + savedFileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         if (isUpdate) {
             board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
-    /* ★ 팝업 전용 커스텀 체크박스 스타일 추가 */
+    /* 팝업 전용 커스텀 체크박스 스타일 추가 */
     .popup-footer { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #222; color: #fff; }
     .popup-footer label { display: flex; align-items: center; cursor: pointer; gap: 8px; margin: 0; }
     .popup-footer input[type="checkbox"] { display: none; } /* appearance:none 으로 숨겨진 기본 인풋 완전히 숨김 */
@@ -30,7 +30,7 @@
             </div>
 
             <div class="popup-footer">
-                <!-- ★ SOK 프로젝트 전용 chk_box 구조로 완벽 교체 -->
+                <!-- SOK 프로젝트 전용 chk_box 구조로 완벽 교체 -->
                 <label for="chk_hide_${popup.popSeq}">
                     <input type="checkbox" id="chk_hide_${popup.popSeq}">
                     <div class="chk_box"></div>

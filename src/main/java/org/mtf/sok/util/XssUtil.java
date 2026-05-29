@@ -16,7 +16,7 @@ public class XssUtil {
             return null;
         }
 
-        // ★ [핵심 수정] 상대 경로(/upload/...) 이미지가 삭제되는 것을 방지
+        // [핵심 수정] 상대 경로(/upload/...) 이미지가 삭제되는 것을 방지
         Safelist safelist = Safelist.relaxed();
 
         // 1. 상대 경로 링크를 절대 경로로 강제 변환하지 않고 원본 그대로 유지하겠다는 설정
@@ -25,7 +25,7 @@ public class XssUtil {
         // (선택) 만약 에디터에 이미지를 드래그 앤 드롭해서 Base64(data:image/...) 형태로 들어가는 것도 허용하려면 아래 속성을 추가합니다.
         safelist.addProtocols("img", "src", "http", "https", "data");
 
-        // ★ [핵심 추가] Summernote 에디터의 인라인 스타일 유지
+        // [핵심 추가] Summernote 에디터의 인라인 스타일 유지
         // 이 설정이 없으면 폰트 색상, 크기, 굵기, 정렬 등의 스타일이 DB 저장 시 모두 삭제됩니다.
         safelist.addAttributes(":all", "style", "class", "color", "size", "face", "width", "height");
 

@@ -158,6 +158,13 @@
     });
 
     function uploadSummernoteImage(file, editor) {
+        // 썸머노트 드래그 앤 드롭 업로드 시 10MB 용량 체크
+        var maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+            return false;
+        }
+
         var data = new FormData();
         data.append("file", file);
         $.ajax({
@@ -166,7 +173,7 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            // 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

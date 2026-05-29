@@ -51,29 +51,8 @@
         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
 
         <div class="row mb-4 glassmorphism-box p-3">
-            <div class="col-md-6 mb-3">
-                <label class="form-label text-muted">카테고리</label>
-                <div class="d-flex gap-3 mt-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="공지" id="cat1" ${notice.category eq '공지' or empty notice.category ? 'checked' : ''}>
-                        <label class="form-check-label text-dark" for="cat1">공지</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="입찰" id="cat2" ${notice.category eq '입찰' ? 'checked' : ''}>
-                        <label class="form-check-label text-dark" for="cat2">입찰</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="서류" id="cat3" ${notice.category eq '서류' ? 'checked' : ''}>
-                        <label class="form-check-label text-dark" for="cat3">서류</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" value="리포트" id="cat4" ${notice.category eq '리포트' ? 'checked' : ''}>
-                        <label class="form-check-label text-dark" for="cat4">리포트</label>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-12 mb-3">
                 <label class="form-label text-muted">중요 여부</label>
                 <div class="form-check form-switch mt-2">
                     <input class="form-check-input" type="checkbox" role="switch" id="isNotice" name="isNotice" value="Y" ${notice.isNotice eq 'Y' ? 'checked' : ''}>
@@ -149,6 +128,13 @@
     });
 
     function uploadSummernoteImage(file, editor) {
+        // 썸머노트 드래그 앤 드롭 업로드 시 10MB 용량 체크
+        var maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+            return false;
+        }
+
         var data = new FormData();
         data.append("file", file);
         $.ajax({
@@ -157,7 +143,7 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            // 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

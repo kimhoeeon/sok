@@ -87,9 +87,9 @@
                     <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
                 </a>
                 <div class="collapse collapse-menu-depth3 show" id="collapseSponsor">
-                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-dark' : ''}" href="/mng/sponsor/member/list">- 가입자 목록</a>
-                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-dark' : ''}" href="/mng/sponsor/donate/list">- 기부금 목록</a>
-                    <a class="nav-link ${param.menuId eq 'sponsor_campaign' ? 'active text-dark' : ''}" href="/mng/campaign/list">- 기부 캠페인 관리</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_member' ? 'active text-dark' : ''}" href="/mng/sponsor/member/list">가입자 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_donate' ? 'active text-dark' : ''}" href="/mng/sponsor/donate/list">기부금 목록</a>
+                    <a class="nav-link ${param.menuId eq 'sponsor_campaign' ? 'active text-dark' : ''}" href="/mng/campaign/list">기부 캠페인 관리</a>
                 </div>
 
                 <a class="nav-link ${param.menuId eq 'volunteer' ? 'active text-dark' : ''}" href="/mng/volunteer/list">자원봉사 관리</a>

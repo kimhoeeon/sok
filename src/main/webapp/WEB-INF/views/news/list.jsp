@@ -58,7 +58,7 @@
                                                 <div class="tit">${item.title}</div>
                                             </div>
                                             <div class="thumbBox">
-                                                    <%-- ★ 이미지 파일 필터링 로직 --%>
+                                                    <%-- 이미지 파일 필터링 로직 --%>
                                                 <c:set var="thumbImg" value="" />
                                                 <c:forEach var="file" items="${item.fileList}">
                                                     <c:if test="${empty thumbImg}">

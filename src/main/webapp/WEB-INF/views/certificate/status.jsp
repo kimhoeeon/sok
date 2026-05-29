@@ -107,6 +107,15 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+
+    // 연락처 숫자만 입력되도록 실시간 필터링
+    $(document).ready(function() {
+        $('#phone2, #phone3').on('input', function() {
+            var val = $(this).val().replace(/[^0-9]/g, ''); // 숫자가 아닌 문자는 즉시 제거
+            $(this).val(val);
+        });
+    });
+
     function setEmailDomain() {
         var domain = document.getElementById("emailDomain").value;
         if (domain === "") {

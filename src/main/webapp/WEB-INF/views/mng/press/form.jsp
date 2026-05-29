@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="currentMenu" value="press" scope="request" />
 <%@ include file="../layout/header.jsp" %>
@@ -87,6 +88,7 @@
             <div class="col-12 mb-3">
                 <label class="form-label text-muted" style="color:#39ff14 !important;">목록 썸네일 이미지 (단일 첨부, 권장 비율 16:9)</label>
                 <input type="file" name="thumbFile" class="form-control search-bar" accept="image/*">
+
                 <c:if test="${not empty press.thumbPath}">
                     <div class="mt-2 p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
                         <span class="text-dark align-middle me-2">현재 등록된 썸네일: </span>
@@ -99,6 +101,25 @@
                 <label class="form-label text-muted">일반 파일 첨부 (다중 선택 가능)</label>
                 <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 클릭하면 여러 파일을 첨부할 수 있습니다.</div>
+
+                <c:if test="${not empty press.fileList}">
+                    <div class="mt-3 p-3 border rounded" style="border-color: #474761 !important; background-color: #151521;">
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
+                        <ul class="list-unstyled mb-0">
+                            <c:forEach var="file" items="${press.fileList}">
+                                 <li class="mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                                    <a href="${file.filePath}" target="_blank" class="text-white text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
+                                        </span>
+                                    </a>
+                                 </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </c:if>
             </div>
 
             <div class="col-12 mb-3">
@@ -159,6 +180,13 @@
     });
 
     function uploadSummernoteImage(file, editor) {
+        // 썸머노트 드래그 앤 드롭 업로드 시 10MB 용량 체크
+        var maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+            return false;
+        }
+
         var data = new FormData();
         data.append("file", file);
         $.ajax({
@@ -167,7 +195,7 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            // 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

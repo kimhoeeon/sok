@@ -31,7 +31,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        // ★ 로그인 폼에서 넘어온 loginType (admin / member) 값을 가로채어 확인
+        // 로그인 폼에서 넘어온 loginType (admin / member) 값을 가로채어 확인
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String loginType = request.getParameter("loginType");
 

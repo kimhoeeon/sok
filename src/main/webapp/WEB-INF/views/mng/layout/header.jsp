@@ -52,6 +52,20 @@
                     }
                 }
             });
+
+            // 관리자단 모든 input type="file" 에 대한 10MB 용량 제한 공통 로직
+            $(document).on('change', 'input[type="file"]', function() {
+                var maxSize = 10 * 1024 * 1024; // 10MB (바이트 단위)
+                var files = this.files;
+
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].size > maxSize) {
+                        alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+                        $(this).val(''); // 용량 초과 시 파일 초기화
+                        return false;
+                    }
+                }
+            });
         });
     </script>
 </head>

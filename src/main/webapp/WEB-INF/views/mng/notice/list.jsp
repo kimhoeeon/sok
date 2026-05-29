@@ -26,14 +26,6 @@
                 <option value="50" ${pageMaker.cri.amount == 50 ? 'selected' : ''}>50개</option>
             </select>
 
-            <select name="category" class="form-select search-bar border-start-0" style="max-width: 140px;">
-                <option value="">전체 카테고리</option>
-                <option value="공지" ${params.category eq '공지' ? 'selected' : ''}>공지</option>
-                <option value="입찰" ${params.category eq '입찰' ? 'selected' : ''}>입찰</option>
-                <option value="서류" ${params.category eq '서류' ? 'selected' : ''}>서류</option>
-                <option value="리포트" ${params.category eq '리포트' ? 'selected' : ''}>리포트</option>
-            </select>
-
             <select name="searchType" class="form-select search-bar border-start-0" style="max-width: 120px;">
                 <option value="all" ${params.searchType eq 'all' ? 'selected' : ''}>전체</option>
                 <option value="title" ${params.searchType eq 'title' ? 'selected' : ''}>제목</option>
@@ -50,7 +42,6 @@
             <thead style="background-color: #f8f9fa;">
                 <tr>
                     <th width="8%" class="text-dark border-bottom py-3">연번</th>
-                    <th width="12%" class="text-dark border-bottom py-3">카테고리</th>
                     <th width="8%" class="text-dark border-bottom py-3">중요</th>
                     <th class="text-dark border-bottom py-3">제목</th>
                     <th width="10%" class="text-dark border-bottom py-3">조회수</th>
@@ -62,7 +53,7 @@
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr>
-                            <td colspan="7" class="py-5 text-muted">조회된 데이터가 없습니다.</td>
+                            <td colspan="6" class="py-5 text-muted">조회된 데이터가 없습니다.</td>
                         </tr>
                     </c:when>
                     <c:otherwise>
@@ -79,9 +70,6 @@
 
                             <tr>
                                 <td>${item.brdSeq}</td>
-                                <td>
-                                    <span class="badge ${item.category eq '입찰' ? 'bg-primary' : (item.category eq '공지' ? 'bg-danger' : 'bg-secondary')}">${item.category}</span>
-                                </td>
                                 <td>
                                     <c:if test="${item.isNotice eq 'Y'}"><i class="bi bi-star-fill text-warning"></i></c:if>
                                 </td>

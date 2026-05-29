@@ -52,14 +52,14 @@ public class CertificateController {
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam Long certSeq,
                                @RequestParam String issueStatus,
-                               @RequestParam(required = false) String rejectReason,
+                               @RequestParam(required = false) String rejectRsn,
                                @ModelAttribute("params") CertificateDTO params,
                                RedirectAttributes rttr) {
 
         CertificateDTO certificate = new CertificateDTO();
         certificate.setCertSeq(certSeq);
         certificate.setIssueStatus(issueStatus);
-        certificate.setRejectRsn(rejectReason);
+        certificate.setRejectRsn(rejectRsn);
 
         // 1. DB 상태 업데이트
         certificateMapper.updateCertificateStatus(certificate);

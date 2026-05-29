@@ -198,6 +198,8 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+    // 전역 변수로 Audio 객체를 관리하여 중복 재생 방지
+    var currentCaptchaAudio = null;
 
     $(document).ready(function() {
         // 연락처 입력란(phone2, phone3)에 숫자만 입력되도록 실시간 필터링
@@ -209,6 +211,12 @@
 
     // 캡차 이미지 새로고침
     function refreshCaptcha() {
+        // 새로고침 시 재생 중인 음성이 있다면 즉시 정지
+        if (currentCaptchaAudio !== null) {
+            currentCaptchaAudio.pause();
+            currentCaptchaAudio.currentTime = 0;
+        }
+
         // 브라우저 캐시를 완벽히 회피하기 위해 타임스탬프와 랜덤 난수를 이중으로 부여합니다.
         var newUrl = '/certificate/captchaImg?t=' + new Date().getTime() + '&r=' + Math.random();
 
@@ -222,11 +230,16 @@
 
     // 캡차 음성 다시 듣기 함수
     function playCaptchaAudio() {
-        // 백엔드 컨트롤러에 /certificate/captchaAudio 와 같은 매핑이 필요합니다.
-        var audioUrl = '/certificate/captchaAudio?t=' + new Date().getTime();
-        var audio = new Audio(audioUrl);
+        // 기존에 재생 중인 음성이 있다면 정지 후 초기화하여 중복 방지
+        if (currentCaptchaAudio !== null) {
+            currentCaptchaAudio.pause();
+            currentCaptchaAudio.currentTime = 0;
+        }
 
-        audio.play().catch(function(error) {
+        var audioUrl = '/certificate/captchaAudio?t=' + new Date().getTime();
+        currentCaptchaAudio = new Audio(audioUrl);
+
+        currentCaptchaAudio.play().catch(function(error) {
             console.log("Audio play error: ", error);
             alert("음성 캡차를 불러올 수 없습니다. 브라우저 설정 또는 서버 API를 확인해 주세요.");
         });

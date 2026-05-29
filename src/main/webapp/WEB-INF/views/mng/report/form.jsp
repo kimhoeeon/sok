@@ -93,16 +93,16 @@
                         <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${report.fileList}">
-                                <li class="mb-2">
-                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
+                                 <li class="mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                                    <a href="${file.filePath}" target="_blank" class="text-white text-decoration-none hover-glow d-inline-flex align-items-center">
                                         <i class="bi bi-file-earmark-pdf me-2 text-danger fs-5"></i>
                                         <span>${file.orgFileNm}</span>
-                                        <span class="text-muted ms-2" style="font-size: 11px;">
-                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,###.0"/> KB)
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
                                         </span>
                                         <i class="bi bi-download ms-2 text-info" style="font-size: 12px;"></i>
                                     </a>
-                                </li>
+                                 </li>
                             </c:forEach>
                         </ul>
                     </div>
@@ -163,6 +163,13 @@
     });
 
     function uploadSummernoteImage(file, editor) {
+        // 썸머노트 드래그 앤 드롭 업로드 시 10MB 용량 체크
+        var maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+            return false;
+        }
+
         var data = new FormData();
         data.append("file", file);
         $.ajax({
@@ -171,7 +178,7 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            // 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

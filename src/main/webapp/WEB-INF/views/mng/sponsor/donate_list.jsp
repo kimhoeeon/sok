@@ -103,7 +103,7 @@
                                             <span class="text-muted">-</span>
                                         </c:when>
                                         <c:otherwise>
-                                            <span class="badge bg-white border border-secondary">${item.payMethod}</span>
+                                            <span class="badge bg-light text-dark">${item.payMethod}</span>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

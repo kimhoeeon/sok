@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -19,8 +20,14 @@ public class TossPaymentService {
     @Value("${toss.secret.key}")
     private String secretKey;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    // ★ 신규 추가: 생성자를 통해 RestTemplate 초기화 시 UTF-8 인코딩 강제 적용
+    public TossPaymentService() {
+        this.restTemplate = new RestTemplate();
+        this.restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+    }
 
     // 토스페이먼츠 최종 결제 승인 API 호출
     public JsonNode confirmPayment(String paymentKey, String orderId, Long amount) throws Exception {

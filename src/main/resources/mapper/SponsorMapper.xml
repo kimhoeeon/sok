@@ -114,13 +114,17 @@
 
     <update id="updateDonationStatus" parameterType="org.mtf.sok.domain.DonationDTO">
         UPDATE TB_DONATION_PAYMENT
-        SET PAY_STATUS = #{payStatus},
-        <if test="payStatus == 'CANCEL'">
-            CANCEL_DT = NOW(), CANCEL_RSN = #{cancelRsn}
-        </if>
-        <if test="payStatus == 'REFUND'">
-            REFUND_DT = NOW(), REFUND_RSN = #{refundRsn}
-        </if>
+        <set>
+            PAY_STATUS = #{payStatus},
+            <if test="payStatus == 'CANCEL'">
+                CANCEL_DT = NOW(),
+                CANCEL_RSN = #{cancelRsn},
+            </if>
+            <if test="payStatus == 'REFUND'">
+                REFUND_DT = NOW(),
+                REFUND_RSN = #{refundRsn},
+            </if>
+        </set>
         WHERE PAY_SEQ = #{paySeq}
     </update>
 

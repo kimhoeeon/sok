@@ -159,7 +159,7 @@
 
 <script>
     $(document).ready(function() {
-        // ★ 에디터 본문 내 링크 자동화 처리 스크립트
+        // 에디터 본문 내 링크 자동화 처리 스크립트
         $('.editor-content a').each(function() {
             var url = $(this).attr('href');
             if (!url) return;

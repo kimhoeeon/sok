@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="currentMenu" value="management" scope="request" />
 <%@ include file="../layout/header.jsp" %>
@@ -77,10 +78,14 @@
 
                 <c:if test="${not empty management.fileList}">
                     <div class="mt-3 p-3 border rounded" style="border-color: #474761 !important; background-color: #151521;">
-                        <span class="d-block text-muted mb-2">기존 첨부파일 목록</span>
+
+                        <span class="d-block text-muted mb-2"><i class="bi bi-folder-check"></i> 기존 첨부파일 목록</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${management.fileList}">
-                                <li class="text-dark mb-1"><i class="bi bi-file-earmark-text me-2"></i> ${file.orgFileNm} <span class="text-muted ms-2" style="font-size: 11px;">(${file.fileSize} byte)</span></li>
+                                <li class="text-white mb-2 pb-1 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                                    <i class="bi bi-file-earmark-text text-info me-2"></i> ${file.orgFileNm}
+                                    <span class="text-muted ms-2" style="font-size: 12px;">(<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0" /> KB)</span>
+                                </li>
                             </c:forEach>
                         </ul>
                     </div>
@@ -141,6 +146,13 @@
     });
 
     function uploadSummernoteImage(file, editor) {
+        // 썸머노트 드래그 앤 드롭 업로드 시 10MB 용량 체크
+        var maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 첨부는 최대 10MB 까지 가능합니다.");
+            return false;
+        }
+
         var data = new FormData();
         data.append("file", file);
         $.ajax({
@@ -149,7 +161,7 @@
             url: "/mng/file/uploadImage",
             contentType: false,
             processData: false,
-            // ★ 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
+            // 핵심 1: Spring Security 403 에러 방지를 위한 CSRF 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

@@ -368,7 +368,7 @@
         // brdType이 비어있지 않으면 소문자로 변환 (예: NOTICE -> notice)
         var typeStr = brdType ? brdType.toLowerCase() : "notice";
 
-        // ★ 수정: 관리자(/mng/) 경로 대신 사용자 프론트엔드 경로로 변경
+        // 수정: 관리자(/mng/) 경로 대신 사용자 프론트엔드 경로로 변경
         // (만약 프론트 경로가 /board/notice/detail 형식이라면 "/board/" + typeStr + "..." 형태로 수정해 주세요)
         var url = "/" + typeStr + "/detail?brdSeq=" + brdSeq;
 

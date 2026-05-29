@@ -54,7 +54,7 @@ public class FileController {
                              @RequestParam("fileName") String fileName,
                              HttpServletResponse response) throws IOException {
 
-        // ★ [보안 1차 방어] 상위 디렉토리 이동 문자열 포함 여부 검사
+        // [보안 1차 방어] 상위 디렉토리 이동 문자열 포함 여부 검사
         if (filePath == null || filePath.contains("..") || filePath.contains("%2e") || filePath.contains("%2E")) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 파일 경로 요청입니다.");
             return;
@@ -64,7 +64,7 @@ public class FileController {
         String realPath = uploadDir + filePath.replace("/upload/", "");
         File file = new File(realPath);
 
-        // ★ [보안 2차 방어] 정규화된 경로(CanonicalPath)를 통한 실제 위치 검증
+        // [보안 2차 방어] 정규화된 경로(CanonicalPath)를 통한 실제 위치 검증
         // getCanonicalPath()는 '../'나 './' 기호들을 모두 계산한 후의 최종 실제 경로를 반환합니다.
         String canonicalUploadDir = new File(uploadDir).getCanonicalPath();
         String canonicalFilePath = file.getCanonicalPath();
