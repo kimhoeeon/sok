@@ -8,7 +8,7 @@
         <if test="searchKeyword != null and searchKeyword != ''">
             AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
         </if>
-        <if test="searchUseYnOnly == 'Y'">
+        <if test='searchUseYnOnly == "Y"'>
             AND USE_YN = 'Y'
         </if>
         ORDER BY REG_DT DESC
@@ -21,7 +21,7 @@
         <if test="searchKeyword != null and searchKeyword != ''">
             AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
         </if>
-        <if test="searchUseYnOnly == 'Y'">
+        <if test='searchUseYnOnly == "Y"'>
             AND USE_YN = 'Y'
         </if>
     </select>

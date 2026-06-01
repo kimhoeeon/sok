@@ -86,11 +86,16 @@ public class FrontSponsorController {
 
     // 2. 토스페이먼츠 결제 성공 리다이렉트 (검증 및 승인)
     @GetMapping("/donate/success")
-    public String donateSuccess(@RequestParam String paymentKey,
-                                @RequestParam String orderId,
-                                @RequestParam Long amount,
+    public String donateSuccess(@RequestParam(required = false) String paymentKey,
+                                @RequestParam(required = false) String orderId,
+                                @RequestParam(required = false) Long amount,
                                 Model model) {
         try {
+            // ★ 수정됨: 필수 파라미터 누락 방어 로직 추가 (비정상 접근 차단)
+            if (paymentKey == null || orderId == null || amount == null) {
+                throw new Exception("결제 필수 정보가 누락되었습니다. (비정상적인 접근)");
+            }
+
             // DB에 저장된 주문 정보 조회 (위변조 방지를 위해 금액 대조)
             DonationDTO donation = donationMapper.selectDonationByOrderId(orderId);
             if (donation == null) {
@@ -127,31 +132,36 @@ public class FrontSponsorController {
             e.printStackTrace();
             model.addAttribute("errorMessage", "결제 승인 중 오류가 발생했습니다: " + e.getMessage());
 
-            // 승인 실패 시 DB 상태를 실패로 변경
-            DonationDTO failDonation = new DonationDTO();
-            failDonation.setOrderId(orderId);
-            failDonation.setPayStatus("FAIL");
-            failDonation.setCancelRsn(e.getMessage());
-            donationMapper.updateDonationStatus(failDonation);
+            // orderId가 정상적으로 넘어온 경우에만 실패 상태 업데이트
+            if (orderId != null) {
+                DonationDTO failDonation = new DonationDTO();
+                failDonation.setOrderId(orderId);
+                failDonation.setPayStatus("FAIL");
+                failDonation.setCancelRsn(e.getMessage());
+                donationMapper.updateDonationStatus(failDonation);
+            }
 
             return "sponsor/donate_fail";
         }
     }
 
     @GetMapping("/donate/fail")
-    public String donateFail(@RequestParam String code,
-                             @RequestParam String message,
-                             @RequestParam String orderId,
+    public String donateFail(@RequestParam(required = false) String code,
+                             @RequestParam(required = false) String message,
+                             @RequestParam(required = false) String orderId,
                              Model model) {
 
-        DonationDTO donation = new DonationDTO();
-        donation.setOrderId(orderId);
-        donation.setPayStatus("CANCEL");
-        donation.setCancelRsn(message);
+        // orderId가 정상적으로 넘어온 경우에만 취소 상태 업데이트
+        if (orderId != null) {
+            DonationDTO donation = new DonationDTO();
+            donation.setOrderId(orderId);
+            donation.setPayStatus("CANCEL");
+            donation.setCancelRsn(message != null ? message : "결제 취소 또는 알 수 없는 오류");
+            donationMapper.updateDonationStatus(donation);
+        }
 
-        donationMapper.updateDonationStatus(donation);
-
-        model.addAttribute("errorMessage", message);
+        // 사용자가 알 수 있도록 에러 메시지를 화면에 전달
+        model.addAttribute("errorMessage", message != null ? message : "결제가 취소되었거나 비정상적으로 종료되었습니다.");
         return "sponsor/donate_fail";
     }
 }
