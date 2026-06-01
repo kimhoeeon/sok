@@ -6,6 +6,18 @@
 
 <script src="https://js.tosspayments.com/v1/payment"></script>
 
+<style>
+    .support_form .support_form_top .bar::before {
+        display: none !important;
+    }
+    .support_form .support_form_top .bar .active-bar {
+        height: 100%;
+        background: var(--mainColor);
+        border-radius: 20px;
+        transition: width 0.8s ease-in-out;
+    }
+</style>
+
 <div id="container">
     <div class="inner">
 
@@ -108,13 +120,31 @@
                         <div class="cost">목표액 <fmt:formatNumber value="${not empty campaign ? campaign.goalAmt : 0}" pattern="#,###"/>원</div>
                         <div class="join">총 <fmt:formatNumber value="${not empty campaign ? campaign.donorCount : 0}" pattern="#,###"/>명 참여중</div>
                         <div class="join_graph">
-                            <c:set var="barWidth" value="0" />
-                            <c:if test="${not empty campaign && campaign.goalAmt > 0}">
-                                <c:set var="barWidth" value="${(campaign.currentAmt / campaign.goalAmt) * 100}" />
-                            </c:if>
-                            <div class="bar" style="width: ${barWidth > 100 ? 100 : barWidth}%;"></div>
+                            <div class="bar">
+                                <div class="active-bar" style="width: ${not empty campaign ? (campaign.achievementRate > 100 ? 100 : campaign.achievementRate) : 0}%;"></div>
+                            </div>
+
                             <div class="txt">
-                                <div class="ongoing">이번 달 목표를 향해 달려가고 있어요!</div>
+                                <div class="ongoing">
+                                    <c:set var="rate" value="${not empty campaign ? campaign.achievementRate : 0}" />
+                                    <c:choose>
+                                        <c:when test="${rate >= 100}">
+                                            🎉 와우! 목표 금액을 100% 달성했습니다! 감사합니다.
+                                        </c:when>
+                                        <c:when test="${rate >= 80}">
+                                            🔥 목표 달성이 코앞이에요! 조금만 더 힘을 내요.
+                                        </c:when>
+                                        <c:when test="${rate >= 50}">
+                                            🏃 절반을 넘어 목표를 향해 달려가고 있어요!
+                                        </c:when>
+                                        <c:when test="${rate > 0}">
+                                            🌱 따뜻한 마음이 하나둘 모이고 있어요.
+                                        </c:when>
+                                        <c:otherwise>
+                                            ✨ 시작이 반입니다! 첫 번째 후원자가 되어주세요.
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                                 <div class="total">
                                     총 <fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원 달성
                                     <strong style="color: #005baa; margin-left: 5px;">(${not empty campaign ? campaign.achievementRate : 0}%)</strong>
