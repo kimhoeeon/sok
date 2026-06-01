@@ -26,7 +26,7 @@ import java.util.*;
 @Service
 public class DirectSendService {
 
-    // [보안/개선] application.properties 에서 외부 설정값 주입 (하드코딩 제거)
+    // application.properties 에서 외부 설정값 주입 (하드코딩 제거)
     @Value("${directsend.api.key}")
     private String apiKey;
 
@@ -39,12 +39,11 @@ public class DirectSendService {
     @Value("${directsend.sender.phone}")
     private String senderPhone;
 
-    @Value("${directsend.sender.name:SOK 관리자}") // 값이 없을 경우 기본값 세팅
+    @Value("${directsend.sender.name:SOK 관리자}")
     private String senderName;
 
-    // API 엔드포인트 URL은 변경되지 않으므로 상수로 유지
     private final String API_URL = "https://directsend.co.kr/index.php/api_v2/mail_change_word";
-    private final String SMS_API_URL = "https://directsend.co.kr/index.php/api_v2/sms_send";
+    private final String SMS_API_URL = "https://directsend.co.kr/index.php/api_v2/sms_change_word";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -85,7 +84,6 @@ public class DirectSendService {
             rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
 
-            // 환경변수에서 주입받은 변수 사용
             rootNode.put("sender", senderEmail);
             rootNode.put("sender_name", senderName);
             rootNode.put("username", username);
@@ -413,7 +411,6 @@ public class DirectSendService {
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("message", message);
 
-            // 환경변수에서 주입받은 변수 사용
             rootNode.put("sender", senderPhone);
             rootNode.put("username", username);
             rootNode.put("key", apiKey);
@@ -434,7 +431,6 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            // SMS 발송 시 에러 스트림 안전 처리
             int responseCode = con.getResponseCode();
             java.io.InputStream stream = (responseCode >= 200 && responseCode < 300) ? con.getInputStream() : con.getErrorStream();
 

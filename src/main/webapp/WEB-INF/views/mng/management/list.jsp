@@ -74,7 +74,7 @@
                                 <td>${item.viewCnt}</td>
                                 <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
                                 <td>
-                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-light me-1">수정</a>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary me-1">수정</a>
                                     <form action="/mng/management/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
                                         <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">

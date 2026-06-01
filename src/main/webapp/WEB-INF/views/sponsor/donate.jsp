@@ -105,14 +105,19 @@
                 <div class="support_form">
                     <div class="support_form_top">
                         <div class="tit">${not empty campaign ? campaign.title : '진행중인 캠페인이 없습니다.'}</div>
-                        <div class="cost"><fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원</div>
+                        <div class="cost">목표액 <fmt:formatNumber value="${not empty campaign ? campaign.goalAmt : 0}" pattern="#,###"/>원</div>
                         <div class="join">총 <fmt:formatNumber value="${not empty campaign ? campaign.donorCount : 0}" pattern="#,###"/>명 참여중</div>
                         <div class="join_graph">
-                            <div class="bar" style="width: ${not empty campaign ? (campaign.achievementRate > 100 ? 100 : campaign.achievementRate) : 0}%;"></div>
+                            <c:set var="barWidth" value="0" />
+                            <c:if test="${not empty campaign && campaign.goalAmt > 0}">
+                                <c:set var="barWidth" value="${(campaign.currentAmt / campaign.goalAmt) * 100}" />
+                            </c:if>
+                            <div class="bar" style="width: ${barWidth > 100 ? 100 : barWidth}%;"></div>
                             <div class="txt">
                                 <div class="ongoing">이번 달 목표를 향해 달려가고 있어요!</div>
                                 <div class="total">
                                     총 <fmt:formatNumber value="${not empty campaign ? campaign.currentAmt : 0}" pattern="#,###"/>원 달성
+                                    <strong style="color: #005baa; margin-left: 5px;">(${not empty campaign ? campaign.achievementRate : 0}%)</strong>
                                 </div>
                             </div>
                         </div>
