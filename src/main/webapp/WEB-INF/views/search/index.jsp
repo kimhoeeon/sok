@@ -43,7 +43,7 @@
 
                     <div class="search_count">
                         <div>
-                            <span>${keyword}</span>에 관한 검색결과 <em>"<fmt:formatNumber value="${totalSum}" pattern="#,###"/>" 건</em>
+                            "<span>${keyword}</span>" 에 관한 검색결과 <em>"<fmt:formatNumber value="${totalSum}" pattern="#,###"/>" 건</em>
                         </div>
                     </div>
 
