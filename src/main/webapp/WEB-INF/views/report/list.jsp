@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="board_list">
+            <div class="board_list fr3">
                 <ul>
                     <c:choose>
                         <c:when test="${empty list}">
@@ -62,7 +62,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li onclick="location.href='/report/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
+                                <li class="<c:if test="${item.isNotice eq 'Y'}">import</c:if>" onclick="location.href='/report/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
 
                                     <div>
                                         <c:choose>
@@ -77,7 +77,7 @@
 
                                     <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
 
-                                    <div class="tit">${item.title}</div>
+                                    <div class="tit <c:if test="${item.fileList.size() > 0}">file</c:if>">${item.title}</div>
                                 </li>
                             </c:forEach>
                         </c:otherwise>

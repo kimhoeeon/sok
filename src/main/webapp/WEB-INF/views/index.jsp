@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
     /* 팝업 전용 커스텀 체크박스 스타일 추가 */
@@ -9,6 +10,9 @@
     .popup-footer .chk_box { width: 24px; height: 24px; flex-shrink: 0; background: url(/img/pop_check_off.png) no-repeat center; background-size: contain; }
     .popup-footer input[type="checkbox"]:checked + .chk_box { background: url(/img/pop_check_on.png) no-repeat center; background-size: contain; }
     .popup-footer button { cursor: pointer; background: inherit; border: none; color: #fff; font-weight: bold; font-size: 16px; padding: 0; }
+
+    /* 동적 리스트 텍스트 줄임(Truncate) 스타일 보완 */
+    .board_table ul li .gu { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
 </style>
 
 <c:if test="${not empty popupList}">
@@ -89,12 +93,36 @@
         </c:forEach>
         </c:if>
     });
+
+    // 5. 메인 게시판 탭 전환 스크립트
+    function changeBoardTab(index, boardType) {
+        // 탭 UI 변경
+        const tabs = document.querySelectorAll('.main_board_top .tab_menu li');
+        tabs.forEach((tab, i) => {
+            if (i === index) tab.classList.add('on');
+            else tab.classList.remove('on');
+        });
+
+        // 리스트 UI 변경
+        const boards = document.querySelectorAll('.main_board_list .board_table');
+        boards.forEach((board, i) => {
+            if (i === index) board.classList.add('on');
+            else board.classList.remove('on');
+        });
+
+        // '더 보기' 링크 변경
+        const moreLink = document.getElementById('boardMoreLink');
+        if (boardType === 'notice') moreLink.href = '/notice/list';
+        else if (boardType === 'careers') moreLink.href = '/careers/list';
+        else if (boardType === 'bidding') moreLink.href = '/bidding/list';
+    }
 </script>
 
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
 <div id="container">
     <div class="inner">
+        <!-- section -->
         <div class="main_slide">
             <div class="main_top sub_top">
                 <div class="sub_top_box">
@@ -145,6 +173,9 @@
                 </div>
             </div>
         </div>
+        <!-- //section -->
+
+        <!-- section -->
         <div class="main_apply">
             <div class="main_top sub_top">
                 <div class="sub_top_box">
@@ -194,12 +225,108 @@
                 </ul>
             </div>
         </div>
+        <!-- //section -->
+
+        <!-- section -->
+        <div class="main_news">
+            <div class="main_top sub_top">
+                <div class="sub_top_box">
+                    <div class="flex">
+                        <div class="sub_top_tit" id="tts_main_sns">스페셜올림픽코리아 소식</div>
+                    </div>
+                    <div class="sound_btn">
+                        <button type="button" class="play" data-target="tts_main_sns">
+                            소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="main_news_list">
+                <div class="main_img_list">
+                    <div class="main_news_top">
+                        <div class="tit">SOK 소식</div>
+                        <a class="go_link" href="/news/list">더 보기</a>
+                    </div>
+                    <c:choose>
+                        <c:when test="${not empty mainNews}">
+                            <a href="/news/detail?brdSeq=${mainNews.brdSeq}" style="display:block; color:inherit; text-decoration:none;">
+                                <div class="thum">
+                                    <img src="${not empty mainNews.thumbPath ? mainNews.thumbPath : '/img/img_default.jpg'}" alt="SOK 소식 썸네일" style="width:100%; height:250px; object-fit:cover; border-radius:20px;">
+                                </div>
+                                <div class="desc" style="margin-top:20px; font-size:1.125em; font-weight:500; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                                        ${mainNews.title}
+                                </div>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="thum">
+                                <img src="/img/img_default.jpg" alt="썸네일 이미지 기본">
+                            </div>
+                            <div class="desc text-muted" style="margin-top:20px;">등록된 SOK 소식이 없습니다.</div>
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="desc">2026 서울특별시 어울림대회 개최 2026 서울특별시 어울림대회 개최 2026 서울특별시 어울림대회 개최 2026 서울특별시 어울림대회 개최 2026 서울특별시 어울림대회 개최</div>
+                </div>
+                <div class="main_board_list">
+                    <div class="main_board_top">
+                        <ul class="tab_menu">
+                            <li class="on" style="cursor:pointer;" onclick="changeBoardTab(0, 'notice')">공지사항</li>
+                            <li style="cursor:pointer;" onclick="changeBoardTab(1, 'careers')">채용정보</li>
+                            <li style="cursor:pointer;" onclick="changeBoardTab(2, 'bidding')">입찰정보</li>
+                        </ul>
+                        <a class="go_link" id="boardMoreLink" href="/notice/list">더 보기</a>
+                    </div>
+                    <div class="board_table on">
+                        <ul>
+                            <c:forEach var="item" items="${noticeList}">
+                                <li style="cursor:pointer;" onclick="location.href='/notice/detail?brdSeq=${item.brdSeq}'">
+                                    <div class="gu">${item.title}</div>
+                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></div>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${empty noticeList}">
+                                <li style="text-align:center; padding:30px; color:#777;">등록된 공지사항이 없습니다.</li>
+                            </c:if>
+                        </ul>
+                    </div>
+                    <div class="board_table">
+                        <ul>
+                            <c:forEach var="item" items="${careersList}">
+                                <li style="cursor:pointer;" onclick="location.href='/careers/detail?brdSeq=${item.brdSeq}'">
+                                    <div class="gu">${item.title}</div>
+                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></div>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${empty careersList}">
+                                <li style="text-align:center; padding:30px; color:#777;">등록된 채용정보가 없습니다.</li>
+                            </c:if>
+                        </ul>
+                    </div>
+                    <div class="board_table">
+                        <ul>
+                            <c:forEach var="item" items="${bidList}">
+                                <li style="cursor:pointer;" onclick="location.href='/bidding/detail?brdSeq=${item.brdSeq}'">
+                                    <div class="gu">${item.title}</div>
+                                    <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></div>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${empty bidList}">
+                                <li style="text-align:center; padding:30px; color:#777;">등록된 입찰정보가 없습니다.</li>
+                            </c:if>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //section -->
+
+        <!-- section -->
         <div class="main_sns">
             <div class="main_top sub_top">
                 <div class="sub_top_box">
                     <div class="flex">
                         <div class="sub_top_tit" id="tts_main_sns">소식으로 만나는 변화</div>
-                        <a class="go_link" href="" target="_blank">더 보기</a>
+                        <%--<a class="go_link" href="" target="_blank">더 보기</a>--%>
                     </div>
                     <div class="sound_btn">
                         <button type="button" class="play" data-target="tts_main_sns">

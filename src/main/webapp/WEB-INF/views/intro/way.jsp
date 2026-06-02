@@ -29,14 +29,11 @@
         <!-- //section -->
 
         <!-- section -->
-
         <div class="sub_content way">
             <div class="way_wrap">
                 <div class="map">
-                    <div id="daumRoughmapContainer1777354743639"
-                         class="root_daum_roughmap root_daum_roughmap_landing"></div>
-                    <script charset="UTF-8" class="daum_roughmap_loader_script"
-                            src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+                    <div id="daumRoughmapContainer1777354743639" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+                    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
                     <ul class="way_txt">
                         <li>
                             <div class="gu">주소</div>
@@ -79,7 +76,6 @@
                 </div>
             </div>
         </div>
-
         <!-- //section -->
 
         <!-- section -->
@@ -115,21 +111,6 @@
 
                 <div class="info_map">
                     <div class="info_grid" id="infoGrid"></div>
-                    <!-- paging -->
-                    <div class="paging">
-                        <a href="" class="first"><img src="/img/btn_first.gif"></a>
-                        <a href="" class="prev"><img src="/img/btn_prev.gif"></a>
-                        <ol>
-                            <li><a href="" class="this">1</a></li>
-                            <li><a href="" class="other">2</a></li>
-                            <li><a href="" class="other">3</a></li>
-                            <li><a href="" class="other">4</a></li>
-                            <li><a href="" class="other">5</a></li>
-                        </ol>
-                        <a href="" class="next"><img src="/img/btn_next.gif"></a>
-                        <a href="" class="last"><img src="/img/btn_last.gif"></a>
-                    </div>
-                    <!-- //paging -->
                 </div>
             </div>
             <!-- //section -->

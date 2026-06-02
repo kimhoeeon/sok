@@ -223,8 +223,8 @@
             <div class="header_search_layer">
                 <div class="inner">
                     <div class="header_search_box">
-                        <input type="text" id="searchText" placeholder="검색어를 입력하세요">
-                        <button type="button" class="search_submit">
+                        <input type="text" id="globalSearchKeyword" placeholder="검색어를 입력하세요" onkeypress="if(event.keyCode==13) { executeGlobalSearch(); return false; }">
+                        <button type="button" class="search_submit" onclick="executeGlobalSearch()">
                             <img src="/img/ico_search_main.png" alt="검색">
                         </button>
                     </div>
@@ -235,6 +235,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function executeGlobalSearch() {
+            var keyword = document.getElementById('globalSearchKeyword').value;
+            if (!keyword.trim()) {
+                alert('검색어를 입력해주세요.');
+                document.getElementById('globalSearchKeyword').focus();
+                return;
+            }
+            // 통합 검색 결과 페이지로 검색어를 달고 이동
+            location.href = '/search?keyword=' + encodeURIComponent(keyword);
+        }
+    </script>
 
     <!-- 플로팅 -->
     <div class="floating_menu">

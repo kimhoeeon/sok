@@ -81,7 +81,7 @@
                         <td>법무법인 바른 변호사</td>
                     </tr>
                     <tr>
-                        <td rowspan="5">이사</td>
+                        <td rowspan="10">이사</td>
                         <td>김용직</td>
                         <td>(사)한국자폐인사랑협회 회장</td>
                     </tr>
@@ -100,6 +100,52 @@
                     <tr>
                         <td>박노준</td>
                         <td>우석대학교 총장</td>
+                    </tr>
+                    <tr>
+                        <td>양문술</td>
+                        <td>세림병원 원장</td>
+                    </tr>
+                    <tr>
+                        <td>박순관</td>
+                        <td>법무법인 바른 변호사</td>
+                    </tr>
+                    <tr>
+                        <td>차정훈</td>
+                        <td>한국체육대학교 교수</td>
+                    </tr>
+                    <tr>
+                        <td>김영훈</td>
+                        <td>부경대학교 교수</td>
+                    </tr>
+                    <tr>
+                        <td>송재형</td>
+                        <td>전 서울시의회 의원</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">당연직이사</td>
+                        <td>홍덕호</td>
+                        <td>문체부 장애인체육과 과장</td>
+                    </tr>
+                    <tr>
+                        <td>박민서</td>
+                        <td>인천SOK 회장</td>
+                    </tr>
+                    <tr>
+                        <td>오응환</td>
+                        <td>경기SOK 회장</td>
+                    </tr>
+                    <tr>
+                        <td>유승주</td>
+                        <td>SOK 선수위원장</td>
+                    </tr>
+                    <tr>
+                        <td>김수호</td>
+                        <td>SOK 메신저</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1">감사</td>
+                        <td>김광일</td>
+                        <td>MBK파트너스 대표</td>
                     </tr>
                     </tbody>
                 </table>

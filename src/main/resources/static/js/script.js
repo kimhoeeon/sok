@@ -778,54 +778,36 @@ $(document).ready(function () {
 
     const data = {
         seoul: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '오용환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
+            { img: '/img/sample_img.png', name: '전종구', date: '2013년 12월 19일', addr: '서울특별시 강남구 신사동 614-3 융기빌딩 4층 한국파파존스(주)', number: '02-465-0999', fax: '02-6466-2112', home: 'http://soseoul.or.kr' },
+            { img: '/img/sample_img.png', name: '박민서', date: '2015년 7월 15일', addr: '인천광역시 남동구 소래로 500 남동체육관 107호', number: '032-817-3487', fax: '032-813-3480', home: 'https://icsok.co.kr/' }
         ],
         gangwon: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '조규석', date: '2012년 11월 30일', addr: '강원특별자치도 춘천시 춘천로 188, 822호(효자동, 메가시티)', number: '033-642-2071', fax: '033-642-2074', home: '' }
         ],
         chungnam: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '윤경열', date: '2011년 12월 14일', addr: '대전광역시 중구 단디로6번길 69(문화동)', number: '042-471-2905', fax: '042-587-9229', home: '' }
         ],
         chungbuk: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '장병호', date: '2013년 12월 19일', addr: '충청북도 제천시 의병대로 45길 84 더하림 203호(흑석동)', number: '061-270-2576', fax: '061-270-2576', home: 'http://www.ggsokorea.or.kr' }
         ],
         gyeongbuk: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '김춘희', date: '2012년 11월 30일', addr: '경상북도 포항시 북구 용흥동 430-14번지', number: '054-237-4712', fax: '054-254-3636', home: '' },
+            { img: '/img/sample_img.png', name: '김동환', date: '2016년 9월 29일', addr: '대구광역시 수성구 파동로 51길 26-71(대구장애인복지관 내)', number: '053-763-1011', fax: '', home: '' }
         ],
         gyeongnam: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '신석민', date: '2017년 9월 12일', addr: '경상남도 창원시 의창구 소계동 474-2번지 2층', number: '02-447-1179', fax: '', home: '' },
+            { img: '/img/sample_img.png', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26 신정동', number: '052-220-3525', fax: '052-220-3489', home: '' },
+            { img: '/img/sample_img.png', name: '임준택', date: '2025년 4월 29일', addr: '부산광역시 사하구 다대로 605번길 25', number: '051-255-2332', fax: '051-245-2331', home: '' }
         ],
         jeonbuk: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            
         ],
         jeonnam: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            
         ],
         jeju: [
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' },
-            { img: '/img/sample_img.png', name: '오응환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320', home: 'http://www.ggsokorea.or.kr' }
+            { img: '/img/sample_img.png', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510', home: 'http://www.jisok.or.kr/' }
         ]
     };
 
@@ -852,7 +834,7 @@ $(document).ready(function () {
         $('#infoGrid').html(html);
     }
 
-    // 👉 클릭만!
+    // 클릭만
     $('.map_btn').on('click', function () {
 
         const region = $(this).data('prov');
@@ -890,7 +872,7 @@ $(document).ready(function () {
     });
 
     $('.search_close').on('click', function () {
-        $('#searchText').val('');
+        $('#globalSearchKeyword').val('');
         $('.header_search_layer').removeClass('open');
     });
 
@@ -898,6 +880,25 @@ $(document).ready(function () {
         if (e.key === 'Escape') {
             $('.header_search_layer').removeClass('open');
         }
+    });
+
+});
+
+$(document).ready(function () {
+
+    $('.tab_menu li').on('click', function () {
+
+        const index = $(this).index();
+
+        $(this).addClass('on')
+            .siblings()
+            .removeClass('on');
+
+        $('.board_table')
+            .removeClass('on')
+            .eq(index)
+            .addClass('on');
+
     });
 
 });

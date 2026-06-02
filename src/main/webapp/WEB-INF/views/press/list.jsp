@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="board_list">
+            <div class="board_list fr3">
                 <ul>
                     <c:choose>
                         <c:when test="${empty list}">
@@ -63,7 +63,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li onclick="location.href='/press/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
+                                <li class="<c:if test="${item.isNotice eq 'Y'}">import</c:if>" onclick="location.href='/press/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
 
                                     <div>
                                         <c:choose>
@@ -83,7 +83,7 @@
                                         <div class="badge" style="visibility: hidden;">-</div>
                                     </c:if>
 
-                                    <div class="tit">${item.title}</div>
+                                    <div class="tit <c:if test="${item.fileList.size() > 0}">file</c:if>">${item.title}</div>
 
                                     <div class="nae">${item.content.replaceAll("<[^>]*>", "")}</div>
 
