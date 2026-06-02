@@ -238,7 +238,7 @@
 
                 <c:otherwise>
                     <div class="search_count" style="margin-bottom: 80px; text-align: center; padding: 100px 0; border: 1px solid #d5d5d5; border-radius: 20px; background: #f9f9f9;">
-                        <img src="/img/ico_notice.png" alt="안내" style="width: 48px; opacity: 0.5; margin-bottom: 20px;">
+                        <img src="/img/ico_notice_b.png" alt="안내" style="width: 48px; opacity: 0.5; margin-bottom: 20px;">
                         <div style="font-size: 1.25em;">
                             '<span style="color:var(--mainColor); font-weight:bold;">${keyword}</span>'에 대한 검색 결과가 없습니다.
                         </div>
