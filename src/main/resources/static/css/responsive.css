@@ -638,4 +638,6 @@
     .main_news_list .board_table ul li{padding: 12px;}
 
     .main_news_list .board_table ul{margin-top: 20px;margin-bottom: 0;}
+
+    .search_count{font-size: 1em;margin-bottom: 30px;}
 }

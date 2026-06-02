@@ -104,10 +104,34 @@ public class NewsController {
         if (isUpdate) {
             board.setModId(admin != null ? admin.getAdmId() : "SYSTEM");
             board.setContent(XssUtil.cleanXss(board.getContent()));
+
+            String rawContent = board.getContent();
+            if (rawContent != null) {
+                String plainText = rawContent.replaceAll("<[^>]*>", "")
+                        .replaceAll("&nbsp;", " ")
+                        .replaceAll("&lt;", "<")
+                        .replaceAll("&gt;", ">")
+                        .trim();
+
+                board.setContentPlain(plainText);
+            }
+
             boardMapper.updateBoard(board);
         } else {
             board.setRegId(admin != null ? admin.getAdmId() : "SYSTEM");
             board.setContent(XssUtil.cleanXss(board.getContent()));
+
+            String rawContent = board.getContent();
+            if (rawContent != null) {
+                String plainText = rawContent.replaceAll("<[^>]*>", "")
+                        .replaceAll("&nbsp;", " ")
+                        .replaceAll("&lt;", "<")
+                        .replaceAll("&gt;", ">")
+                        .trim();
+
+                board.setContentPlain(plainText);
+            }
+
             boardMapper.insertBoard(board);
         }
 

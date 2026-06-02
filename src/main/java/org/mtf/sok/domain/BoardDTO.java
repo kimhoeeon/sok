@@ -16,6 +16,7 @@ public class BoardDTO extends Criteria {
     private String isNotice;
     private String title;
     private String content;
+    private String contentPlain; // 검색용 순수 텍스트
     private String youtubeUrl;
     private MultipartFile thumbFile; // 폼에서 받을 썸네일 파일 객체
     private String thumbPath;        // DB에 저장될 썸네일 이미지 경로

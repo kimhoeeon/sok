@@ -809,3 +809,7 @@
 .main_news_list .board_table ul li{padding: 25px 30px;gap: 20px; border-bottom:1px solid #D5D5D5; display: flex; align-items: center;justify-content: space-between;}
 .main_news_list .board_table ul li .gu{font-weight: 500; font-size: 1.125em; cursor: pointer;    min-width: 0;flex: 1 0 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .main_news_list .board_table ul li .date{font-weight: 400;color: #777;}
+
+.search_count{text-align: center;margin-bottom: 60px;font-size: 1.25em;}
+.search_count span{color: var(--mainColor);}
+.search_count em{color: var(--mainColor);}

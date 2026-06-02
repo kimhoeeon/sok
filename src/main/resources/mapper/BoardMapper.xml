@@ -13,10 +13,10 @@
                     AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
                 <when test="searchType == 'content'">
-                    AND CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                    AND CONTENT_PLAIN LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
                 <otherwise>
-                    AND (TITLE LIKE CONCAT('%', #{searchKeyword}, '%') OR CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+                    AND (TITLE LIKE CONCAT('%', #{searchKeyword}, '%') OR CONTENT_PLAIN LIKE CONCAT('%', #{searchKeyword}, '%'))
                 </otherwise>
             </choose>
         </if>
@@ -43,8 +43,8 @@
     </select>
 
     <insert id="insertBoard" parameterType="org.mtf.sok.domain.BoardDTO" useGeneratedKeys="true" keyProperty="brdSeq">
-        INSERT INTO TB_BOARD (BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, CONTENT, YOUTUBE_URL, THUMB_PATH, REG_ID, REG_DT)
-        VALUES (#{brdType}, #{category}, #{isNotice}, #{title}, #{content}, #{youtubeUrl}, #{thumbPath}, #{regId}, NOW())
+        INSERT INTO TB_BOARD (BRD_TYPE, CATEGORY, IS_NOTICE, TITLE, CONTENT, CONTENT_PLAIN,  YOUTUBE_URL, THUMB_PATH, REG_ID, REG_DT)
+        VALUES (#{brdType}, #{category}, #{isNotice}, #{title}, #{content}, #{contentPlain}, #{youtubeUrl}, #{thumbPath}, #{regId}, NOW())
     </insert>
 
     <update id="updateBoard" parameterType="org.mtf.sok.domain.BoardDTO">
@@ -54,6 +54,7 @@
             IS_NOTICE   = #{isNotice},
             TITLE       = #{title},
             CONTENT     = #{content},
+            CONTENT_PLAIN = #{contentPlain},
             YOUTUBE_URL = #{youtubeUrl},
             <if test="thumbPath != null and thumbPath != ''">
                 THUMB_PATH = #{thumbPath},
