@@ -261,7 +261,7 @@ $(document).ready(function () {
 
     const $target = $('body');
 
-    let fontSize = parseInt(localStorage.getItem('fontSize')) || 16;
+    let fontSize = parseInt(localStorage.getItem('fontSize')) || 19;
     let lineHeight = parseFloat(localStorage.getItem('lineHeight')) || 1.4;
 
     const minFont = 12;
@@ -304,7 +304,7 @@ $(document).ready(function () {
     });
 
     $('.reset_btn').on('click', function () {
-        fontSize = 16;
+        fontSize = 19;
         lineHeight = 1.4;
 
         localStorage.removeItem('fontSize');

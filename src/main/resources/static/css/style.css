@@ -56,8 +56,9 @@
 .main_sns_list ul li {border-radius: 20px; overflow: hidden;}
 .main_sns_list ul li img{width: 100%; display: block;}
 
+
 /* sub page */
-.sub_top{max-width: 1400px;padding: 120px 0 60px;}
+.sub_top{max-width: 1400px;padding: 60px 0 60px;}
 .sub_top_box .sub_top_nav{ color: var(--mainColor)}
 .sub_top_box .sub_top_nav span{margin-left: 2px;}
 .sub_top_box .sub_top_nav span:first-child{margin-left: 0;}
