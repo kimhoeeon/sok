@@ -33,7 +33,7 @@
 .main_top_bnr {margin-top: 90px;}
 .main_top_bnr .m_img {display: none;}
 
-.main_apply_box{margin-bottom: 50px; background-color: #E1F6FF; border-radius: 20px; background-image: url(/img/main_apply_bg.webp); background-repeat: no-repeat; background-position: top center; padding: 170px 100px; }
+.main_apply_box{margin-bottom: 50px; background-color: #E1F6FF; border-radius: 20px; background-image: url(/img/main_apply_bg.webp); background-repeat: no-repeat; background-position: top center; padding: 170px 100px; background-size: cover;}
 .main_apply_box .tit{font-size: 2em; color: #fff;}
 .main_apply_box .desc{font-size: 1.25em; margin: 20px 0 40px; color: #fff;}
 .main_apply_box a{color: #000; display: inline-block; background: #fff; border-radius: 20px;padding: 12px 24px;}
