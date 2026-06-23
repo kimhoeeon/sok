@@ -172,6 +172,18 @@
             lang: "ko-KR",
             dialogsInBody: true,
             placeholder: '약력 및 상세 소개를 입력해주세요 (선택사항)',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']], /* 글씨 크기 버튼 */
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['picture', 'link', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
             fontNames: [
                 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
                 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',

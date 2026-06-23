@@ -79,7 +79,7 @@
 .badge.friends{color: #0CC605;background: #EEFFF0; border-color: #0CC605;}
 .badge.sponsor{color: #777777;background: #F9F9F9; border-color: #777777;}
 .badge.news{color: #EB7200;background: #FFF6EE; border-color: #EB7200;}
-.board_gallery .board_gallery_box ul li .tit{font-size: 1.5em;font-weight: 700;margin: 10px 0 30px;}
+.board_gallery .board_gallery_box ul li .tit{font-size: 1.5em;font-weight: 700;margin: 10px 0 30px;overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;}
 .board_gallery .board_gallery_box .thumbBox img{width: 100%;display: block; height: 320px; object-fit: cover;}
 
 .depth_2{display: flex; align-items: end; gap: 20px; flex-wrap: wrap;}

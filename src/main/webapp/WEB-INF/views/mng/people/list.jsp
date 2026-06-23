@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="currentMenu" value="people" scope="request" />
 <%@ include file="../layout/header.jsp" %>
@@ -56,7 +57,7 @@
                     </tr>
                 </c:when>
                 <c:otherwise>
-                    <c:forEach var="item" items="${list}">
+                    <c:forEach var="item" items="${list}" varStatus="st">
 
                         <c:url var="detailUrl" value="/mng/people/form">
                             <c:param name="brdSeq" value="${item.brdSeq}" />
@@ -67,7 +68,7 @@
                         </c:url>
 
                         <tr>
-                            <td>${item.brdSeq}</td>
+                            <td>${fn:length(list) - st.index}</td>
                             <td><span class="badge bg-secondary">${item.category}</span></td>
                             <td class="text-start">
                                 <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">

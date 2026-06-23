@@ -95,6 +95,18 @@
             lang: "ko-KR",
             dialogsInBody: true,
             placeholder: '오류 발생 경로, 수정되어야 할 텍스트 등 상세한 내용을 기재해 주시면 빠른 처리에 도움이 됩니다.',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']], /* 글씨 크기 버튼 */
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['picture', 'link', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
             fontNames: [
                 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
                 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',

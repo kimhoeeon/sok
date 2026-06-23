@@ -33,6 +33,7 @@ public class FrontNewsController {
         params.setBrdType("NEWS");
 
         // 1. 목록 및 전체 개수 조회
+        params.setAmount(9);
         List<BoardDTO> list = boardMapper.selectBoardList(params);
         int total = boardMapper.selectBoardTotalCount(params);
 

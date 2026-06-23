@@ -35,6 +35,47 @@
     </c:when>
 </c:choose>
 
+<style>
+    /* =========================================================
+       에디터 본문(WYSIWYG) 렌더링 영역 스타일 복구 및 보정
+       ========================================================= */
+
+    /* 1. 부모 영역을 강제로 블록화하여 레이아웃(Flex 등) 충돌 방어 */
+    .view_detail .editor-content {
+        display: block !important;
+        width: 100% !important;
+        line-height: 1.6;
+        word-break: break-all;
+    }
+
+    /* 2. 문단(p, h) 태그 가로폭 100% 확보 -> 가운데/우측 정렬이 정상 작동하게 됨 */
+    .view_detail .editor-content p,
+    .view_detail .editor-content h1,
+    .view_detail .editor-content h2,
+    .view_detail .editor-content h3 {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 0.5em; /* reset.css 로 날아간 문단 간 띄어쓰기 복구 */
+    }
+
+    /* 3. 에디터에서 작성한 pre 태그 텍스트 자동 줄바꿈 허용 */
+    .view_detail .editor-content pre {
+        white-space: pre-wrap !important;
+        font-family: inherit;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* 4. 에디터에 삽입된 이미지(966px 등)가 모바일 화면 밖으로 뚫고 나가지 않도록 보호 */
+    .view_detail .editor-content img {
+        max-width: 100% !important;
+        height: auto !important;
+        display: inline-block;
+    }
+</style>
+
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
 <div id="container">
