@@ -34,6 +34,8 @@
         </div>
     </form>
 
+    <c:set var="startNum" value="${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}" />
+
     <div class="table-responsive">
         <table class="table table-hover align-middle text-center mb-0" style="--bs-table-bg: #ffffff; --bs-table-color: #212529; --bs-table-hover-bg: rgba(0,0,0,0.02); border-top: 1px solid #dee2e6;">
             <thead style="background-color: #f8f9fa;">
@@ -56,7 +58,7 @@
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach var="item" items="${list}">
+                        <c:forEach var="item" items="${list}" varStatus="st">
 
                             <c:url var="detailUrl" value="/mng/volunteer/detail">
                                 <c:param name="volSeq" value="${item.volSeq}" />
@@ -67,7 +69,7 @@
                             </c:url>
 
                             <tr>
-                                <td>${item.volSeq}</td>
+                                <td>${startNum - st.index}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.supportArea eq '스포츠'}"><span class="badge bg-primary">스포츠</span></c:when>

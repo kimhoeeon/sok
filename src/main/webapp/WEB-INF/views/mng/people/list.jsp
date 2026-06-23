@@ -37,6 +37,8 @@
         </div>
     </form>
 
+    <c:set var="startNum" value="${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}" />
+
     <div class="table-responsive">
         <table class="table table-hover align-middle text-center mb-0" style="--bs-table-bg: #ffffff; --bs-table-color: #212529; --bs-table-hover-bg: rgba(0,0,0,0.02); border-top: 1px solid #dee2e6;">
             <thead style="background-color: #f8f9fa;">
@@ -68,7 +70,7 @@
                         </c:url>
 
                         <tr>
-                            <td>${fn:length(list) - st.index}</td>
+                            <td>${startNum - st.index}</td>
                             <td><span class="badge bg-secondary">${item.category}</span></td>
                             <td class="text-start">
                                 <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">

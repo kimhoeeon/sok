@@ -44,6 +44,8 @@
         </div>
     </form>
 
+    <c:set var="startNum" value="${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}" />
+
     <div class="table-responsive">
         <table class="table table-hover align-middle text-center mb-0" style="--bs-table-bg: #ffffff; --bs-table-color: #212529; --bs-table-hover-bg: rgba(0,0,0,0.02); border-top: 1px solid #dee2e6;">
             <thead style="background-color: #f8f9fa;">
@@ -64,7 +66,7 @@
                         <tr><td colspan="8" class="py-5 text-muted">등록된 회원이 없습니다.</td></tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach var="item" items="${list}">
+                        <c:forEach var="item" items="${list}" varStatus="st">
 
                             <c:url var="detailUrl" value="/mng/sponsor/member/detail">
                                 <c:param name="mbrSeq" value="${item.mbrSeq}" />
@@ -77,7 +79,7 @@
                             </c:url>
 
                             <tr>
-                                <td>${item.mbrSeq}</td>
+                                <td>${startNum - st.index}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${item.mbrType eq 'INDIVIDUAL'}"><span class="badge bg-secondary">개인</span></c:when>
