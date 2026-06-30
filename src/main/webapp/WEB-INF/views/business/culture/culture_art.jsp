@@ -12,7 +12,7 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>문화예술</span><span>스페셜올림픽 미술대회</span>
+                    <span>사업소개</span><span>문화예술</span><span>국내외 문화예술 활동 지원</span><span>스페셜올림픽 미술대회</span>
                 </div>
 
                 <div class="sub_top_tit" id="tts_sub_top">스페셜올림픽 미술대회</div>
@@ -37,9 +37,17 @@
             <div class="sub_tab">
                 <ul class="board_tab colum2">
                     <li><a href="/business/culture">국제 스페셜 뮤직&아트 페스티벌</a></li>
-                    <li class="on"><a href="/business/culture-art">스페셜올림픽 미술대회</a></li>
+                    <li><a href="/business/culture-ensemble">SOK 앙상블</a></li>
+                    <li><a href="/business/culture-concert">SOK 연말음악회</a></li>
                     <li><a href="/business/culture-dodream">두드림 페스티벌</a></li>
                     <li><a href="/business/culture-support">국내외 공연 참가 지원</a></li>
+                    <li class="on"><a href="/business/culture-support-act">국내외 문화예술 활동 지원</a></li>
+                </ul>
+            </div>
+            <div class="contest">
+                <ul class="contest_tab column">
+                    <li class="on"><a href="/business/culture-art">스페셜올림픽 미술대회</a></li>
+                    <li><a href="/business/culture-support-act">국내외 공연 참가 지원</a></li>
                 </ul>
             </div>
             <div class="art_info">

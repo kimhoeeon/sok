@@ -170,9 +170,13 @@ public class FrontBusinessController {
     @GetMapping("/culture")
     public String cultureMain() { return "business/culture/culture"; }
 
-    // [스페셜올림픽 미술대회]
-    @GetMapping("/culture-art")
-    public String cultureArt() { return "business/culture/culture_art"; }
+    // [SOK 앙상블]
+    @GetMapping("/culture-ensemble")
+    public String cultureEnsemble() { return "business/culture/culture_ensemble"; }
+
+    // [SOK 연말음악회]
+    @GetMapping("/culture-concert")
+    public String cultureConcert() { return "business/culture/culture_concert"; }
 
     // [두드림 페스티벌]
     @GetMapping("/culture-dodream")
@@ -181,6 +185,14 @@ public class FrontBusinessController {
     // [국내외 공연 참가 지원]
     @GetMapping("/culture-support")
     public String cultureSupport() { return "business/culture/culture_support"; }
+
+    // [국내외 문화예술 활동 지원]
+    @GetMapping("/culture-support-act")
+    public String cultureSupportAct() { return "business/culture/culture_support_act"; }
+
+    // [스페셜올림픽 미술대회]
+    @GetMapping("/culture-art")
+    public String cultureArt() { return "business/culture/culture_art"; }
 
     // ==========================================
     // 3. 커뮤니티(Community) 영역

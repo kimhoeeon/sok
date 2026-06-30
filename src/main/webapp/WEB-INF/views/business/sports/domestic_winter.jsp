@@ -180,6 +180,14 @@
                             <div class="scale">참가인원 : 235</div>
                         </div>
                     </li>
+                    <li>
+                        <span class="badge blue">6회차</span>
+                        <div class="gu">2025 스페셜올림픽코리아 <br />전국동계대회</div>
+                        <div class="txt_box">
+                            <div class="venue">개최지 : 평창, 경기</div>
+                            <div class="scale">참가인원 : 290</div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

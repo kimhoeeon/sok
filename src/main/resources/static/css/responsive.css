@@ -39,6 +39,9 @@
 
     .main_news_list .main_board_top .tab_menu li{font-size: 1em;padding: 8px 16px;}
     .main_news_list .main_board_top .go_link, .main_news_list .main_news_top .go_link{font-size: 0.875em; padding: 10px 16px;}
+
+    /* 포스터 */
+    .art_info .poster ul{grid-template-columns: repeat(3, 1fr);}
 }
 
 @media screen and (max-width:1199px) {
@@ -92,6 +95,10 @@
     .main_news_list .main_img_list{width: 100%;}
     .main_news_list .main_board_list{width: 100%;}
     .main_news_list .main_img_list .thum img{max-height: 300px;}
+
+    /* 앙상블 */
+    .ensemble_list ul.col_4 {grid-template-columns: repeat(3, 1fr);}
+    .ensemble_list ul.col_5{grid-template-columns: repeat(3, 1fr)}
 }
 
 @media screen and (max-width:899px) {
@@ -267,7 +274,7 @@
     .timeline_item .year2019 img{max-width: 200px; right: 0; left: inherit;margin-left: inherit; transform: inherit;}
     .timeline_item .year2020 img{max-width: 200px; right: 0; left: inherit;margin-left: inherit; transform: inherit;}
     .timeline_item .year2020 img{max-width: 200px;}
-    .year {width: 50px;height: 50px; font-size: 0.75em;}
+    .timeline_item .year {width: 50px;height: 50px; font-size: 0.75em;}
 
     /* 관련규정 */
     .policy_list .down_item .down_list li{width: 100%;}
@@ -280,6 +287,24 @@
     .main_news_list .main_news_top .tit{font-size: 1em;}
     .main_news_list .board_table ul li .gu{font-size: 1em;}
     .main_news_list .board_table ul li .date{font-size: 0.875em;}
+
+    /* 앙상블 */
+    .ensemble_top ul{grid-template-columns: repeat(1, 1fr);}
+    .ensemble_list ul.col_5 {grid-template-columns: repeat(2, 1fr);}
+    .ensemble_list ul.col_4 {grid-template-columns: repeat(2, 1fr);}
+
+    /* 포스터 */
+    .art_info .poster ul{grid-template-columns: repeat(2, 1fr);}
+    .art_info .poster.dodo_poster ul{grid-template-columns: repeat(2, 1fr);}
+
+    
+    .culture_history {padding: 30px 0 30px 30px;}
+    .culture_history::before {left: 8px;transform: none;}
+    .history_item .year{width: 100%;}
+    .history_item,
+    .history_item.left,
+    .history_item.right {width: 100%;margin-left: 0;padding-left: 10px;padding-right: 0;text-align: left;}
+
 }
 
 @media screen and (max-width:599px) {
@@ -640,4 +665,19 @@
     .main_news_list .board_table ul{margin-top: 20px;margin-bottom: 0;}
 
     .search_count{font-size: 1em;margin-bottom: 30px;}
+
+    .executive_table h2{font-size: 1em;}
+
+    /* 앙상블 */
+    .ensemble_list ul.col_5 {grid-template-columns: repeat(1, 1fr);}
+    .ensemble_list ul.col_4 {grid-template-columns: repeat(1, 1fr);}
+
+    /* 포스터 */
+    .art_info .poster ul{grid-template-columns: repeat(1, 1fr); gap: 20px;}
+    .art_info .poster.dodo_poster ul{grid-template-columns: repeat(1, 1fr); }
+
+    .culture_history{padding: 20px;}
+    .history_item{margin: 10px 0;padding: 0;}
+    .history_item .year{font-size: 1.125em;}
+    .history_item p{font-size: 0.875em;margin-bottom: 20px;}
 }

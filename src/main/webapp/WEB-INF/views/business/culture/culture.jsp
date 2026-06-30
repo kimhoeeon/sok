@@ -37,9 +37,11 @@
             <div class="sub_tab">
                 <ul class="board_tab colum2">
                     <li class="on"><a href="/business/culture">국제 스페셜 뮤직&아트 페스티벌</a></li>
-                    <li><a href="/business/culture-art">스페셜올림픽 미술대회</a></li>
+                    <li><a href="/business/culture-ensemble">SOK 앙상블</a></li>
+                    <li><a href="/business/culture-concert">SOK 연말음악회</a></li>
                     <li><a href="/business/culture-dodream">두드림 페스티벌</a></li>
                     <li><a href="/business/culture-support">국내외 공연 참가 지원</a></li>
+                    <li><a href="/business/culture-support-act">국내외 문화예술 활동 지원</a></li>
                 </ul>
             </div>
             <div class="cult_bi">
@@ -123,6 +125,7 @@
                     </div>
                 </div>
                 <div class="executive_table">
+                    <h2>- 클래식</h2>
                     <table>
                         <colgroup>
                             <col width="25%">
@@ -132,55 +135,188 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th colspan="2">구분</th>
-                            <th>이름</th>
-                            <th>직위</th>
+                            <th>구분</th>
+                            <th>전공</th>
+                            <th>성명</th>
+                            <th>소속 및 직위</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td rowspan="4">감독단</td>
-                            <td>명예감독</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td rowspan="17">클래식</td>
+                            <td>바이올린</td>
+                            <td>기주희</td>
+                            <td>덕성여자대학교 교수</td>
                         </tr>
                         <tr>
-                            <td>클래식 음악감독</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>바이올린</td>
+                            <td>김현아</td>
+                            <td>연세대학교 교수</td>
                         </tr>
                         <tr>
-                            <td>팝 음악감독</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>바이올린</td>
+                            <td>한경진</td>
+                            <td>경북대학교 교수</td>
                         </tr>
                         <tr>
-                            <td>운영감독</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>비올라</td>
+                            <td>문명환</td>
+                            <td>충남대학교 출강</td>
                         </tr>
                         <tr>
-                            <td rowspan="5">감독단</td>
-                            <td rowspan="3">바이올린 멘토</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>첼로</td>
+                            <td>박상민</td>
+                            <td>한국예술종합학교 교수</td>
                         </tr>
                         <tr>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>첼로</td>
+                            <td>이재은</td>
+                            <td>백석대학교 교수</td>
                         </tr>
                         <tr>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>오보에</td>
+                            <td>김수지</td>
+                            <td>전문연주가</td>
                         </tr>
                         <tr>
-                            <td rowspan="2">바이올린 멘토</td>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>클라리넷</td>
+                            <td>송정민</td>
+                            <td>코리안챔버오케스트라 수석</td>
                         </tr>
                         <tr>
-                            <td>김영욱</td>
-                            <td>서울대학교 음악대학 학장</td>
+                            <td>플루트</td>
+                            <td>김동수</td>
+                            <td>성신여자대학교 교수</td>
+                        </tr>
+                        <tr>
+                            <td>트럼펫</td>
+                            <td>강석진</td>
+                            <td>원주시립교향악단 수석</td>
+                        </tr>
+                        <tr>
+                            <td>트럼본</td>
+                            <td>장현배</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>호른</td>
+                            <td>김정기</td>
+                            <td>원주시립교향악단 수석단원</td>
+                        </tr>
+                        <tr>
+                            <td>성악</td>
+                            <td>백승헌</td>
+                            <td>성악가</td>
+                        </tr>
+                        <tr>
+                            <td>피아노</td>
+                            <td>박지원</td>
+                            <td>상명대학교 교수</td>
+                        </tr>
+                        <tr>
+                            <td>피아노</td>
+                            <td>김헌재</td>
+                            <td>한국예술종합학교 예술영재교육원 출강</td>
+                        </tr>
+                        <tr>
+                            <td>마림바</td>
+                            <td>장애령</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>지휘</td>
+                            <td>김지환</td>
+                            <td>백석대학교 교수</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="executive_table">
+                    <h2>- 팝</h2>
+                    <table>
+                        <colgroup>
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>전공</th>
+                            <th>성명</th>
+                            <th>소속 및 직위</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td rowspan="7">클래식</td>
+                            <td>베이스</td>
+                            <td>황호규</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>기타</td>
+                            <td>정수욱</td>
+                            <td>기타리스트</td>
+                        </tr>
+                        <tr>
+                            <td>건반</td>
+                            <td>조윤성</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>색소폰</td>
+                            <td>손성제</td>
+                            <td>호원대학교 교수</td>
+                        </tr>
+                        <tr>
+                            <td>드럼</td>
+                            <td>신동진</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>드럼</td>
+                            <td>한웅원</td>
+                            <td>전문연주가</td>
+                        </tr>
+                        <tr>
+                            <td>보컬</td>
+                            <td>김숙영</td>
+                            <td>성신여자대학교 교수</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="executive_table">
+                    <h2>- 아트</h2>
+                    <table>
+                        <colgroup>
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>전공</th>
+                            <th>성명</th>
+                            <th>소속 및 직위</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>미술</td>
+                            <td>미술</td>
+                            <td>손인종</td>
+                            <td>하얀사자 미술학원 대표</td>
+                        </tr>
+                        <tr>
+                            <td>사진</td>
+                            <td>사진</td>
+                            <td>조세현</td>
+                            <td>사진작가</td>
                         </tr>
                         </tbody>
                     </table>

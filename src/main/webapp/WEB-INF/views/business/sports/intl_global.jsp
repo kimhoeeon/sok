@@ -53,18 +53,17 @@
             </div>
 
             <div class="contest_info">
-                <div class="txt">VIRTUS 글로벌게임은 세계 최대 규모의 발달장애인 엘리트 스포츠 대회입니다. <br/>
-                    4년마다 개최되며 전 세계에서 천 명이 넘는 선수들이 모여 17개 종목에서 메달을 놓고 경쟁합니다.<br/><br/>
+                <div class="txt">VIRTUS 글로벌게임은 세계 최대 규모의 발달장애인 엘리트 스포츠 대회입니다. <br />
+                    4년마다 개최되며 전 세계에서 천 명이 넘는 선수들이 모여 17개 종목에서 메달을 놓고 경쟁합니다.<br /><br />
 
-                    현재 정식 종목 12개(육상, 농구, 크리켓, 사이클, 승마, 풋볼/풋살, 유도, 조정, 스키, 수영, 탁구, 테니스)와<br/>
-                    시범 종목 5개(골프, 가라테, 파라 하키, 요트, 태권도)를 운영하고 있습니다.<br/><br/>
+                    현재 정식 종목 12개(육상, 농구, 크리켓, 사이클, 승마, 풋볼/풋살, 유도, 조정, 스키, 수영, 탁구, 테니스)와<br />
+                    시범 종목 7개(소프트볼, 골프, 가라테, 하키, 요트, 태권도, 피구)를 운영하고 있습니다.<br /><br />
 
                     2004년 스웨덴에서 제 1회 글로벌게임이 시작되었으며 2023년 프랑스 비시에서 제 6회 대회가 개최되었습니다.
                 </div>
                 <div class="video">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/nyW19ZLbuuQ&t?mute=1&controls=0&loop=1&playlist=nyW19ZLbuuQ'
-                                frameborder='0' allowfullscreen></iframe>
+                        <iframe src='https://www.youtube.com/embed/nyW19ZLbuuQ&t?mute=1&controls=0&loop=1&playlist=nyW19ZLbuuQ' frameborder='0' allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
