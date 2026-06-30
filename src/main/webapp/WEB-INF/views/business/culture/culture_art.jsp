@@ -50,7 +50,7 @@
                     <li><a href="/business/culture-support-act">국내외 공연 참가 지원</a></li>
                 </ul>
             </div>
-            <div class="art_info">
+            <div class="art_info mt-60">
                 <div class="txt">
                     통합스포츠는 발달장애인과 비장애인이 한 팀을 이루어 훈련하고, 경기에 참가하며 <br/>
                     서로를 이해하고 기량을 향상시키는 스포츠 활동으로서 스페셜올림픽 국제 본부(SOI)가 중점적으로 진행하고 있는 프로그램입니다. <br/>
