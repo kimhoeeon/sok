@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>문화예술</span><span>국내외 문화예술 활동 지원</span>
+                    <span>사업소개</span><span>문화예술</span><span>국내외 문화예술 활동 지원</span><span>국내외 공연 참가 지원</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">국내외 문화예술 활동 지원</div>
+                <div class="sub_top_tit" id="tts_sub_top">국내외 공연 참가 지원</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
