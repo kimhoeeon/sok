@@ -40,7 +40,6 @@
                     <li><a href="/business/culture-ensemble">SOK 앙상블</a></li>
                     <li><a href="/business/culture-concert">SOK 연말음악회</a></li>
                     <li class="on"><a href="/business/culture-dodream">두드림 페스티벌</a></li>
-                    <li><a href="/business/culture-support">국내외 공연 참가 지원</a></li>
                     <li><a href="/business/culture-support-act">국내외 문화예술 활동 지원</a></li>
                 </ul>
             </div>

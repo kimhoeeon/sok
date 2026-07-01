@@ -40,7 +40,6 @@
                     <li><a href="/business/culture-ensemble">SOK 앙상블</a></li>
                     <li><a href="/business/culture-concert">SOK 연말음악회</a></li>
                     <li><a href="/business/culture-dodream">두드림 페스티벌</a></li>
-                    <li><a href="/business/culture-support">국내외 공연 참가 지원</a></li>
                     <li class="on"><a href="/business/culture-support-act">국내외 문화예술 활동 지원</a></li>
                 </ul>
             </div>
@@ -72,6 +71,57 @@
                 <div class="history_item right">
                     <span class="year">2014 ~ 2018</span>
                     <p>UN 세계 장애인의 날 기념행사 공연 (UN본부)</p>
+                </div>
+            </div>
+            <div class="art_info mt-60">
+                <div class="txt">
+                    뉴욕 UN 본부 공연, 아부다비 뮤직 페스티벌, 네덜란드 유나이티드 바이 뮤직 등의 해외 공연 및 국내에서 열리는 스페셜 연말음악회와 <br />다양한 스포츠 이벤트의 축하 공연 등에 국제 스페셜 뮤직&아트 페스티벌 출신 발달장애 아티스트들이 무대에 설 수 있도록 적극적으로 지원하고 있습니다.
+                </div>
+                <div class="video">
+                    <div class="embed-container">
+                        <iframe src='https://www.youtube.com/embed/B1IOg2evv7I?mute=1&controls=0&loop=1&playlist=B1IOg2evv7I' frameborder='0' allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="cult_img">
+                <div class="sub_top">
+                    <div class="sub_top_box">
+                        <!--
+
+                        --소리듣기 재사용--
+                        id=tts_2
+                        data-taret=tts_2
+
+                        -->
+                        <div class="sub_top_tit" id="tts_sub_cult_join">국내외 공연 참가 지원 사진</div>
+                        <div class="sound_btn">
+                            <button type="button" class="play" data-target="tts_sub_cult_join">
+                                소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="img_view">
+                    <ul class="img_item">
+                        <li>
+                            <img src="/img/support.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                        <li>
+                            <img src="/img/support2.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                        <li>
+                            <img src="/img/support3.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                        <li>
+                            <img src="/img/support4.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                        <li>
+                            <img src="/img/support5.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                        <li>
+                            <img src="/img/support6.jpg" alt="국내외 공연 참가 지원 이미지">
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

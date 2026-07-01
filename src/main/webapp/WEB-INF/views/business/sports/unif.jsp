@@ -60,7 +60,7 @@
                 </div>
                 <div class="video">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/GTpNNTJI_bMGTpNNTJI_bM?mute=1&controls=0&loop=1&playlist=GTpNNTJI_bM' frameborder='0' allowfullscreen></iframe>
+                        <iframe src='https://www.youtube.com/embed/SJ17eRVodPM&t=8s?mute=1&controls=0&loop=1&playlist=SJ17eRVodPM&t=8s' frameborder='0' allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

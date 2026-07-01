@@ -182,10 +182,6 @@ public class FrontBusinessController {
     @GetMapping("/culture-dodream")
     public String cultureDodream() { return "business/culture/culture_dodream"; }
 
-    // [국내외 공연 참가 지원]
-    @GetMapping("/culture-support")
-    public String cultureSupport() { return "business/culture/culture_support"; }
-
     // [국내외 문화예술 활동 지원]
     @GetMapping("/culture-support-act")
     public String cultureSupportAct() { return "business/culture/culture_support_act"; }

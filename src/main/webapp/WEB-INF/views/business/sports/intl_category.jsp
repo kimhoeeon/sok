@@ -238,7 +238,7 @@
                         <span class="badge orange">2019</span>
                         <div class="gu">SOEA 통합농구대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 중국</div>
+                            <div class="venue">개최지 : 시안, 중국</div>
                             <div class="scale">참가규모 : 8</div>
                         </div>
                     </li>
@@ -294,7 +294,7 @@
                         <span class="badge orange">2023</span>
                         <div class="gu">SOEA 홍콩 보체대회</div>
                         <div class="txt_box">
-                            <div class="venue">개최지 : 홍콩 다푸 구</div>
+                            <div class="venue">개최지 : 홍콩 다푸구</div>
                             <div class="scale">참가규모 : 13</div>
                         </div>
                     </li>
