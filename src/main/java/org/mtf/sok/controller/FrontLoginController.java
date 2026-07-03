@@ -2,9 +2,11 @@ package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.MemberMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.service.DirectSendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
@@ -35,12 +36,13 @@ public class FrontLoginController {
     }
 
     @GetMapping("/login/basic")
-    public String loginBasic(HttpSession session,
+    public String loginBasic(@AuthenticationPrincipal PrincipalDetails principalDetails,
                              @RequestParam(value = "error", required = false) String error,
                              @RequestParam(value = "exception", required = false) String exception,
                              Model model) {
 
-        if (session.getAttribute("userLogin") != null) {
+        // 세션 대신 시큐리티 인증 객체로 기 로그인 여부 확인
+        if (principalDetails != null && principalDetails.getMemberDTO() != null) {
             return "redirect:/";
         }
 
@@ -139,15 +141,10 @@ public class FrontLoginController {
         return new String(passwordArray);
     }
 
-    // =====================================================================
-    // [신규 추가] 소셜 로그인 연동 시 연락처 누락 유저 추가 정보 입력 처리
-    // =====================================================================
-
     // 1. 소셜 로그인 추가 정보 입력 폼 페이지 이동
     @GetMapping("/oauth2/extraForm")
-    public String oauth2ExtraForm(HttpSession session) {
-        // 로그인이 안 되어있으면 튕겨냄
-        if (session.getAttribute("userLogin") == null) {
+    public String oauth2ExtraForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login";
         }
         return "member/oauth2_extra";
@@ -158,11 +155,13 @@ public class FrontLoginController {
     @ResponseBody
     public ResponseEntity<?> oauth2ExtraProc(@RequestParam String phone,
                                              @RequestParam(required = false) String marketingYn,
-                                             HttpSession session) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
+                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return ResponseEntity.status(401).body("세션이 만료되었습니다. 다시 로그인해 주세요.");
         }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         try {
             // 체크박스 해제 시 넘어오는 null 방어
@@ -179,7 +178,8 @@ public class FrontLoginController {
 
             // 업데이트된 최신 정보로 세션 다시 갱신 (전화번호가 제대로 채워짐)
             MemberDTO updatedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
-            session.setAttribute("userLogin", updatedUser);
+            loginUser.setPhone(updatedUser.getPhone());
+            loginUser.setMarketingYn(updatedUser.getMarketingYn());
 
             return ResponseEntity.ok("정보 등록이 완료되었습니다.");
         } catch (Exception e) {

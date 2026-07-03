@@ -11,7 +11,7 @@
         SELECT COUNT(MBR_ID) FROM TB_MEMBER WHERE MBR_ID = #{mbrId}
     </select>
 
-    <insert id="insertMember" parameterType="org.mtf.sok.domain.MemberDTO">
+    <insert id="insertMember" parameterType="org.mtf.sok.domain.MemberDTO" useGeneratedKeys="true" keyProperty="mbrSeq" keyColumn="MBR_SEQ">
         INSERT INTO TB_MEMBER (
         MBR_ID, MBR_PW, MBR_NM, MBR_ROLE, MBR_TYPE, INST_TYPE, LOGIN_TYPE,
         SNS_TYPE, SNS_ID, BIZ_NO, BIZ_FILE_PATH, MANAGER_NM, MANAGER_POS,

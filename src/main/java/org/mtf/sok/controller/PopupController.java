@@ -6,8 +6,10 @@ import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.domain.PopupDTO;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.PopupMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -78,8 +80,8 @@ public class PopupController {
     }
 
     @PostMapping("/save")
-    public String save(PopupDTO popup, HttpSession session, RedirectAttributes rttr) {
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    public String save(PopupDTO popup, @AuthenticationPrincipal PrincipalDetails principalDetails, RedirectAttributes rttr) {
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
 
         // [보안/안정성] 세션 만료 체크
         if (admin == null) {

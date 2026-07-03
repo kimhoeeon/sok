@@ -1,16 +1,19 @@
 package org.mtf.sok.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.mtf.sok.domain.CampaignDTO;
 import org.mtf.sok.domain.DonationDTO;
 import org.mtf.sok.domain.MemberDTO;
 import org.mtf.sok.mapper.CampaignMapper;
 import org.mtf.sok.mapper.DonationMapper;
 import org.mtf.sok.mapper.StatsMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.service.TossPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Controller
 @RequestMapping("/sponsor")
 public class FrontSponsorController {
@@ -57,13 +61,18 @@ public class FrontSponsorController {
     // 1. 기부 결제 초기화 (결제창 띄우기 직전, DB에 'WAIT' 상태로 주문번호를 미리 저장)
     @PostMapping("/donate/init")
     @ResponseBody
-    public ResponseEntity<?> donateInit(DonationDTO donation, HttpSession session) {
+    public ResponseEntity<?> donateInit(DonationDTO donation, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         try {
             // 로그인 유저 맵핑
-            MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-
-            if (loginUser == null) {
+            if (principalDetails == null || principalDetails.getMemberDTO() == null) {
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
+            }
+
+            MemberDTO loginUser = principalDetails.getMemberDTO();
+
+            if (loginUser.getMbrSeq() == null) {
+                log.error("세션 오류: 로그인 객체는 존재하나 MbrSeq 값이 null 입니다. 로그인 시 MemberMapper 쿼리를 확인해 주세요. 객체 정보: {}", loginUser);
+                return ResponseEntity.badRequest().body("회원 고유 식별정보를 찾을 수 없습니다. 다시 로그인해 주세요.");
             }
 
             donation.setMbrSeq(loginUser.getMbrSeq());

@@ -3,10 +3,12 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.DevMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.service.DirectSendService;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,8 +39,8 @@ public class DevController {
     private String uploadDir;
 
     // 현재 관리자가 개발사인지 발주사인지 체크하는 내부 헬퍼
-    private boolean isDeveloper(HttpSession session) {
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    private boolean isDeveloper(PrincipalDetails principalDetails) {
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
         return admin != null && "meetingfan".equals(admin.getAdmId());
     }
 
@@ -69,13 +70,14 @@ public class DevController {
     }
 
     @PostMapping("/saveRequest")
-    public String saveRequest(DevRequestDTO request, HttpSession session) {
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    public String saveRequest(DevRequestDTO request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
+
         if (admin == null) {
-            throw new IllegalStateException("관리자 세션이 만료되었습니다.");
+            throw new IllegalStateException("관리자 로그인 정보가 만료되었습니다.");
         }
 
-        request.setRegId(admin != null ? admin.getAdmId() : "sokadmin");
+        request.setRegId(admin.getAdmId());
         if (request.getUrgency() == null) request.setUrgency("N");
 
         devMapper.insertRequest(request);
@@ -84,7 +86,7 @@ public class DevController {
         uploadFiles(request.getUploadFiles(), "TB_DEV_REQUEST", request.getReqSeq());
 
         // 발주사가 글을 썼으므로 개발사 담당자에게 비즈뿌리오 메일 발송
-        if (!isDeveloper(session)) {
+        if (!isDeveloper(principalDetails)) {
             directSendService.sendRequestAlertEmail(request);
         }
 
@@ -92,7 +94,11 @@ public class DevController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam Long reqSeq, @ModelAttribute("params") DevRequestDTO params, Model model, HttpSession session) {
+    public String detail(@RequestParam Long reqSeq,
+                         @ModelAttribute("params") DevRequestDTO params,
+                         Model model,
+                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
         DevRequestDTO request = devMapper.selectRequest(reqSeq);
 
         FileDTO reqFileParams = new FileDTO();
@@ -110,15 +116,15 @@ public class DevController {
 
         model.addAttribute("request", request);
         model.addAttribute("comments", comments);
-        model.addAttribute("isDeveloper", isDeveloper(session));
+        model.addAttribute("isDeveloper", isDeveloper(principalDetails));
 
         return "mng/dev/detail";
     }
 
     @PostMapping("/updateStatus")
-    public String updateStatus(DevRequestDTO request, HttpSession session, RedirectAttributes rttr) {
-        if (isDeveloper(session)) {
-            AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    public String updateStatus(DevRequestDTO request, @AuthenticationPrincipal PrincipalDetails principalDetails, RedirectAttributes rttr) {
+        if (isDeveloper(principalDetails)) {
+            AdminDTO admin = principalDetails.getAdminDTO();
             request.setModId(admin.getAdmId());
             devMapper.updateRequestStatus(request);
 
@@ -140,10 +146,14 @@ public class DevController {
     }
 
     @PostMapping("/saveComment")
-    public String saveComment(DevCommentDTO comment, @ModelAttribute DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    public String saveComment(DevCommentDTO comment,
+                              @ModelAttribute DevRequestDTO params,
+                              @AuthenticationPrincipal PrincipalDetails principalDetails,
+                              RedirectAttributes rttr) {
+
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
         if (admin == null) {
-            throw new IllegalStateException("관리자 세션이 만료되었습니다.");
+            throw new IllegalStateException("관리자 로그인 정보가 만료되었습니다.");
         }
 
         String writerId = admin.getAdmId();
@@ -152,7 +162,7 @@ public class DevController {
         devMapper.insertComment(comment);
         uploadFiles(comment.getUploadFiles(), "TB_DEV_COMMENT", comment.getCmtSeq());
 
-        if (!isDeveloper(session)) {
+        if (!isDeveloper(principalDetails)) {
             DevRequestDTO parentRequest = devMapper.selectRequest(comment.getReqSeq());
             directSendService.sendCommentAlertEmail(parentRequest, comment.getContent(), writerId);
         }
@@ -259,8 +269,8 @@ public class DevController {
     }
 
     @PostMapping("/batchUpdate")
-    public String batchUpdate(DevRequestDTO params, HttpSession session, RedirectAttributes rttr) {
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+    public String batchUpdate(DevRequestDTO params, @AuthenticationPrincipal PrincipalDetails principalDetails, RedirectAttributes rttr) {
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
 
         if (admin != null) {
             params.setModId(admin.getAdmId());

@@ -1,15 +1,14 @@
 package org.mtf.sok.controller;
 
 import org.mtf.sok.mapper.StatsMapper;
-import org.mtf.sok.service.AdminService;
+import org.mtf.sok.security.PrincipalDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/mng")
@@ -19,13 +18,13 @@ public class AdminController {
     private StatsMapper statsMapper;
 
     // 관리자 로그인 화면 이동
-    @GetMapping("/login")
-    public String login(HttpSession session,
+    public String login(@AuthenticationPrincipal PrincipalDetails principalDetails,
                         @RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception,
                         Model model) {
 
-        if (session.getAttribute("adminLogin") != null) {
+        // 시큐리티 컨텍스트에 관리자 정보가 이미 존재하면 메인으로 튕겨냄
+        if (principalDetails != null && principalDetails.getAdminDTO() != null) {
             return "redirect:/mng/main";
         }
 

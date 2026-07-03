@@ -7,9 +7,11 @@ import org.mtf.sok.domain.PageDTO;
 import org.mtf.sok.mapper.CampaignMapper;
 import org.mtf.sok.mapper.MemberMapper;
 import org.mtf.sok.mapper.SponsorMapper;
+import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.service.TossPaymentService;
 import org.mtf.sok.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -106,9 +108,9 @@ public class SponsorController {
     }
 
     @PostMapping("/donate/updateStatus")
-    public String updateDonateStatus(DonationDTO donation, HttpSession session, RedirectAttributes rttr) {
+    public String updateDonateStatus(DonationDTO donation, @AuthenticationPrincipal PrincipalDetails principalDetails, RedirectAttributes rttr) {
 
-        AdminDTO admin = (AdminDTO) session.getAttribute("adminLogin");
+        AdminDTO admin = (principalDetails != null) ? principalDetails.getAdminDTO() : null;
 
         // 환불(REFUND) 요청일 때 권한 검증 수행
         if ("REFUND".equals(donation.getPayStatus())) {

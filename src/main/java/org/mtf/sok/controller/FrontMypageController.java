@@ -28,12 +28,12 @@ public class FrontMypageController {
 
     // 1. 마이페이지 (프로필 수정 화면)
     @GetMapping("/info")
-    public String mypageInfo(HttpSession session, Model model) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
+    public String mypageInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login/basic";
         }
 
+        MemberDTO loginUser = principalDetails.getMemberDTO();
         MemberDTO memberInfo = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
         model.addAttribute("member", memberInfo);
 
@@ -43,12 +43,13 @@ public class FrontMypageController {
     // 2. 프로필 수정 처리 (info.jsp의 AJAX URL '/mypage/updateProc'와 일치)
     @PostMapping("/updateProc")
     @ResponseBody
-    public ResponseEntity<String> updateProc(MemberDTO updateDto, HttpSession session) {
+    public ResponseEntity<String> updateProc(MemberDTO updateDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         try {
             // 이메일 및 전화번호 중복 체크 (본인 제외)
@@ -65,9 +66,18 @@ public class FrontMypageController {
             // DB 업데이트 실행
             memberMapper.updateMemberProfile(updateDto);
 
-            // 세션 갱신 (info.jsp에서 sessionScope 기반으로 화면을 그리므로 필수)
+            // DB 업데이트 후 시큐리티 객체 내부 값도 실시간 동기화
             MemberDTO refreshedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
-            session.setAttribute("userLogin", refreshedUser);
+            loginUser.setEmail(refreshedUser.getEmail());
+            loginUser.setPhone(refreshedUser.getPhone());
+            loginUser.setProfileImg(refreshedUser.getProfileImg());
+            loginUser.setBirthYear(refreshedUser.getBirthYear());
+            loginUser.setGender(refreshedUser.getGender());
+            loginUser.setRegion1(refreshedUser.getRegion1());
+            loginUser.setRegion2(refreshedUser.getRegion2());
+            loginUser.setManagerNm(refreshedUser.getManagerNm());
+            loginUser.setManagerPos(refreshedUser.getManagerPos());
+            loginUser.setBizNo(refreshedUser.getBizNo());
 
             return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
 
@@ -79,11 +89,12 @@ public class FrontMypageController {
 
     // 3. 마이페이지 (기부현황 화면 - donate.jsp 와 DonationMapper 완벽 일치)
     @GetMapping("/donate")
-    public String mypageDonate(HttpSession session, Model model) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
-            return "redirect:/login/basic"; // 권한 필터가 있더라도 안전장치
+    public String mypageDonate(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
+            return "redirect:/login/basic";
         }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         // DonationMapper.xml 에 정의된 파라미터(mbrSeq)와 정확히 일치하는 메서드 호출
         DonationDTO summary = donationMapper.selectDonationSummary(loginUser.getMbrSeq());
@@ -98,8 +109,8 @@ public class FrontMypageController {
 
     // 4. 마이페이지 (회원 탈퇴 화면)
     @GetMapping("/leave")
-    public String leaveForm(HttpSession session, Model model) {
-        if (session.getAttribute("userLogin") == null) {
+    public String leaveForm(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login/basic";
         }
         return "mypage/leave";
@@ -108,15 +119,18 @@ public class FrontMypageController {
     // 5. 회원 탈퇴 처리 (AJAX)
     @PostMapping("/leaveProc")
     @ResponseBody
-    public ResponseEntity<?> leaveProc(HttpSession session) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) {
+    public ResponseEntity<?> leaveProc(@AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         try {
             // DB 탈퇴 처리
             memberMapper.updateWithdrawal(loginUser.getMbrSeq());
+
+            // 탈퇴 시에는 실제 세션을 파기하여 시큐리티 컨텍스트도 날려버립니다.
             session.invalidate();
 
             return ResponseEntity.ok("스페셜올림픽코리아 회원 탈퇴가 완료되었습니다.\n그동안 이용해 주셔서 감사합니다.");
@@ -128,8 +142,8 @@ public class FrontMypageController {
 
     // 6. 마이페이지 (개인정보 제3자 제공 동의 화면)
     @GetMapping("/terms/personal")
-    public String personalTermsForm(HttpSession session, Model model) {
-        if (session.getAttribute("userLogin") == null) {
+    public String personalTermsForm(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login/basic";
         }
         return "mypage/personal_terms";
@@ -138,9 +152,12 @@ public class FrontMypageController {
     // 7. 개인정보 제3자 제공 동의 처리 (AJAX)
     @PostMapping("/terms/personalProc")
     @ResponseBody
-    public ResponseEntity<?> personalTermsProc(MemberDTO memberDTO, HttpSession session) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) return ResponseEntity.status(401).body("로그인이 필요합니다.");
+    public ResponseEntity<?> personalTermsProc(MemberDTO memberDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         try {
             memberDTO.setMbrSeq(loginUser.getMbrSeq());
@@ -148,8 +165,8 @@ public class FrontMypageController {
 
             memberMapper.updateOptionalAgreement(memberDTO);
 
-            MemberDTO updatedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
-            session.setAttribute("userLogin", updatedUser);
+            // DB 업데이트 후 시큐리티 객체 동기화
+            loginUser.setAgreeOptionalYn(memberDTO.getAgreeOptionalYn());
 
             return ResponseEntity.ok("개인정보 제3자 제공 동의 설정이 저장되었습니다.");
         } catch (Exception e) {
@@ -160,8 +177,8 @@ public class FrontMypageController {
 
     // 8. 마이페이지 (서비스 이용 동의 화면)
     @GetMapping("/terms/service")
-    public String serviceTermsForm(HttpSession session, Model model) {
-        if (session.getAttribute("userLogin") == null) {
+    public String serviceTermsForm(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login/basic";
         }
         return "mypage/service_terms";
@@ -170,9 +187,12 @@ public class FrontMypageController {
     // 9. 서비스 이용 동의 처리 (AJAX)
     @PostMapping("/terms/serviceProc")
     @ResponseBody
-    public ResponseEntity<?> serviceTermsProc(MemberDTO memberDTO, HttpSession session) {
-        MemberDTO loginUser = (MemberDTO) session.getAttribute("userLogin");
-        if (loginUser == null) return ResponseEntity.status(401).body("로그인이 필요합니다.");
+    public ResponseEntity<?> serviceTermsProc(MemberDTO memberDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails == null || principalDetails.getMemberDTO() == null) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
+        MemberDTO loginUser = principalDetails.getMemberDTO();
 
         try {
             memberDTO.setMbrSeq(loginUser.getMbrSeq());
@@ -180,8 +200,8 @@ public class FrontMypageController {
 
             memberMapper.updateMarketingAgreement(memberDTO);
 
-            MemberDTO updatedUser = memberMapper.selectMemberBySeq(loginUser.getMbrSeq());
-            session.setAttribute("userLogin", updatedUser);
+            // DB 업데이트 후 시큐리티 객체 동기화
+            loginUser.setMarketingYn(memberDTO.getMarketingYn());
 
             return ResponseEntity.ok("서비스 이용 동의 설정이 저장되었습니다.");
         } catch (Exception e) {
