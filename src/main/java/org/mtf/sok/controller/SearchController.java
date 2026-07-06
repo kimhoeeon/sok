@@ -31,7 +31,7 @@ public class SearchController {
         addMenu("SOK 소개", "인사말", "/intro/greeting");
         addMenu("SOK 소개", "단체소개", "/intro/about");
         addMenu("SOK 소개", "조직구성", "/intro/org");
-        addMenu("SOK 소개", "위원회", "javascript:alert('준비중입니다.');");
+        addMenu("SOK 소개", "위원회", "/intro/commit_dev");
         addMenu("SOK 소개", "운영자료", "/management/list");
         addMenu("SOK 소개", "오시는 길", "/intro/way");
 

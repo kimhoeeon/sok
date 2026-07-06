@@ -17,8 +17,11 @@ public class FrontIntroController {
     @GetMapping("/org")
     public String org() { return "intro/org"; }
 
-    @GetMapping("/disclosure")
-    public String disclosure() { return "intro/disclosure"; }
+    @GetMapping("/member")
+    public String member() { return "intro/member"; }
+
+    @GetMapping("/map")
+    public String map() { return "intro/map"; }
 
     @GetMapping("/rules")
     public String rules() { return "intro/rules"; }
@@ -28,4 +31,38 @@ public class FrontIntroController {
 
     @GetMapping("/way")
     public String way() { return "intro/way"; }
+
+    @GetMapping("/commit_dev")
+    public String commit_dev() { return "intro/commit_dev"; }
+
+    @GetMapping("/commit_rec")
+    public String commit_rec() { return "intro/commit_rec"; }
+
+    @GetMapping("/commit_fair")
+    public String commit_fair() { return "intro/commit_fair"; }
+
+    @GetMapping("/commit_ath")
+    public String commit_ath() { return "intro/commit_ath"; }
+
+    @GetMapping("/none_commit_fam")
+    public String none_commit_fam() { return "intro/none_commit_fam"; }
+
+    @GetMapping("/none_commit_ath")
+    public String none_commit_ath() { return "intro/none_commit_ath"; }
+
+    @GetMapping("/none_commit_art")
+    public String none_commit_art() { return "intro/none_commit_art"; }
+
+    @GetMapping("/none_commit_coo")
+    public String none_commit_coo() { return "intro/none_commit_coo"; }
+
+    @GetMapping("/none_commit_vol")
+    public String none_commit_vol() { return "intro/none_commit_vol"; }
+
+    @GetMapping("/none_commit_tor")
+    public String none_commit_tor() { return "intro/none_commit_tor"; }
+
+    @GetMapping("/none_commit_spo")
+    public String none_commit_spo() { return "intro/none_commit_spo"; }
+
 }

@@ -1,5 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<div class="footer_banner">
+    <div class="inner">
+        <div class="swiper sponsorSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo01.png" alt="후원사1">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo02.png" alt="후원사2">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo03.png" alt="후원사3">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo04.png" alt="후원사4">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo05.png" alt="후원사5">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo06.png" alt="후원사6">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo07.png" alt="후원사7">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo08.png" alt="후원사8">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo09.png" alt="후원사9">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0);">
+                        <img src="/img/footer_logo10.png" alt="후원사10">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- footer -->
 <div id="footer">
     <div class="inner">

@@ -65,9 +65,9 @@
         <!-- //section -->
     </div>
 
-    <div class="donation_banner">스페셜올림픽코리아는 지금까지 <br/>
-        (누적 참가자 수 2011~2023, 누적 후원금 2014~2023기준) <br/>
-        9,278명의 자원봉사자들을 만나고, <span>12,026,416,074원</span> 의 감사한 후원금을 모았습니다.
+    <div class="donation_banner">스페셜올림픽코리아는 지금까지 <br />
+        (누적 참가자 수 2011~2025, 누적 후원금 2014~2025기준) <br />
+        9,278명의 자원봉사자들을 만나고, <span>12,220,651,557원</span> 의 감사한 후원금을 모았습니다.
     </div>
 
     <div class="inner">
@@ -76,29 +76,29 @@
                 <li>
                     <div class="img"><img src="/img/about_ico_list01.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">세계대회 <br/>참가선수 수</div>
-                        <div class="people">843명</div>
+                        <div class="gu">세계대회 <br />참가선수 수</div>
+                        <div class="people">915명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list02.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">전국대회 <br/>참가선수 수</div>
-                        <div class="people">17,656명</div>
+                        <div class="gu">전국대회 <br />참가선수 수</div>
+                        <div class="people">22,157명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list03.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">발달장애인 <br/>아티스트 수</div>
-                        <div class="people">1,068명</div>
+                        <div class="gu">발달장애인 <br />아티스트 수</div>
+                        <div class="people">1,275명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list04.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">선수건강검진 <br/>참가자 수</div>
-                        <div class="people">5,924명</div>
+                        <div class="gu">선수건강검진 <br />참가자 수</div>
+                        <div class="people">7,225명</div>
                     </div>
                 </li>
             </ul>

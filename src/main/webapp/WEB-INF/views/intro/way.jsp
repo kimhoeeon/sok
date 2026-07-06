@@ -77,44 +77,6 @@
             </div>
         </div>
         <!-- //section -->
-
-        <!-- section -->
-        <div class="sub_content map">
-            <div class="tit">시도지부</div>
-            <div class="prov_map_content">
-                <div class="prov_map">
-                    <!-- 회색 전체 지도 -->
-                    <img src="/img/korea_map.png" alt="전국 지도" class="map_base">
-
-                    <!-- 보라색 선택 지도 조각 -->
-                    <img src="/img/korea_map_seoul.png" alt="" class="map_piece seoul on">
-                    <img src="/img/korea_map_gangwon.png" alt="" class="map_piece gangwon">
-                    <img src="/img/korea_map_chungnam.png" alt="" class="map_piece chungnam">
-                    <img src="/img/korea_map_chungbuk.png" alt="" class="map_piece chungbuk">
-                    <img src="/img/korea_map_gyeongbuk.png" alt="" class="map_piece gyeongbuk">
-                    <img src="/img/korea_map_gyeongnam.png" alt="" class="map_piece gyeongnam">
-                    <img src="/img/korea_map_jeonbuk.png" alt="" class="map_piece jeonbuk">
-                    <img src="/img/korea_map_jeonnam.png" alt="" class="map_piece jeonnam">
-                    <img src="/img/korea_map_jeju.png" alt="" class="map_piece jeju">
-
-                    <!-- 클릭용 투명 버튼 -->
-                    <button type="button" class="map_btn seoul_btn on" data-prov="seoul">서울경기</button>
-                    <button type="button" class="map_btn gangwon_btn" data-prov="gangwon">강원</button>
-                    <button type="button" class="map_btn chungnam_btn" data-prov="chungnam">충남</button>
-                    <button type="button" class="map_btn chungbuk_btn" data-prov="chungbuk">충북</button>
-                    <button type="button" class="map_btn gyeongbuk_btn" data-prov="gyeongbuk">경북</button>
-                    <button type="button" class="map_btn gyeongnam_btn" data-prov="gyeongnam">경남</button>
-                    <button type="button" class="map_btn jeonbuk_btn" data-prov="jeonbuk">전북</button>
-                    <button type="button" class="map_btn jeonnam_btn" data-prov="jeonnam">전남</button>
-                    <button type="button" class="map_btn jeju_btn" data-prov="jeju">제주</button>
-                </div>
-
-                <div class="info_map">
-                    <div class="info_grid" id="infoGrid"></div>
-                </div>
-            </div>
-            <!-- //section -->
-        </div>
     </div>
 </div>
 <!-- //container -->

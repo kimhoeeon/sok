@@ -59,7 +59,7 @@
                 </div>
                 <div class="video">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/x5-xnH4S6Wk?mute=1&controls=0&loop=1&playlist=x5-xnH4S6Wk' frameborder='0' allowfullscreen></iframe>
+                        <iframe src='https://www.youtube.com/embed/GTpNNTJI_bM?mute=1&controls=0&loop=1&playlist=GTpNNTJI_bM' frameborder='0' allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

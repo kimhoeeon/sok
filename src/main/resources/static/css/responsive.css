@@ -99,6 +99,11 @@
     /* 앙상블 */
     .ensemble_list ul.col_4 {grid-template-columns: repeat(3, 1fr);}
     .ensemble_list ul.col_5{grid-template-columns: repeat(3, 1fr)}
+
+    /* 위원회 */
+    .commit_info .commit_list{grid-template-columns: repeat(3, 1fr); gap: 20px;}
+    .commit_info .commit_list.commit_fam {grid-template-columns: repeat(3, 1fr);}
+    .commit_info .commit_list div{margin-top: 10px;}
 }
 
 @media screen and (max-width:899px) {
@@ -305,6 +310,16 @@
     .history_item.left,
     .history_item.right {width: 100%;margin-left: 0;padding-left: 10px;padding-right: 0;text-align: left;}
 
+    .footer_banner{padding:20px 0;}
+    .footer_banner .inner{padding: 0;}
+    .footer_banner h3{font-size:16px;margin-bottom:20px;}
+    .sponsorSwiper .swiper-slide a{height:75px;padding:10px;}
+    .sponsorSwiper .swiper-slide img{max-width:110px;max-height:36px;}
+
+     /* 위원회 */
+    .commit_info .commit_list{grid-template-columns: repeat(2, 1fr); gap: 30px 20px;}
+    .commit_info .commit_list.commit_fam {grid-template-columns: repeat(2, 1fr);}
+    .commit_info .commit_list div{margin-top: 10px;}
 }
 
 @media screen and (max-width:599px) {
@@ -340,6 +355,8 @@
     .board_gallery .board_gallery_box ul li .tit{font-size: 1.25em;margin: 10px 0 20px;}
     .board_gallery .board_gallery_box .thumbBox img{height: 200px;}
     .date{font-size: 0.875em;}
+
+    .info_card img{max-height: 120px;padding: 15px;}
 
     /* paging */
 	.paging {margin-top: 40px;}
@@ -680,4 +697,13 @@
     .history_item{margin: 10px 0;padding: 0;}
     .history_item .year{font-size: 1.125em;}
     .history_item p{font-size: 0.875em;margin-bottom: 20px;}
+
+    .coming{font-size: 1.25em;padding: 90px 0;}
+
+    /* 위원회 */
+    .commit_info .commit_list{gap: 20px 10px; margin-top: 30px;grid-template-columns: repeat(1, 1fr); gap: 15px;}
+    .commit_info .commit_list.commit_fam{grid-template-columns: repeat(1, 1fr); gap: 15px;}
+    .commit_info .commit_list img{max-width: 80px;}
+    .commit_info .commit_list div{font-size: 0.875em;}
+    .commit_info .commit_list li{display: flex; align-items: center;gap: 20px;}
 }

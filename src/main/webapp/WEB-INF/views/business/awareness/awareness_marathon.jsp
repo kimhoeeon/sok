@@ -48,8 +48,7 @@
                 </div>
                 <div class="video">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/CH5LUHTTVtc?mute=1&controls=0&loop=1&playlist=CH5LUHTTVtc'
-                                frameborder='0' allowfullscreen></iframe>
+                        <iframe src='https://www.youtube.com/embed/ugXU5u-7CVI?mute=1&controls=0&loop=1&playlist=ugXU5u-7CVI' frameborder='0' allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

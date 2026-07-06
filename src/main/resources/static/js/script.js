@@ -800,58 +800,101 @@ $(document).ready(function () {
             { img: '/img/sample_img.png', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26 신정동', number: '052-220-3525', fax: '052-220-3489'},
             { img: '/img/sample_img.png', name: '임준택', date: '2025년 4월 29일', addr: '부산광역시 사하구 다대로 605번길 25', number: '051-255-2332', fax: '051-245-2331'}
         ],
-        jeonbuk: [
-
-        ],
-        jeonnam: [
-
-        ],
+        jeonbuk: [],
+        jeonnam: [],
         jeju: [
-            { img: '/img/sample_img.png', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510'}
+            { img: '/img/sample_img.png', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510' }
         ]
     };
 
-    function renderCards(region) {
+    let currentRegion = 'seoul';
+    let currentPage = 1;
+    const pageSize = 4;
+
+    function renderCards(region, page) {
         const list = data[region] || [];
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageList = list.slice(start, end);
+
         let html = '';
 
-        list.forEach(function (item) {
-            html += `
-                <div class="info_card">
-                    <img src="${item.img}" alt="${item.name}">
-                    <div class="info_body">
-                        <div><span>회장</span> ${item.name}</div>
-                        <div><span>설립일</span> ${item.date}</div>
-                        <div><span>주소</span> ${item.addr}</div>
-                        <div><span>전화</span> ${item.number}</div>
-                        <div><span>팩스</span> ${item.fax}</div>
-                    </div>
+        if (pageList.length === 0) {
+            html = `
+                <div class="empty_txt">
+                    등록된 정보가 없습니다.
                 </div>
             `;
-        });
+        } else {
+            pageList.forEach(function (item) {
+                html += `
+                    <div class="info_card">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="info_body">
+                            <div><span>회장</span> ${item.name}</div>
+                            <div><span>설립일</span> ${item.date}</div>
+                            <div><span>주소</span> ${item.addr}</div>
+                            <div><span>전화</span> ${item.number}</div>
+                            <div><span>팩스</span> ${item.fax || '-'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
         $('#infoGrid').html(html);
+        renderPagination(list.length, page);
     }
 
-    // 클릭만
-    $('.map_btn').on('click', function () {
+    function renderPagination(total, page) {
+        const totalPage = Math.ceil(total / pageSize);
+        let html = '';
 
+        if (totalPage <= 1) {
+            $('#infoPagination').remove();
+            return;
+        }
+
+        html += `<div id="infoPagination" class="info_pagination">`;
+
+        for (let i = 1; i <= totalPage; i++) {
+            html += `
+                <button type="button" class="${i === page ? 'on' : ''}" data-page="${i}">
+                    ${i}
+                </button>
+            `;
+        }
+
+        html += `</div>`;
+
+        if ($('#infoPagination').length) {
+            $('#infoPagination').replaceWith(html);
+        } else {
+            $('#infoGrid').after(html);
+        }
+    }
+
+    $(document).on('click', '#infoPagination button', function () {
+        currentPage = Number($(this).data('page'));
+        renderCards(currentRegion, currentPage);
+    });
+
+    $('.map_btn').on('click', function () {
         const region = $(this).data('prov');
 
-        // 버튼 active
+        currentRegion = region;
+        currentPage = 1;
+
         $('.map_btn').removeClass('on');
         $(this).addClass('on');
 
-        // 지도 변경
         $('.map_piece').removeClass('on');
         $('.map_piece.' + region).addClass('on');
 
-        // 리스트 변경
-        renderCards(region);
+        renderCards(currentRegion, currentPage);
     });
 
-    // 초기값
-    renderCards('seoul');
+    renderCards(currentRegion, currentPage);
 
 });
 

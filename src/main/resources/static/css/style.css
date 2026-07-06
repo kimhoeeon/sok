@@ -250,10 +250,10 @@
 .transport div{font-weight: 500;font-size: 1.5em;}
 .transport .transport_tit{color: #DF0031;font-weight: 700; display: flex; align-items: center;gap: 10px;font-size: 1.5em;}
 .transport .transport_tit::before{content: ''; background: url(/img/way_ico.png) no-repeat; width: 40px; height: 40px ;display: block;}
-.prov_map {position: relative;width: 100%;max-width: 100%;flex: 0 0 600px;}
+.prov_map {position: relative;width: 100%;max-width: 100%;flex: 0 0 500px;}
 .map .tit{font-family: "NanumSquareNeoExtraBold";margin-top: 20px;font-size: 2.5em;font-weight: 700;margin-bottom: 10px;}
 
-.prov_map_content {display: flex;gap: 60px;align-items: flex-start;}
+.prov_map_content {display: flex;gap: 30px;align-items: flex-start;}
 .map_base {width: 100%;display: block;position: relative;z-index: 1;}
 .map_piece {position: absolute;top: 0;left: 0;width: 100%;display: block;opacity: 0;z-index: 2;pointer-events: none;transition: opacity 0.25s ease;}
 .map_piece.on {opacity: 1;}
@@ -272,9 +272,9 @@
 
 .info_map {flex: 1;min-width: 0; width: 100%;}
 .info_grid {display: grid;grid-template-columns: repeat(2, 1fr);gap: 24px;}
-.info_card img {width: 100%;max-height: 240px;padding: 50px;background: #FFEEEE;border-radius: 20px;border: 1px solid #DF0031;object-fit: contain;display: block;}
+.info_card img {width: 100%;max-height: 180px;padding: 20px;background: #FFEEEE;border-radius: 20px;border: 1px solid #DF0031;object-fit: contain;display: block;}
 .info_body {padding: 20px 10px; display: grid; gap: 10px; border-bottom: 1px solid #DF0031;}
-.info_body > div{display: flex; font-weight: 500;}
+.info_body > div{display: flex; font-weight: 500; font-size: 1.125em;}
 .info_body span{min-width: 80px;display: inline-block; font-weight: 700;}
 
 /* 후원하기 */
@@ -853,10 +853,18 @@
 .history_item .year{display:block;font-size:1.5em;font-weight:600;font-family: 'NanumSquareNeoHeavy';color:var(--mainColor);margin-bottom:10px;}
 .history_item p{font-size:1em;line-height:1.7;color:#444;}
 
+.footer_banner{padding:30px 0;background:#f8f8f8;}
+.footer_banner .swiper-wrapper{height: inherit;}
+.sponsorSwiper .swiper-slide{height:auto;}
+.sponsorSwiper .swiper-slide a{display:flex;align-items:center;justify-content:center;height:90px;padding:15px;background:#fff;border:1px solid #ececec;border-radius:12px;}
+.sponsorSwiper .swiper-slide img{max-width:140px;max-height:45px;width:auto;height:auto;object-fit:cover;}
 
+.coming{text-align: center; background: #f1f1f1;padding: 120px 0;font-size: 2em;}
 
-
-
-
-
-
+/* 위원회 */
+.commit_info .txt{text-align: center;}
+.commit_info .commit_list{display: grid; grid-template-columns: repeat(6, 1fr); align-items: center; text-align: center;margin-top: 60px; color: #444444;}
+.commit_info .commit_list div{margin-top: 20px;}
+.commit_info .commit_list.commit_fam{display: grid; grid-template-columns: repeat(5, 1fr);}
+.hap_table{margin-bottom: 0;}
+.executive_table table tbody td.border{border-right: 1px solid #d5d5d5;}

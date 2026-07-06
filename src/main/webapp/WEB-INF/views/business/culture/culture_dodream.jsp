@@ -68,7 +68,7 @@
                 </div>
                 <div class="video mt-60">
                     <div class="embed-container">
-                        <iframe src='https://www.youtube.com/embed/c5jqdSspIDw?mute=1&controls=0&loop=1&playlist=c5jqdSspIDw' frameborder='0' allowfullscreen></iframe>
+                        <iframe src='https://www.youtube.com/embed/g0gnRPTbo3c?mute=1&controls=0&loop=1&playlist=g0gnRPTbo3c' frameborder='0' allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

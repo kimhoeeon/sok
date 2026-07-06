@@ -52,7 +52,7 @@
                             <li><a href="/intro/greeting">인사말</a></li>
                             <li><a href="/intro/about">단체소개</a></li>
                             <li><a href="/intro/org">조직구성</a></li>
-                            <li><a href="javascript:alert('준비중입니다.');">위원회</a></li>
+                            <li><a href="/intro/commit_dev">위원회</a></li>
                             <li><a href="/management/list">운영자료</a></li>
                             <li><a href="/intro/way">오시는 길</a></li>
                         </ul>
@@ -179,7 +179,7 @@
                                     <li><a href="/intro/greeting"><span>인사말</span></a></li>
                                     <li><a href="/intro/about"><span>단체소개</span></a></li>
                                     <li><a href="/intro/org"><span>조직구성</span></a></li>
-                                    <li><a href="javascript:alert('준비중입니다.');"><span>위원회</span></a></li>
+                                    <li><a href="/intro/commit_dev"><span>위원회</span></a></li>
                                     <li><a href="/management/list"><span>운영자료</span></a></li>
                                     <li><a href="/intro/way"><span>오시는 길</span></a></li>
                                 </ul>

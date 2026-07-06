@@ -9,16 +9,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>SOK 소개</span><span>조직구성</span><span>사무국</span>
+                    <span>SOK 소개</span><span>위원회</span><span>스포츠 위원회</span><span>공정 위원회</span>
                 </div>
-                <!--
 
-                --소리듣기 재사용--
-                id=tts_2
-                data-taret=tts_2
-
-                -->
-                <div class="sub_top_tit" id="tts_sub_top">사무국</div>
+                <div class="sub_top_tit" id="tts_sub_top">공정 위원회</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -26,17 +20,25 @@
                 </div>
             </div>
             <ul class="sub_top_tab">
-                <li class="on"><a href="/intro/org">사무국</a></li>
-                <li><a href="/intro/member">임원 현황</a></li>
-                <li><a href="/intro/map">시도지부</a></li>
+                <li class="on"><a href="/intro/commit_dev">스포츠 위원회</a></li>
+                <li><a href="/intro/none_commit_fam">비스포츠 위원회</a></li>
             </ul>
         </div>
         <!-- //section -->
 
         <!-- section -->
         <div class="sub_content">
-            <div class="organization_img">
-                <img src="/img/organization.png" alt="조직도">
+            <div class="sub_tab">
+                <ul class="board_tab colum2">
+                    <li><a href="/intro/commit_dev">경기력향상 위원회</a></li>
+                    <li><a href="/intro/commit_rec">생활체육 위원회</a></li>
+                    <li class="on"><a href="/intro/commit_fair">공정 위원회</a></li>
+                    <li><a href="/intro/commit_ath">선수 위원회</a></li>
+                </ul>
+            </div>
+
+            <div class="coming">
+                업데이트 예정입니다.
             </div>
         </div>
         <!-- //section -->
