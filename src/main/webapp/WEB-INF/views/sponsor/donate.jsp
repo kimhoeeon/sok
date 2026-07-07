@@ -223,6 +223,7 @@
                 </div>
             </div>
             <ul class="sup_cost_btn">
+                <li onclick="addAmount(1000)">+ 1천원</li>
                 <li onclick="addAmount(5000)">+ 5천원</li>
                 <li onclick="addAmount(10000)">+ 1만원</li>
                 <li onclick="addAmount(30000)">+ 3만원</li>
@@ -230,7 +231,8 @@
                 <li onclick="addAmount(100000)">+ 10만원</li>
                 <li onclick="addAmount(500000)">+ 50만원</li>
                 <li onclick="addAmount(1000000)">+ 100만원</li>
-                <li onclick="customAmount()">직접입력</li>
+                <li onclick="addAmount(2000000)">+ 200만원</li>
+                <%--<li onclick="customAmount()">직접입력</li>--%>
             </ul>
             <div class="txt">기부는 1천원부터 가능합니다.</div>
         </div>
