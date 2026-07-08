@@ -18,6 +18,7 @@ public class AdminController {
     private StatsMapper statsMapper;
 
     // 관리자 로그인 화면 이동
+    @GetMapping("/login")
     public String login(@AuthenticationPrincipal PrincipalDetails principalDetails,
                         @RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception,
