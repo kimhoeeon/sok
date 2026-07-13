@@ -706,4 +706,6 @@
     .commit_info .commit_list img{max-width: 80px;}
     .commit_info .commit_list div{font-size: 0.875em;}
     .commit_info .commit_list li{display: flex; align-items: center;gap: 20px;}
+
+    .board_list.fr3 ul{grid-template-columns: repeat(1, minmax(0, 1fr))}
 }
