@@ -9,6 +9,7 @@ import org.springframework.util.FileCopyUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -56,25 +57,27 @@ public class FileController {
 
         // [보안 1차 방어] 상위 디렉토리 이동 문자열 포함 여부 검사
         if (filePath == null || filePath.contains("..") || filePath.contains("%2e") || filePath.contains("%2E")) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 파일 경로 요청입니다.");
+            sendAlertMessage(response, "잘못된 파일 경로 요청입니다.");
             return;
         }
 
-        // filePath는 "/upload/attachments/uuid.ext" 형태이므로 실제 물리 경로로 변환
-        String realPath = uploadDir + filePath.replace("/upload/", "");
-        File file = new File(realPath);
+        // 경로 구분자 문제 해결을 위해 Paths API 사용
+        // "/upload/notice/..." 에서 앞의 "/upload/" 부분을 정규식으로 안전하게 제거
+        String relativePath = filePath.replaceFirst("^/?upload/", "");
+        File file = Paths.get(uploadDir, relativePath).toFile();
 
-        // [보안 2차 방어] 정규화된 경로(CanonicalPath)를 통한 실제 위치 검증
-        // getCanonicalPath()는 '../'나 './' 기호들을 모두 계산한 후의 최종 실제 경로를 반환합니다.
+        // [보안 2차 방어] 정규화된 경로(CanonicalPath)를 통한 실제 위치 검증[cite: 68]
+        // getCanonicalPath()는 '../'나 './' 기호들을 모두 계산한 후의 최종 실제 경로를 반환합니다.[cite: 68]
         String canonicalUploadDir = new File(uploadDir).getCanonicalPath();
         String canonicalFilePath = file.getCanonicalPath();
 
-        // 요청한 파일의 최종 위치가 업로드 폴더 내부가 아니라면 접근 차단!
+        // 요청한 파일의 최종 위치가 업로드 폴더 내부가 아니라면 접근 차단![cite: 68]
         if (!canonicalFilePath.startsWith(canonicalUploadDir)) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "허용되지 않은 디렉토리 접근입니다.");
+            sendAlertMessage(response, "허용되지 않은 디렉토리 접근입니다.");
             return;
         }
 
+        // 물리적 파일 존재 여부 최종 확인
         if (file.exists()) {
             String encodedFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
             response.setContentType("application/octet-stream");
@@ -89,12 +92,13 @@ public class FileController {
                 FileCopyUtils.copy(in, out);
                 out.flush();
             } finally {
-                // 메모리 누수를 방지하기 위해 스트림을 안전하게 닫아줍니다.
+                // 메모리 누수를 방지하기 위해 스트림을 안전하게 닫아줍니다.[cite: 68]
                 if (in != null) in.close();
                 if (out != null) out.close();
             }
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일을 찾을 수 없습니다.");
+            // [UX 개선] 404 페이지 대신 알림창 띄우고 뒤로가기
+            sendAlertMessage(response, "요청하신 파일이 서버에 존재하지 않습니다.");
         }
     }
 
@@ -102,12 +106,12 @@ public class FileController {
     public boolean deleteLocalFile(String filePath) {
         if (filePath == null || filePath.isEmpty()) return false;
         try {
-            // DB에 저장된 "/upload/notice/xxx.png" 경로를 실제 서버의 물리 경로로 변환
-            String realPath = uploadDir + filePath.replace("/upload/", "");
-            File targetFile = new File(realPath);
+            // 삭제 시에도 안전한 경로 병합 적용
+            String relativePath = filePath.replaceFirst("^/?upload/", "");
+            File targetFile = Paths.get(uploadDir, relativePath).toFile();
 
             if (targetFile.exists()) {
-                return targetFile.delete(); // 실제 파일 삭제
+                return targetFile.delete(); // 실제 파일 삭제[cite: 68]
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,34 +122,52 @@ public class FileController {
     private ResponseEntity<?> saveLocalFile(MultipartFile file, String subDir) {
         if (file.isEmpty()) return ResponseEntity.badRequest().body("파일이 없습니다.");
         try {
-            String dirPath = uploadDir + subDir;
-            File dir = new File(dirPath);
+            // 디렉토리 경로 결합 시에도 Paths 사용
+            File dir = Paths.get(uploadDir, subDir).toFile();
             if (!dir.exists()) dir.mkdirs();
 
             String originalName = file.getOriginalFilename();
             String extension = "";
 
-            // [핵심 수정 3] 확장자가 없는 파일이 올라왔을 때 에러(NullPointerException) 방지
+            // 확장자가 없는 파일이 올라왔을 때 에러(NullPointerException) 방지[cite: 68]
             if (originalName != null && originalName.contains(".")) {
                 extension = originalName.substring(originalName.lastIndexOf("."));
             }
 
             String savedName = UUID.randomUUID().toString() + extension;
 
-            // 운영체제(Win/Mac/Linux) 상관없이 무조건 절대 경로로 파일 생성
+            // 운영체제(Win/Mac/Linux) 상관없이 무조건 절대 경로로 파일 생성[cite: 68]
             File targetFile = new File(dir.getAbsolutePath(), savedName);
 
-            // 물리적 파일 저장
+            // 물리적 파일 저장[cite: 68]
             file.transferTo(targetFile);
-            String fileUrl = "/upload/" + subDir + savedName;
+
+            // 저장된 DB 상대 경로 반환 로직 보완
+            String fileUrl = "/upload/";
+            if (subDir != null && !subDir.isEmpty()) {
+                fileUrl += subDir.endsWith("/") ? subDir : subDir + "/";
+            }
+            fileUrl += savedName;
+
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e) {
-            // 에러가 났을 때 원인을 정확히 볼 수 있도록 콘솔에 에러 출력
+            // 에러가 났을 때 원인을 정확히 볼 수 있도록 콘솔에 에러 출력[cite: 68]
             e.printStackTrace();
             return ResponseEntity.status(500).body("파일 저장 실패: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("서버 내부 오류: " + e.getMessage());
         }
+    }
+
+    // 사용자 알림창 처리를 위한 유틸리티 메서드
+    private void sendAlertMessage(HttpServletResponse response, String message) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>");
+        out.println("alert('" + message + "');");
+        out.println("history.back();");
+        out.println("</script>");
+        out.flush();
     }
 }
