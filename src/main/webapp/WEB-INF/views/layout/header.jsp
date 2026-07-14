@@ -21,6 +21,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
     <title>스페셜올림픽코리아</title>
 
+    <!-- 폰트 Preload 추가 (CSS보다 먼저 로드되도록 최상단에 배치) -->
+    <link rel="preload" href="/fonts/NanumSquareNeoTTF-bRg.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/fonts/NanumSquareNeoTTF-dEb.woff" as="font" type="font/woff" crossorigin>
+
     <link href="/css/reset.css" rel="stylesheet">
     <link href="/css/font.css" rel="stylesheet">
     <link href="/css/base.css" rel="stylesheet">
@@ -83,7 +87,7 @@
                         <ul class="sub_menu">
                             <li><a href="/sponsor/donate">후원하기</a></li>
                             <li><a href="/volunteer/apply">자원봉사 신청</a></li>
-                            <li><a href="http://110.45.238.25/login.do" target="_blank">선수등록</a></li>
+                            <li><a href="https://acr.sokorea.or.kr/login.do" target="_blank">선수등록</a></li>
                             <li><a href="/certificate/apply">증명서 신청</a></li>
                         </ul>
                     </li>
@@ -212,7 +216,7 @@
                                 <ul class="dept2">
                                     <li><a href="/sponsor/donate"><span>후원하기</span></a></li>
                                     <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>
-                                    <li><a href="http://110.45.238.25/login.do" target="_blank"><span>선수등록</span></a></li>
+                                    <li><a href="https://acr.sokorea.or.kr/login.do" target="_blank"><span>선수등록</span></a></li>
                                     <li><a href="/certificate/apply"><span>증명서 신청</span></a></li>
                                 </ul>
                             </li>
@@ -263,7 +267,7 @@
             <img src="/img/ico_floating03.png" alt="플로팅 아이콘">
             <span>증명서 신청</span>
         </a>
-        <a href="http://110.45.238.25/login.do" target="_blank">
+        <a href="https://acr.sokorea.or.kr/login.do" target="_blank">
             <img src="/img/ico_floating04.png" alt="플로팅 아이콘">
             <span>선수등록</span>
         </a>

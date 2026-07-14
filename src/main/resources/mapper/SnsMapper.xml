@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.SnsMapper">
+
+    <select id="selectBlogList" resultType="org.mtf.sok.domain.BlogDTO">
+        /* org.mtf.sok.mapper.SnsMapper.selectBlogList */
+        SELECT b.reg_dt
+             , b.seq
+             , b.link_url
+             , b.title
+             , b.file_name
+        FROM blog b
+        WHERE NOT EXISTS(SELECT b2.*
+                         FROM blog b2
+                         WHERE b2.link_url = b.link_url
+                           AND b.reg_dt <![CDATA[<]]> b2.reg_dt)
+        ORDER BY b.reg_dt DESC, b.seq
+        LIMIT 9
+    </select>
+
+    <select id="selectInstagramList" resultType="org.mtf.sok.domain.InstagramDTO">
+        /* org.mtf.sok.mapper.SnsMapper.selectInstagramList */
+        SELECT i.reg_dt
+             , i.seq
+             , i.link_url
+             , i.title
+             , i.description
+             , i.file_name
+        FROM instagram i
+        WHERE NOT EXISTS(SELECT i2.*
+                         FROM instagram i2
+                         WHERE i2.link_url = i.link_url
+                           AND i.reg_dt <![CDATA[<]]> i2.reg_dt)
+        ORDER BY i.reg_dt DESC, i.seq
+        LIMIT 9
+    </select>
+
+    <delete id="deleteBlog" parameterType="String">
+        DELETE FROM blog
+        WHERE reg_dt <![CDATA[<]]> #{date}
+    </delete>
+
+    <insert id="insertBlogList" parameterType="List">
+        INSERT INTO blog (seq, link_url, title, image_src, file_name, reg_dt)
+        VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.seq}, #{item.linkUrl}, #{item.title}, #{item.imageSrc}, #{item.fileName}, #{item.regDt})
+        </foreach>
+    </insert>
+
+    <delete id="deleteInstagram" parameterType="String">
+        DELETE FROM instagram
+        WHERE reg_dt <![CDATA[<]]> #{date}
+    </delete>
+
+    <insert id="insertInstagramList" parameterType="List">
+        INSERT INTO instagram (seq, title, description, link_url, image_src, file_name, reg_dt)
+        VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.seq}, #{item.title}, #{item.description}, #{item.linkUrl}, #{item.imageSrc}, #{item.fileName}, #{item.regDt})
+        </foreach>
+    </insert>
+
+    <select id="selectInstaToken" resultType="String">
+        SELECT token
+        FROM insta
+    </select>
+
+    <update id="updateInstaToken" parameterType="String">
+        UPDATE insta
+        SET token = #{token},
+            final_regi_pic = 'SYSTEM'
+    </update>
+
+    <select id="selectBlogFileNames" resultType="String">
+        SELECT file_name
+        FROM blog
+    </select>
+
+    <select id="selectInstaFileNames" resultType="String">
+        SELECT file_name
+        FROM instagram
+    </select>
+
+</mapper>

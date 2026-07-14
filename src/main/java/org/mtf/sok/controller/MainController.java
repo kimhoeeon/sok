@@ -1,14 +1,18 @@
 package org.mtf.sok.controller;
 
-import org.mtf.sok.domain.BoardDTO;
-import org.mtf.sok.domain.FileDTO;
-import org.mtf.sok.domain.PopupDTO;
+import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.PopupMapper;
+import org.mtf.sok.mapper.SnsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,9 +22,11 @@ public class MainController {
     @Autowired
     private PopupMapper popupMapper;
 
-    // 팝업 이미지를 조회하기 위해 BoardMapper 주입
     @Autowired
-    private BoardMapper boardMapper;
+    private BoardMapper boardMapper; // 팝업 이미지 조회
+
+    @Autowired
+    private SnsMapper snsMapper; // SNS blog , insta
 
     @GetMapping("/")
     public String index(Model model) {
@@ -81,5 +87,19 @@ public class MainController {
         model.addAttribute("bidList", boardMapper.selectBoardList(bidParam));
 
         return "index";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/blog/list", method = RequestMethod.POST)
+    public ResponseEntity<List<BlogDTO>> main_blog_list() {
+        List<BlogDTO> resultList = snsMapper.selectBlogList();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/instagram/list", method = RequestMethod.POST)
+    public ResponseEntity<List<InstagramDTO>> main_instagram_list() {
+        List<InstagramDTO> resultList = snsMapper.selectInstagramList();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 }

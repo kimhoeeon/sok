@@ -338,31 +338,15 @@
             <div class="main_sns_list">
                 <div class="instagram">
                     <div class="gu">인스타그램</div>
-                    <ul>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="인스타그램 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="인스타그램 이미지"></a></li>
+                    <ul id="instagram_list">
+                        <!-- ajax를 통해 동적으로 li 태그들이 삽입됩니다. -->
                     </ul>
                 </div>
 
                 <div class="blog">
                     <div class="gu">네이버블로그</div>
-                    <ul>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample02.png" alt="네이버블로그 이미지"></a></li>
-                        <li><a href=""><img src="/img/sns_img_sample03.png" alt="네이버블로그 이미지"></a></li>
+                    <ul id="naverblog_list">
+                        <!-- ajax를 통해 동적으로 li 태그들이 삽입됩니다. -->
                     </ul>
                 </div>
             </div>

@@ -130,5 +130,9 @@
 <script src="/js/swiper.js"></script>
 <script src="/js/board.js"></script>
 <script src="/js/form.js"></script>
+
+<script src="/js/blogApi.js"></script>
+<script src="/js/instagramApi.js"></script>
+
 </body>
 </html>

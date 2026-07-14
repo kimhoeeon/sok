@@ -1,18 +1,27 @@
 package org.mtf.sok.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.FileCopyUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class FileController {
@@ -157,6 +166,70 @@ public class FileController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("서버 내부 오류: " + e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/img")
+    public ResponseEntity<Resource> getImageFile(@RequestParam("type") String type, @RequestParam(value = "filename") String filename, WebRequest webRequest) {
+        try {
+            Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+
+            String subDir;
+            switch (type) {
+                case "blog":
+                    subDir = "blog"; // 슬래시 제거
+                    break;
+                case "instagram":
+                    subDir = "instagram"; // 슬래시 제거
+                    break;
+                default:
+                    return ResponseEntity.badRequest().build();
+            }
+
+            // 1. Path.resolve()를 이용한 깔끔한 경로 결합
+            // 2. .normalize()를 반드시 호출하여 ../ 등의 상대경로 문자를 최종 절대경로로 평가 (보안 핵심)
+            Path filePath = uploadPath.resolve(subDir).resolve(filename).normalize();
+
+            // 3. 디렉토리 탐색 취약점 완벽 차단
+            if (!filePath.startsWith(uploadPath)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+            if (!Files.isRegularFile(filePath) || !Files.isReadable(filePath)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            FileTime lastModifiedTime = Files.getLastModifiedTime(filePath);
+            long lastModifiedMillis = lastModifiedTime.toMillis();
+            long size = Files.size(filePath);
+
+            String etag = String.format("W/\"%d-%d\"", size, lastModifiedMillis);
+
+            if (webRequest.checkNotModified(etag, lastModifiedMillis)) {
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+
+            // MIME 결정
+            String mimeType = Files.probeContentType(filePath);
+            MediaType mediaType = Optional.ofNullable(mimeType)
+                    .map(MediaType::parseMediaType)
+                    .orElse(MediaType.APPLICATION_OCTET_STREAM);
+
+            UrlResource resource = new UrlResource(filePath.toUri());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(mediaType);
+            headers.setETag(etag);
+            headers.setLastModified(lastModifiedMillis);
+
+            // 캐시
+            headers.setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS).cachePublic());
+
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

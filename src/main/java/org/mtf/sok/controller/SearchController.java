@@ -55,7 +55,7 @@ public class SearchController {
         // 5. 참여공간
         addMenu("참여공간", "후원하기", "/sponsor/donate");
         addMenu("참여공간", "자원봉사 신청", "/volunteer/apply");
-        addMenu("참여공간", "선수등록", "http://110.45.238.25/login.do");
+        addMenu("참여공간", "선수등록", "https://acr.sokorea.or.kr/login.do");
         addMenu("참여공간", "증명서 신청", "/certificate/apply");
     }
 
