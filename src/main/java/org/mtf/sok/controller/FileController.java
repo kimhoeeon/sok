@@ -177,10 +177,13 @@ public class FileController {
             String subDir;
             switch (type) {
                 case "blog":
-                    subDir = "blog"; // 슬래시 제거
+                    subDir = "blog";
                     break;
                 case "instagram":
-                    subDir = "instagram"; // 슬래시 제거
+                    subDir = "instagram";
+                    break;
+                case "promoter":
+                    subDir = "promoter";
                     break;
                 default:
                     return ResponseEntity.badRequest().build();

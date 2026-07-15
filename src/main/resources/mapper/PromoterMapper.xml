@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mtf.sok.mapper.PromoterMapper">
+
+    <sql id="searchCondition">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND promoter_name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectPromoterList" resultType="org.mtf.sok.domain.PromoterDTO">
+        SELECT seq
+        , promoter_name
+        , display_order
+        , file_name
+        , original_file_name
+        , reg_dt
+        , mod_dt
+        FROM TB_PROMOTER
+        <include refid="searchCondition" />
+        ORDER BY display_order ASC, reg_dt DESC, seq DESC
+        LIMIT #{offset}, #{amount}
+    </select>
+
+    <select id="selectPromoterCount" resultType="int">
+        SELECT COUNT(seq)
+        FROM TB_PROMOTER
+        <include refid="searchCondition" />
+    </select>
+
+    <select id="selectPromoter" resultType="org.mtf.sok.domain.PromoterDTO">
+        SELECT seq
+             , promoter_name
+             , display_order
+             , file_name
+             , original_file_name
+             , reg_dt
+             , mod_dt
+        FROM TB_PROMOTER
+        WHERE seq = #{seq}
+    </select>
+
+    <select id="checkDuplicateName" resultType="int">
+        SELECT COUNT(seq)
+        FROM TB_PROMOTER
+        WHERE promoter_name = #{promoterName}
+        <if test="seq != null">
+            AND seq != #{seq}
+        </if>
+    </select>
+
+    <select id="getMaxDisplayOrder" resultType="Integer">
+        SELECT MAX(display_order)
+        FROM TB_PROMOTER
+    </select>
+
+    <insert id="insertPromoter" parameterType="org.mtf.sok.domain.PromoterDTO">
+        INSERT INTO TB_PROMOTER (
+            promoter_name,
+            display_order,
+            file_name,
+            original_file_name,
+            reg_dt,
+            mod_dt
+        ) VALUES (
+                     #{promoterName},
+                     #{displayOrder},
+                     #{fileName},
+                     #{originalFileName},
+                     NOW(),
+                     NOW()
+                 )
+    </insert>
+
+    <update id="updatePromoter" parameterType="org.mtf.sok.domain.PromoterDTO">
+        UPDATE TB_PROMOTER
+        <set>
+            promoter_name = #{promoterName},
+            display_order = #{displayOrder},
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName},
+                original_file_name = #{originalFileName},
+            </if>
+        </set>
+        WHERE seq = #{seq}
+    </update>
+
+    <delete id="deletePromoter" parameterType="Integer">
+        DELETE FROM TB_PROMOTER
+        WHERE seq = #{seq}
+    </delete>
+
+    <!-- 삭제 후 10 단위로 자동 재정렬 쿼리 -->
+    <update id="reorderDisplayOrder">
+        UPDATE TB_PROMOTER t
+            JOIN (
+                SELECT seq, (ROW_NUMBER() OVER(ORDER BY display_order ASC, reg_dt DESC, seq DESC)) * 10 as new_order
+                FROM TB_PROMOTER
+            ) r ON t.seq = r.seq
+        SET t.display_order = r.new_order
+    </update>
+
+</mapper>

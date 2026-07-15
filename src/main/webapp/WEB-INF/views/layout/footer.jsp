@@ -3,58 +3,17 @@
 <div class="footer_banner">
     <div class="inner">
         <div class="swiper sponsorSwiper">
-            <div class="swiper-wrapper">
+            <!-- [수정] id 부여 및 하드코딩 슬라이드 뼈대 제거 -->
+            <div class="swiper-wrapper" id="promoter_list">
+                <!-- AJAX를 통해 관리자가 등록한 후원사 이미지가 동적으로 삽입됩니다. -->
+            </div>
+            <%--<div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <a href="javascript:void(0);">
                         <img src="/img/footer_logo01.png" alt="후원사1">
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo02.png" alt="후원사2">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo03.png" alt="후원사3">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo04.png" alt="후원사4">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo05.png" alt="후원사5">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo06.png" alt="후원사6">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo07.png" alt="후원사7">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo08.png" alt="후원사8">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo09.png" alt="후원사9">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:void(0);">
-                        <img src="/img/footer_logo10.png" alt="후원사10">
-                    </a>
-                </div>
-            </div>
+            </div>--%>
         </div>
     </div>
 </div>
@@ -133,6 +92,71 @@
 
 <script src="/js/blogApi.js"></script>
 <script src="/js/instagramApi.js"></script>
+
+<!-- [추가] 후원사 동적 호출 및 렌더링 스크립트 -->
+<script>
+    $(document).ready(function() {
+        // 1. Swiper 인스턴스를 전역 변수로 선언 (외부에서 제어하기 위해)
+        var sponsorSwiper = null;
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            cache: false,
+            url: "/promoter/list",
+            success: function (response) {
+                var wrapper = $('#promoter_list');
+                wrapper.empty();
+
+                if (response && response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        var item = response[i];
+                        var safeName = item.promoterName ? item.promoterName.replace(/"/g, '&quot;') : '';
+
+                        var html = '<div class="swiper-slide">' +
+                            '<a href="javascript:void(0);" title="' + safeName + '">' +
+                            '<img src="/file/img?type=promoter&filename=' + item.fileName + '" alt="' + safeName + ' 로고" style="max-width: 100%; height: auto;">' +
+                            '</a>' +
+                            '</div>';
+                        wrapper.append(html);
+                    }
+
+                    // 2. 데이터 로드 후 Swiper 초기화 또는 업데이트
+                    initSponsorSwiper(response.length);
+                } else {
+                    wrapper.append('<div class="swiper-slide" style="width: 100%; text-align: center; color: #777;">등록된 후원사가 없습니다.</div>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("후원사 데이터 로드 실패:", error);
+            }
+        });
+
+        // 3. Swiper 초기화 함수
+        function initSponsorSwiper(dataCount) {
+            // 이미 인스턴스가 있다면 파괴 후 재생성 (비동기 데이터 갱신 대응)
+            if (sponsorSwiper) sponsorSwiper.destroy(true, true);
+
+            sponsorSwiper = new Swiper('.sponsorSwiper', {
+                slidesPerView: 6,
+                spaceBetween: 20,
+                loop: dataCount > 6, // 루프가 자연스럽게 돌도록 설정
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
+                },
+                breakpoints: {
+                    0: { slidesPerView: 2, spaceBetween: 12 },
+                    576: { slidesPerView: 3, spaceBetween: 16 },
+                    768: { slidesPerView: 4, spaceBetween: 16 },
+                    1024: { slidesPerView: 5, spaceBetween: 20 },
+                    1400: { slidesPerView: 6, spaceBetween: 20 }
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>

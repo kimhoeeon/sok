@@ -3,6 +3,7 @@ package org.mtf.sok.controller;
 import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
 import org.mtf.sok.mapper.PopupMapper;
+import org.mtf.sok.mapper.PromoterMapper;
 import org.mtf.sok.mapper.SnsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class MainController {
 
     @Autowired
     private SnsMapper snsMapper; // SNS blog , insta
+
+    @Autowired
+    private PromoterMapper promoterMapper;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -100,6 +104,19 @@ public class MainController {
     @RequestMapping(value = "/instagram/list", method = RequestMethod.POST)
     public ResponseEntity<List<InstagramDTO>> main_instagram_list() {
         List<InstagramDTO> resultList = snsMapper.selectInstagramList();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    // 프론트엔드 Footer 영역용 후원사 목록 데이터 반환 API
+    @ResponseBody
+    @RequestMapping(value = "/promoter/list", method = RequestMethod.POST)
+    public ResponseEntity<List<PromoterDTO>> main_promoter_list() {
+        PromoterDTO params = new PromoterDTO();
+        params.setPageNum(1);
+        params.setAmount(100); // 넉넉하게 표출할 개수 세팅
+        params.calcOffset();
+
+        List<PromoterDTO> resultList = promoterMapper.selectPromoterList(params);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 }

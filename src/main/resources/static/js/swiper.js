@@ -122,46 +122,4 @@ $(document).ready(function () {
         var swiperMainCont = new Swiper(".swiperMainCont", options);
     }
 
-    const sponsorSwiper = new Swiper('.sponsorSwiper', {
-        slidesPerView: 6,
-        spaceBetween: 20,
-        loop: false,
-
-        autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true
-        },
-
-        slidesPerGroup: 1,
-        slidesPerGroupSkip: 0,
-
-        breakpoints: {
-            0: {
-                slidesPerView: 2,
-                spaceBetween: 12,
-                slidesPerGroup: 1
-            },
-            576: {
-                slidesPerView: 3,
-                spaceBetween: 16,
-                slidesPerGroup: 1
-            },
-            768: {
-                slidesPerView: 4,
-                spaceBetween: 16,
-                slidesPerGroup: 1
-            },
-            1024: {
-                slidesPerView: 5,
-                spaceBetween: 20,
-                slidesPerGroup: 1
-            },
-            1400: {
-                slidesPerView: 6,
-                spaceBetween: 20,
-                slidesPerGroup: 1
-            }
-        }
-    });
 });

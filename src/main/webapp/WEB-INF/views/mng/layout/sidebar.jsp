@@ -71,6 +71,7 @@
             </a>
             <div class="collapse collapse-menu show" id="collapseHomeManage">
                 <a class="nav-link ${param.menuId eq 'popup' ? 'active text-dark' : ''}" href="/mng/popup/list">팝업 관리</a>
+                <a class="nav-link ${param.menuId eq 'promoter' ? 'active text-dark' : ''}" href="/mng/promoter/list">후원사 관리</a>
                 <a class="nav-link ${param.menuId eq 'dev' ? 'active text-dark' : ''}" href="/mng/dev/list">홈페이지 요청/문의 관리</a>
             </div>
         </li>
