@@ -96,8 +96,10 @@
     <update id="reorderDisplayOrder">
         UPDATE TB_PROMOTER t
             JOIN (
-                SELECT seq, (ROW_NUMBER() OVER(ORDER BY display_order ASC, reg_dt DESC, seq DESC)) * 10 as new_order
-                FROM TB_PROMOTER
+                SELECT p.seq, (@rownum := @rownum + 1) * 10 AS new_order
+                FROM TB_PROMOTER p
+                         CROSS JOIN (SELECT @rownum := 0) AS dummy
+                ORDER BY p.display_order ASC, p.reg_dt DESC, p.seq DESC
             ) r ON t.seq = r.seq
         SET t.display_order = r.new_order
     </update>
