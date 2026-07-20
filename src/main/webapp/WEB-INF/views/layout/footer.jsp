@@ -93,7 +93,7 @@
 <script src="/js/blogApi.js"></script>
 <script src="/js/instagramApi.js"></script>
 
-<!-- [추가] 후원사 동적 호출 및 렌더링 스크립트 -->
+<!-- 후원사 동적 호출 및 렌더링 스크립트 -->
 <script>
     $(document).ready(function() {
         // 1. Swiper 인스턴스를 전역 변수로 선언 (외부에서 제어하기 위해)
