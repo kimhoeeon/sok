@@ -16,11 +16,19 @@ $.ajax({
                 // 파일명이 없으면 기본 이미지 표시
                 // 제목에 큰따옴표가 있을 경우 화면이 깨지는 것을 방지
                 let safeTitle = item.title ? item.title.replace(/"/g, '&quot;') : '';
-                let imageSrc = item.fileName ? '/file/img?type=blog&filename=' + item.fileName : '/img/sns_img_sample.png';
+
+                // 파일명이 있으면 서버 로컬 이미지, 없으면 수집된 원본 URL 또는 샘플 이미지 사용
+                let imageSrc = '/img/sns_img_sample.png';
+                if (item.fileName) {
+                    // /img 로 경로 맞춤 (FileController)
+                    imageSrc = '/file/img?type=blog&filename=' + item.fileName;
+                } else if (item.imageSrc) {
+                    imageSrc = item.imageSrc;
+                }
 
                 let post = '<li>';
                 post += '<a href="' + item.linkUrl + '" target="_blank" rel="noopener noreferrer" title="' + safeTitle + '">';
-                post += '<img src="' + imageSrc + '" alt="' + safeTitle + '">';
+                post += '<img src="' + imageSrc + '" alt="' + safeTitle + '" style="width: 100%; height: 100%; object-fit: cover;">';
                 post += '</a>';
                 post += '</li>';
 
