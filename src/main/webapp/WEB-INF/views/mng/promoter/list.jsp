@@ -46,7 +46,7 @@
             <tr>
                 <th width="8%" class="text-dark border-bottom py-3">순번</th>
                 <th width="15%" class="text-dark border-bottom py-3">
-                    노출 순서 <i class="bi bi-question-circle text-muted ms-1" title="숫자가 낮을수록 목록 상단에 표시됩니다."></i>
+                    노출 순서 <i class="bi bi-question-circle text-muted ms-1" title="숫자가 낮은 순서대로 목록에 표시됩니다."></i>
                 </th>
                 <th class="text-dark border-bottom py-3">후원사 이름</th>
                 <th width="25%" class="text-dark border-bottom py-3">후원사 이미지</th>

@@ -169,7 +169,7 @@ public class FileController {
         }
     }
 
-    @GetMapping(value = "/img")
+    @GetMapping(value = "/file/img")
     public ResponseEntity<Resource> getImageFile(@RequestParam("type") String type, @RequestParam(value = "filename") String filename, WebRequest webRequest) {
         try {
             Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
