@@ -141,7 +141,7 @@ public class InstagramService {
             headers.set(HttpHeaders.CONNECTION, "Keep-Alive");
             headers.set(HttpHeaders.CACHE_CONTROL, "no-cache");
 
-            log.info("fetchInstagramRows url={}", url);
+            //log.info("fetchInstagramRows url={}", url);
 
             ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
             if (!resp.getStatusCode().is2xxSuccessful() || resp.getBody() == null) return result;
