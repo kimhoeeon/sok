@@ -54,7 +54,7 @@
 .main_sns_list .blog .gu::before{content: ''; background: url(/img/blog_icon.png) no-repeat;width: 32px; height: 32px; display: block;}
 .main_sns_list ul{margin-top: 20px; display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
 .main_sns_list ul li {border-radius: 20px; overflow: hidden;}
-.main_sns_list ul li img{width: 100%; display: block;}
+.main_sns_list ul li img{width: 100%; display: block;aspect-ratio: 1 / 1; object-fit: cover;}
 
 
 /* sub page */

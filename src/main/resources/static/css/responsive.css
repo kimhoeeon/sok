@@ -47,7 +47,7 @@
 @media screen and (max-width:1199px) {
 
     /* main */
-    .main_sns_list ul{gap: 10px;}
+    .main_sns_list ul{gap: 10px;grid-template-columns: repeat(2, 1fr);}
     .main_apply_how ul li .tit{font-size: 1.125em;}
     .main_apply_how ul li .desc{font-size: 0.875em;}
 
