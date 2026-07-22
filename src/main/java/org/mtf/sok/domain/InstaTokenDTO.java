@@ -1,12 +1,12 @@
 package org.mtf.sok.domain;
 
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class InstaTokenDTO {
     private String seq;
     private String token;
-    private LocalDateTime initRegiDttm;
-    private LocalDateTime finalRegiDttm;
+    private Date initRegiDttm;
+    private Date finalRegiDttm;
 }
