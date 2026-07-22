@@ -229,7 +229,7 @@
     <h5 class="fw-bold text-dark mb-4"><i class="bi bi-lightning-charge-fill me-2 text-warning"></i>빠른 업무 이동 (Quick Links)</h5>
     <div class="row g-3 text-center">
         <c:set var="links" value="notice,sponsor/donate,volunteer,certificate,popup,dev" />
-        <c:set var="linkNames" value="공지 등록,후원 관리,봉사 관리,증명서 발급,팝업 설정,유지보수" />
+        <c:set var="linkNames" value="공지사항 관리,기부금 목록,자원봉사 관리,증명서 신청 관리,팝업 관리,요청/문의 관리" />
         <c:set var="linkIcons" value="megaphone,credit-card,person-check,file-earmark-check,window-stack,headset" />
 
         <c:forTokens items="${links}" delims="," var="link" varStatus="st">

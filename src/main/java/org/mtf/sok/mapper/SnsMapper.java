@@ -26,4 +26,6 @@ public interface SnsMapper {
     List<String> selectBlogFileNames();
 
     List<String> selectInstaFileNames();
+
+    InstaTokenDTO selectInstaTokenInfo();
 }

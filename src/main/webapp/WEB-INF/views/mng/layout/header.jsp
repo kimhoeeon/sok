@@ -97,6 +97,11 @@
                 <i class="bi bi-shield-check"></i> 접근 IP 관리
             </a>
 
+            <!-- 인스타토큰 관리 버튼 -->
+            <a href="/mng/insta/token" class="btn btn-primary me-3 shadow-sm" style="border-radius: 8px; padding: 8px 16px; background-color: #E1306C; border-color: #E1306C;">
+                <i class="bi bi-instagram"></i> 인스타토큰 관리
+            </a>
+
             <div class="d-flex align-items-center glassmorphism-box px-4 py-2">
                 <i class="bi bi-person-circle fs-3 me-2 neon-icon"></i>
                 <span class="fw-bold text-dark">${adminLogin.admNm} 관리자님</span>

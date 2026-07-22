@@ -82,4 +82,13 @@
         FROM instagram
     </select>
 
+    <select id="selectInstaTokenInfo" resultType="org.mtf.sok.domain.InstaTokenDTO">
+        SELECT seq
+             , token
+             , init_regi_dttm as initRegiDttm
+             , final_regi_dttm as finalRegiDttm
+        FROM insta
+        LIMIT 1
+    </select>
+
 </mapper>
