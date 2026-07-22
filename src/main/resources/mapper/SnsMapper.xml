@@ -69,7 +69,8 @@
     <update id="updateInstaToken" parameterType="String">
         UPDATE insta
         SET token = #{token},
-            final_regi_pic = 'SYSTEM'
+            final_regi_pic = 'SYSTEM',
+            final_regi_dttm = NOW()
     </update>
 
     <select id="selectBlogFileNames" resultType="String">

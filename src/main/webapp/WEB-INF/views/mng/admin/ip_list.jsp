@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentMenu" value="adminIp" scope="request"/>
+<!-- 시스템/대시보드 설정이므로 사이드바의 '방문 통계 대시보드' 활성화를 유지합니다. -->
+<c:set var="currentMenu" value="main" scope="request"/>
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
