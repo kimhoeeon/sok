@@ -60,12 +60,12 @@ public class FileController {
 
     // [3] 로컬 첨부파일 다운로드 로직 (일반 사용자 접근 가능 - /file/download 로 분리)
     @GetMapping("/file/download")
-    public void downloadFile(@RequestParam("filePath") String filePath,
-                             @RequestParam("fileName") String fileName,
+    public void downloadFile(@RequestParam(value = "filePath", required = false) String filePath,
+                             @RequestParam(value = "fileName", required = false) String fileName,
                              HttpServletResponse response) throws IOException {
 
         // [보안 1차 방어] 상위 디렉토리 이동 문자열 포함 여부 검사
-        if (filePath == null || filePath.contains("..") || filePath.contains("%2e") || filePath.contains("%2E")) {
+        if (filePath == null || filePath.isEmpty() || filePath.contains("..") || filePath.contains("%2e") || filePath.contains("%2E")) {
             sendAlertMessage(response, "잘못된 파일 경로 요청입니다.");
             return;
         }
