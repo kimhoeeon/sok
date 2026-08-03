@@ -47,7 +47,7 @@
 
     <div id="header" class="${isMainPage ? 'main_h' : ''}">
         <div class="inner">
-            <div class="logo"><a href="/"><img src="/img/logo.png" alt="SOK 로고"></a></div>
+            <div class="logo"><a href="/"><img src="/img/logo.png" class="logo_p"><img src="/img/logo_w.png" class="logo_w"></a></div>
             <div class="nav_wrap">
                 <ul class="menu">
                     <li class="has-sub">
