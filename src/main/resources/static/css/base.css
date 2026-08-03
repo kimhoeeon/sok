@@ -90,6 +90,8 @@ button{font-size: 1em; cursor: pointer;}
 #header .logo {font-size: 0;}
 #header .logo img {height: 65px; width: 100%; object-fit: contain;}
 #header .logo img.logo_w{display: none;}
+#header.main_h .logo img.logo_w{display: block;}
+#header.main_h.active .logo img.logo_w{display: none;}
 #header .nav_wrap {width: 100%; display: flex;align-items: center; gap:80px}
 #header .menu {display: flex; gap: 40px; align-items: center; color: #000; height: 100%;}
 #header .menu > li {height: 100%; position: relative;}
