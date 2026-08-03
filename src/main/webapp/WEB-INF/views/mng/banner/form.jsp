@@ -17,7 +17,6 @@
         <!-- 페이징 유지용 파라미터 (저장 후 목록 복귀 시 사용) -->
         <input type="hidden" name="pageNum" value="${params.pageNum != null ? params.pageNum : 1}">
         <input type="hidden" name="amount" value="${params.amount != null ? params.amount : 10}">
-        <input type="hidden" name="isActive" value="${params.isActive}">
         <input type="hidden" name="keyword" value="${params.keyword}">
 
         <div class="row mb-4">

@@ -134,7 +134,7 @@
                     <li class="utils_item flex">
                         <ul>
                             <li class="utils_item has_dropdown">
-                                <button type="button" class="utils_btn profile_btn"><img src="/img/ico_profile.png" alt="마이페이지"></button>
+                                <button type="button" class="utils_btn profile_btn"><img src="/img/ico_profile.png" class="profile_b" alt="마이페이지"><img src="/img/ico_profile_w.png" class="profile_w" alt="마이페이지"></button>
                                 <div class="dropdown">
                                     <c:choose>
                                         <c:when test="${not empty sessionScope.userLogin}">

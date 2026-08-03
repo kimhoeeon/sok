@@ -136,10 +136,8 @@
                             <c:when test="${empty bannerList}">
                                 <!-- 등록된 배너가 없을 경우 기본 하드코딩 배너 1개 노출 -->
                                 <li class="swiper-slide">
-                                    <a href="javascript:void(0);">
-                                        <img src="/img/main_banner01.png" class="pc_img" alt="배너 기본 이미지">
-                                        <img src="/img/main_banner01_m.png" class="m_img" alt="배너 기본 이미지">
-                                    </a>
+                                    <img src="/img/main_banner01.png" class="pc_img" alt="배너 기본 이미지">
+                                    <img src="/img/main_banner01_m.png" class="m_img" alt="배너 기본 이미지">
 
                                     <div class="inner">
                                         <div class="txt">
@@ -153,25 +151,14 @@
                                 <!-- DB에서 가져온 배너 리스트 반복 출력 -->
                                 <c:forEach var="banner" items="${bannerList}">
                                     <li class="swiper-slide">
-                                        <c:choose>
-                                            <c:when test="${banner.targetType eq 'none' or empty banner.linkUrl}">
-                                                <!-- 1. 클릭 없음 (단순 이미지) - a 태그 제거 -->
-                                                <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
-                                                <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <!-- 2. 클릭 시 이동 (현재창 또는 새창) -->
-                                                <a href="${banner.linkUrl}" target="${banner.targetType}">
-                                                    <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
-                                                    <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
-                                                </a>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <!-- 1. 클릭 없음 (단순 이미지) - a 태그 제거 -->
+                                        <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
+                                        <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
 
                                         <div class="inner">
                                             <div class="txt">
-                                                <div class="top_tit">작은 응원이 일상이 되는 곳 <br>스페셜 올림픽 코리아</div>
-                                                <a class="go_link" href="/intro/about">더 보기</a>
+                                                <div class="top_tit">${banner.title} <br>스페셜 올림픽 코리아</div>
+                                                <a href="${banner.linkUrl}" class="go_link" target="${banner.targetType}">더 보기</a>
                                             </div>
                                         </div>
                                     </li>

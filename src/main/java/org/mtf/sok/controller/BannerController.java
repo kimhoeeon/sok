@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +25,8 @@ public class BannerController {
     private BannerMapper bannerMapper;
 
     // 배너 이미지가 저장될 물리적 경로 설정
-    @Value("${file.upload.banner.dir:/tomcat/webapps/upload/banner}")
-    private String uploadDir;
+    @Value("${file.upload.dir}")
+    private String baseUploadDir;
 
     // 1. 배너 목록 페이지
     @GetMapping("/list")
@@ -67,9 +68,14 @@ public class BannerController {
         try {
             // 파일 업로드 처리
             if (uploadFile != null && !uploadFile.isEmpty()) {
-                File dir = new File(uploadDir);
+                File dir = Paths.get(baseUploadDir, "banner").toFile();
+
                 if (!dir.exists()) {
-                    dir.mkdirs(); // 디렉토리가 없으면 생성
+                    boolean isCreated = dir.mkdirs();
+                    if (!isCreated) {
+                        rttr.addFlashAttribute("errorMessage", "서버의 업로드 폴더를 생성할 수 없습니다. 경로 권한을 확인해주세요.");
+                        return "redirect:/mng/banner/list";
+                    }
                 }
 
                 String originalFileName = uploadFile.getOriginalFilename();
@@ -96,7 +102,7 @@ public class BannerController {
             }
 
             // 등록/수정 완료 후 노출 순서 10 단위로 자동 재정렬
-            bannerMapper.reorderDisplayOrder();
+            //bannerMapper.reorderDisplayOrder();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,14 +119,14 @@ public class BannerController {
 
         // 물리적 이미지 파일도 함께 삭제
         if (banner != null && banner.getFileName() != null) {
-            File file = new File(uploadDir, banner.getFileName());
+            File file = Paths.get(baseUploadDir, "banner", banner.getFileName()).toFile();
             if (file.exists()) {
                 file.delete();
             }
         }
 
         bannerMapper.deleteBanner(seq);
-        bannerMapper.reorderDisplayOrder(); // 삭제 후 순서 재정렬
+        //bannerMapper.reorderDisplayOrder(); // 삭제 후 순서 재정렬
 
         rttr.addFlashAttribute("successMessage", "배너가 안전하게 삭제되었습니다.");
         return "redirect:/mng/banner/list";

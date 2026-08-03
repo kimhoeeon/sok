@@ -185,6 +185,9 @@ public class FileController {
                 case "promoter":
                     subDir = "promoter";
                     break;
+                case "banner":
+                    subDir = "banner";
+                    break;
                 default:
                     return ResponseEntity.badRequest().build();
             }
