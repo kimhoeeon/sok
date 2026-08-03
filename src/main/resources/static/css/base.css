@@ -112,6 +112,9 @@ button{font-size: 1em; cursor: pointer;}
 .dropdown {position: absolute;top: 100%;right: 0;margin-top: 10px;padding: 16px;min-width: 180px;background: #fff;border:1px solid #d5d5d5; border-radius: 10px;box-shadow: 0 10px 20px rgba(0,0,0,0.1);display: none;}
 .dropdown a{display: block; padding-bottom: 12px;}
 .dropdown a:last-child{padding-bottom: 0;}
+.h_search_btn img.search_w{display: none;}
+.profile_btn img.profile_w{display: none;}
+
 
 .utils_item.open .dropdown { display: block;}
 .control_group {display: flex;justify-content: space-between;align-items: center;margin-bottom: 10px;}
@@ -256,6 +259,7 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
 
 .sound_btn .play{display: flex; align-items: center;justify-content: center;cursor: pointer; gap: 5px;color: var(--mainColor); background: #fff;font-size: 1em; border: 1px solid var(--mainColor);padding: 5px 10px; border-radius: 10px;}
 .sound_btn .play:hover{color: #fff; background: var(--mainColor); }
+.sound_btn .play img{width:24px}
 
 .link_menu a{pointer-events:inherit !important}
 
