@@ -80,17 +80,17 @@
     // 4. 페이지 로드 시 쿠키 검사 (let 활용으로 다중 팝업 스코프 충돌 방지)
     document.addEventListener("DOMContentLoaded", function() {
         <c:if test="${not empty popupList}">
-        <c:forEach var="popup" items="${popupList}">
-        let pSeq_${popup.popSeq} = "${popup.popSeq}";
-        let cookieData_${popup.popSeq} = getPopupCookie("sok_popup_" + pSeq_${popup.popSeq});
+            <c:forEach var="popup" items="${popupList}">
+            let pSeq_${popup.popSeq} = "${popup.popSeq}";
+            let cookieData_${popup.popSeq} = getPopupCookie("sok_popup_" + pSeq_${popup.popSeq});
 
-        if (cookieData_${popup.popSeq} !== "done") {
-            let popupTarget = document.getElementById("main_popup_" + pSeq_${popup.popSeq});
-            if (popupTarget) {
-                popupTarget.style.display = "block";
+            if (cookieData_${popup.popSeq} !== "done") {
+                let popupTarget = document.getElementById("main_popup_" + pSeq_${popup.popSeq});
+                if (popupTarget) {
+                    popupTarget.style.display = "block";
+                }
             }
-        }
-        </c:forEach>
+            </c:forEach>
         </c:if>
     });
 
@@ -118,63 +118,74 @@
     }
 </script>
 
+<c:set var="isMainPage" value="true" scope="request" />
+
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
-<div id="container">
-    <div class="inner">
-        <!-- section -->
-        <div class="main_slide">
-            <div class="main_top sub_top">
-                <div class="sub_top_box">
-                    <div class="flex">
-                        <div class="sub_top_tit" id="tts_main_top">작은 응원이 일상이 되는 곳 <br/>스페셜 올림픽 코리아</div>
-                        <a class="go_link" href="/intro/about">더 보기</a>
-                    </div>
-                    <div class="sound_btn">
-                        <button type="button" class="play" data-target="tts_main_top">
-                            소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
-                        </button>
-                    </div>
-                </div>
-            </div>
+<div id="container" class="main">
 
-            <div class="main_slide_wrap">
-                <div class="swiper_box">
-                    <div class="paging-wrap"></div>
+    <!-- section -->
+    <div class="main_slide">
+        <div class="main_slide_wrap">
+            <div class="swiper_box">
+                <div class="paging-wrap"></div>
 
-                    <div class="swiper swiper_main_t">
-                        <ul class="swiper-wrapper">
-                            <li class="swiper-slide">
-                                <a href="">
-                                    <img src="/img/main_banner01.png" class="pc_img" alt="배너">
-                                    <img src="/img/main_banner01_m.png" class="m_img" alt="배너">
-                                </a>
-                            </li>
-                            <li class="swiper-slide">
-                                <a href="">
-                                    <img src="/img/main_banner02.png" class="pc_img" alt="배너">
-                                    <img src="/img/main_banner02.png" class="m_img" alt="배너">
-                                </a>
-                            </li>
-                            <li class="swiper-slide">
-                                <a href="">
-                                    <img src="/img/main_banner03.png" class="pc_img" alt="배너">
-                                    <img src="/img/main_banner03.png" class="m_img" alt="배너">
-                                </a>
-                            </li>
-                            <li class="swiper-slide">
-                                <a href="">
-                                    <img src="/img/main_banner04.png" class="pc_img" alt="배너">
-                                    <img src="/img/main_banner04.png" class="m_img" alt="배너">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="swiper swiper_main_t">
+                    <ul class="swiper-wrapper">
+                        <c:choose>
+                            <c:when test="${empty bannerList}">
+                                <!-- 등록된 배너가 없을 경우 기본 하드코딩 배너 1개 노출 -->
+                                <li class="swiper-slide">
+                                    <a href="javascript:void(0);">
+                                        <img src="/img/main_banner01.png" class="pc_img" alt="배너 기본 이미지">
+                                        <img src="/img/main_banner01_m.png" class="m_img" alt="배너 기본 이미지">
+                                    </a>
+
+                                    <div class="inner">
+                                        <div class="txt">
+                                            <div class="top_tit">작은 응원이 일상이 되는 곳 <br>스페셜 올림픽 코리아</div>
+                                            <a class="go_link" href="/intro/about">더 보기</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- DB에서 가져온 배너 리스트 반복 출력 -->
+                                <c:forEach var="banner" items="${bannerList}">
+                                    <li class="swiper-slide">
+                                        <c:choose>
+                                            <c:when test="${banner.targetType eq 'none' or empty banner.linkUrl}">
+                                                <!-- 1. 클릭 없음 (단순 이미지) - a 태그 제거 -->
+                                                <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
+                                                <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- 2. 클릭 시 이동 (현재창 또는 새창) -->
+                                                <a href="${banner.linkUrl}" target="${banner.targetType}">
+                                                    <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
+                                                    <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <div class="inner">
+                                            <div class="txt">
+                                                <div class="top_tit">작은 응원이 일상이 되는 곳 <br>스페셜 올림픽 코리아</div>
+                                                <a class="go_link" href="/intro/about">더 보기</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- //section -->
+    </div>
+    <!-- //section -->
 
+    <div class="inner">
         <!-- section -->
         <div class="main_apply">
             <div class="main_top sub_top">

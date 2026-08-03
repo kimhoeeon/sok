@@ -52,6 +52,16 @@ $(document).ready(function () {
             $('#header').removeClass('active');
         }
     });
+    function updateHeaderActive() {
+        const isScrolled = $(window).scrollTop() > 0;
+        const isSiteMapOpen = $('.hd_site_map').hasClass('on');
+        const isSearchOpen = $('.header_search_layer').hasClass('open');
+
+        $('#header.main_h').toggleClass(
+            'active',
+            isScrolled || isSiteMapOpen || isSearchOpen
+        );
+    }
 
     // 햄버거 메뉴
     $('#header .hamberg').click(function () {
@@ -79,6 +89,8 @@ $(document).ready(function () {
     $('.megamenu').on('click', function () {
         $(this).toggleClass('on');
         $('.hd_site_map').toggleClass('on');
+
+        updateHeaderActive();
     });
 
     // QNA
@@ -778,32 +790,32 @@ $(document).ready(function () {
 
     const data = {
         seoul: [
-            { img: '/img/ico_gyeonggi.png?ver=260707', name: '오용환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320'},
-            { img: '/img/ico_seoul.png?ver=260707', name: '전종구', date: '2013년 12월 19일', addr: '서울특별시 강남구 신사동 614-3 융기빌딩 4층 한국파파존스(주)', number: '02-465-0999', fax: '02-6466-2112'},
-            { img: '/img/ico_incheon.png?ver=260707', name: '박민서', date: '2015년 7월 15일', addr: '인천광역시 남동구 소래로 500 남동체육관 107호', number: '032-817-3487', fax: '032-813-3480'}
+            { img: '/img/ico_gyeonggi.png', name: '오용환', date: '2011년 12월 14일', addr: '경기도 구리시 산마루로 18 501호 하나로프라자(갈매동)', number: '031-571-1116', fax: '031-255-1320'},
+            { img: '/img/ico_seoul.png', name: '전종구', date: '2013년 12월 19일', addr: '서울특별시 강남구 신사동 614-3 융기빌딩 4층 한국파파존스(주)', number: '02-465-0999', fax: '02-6466-2112'},
+            { img: '/img/ico_incheon.png', name: '박민서', date: '2015년 7월 15일', addr: '인천광역시 남동구 소래로 500 남동체육관 107호', number: '032-817-3487', fax: '032-813-3480'}
         ],
         gangwon: [
-            { img: '/img/ico_gangwon.png?ver=260707', name: '조규석', date: '2012년 11월 30일', addr: '강원특별자치도 춘천시 춘천로 188, 822호(효자동, 메가시티)', number: '033-642-2071', fax: '033-642-2074'}
+            { img: '/img/ico_gangwon.png', name: '조규석', date: '2012년 11월 30일', addr: '강원특별자치도 춘천시 춘천로 188, 822호(효자동, 메가시티)', number: '033-642-2071', fax: '033-642-2074'}
         ],
         chungnam: [
-            { img: '/img/ico_daejeon.png?ver=260707', name: '윤경열', date: '2011년 12월 14일', addr: '대전광역시 중구 단디로6번길 69(문화동)', number: '042-471-2905', fax: '042-587-9229'}
+            { img: '/img/ico_daejeon.png', name: '윤경열', date: '2011년 12월 14일', addr: '대전광역시 중구 단디로6번길 69(문화동)', number: '042-471-2905', fax: '042-587-9229'}
         ],
         chungbuk: [
-            { img: '/img/ico_chungbuk.png?ver=260707', name: '장병호', date: '2013년 12월 19일', addr: '충청북도 제천시 의병대로 45길 84 더하림 203호(흑석동)', number: '061-270-2576', fax: '061-270-2576'}
+            { img: '/img/ico_chungbuk.png', name: '장병호', date: '2013년 12월 19일', addr: '충청북도 제천시 의병대로 45길 84 더하림 203호(흑석동)', number: '061-270-2576', fax: '061-270-2576'}
         ],
         gyeongbuk: [
-            { img: '/img/ico_gyeongbuk.png?ver=260707', name: '김춘희', date: '2012년 11월 30일', addr: '경상북도 포항시 북구 용흥동 430-14번지', number: '054-237-4712', fax: '054-254-3636'},
-            { img: '/img/ico_daegu.png?ver=260707', name: '김동환', date: '2016년 9월 29일', addr: '대구광역시 수성구 파동로 51길 26-71(대구장애인복지관 내)', number: '053-763-1011', fax: ''}
+            { img: '/img/ico_gyeongbuk.png', name: '김춘희', date: '2012년 11월 30일', addr: '경상북도 포항시 북구 용흥동 430-14번지', number: '054-237-4712', fax: '054-254-3636'},
+            { img: '/img/ico_daegu.png', name: '김동환', date: '2016년 9월 29일', addr: '대구광역시 수성구 파동로 51길 26-71(대구장애인복지관 내)', number: '053-763-1011', fax: ''}
         ],
         gyeongnam: [
-            { img: '/img/ico_gyeongnam.png?ver=260707', name: '신석민', date: '2017년 9월 12일', addr: '경상남도 창원시 의창구 소계동 474-2번지 2층', number: '02-447-1179', fax: ''},
-            { img: '/img/ico_ulsan.png?ver=260707', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26 신정동', number: '052-220-3525', fax: '052-220-3489'},
-            { img: '/img/ico_busan.png?ver=260707', name: '임준택', date: '2025년 4월 29일', addr: '부산광역시 사하구 다대로 605번길 25', number: '051-255-2332', fax: '051-245-2331'}
+            { img: '/img/ico_gyeongnam.png', name: '신석민', date: '2017년 9월 12일', addr: '경상남도 창원시 의창구 소계동 474-2번지 2층', number: '02-447-1179', fax: ''},
+            { img: '/img/ico_ulsan.png', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26 신정동', number: '052-220-3525', fax: '052-220-3489'},
+            { img: '/img/ico_busan.png', name: '임준택', date: '2025년 4월 29일', addr: '부산광역시 사하구 다대로 605번길 25', number: '051-255-2332', fax: '051-245-2331'}
         ],
         jeonbuk: [],
         jeonnam: [],
         jeju: [
-            { img: '/img/ico_jeju.png?ver=260707', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510' }
+            { img: '/img/ico_jeju.png', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510' }
         ]
     };
 
@@ -900,29 +912,63 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 
+    function updateHeaderActive() {
+        const $header = $('#header');
+
+        const isScrolled = $(window).scrollTop() > 0;
+        const isSearchOpen = $header.hasClass('search-open');
+        const isSiteMapOpen = $('.hd_site_map').hasClass('on');
+
+        $header.toggleClass(
+            'active',
+            isScrolled || isSearchOpen || isSiteMapOpen
+        );
+    }
+
+
     $('.h_search_btn').on('click', function (e) {
         e.preventDefault();
 
-        const $searchLayer = $('.header_search_layer');
+        const $search = $('#header .header_search_layer');
+        const isOpen = !$search.hasClass('open');
 
-        $searchLayer.toggleClass('open');
+        $search.toggleClass('open', isOpen);
+        $('#header').toggleClass('search-open', isOpen);
 
-        if ($searchLayer.hasClass('open')) {
+        if (isOpen) {
             $('.has_dropdown').removeClass('open');
-            $searchLayer.find('input').focus();
+            $search.find('input').focus();
         }
+
+        updateHeaderActive();
     });
+
 
     $('.search_close').on('click', function () {
         $('#globalSearchKeyword').val('');
-        $('.header_search_layer').removeClass('open');
+        $('#header .header_search_layer').removeClass('open');
+        $('#header').removeClass('search-open');
+
+        updateHeaderActive();
     });
+
 
     $(document).on('keydown', function (e) {
         if (e.key === 'Escape') {
-            $('.header_search_layer').removeClass('open');
+            $('#header .header_search_layer').removeClass('open');
+            $('#header').removeClass('search-open');
+
+            updateHeaderActive();
         }
     });
+
+
+    $(window).on('scroll', function () {
+        updateHeaderActive();
+    });
+
+
+    updateHeaderActive();
 
 });
 

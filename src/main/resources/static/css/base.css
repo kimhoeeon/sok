@@ -183,6 +183,34 @@ button{font-size: 1em; cursor: pointer;}
 #header .langmenu a {display: block; padding: 2px 0; color: #aaa;}
 #header .langmenu a.active {font-weight: 700; color: #fff;} */
 
+/* 메인페이지 헤더 */
+#header.main_h{border-bottom: 0;}
+#header.main_h .menu > li > a{color: #fff;}
+#header.main_h .logo_p{display: none;}
+#header.main_h .logo_w{display: block;}
+#header.main_h .conven_btn{background: #fff; border: 1px solid #fff;}
+#header.main_h .search_b{display: none;}
+#header.main_h .search_w{display: block;}
+#header.main_h .megamenu span{background: #fff;}
+#header.main_h .megamenu.on span {background: rgba(255, 255, 255, 0);}
+#header.main_h .megamenu span::before, #header.main_h .megamenu span::after{background: #fff;}
+#header.main_h .profile_b{display: none;}
+#header.main_h .profile_w{display: block;}
+
+#header.main_h.active{border-bottom: 1px solid #d5d5d5;}
+#header.main_h.active .menu > li > a{color: #000;}
+#header.main_h.active .logo_p{display: block;}
+#header.main_h.active .logo_w{display: none;}
+#header.main_h.active .conven_btn{background: inherit; border: 1px solid #D5D5D5;}
+#header.main_h.active .search_b{display: block;}
+#header.main_h.active .search_w{display: none;}
+
+#header.main_h.active .megamenu span{background: #000;}
+#header.main_h.active .megamenu.on span {background: rgba(255, 255, 255, 0);}
+#header.main_h.active .megamenu span::before, #header.main_h.active .megamenu span::after{background: #000;}
+#header.main_h.active .profile_b{display: block;}
+#header.main_h.active .profile_w{display: none;}
+
 /* 검색창 */
 .header_search_layer {position: absolute;left: 0;top: 101%;width: 100%;border-bottom: 1px solid #d5d5d5;background: #fff;z-index: 12;display: none;}
 .header_search_layer.open {display: block;}
@@ -343,6 +371,10 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
     #header .conven_btn{min-width: inherit;padding: 0;gap: 0; font-size: 0; border: none;}
     #header .conven_btn:focus{outline: none;}
     #header .conven_btn::after{display: none;}
+
+    #header.main_h.active .conven_btn{min-width: inherit;padding: 0;gap: 0; font-size: 0; border: none;}
+    #header.main_h.active .conven_btn:focus{outline: none;}
+    #header.main_h.active .conven_btn::after{display: none;}
         
     #header .hamberg span.on::before, #header .hamberg span.on::after{ background: #fff;}
     .accessibility_exempt .dropdown{font-size: 13px !important;line-height: 1.3 !important;}

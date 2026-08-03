@@ -71,6 +71,7 @@
                 <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
             </a>
             <div class="collapse collapse-menu show" id="collapseHomeManage">
+                <a class="nav-link ${(currentMenu eq 'banner' or param.menuId eq 'banner') ? 'active text-dark' : ''}" href="/mng/banner/list">메인 배너 관리</a>
                 <a class="nav-link ${(currentMenu eq 'popup' or param.menuId eq 'popup') ? 'active text-dark' : ''}" href="/mng/popup/list">팝업 관리</a>
                 <a class="nav-link ${(currentMenu eq 'promoter' or param.menuId eq 'promoter') ? 'active text-dark' : ''}" href="/mng/promoter/list">후원사 관리</a>
                 <a class="nav-link ${(currentMenu eq 'dev' or param.menuId eq 'dev') ? 'active text-dark' : ''}" href="/mng/dev/list">홈페이지 요청/문의 관리</a>

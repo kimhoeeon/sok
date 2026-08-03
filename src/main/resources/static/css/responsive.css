@@ -111,9 +111,7 @@
     #container {padding: 60px 0;}
 
     /* main */
-    .main_slide_wrap {aspect-ratio: 1/0.8;}
-	.main_slide_wrap .swiper-slide .pc_img {display: none;}
-	.main_slide_wrap .swiper-slide .m_img {display: block;}
+    /* .main_slide_wrap {aspect-ratio: 1/0.8;} */
     .paging-wrap{bottom: 20px !important}
 
     .main_apply_box{padding: 80px 50px; background-size: cover;}
@@ -127,6 +125,8 @@
     .main_apply_how ul li .desc{padding-left: 80px;}
     .main_sns_list{gap: 20px; flex-direction: column;}
     .main_sns_list > div{width: 100%;}
+
+    .main_slide_wrap .txt .top_tit{font-size: 2.5em;}
 
     /* sub page */
     .sub_top{padding: 90px 0 40px}
@@ -336,6 +336,10 @@
     .main_sns_list .blog .gu{font-size: 0.875em;}
     .main_sns_list .instagram .gu::before{width: 24px; height: 24px; background-size: cover;}
     .main_sns_list .blog .gu::before{width: 24px; height: 24px; background-size: cover;}
+
+    .main_slide_wrap{height: 60vh;}
+    .main_slide_wrap .txt .top_tit{font-size: 1.5em;}
+    .main_slide_wrap .txt a.go_link{flex-shrink: 0;padding: 6px 12px;font-size: 0.875em;}
 
     .btn{margin-top: 30px;}
 

@@ -868,3 +868,23 @@
 .commit_info .commit_list.commit_fam{display: grid; grid-template-columns: repeat(5, 1fr);}
 .hap_table{margin-bottom: 0;}
 .executive_table table tbody td.border{border-right: 1px solid #d5d5d5;}
+
+/* 추가영역 */
+.main{padding-top: 0 !important;}
+.main_slide_wrap{height: 100vh; aspect-ratio: inherit;}
+.main_slide_wrap img{position: absolute; z-index: -1; top: 0;}
+.main_slide_wrap .inner{display: flex;align-items: center;max-width: 1400px;margin: 0 auto; height: 100%;}
+.main_slide_wrap .txt a.go_link{height: inherit; padding: 10px 20px;border-radius: 20px;display: inline-flex;align-items: center;background: #000;color: #fff;border-color: #000;gap: 5px;}
+.main_slide_wrap .txt a.go_link::after {display: block;content: '';background: url(/img/ico_arrow_w.png) no-repeat;width: 24px;height: 24px;}
+.main_slide_wrap .txt .top_tit{font-family: "NanumSquareNeoExtraBold";margin-top: 20px;font-size: 3.5em;font-weight: 700;margin-bottom: 10px;color: #fff;}
+
+
+
+
+
+
+
+
+
+
+

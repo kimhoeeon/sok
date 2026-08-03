@@ -1,10 +1,7 @@
 package org.mtf.sok.controller;
 
 import org.mtf.sok.domain.*;
-import org.mtf.sok.mapper.BoardMapper;
-import org.mtf.sok.mapper.PopupMapper;
-import org.mtf.sok.mapper.PromoterMapper;
-import org.mtf.sok.mapper.SnsMapper;
+import org.mtf.sok.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +29,9 @@ public class MainController {
     @Autowired
     private PromoterMapper promoterMapper;
 
+    @Autowired
+    private BannerMapper bannerMapper;
+
     @GetMapping("/")
     public String index(Model model) {
 
@@ -54,6 +54,16 @@ public class MainController {
 
         // 3. 모델에 담아서 index.jsp로 전달
         model.addAttribute("popupList", popupList);
+
+        // --------------------------------------------------------
+        // 메인 배너 데이터 조회 (활성화된 배너만 노출 순서대로)
+        // --------------------------------------------------------
+        BannerDTO bannerParam = new BannerDTO();
+        bannerParam.setIsActive("Y");
+        bannerParam.setAmount(0); // Mapper XML 조건에 따라 0이면 LIMIT 없이 모두 조회
+
+        List<BannerDTO> bannerList = bannerMapper.selectBannerList(bannerParam);
+        model.addAttribute("bannerList", bannerList);
 
         // ========================================================
         // 2. 메인 화면 하단 뉴스/공지사항/채용/입찰 데이터 세팅

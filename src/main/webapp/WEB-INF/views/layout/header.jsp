@@ -45,7 +45,7 @@
 </head>
 <body>
 
-    <div id="header">
+    <div id="header" class="${isMainPage ? 'main_h' : ''}">
         <div class="inner">
             <div class="logo"><a href="/"><img src="/img/logo.png" alt="SOK 로고"></a></div>
             <div class="nav_wrap">
@@ -126,7 +126,8 @@
                     <li class="utils_item ml-12">
                         <div>
                             <a href="" class="h_search_btn" aria-label="검색">
-                                <img src="/img/ico_search.png" alt="돋보기 이미지">
+                                <img src="/img/ico_search.png" class="search_b" alt="돋보기 이미지">
+                                <img src="/img/ico_search_w.png" class="search_w" alt="돋보기 이미지">
                             </a>
                         </div>
                     </li>
