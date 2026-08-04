@@ -139,6 +139,7 @@ public class FrontSponsorController {
 
         } catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("errorCode", "API_CONFIRM_ERROR");
             model.addAttribute("errorMessage", "결제 승인 중 오류가 발생했습니다: " + e.getMessage());
 
             // orderId가 정상적으로 넘어온 경우에만 실패 상태 업데이트
@@ -170,6 +171,7 @@ public class FrontSponsorController {
         }
 
         // 사용자가 알 수 있도록 에러 메시지를 화면에 전달
+        model.addAttribute("errorCode", code != null ? code : "UNKNOWN_ERROR");
         model.addAttribute("errorMessage", message != null ? message : "결제가 취소되었거나 비정상적으로 종료되었습니다.");
         return "sponsor/donate_fail";
     }
