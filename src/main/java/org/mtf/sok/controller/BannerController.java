@@ -102,7 +102,7 @@ public class BannerController {
             }
 
             // 등록/수정 완료 후 노출 순서 10 단위로 자동 재정렬
-            //bannerMapper.reorderDisplayOrder();
+            bannerMapper.reorderDisplayOrder();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class BannerController {
         }
 
         bannerMapper.deleteBanner(seq);
-        //bannerMapper.reorderDisplayOrder(); // 삭제 후 순서 재정렬
+        bannerMapper.reorderDisplayOrder(); // 삭제 후 순서 재정렬
 
         rttr.addFlashAttribute("successMessage", "배너가 안전하게 삭제되었습니다.");
         return "redirect:/mng/banner/list";

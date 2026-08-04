@@ -146,7 +146,7 @@
                                     <div class="prevention_img">
                                         <img src="/certificate/captchaImg" id="captchaImg" alt="자동입력방지" style="width: 150px; height: 50px;">
                                     </div>
-                                    <input type="text" id="captchaInput" required>
+                                    <input type="text" id="captchaText" name="captchaText" required autocomplete="off">
                                     <button type="button" onclick="playCaptchaAudio()"><img src="/img/sound_icon.png" alt="다시 듣기"></button>
                                     <button type="button" onclick="refreshCaptcha()"><img src="/img/restore_icon.png" alt="리셋"></button>
                                 </div>
