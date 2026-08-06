@@ -9,7 +9,12 @@
 
 @media screen and (max-width:1400px) {
 
-    #container {padding: 90px 0;}
+
+    .hd_site_map{top: 145px;}
+    body.banner-hide .hd_site_map{top:89px;}
+
+    #container {padding: 146px 0 90px;}
+    body.banner-hide #container{padding: 90px 0;}
 
     .sub_tab .board_tab li a{font-size: 1em;}
     .depth_2 .sub_top_tab li a{font-size: 1em;}
@@ -108,7 +113,14 @@
 
 @media screen and (max-width:899px) {
 
+    #header{top:42px;}
+    .hd_site_map{top: 101px;}
+    body.banner-hide #header{top:0;}
+    body.banner-hide .hd_site_map{top:59px;}
+
     #container {padding: 60px 0;}
+    #container {padding: 102px 0 60px;}
+    body.banner-hide #container{padding: 60px 0;}
 
     /* main */
     /* .main_slide_wrap {aspect-ratio: 1/0.8;} */
@@ -320,9 +332,15 @@
     .commit_info .commit_list{grid-template-columns: repeat(2, 1fr); gap: 30px 20px;}
     .commit_info .commit_list.commit_fam {grid-template-columns: repeat(2, 1fr);}
     .commit_info .commit_list div{margin-top: 10px;}
+
+    .top_banner{height: 42px;}
+    .top_banner a{font-size: 14px;}
+    .top_banner a span::after{width: 14px; height: 14px;}
 }
 
 @media screen and (max-width:599px) {
+
+    .top_banner a{padding: 0 10px;}
 
     .main_top .flex .go_link{flex-shrink: 0;padding: 6px 12px; font-size: 0.875em;}
     .main_top .flex .go_link::after{width: 18px; height: 18px; background-size: cover;}

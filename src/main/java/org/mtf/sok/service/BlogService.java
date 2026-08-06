@@ -302,7 +302,7 @@ public class BlogService {
             log.warn("cleanupBlogFilesFromDb error: {}", e.getMessage(), e);
         }
 
-        log.info("cleanupBlogFilesFromDb done. scanned={}, deleted={}, keep={}", scanned, deleted, keep.size());
+        //log.info("cleanupBlogFilesFromDb done. scanned={}, deleted={}, keep={}", scanned, deleted, keep.size());
     }
 
     private String firstNonEmpty(String... xs) {

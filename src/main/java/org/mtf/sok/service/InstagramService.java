@@ -266,7 +266,7 @@ public class InstagramService {
             log.warn("cleanupInstagramFilesFromDb error: {}", e.getMessage(), e);
         }
 
-        log.info("cleanupInstagramFilesFromDb done. scanned={}, deleted={}, keep={}", scanned, deleted, keep.size());
+        //log.info("cleanupInstagramFilesFromDb done. scanned={}, deleted={}, keep={}", scanned, deleted, keep.size());
     }
 
     private String[] splitTitleDesc(String captionRaw) {

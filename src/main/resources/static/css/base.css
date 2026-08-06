@@ -481,6 +481,7 @@ body.is-scroll-locked {overflow: hidden;touch-action: none;}
     #footer .menu li::after{display: none;}
     .menu_wrap{display: grid; gap: 5px;}
     
+    .top_banner{height: 42px;}
 }
 
 @media screen and (max-width:599px) {

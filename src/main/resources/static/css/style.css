@@ -1,4 +1,4 @@
-#container{padding: 120px 0;}
+#container{padding: 176px 0 120px;}
 .sub_content{padding: 60px 0 0;}
 .sub_tab{padding-bottom: 60px;}
 
@@ -878,9 +878,19 @@
 .main_slide_wrap .txt a.go_link::after {display: block;content: '';background: url(/img/ico_arrow_w.png) no-repeat;width: 24px;height: 24px;}
 .main_slide_wrap .txt .top_tit{font-family: "NanumSquareNeoExtraBold";margin-top: 20px;font-size: 3.5em;font-weight: 700;margin-bottom: 10px;color: #fff;}
 
-
-
-
+.top_banner{position:fixed;top:0;left:0;width:100%;height:56px;background:#39BDFF;color:#fff;z-index:900;display:flex;align-items:center;justify-content:center;}
+.top_banner a{flex:1;height:100%;display:flex;align-items:center;justify-content:center;padding:0 60px;color:#fff;text-decoration:none;font-size:16px;font-weight:600;}
+.top_banner a span{display: flex; align-items: center; gap: 6px;}
+.top_banner a span::after{content: ''; background: url(/img/icon_link_arrow.png) no-repeat; width: 18px; height: 18px; display: block; background-size: cover;}
+.top_banner_close{position:absolute;top:50%;right:24px;width:18px;height:18px;transform:translateY(-50%);background:none;border:0;cursor:pointer;}
+.top_banner_close span{position:absolute;top:50%;left:0;width:100%;height:2px;background:#fff;}
+.top_banner_close span:first-child{transform:rotate(45deg);}
+.top_banner_close span:last-child{transform:rotate(-45deg);}
+#header{top:56px;transition:.3s;}
+.hd_site_map{top: 175px;transition:.3s;}
+body.banner-hide #header{top:0;}
+body.banner-hide .hd_site_map{top:119px;}
+body.banner-hide #container{padding: 120px 0;}
 
 
 

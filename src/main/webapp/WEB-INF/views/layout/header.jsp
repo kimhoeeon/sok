@@ -45,6 +45,17 @@
 </head>
 <body>
 
+    <div class="top_banner">
+        <a href="" target="_blank">
+            <span>슈퍼블루마라톤 공식 홈페이지 이동하기</span>
+        </a>
+
+        <button type="button" class="top_banner_close" aria-label="배너 닫기">
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
     <div id="header" class="${isMainPage ? 'main_h' : ''}">
         <div class="inner">
             <div class="logo"><a href="/"><img src="/img/logo.png" class="logo_p"><img src="/img/logo_w.png" class="logo_w"></a></div>
