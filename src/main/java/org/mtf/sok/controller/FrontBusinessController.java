@@ -214,7 +214,7 @@ public class FrontBusinessController {
     @GetMapping("/awareness")
     public String awarenessMain() { return "business/awareness/awareness"; }
 
-    // [슈퍼블루 마라톤]
+    // [슈퍼블루마라톤]
     @GetMapping("/awareness-marathon")
     public String awarenessMarathon() { return "business/awareness/awareness_marathon"; }
 

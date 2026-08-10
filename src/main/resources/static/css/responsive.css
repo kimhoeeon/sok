@@ -47,6 +47,8 @@
 
     /* 포스터 */
     .art_info .poster ul{grid-template-columns: repeat(3, 1fr);}
+
+    .about_business ul li .nae{height: 200px; display: flex; align-items: center;}
 }
 
 @media screen and (max-width:1199px) {
@@ -109,6 +111,8 @@
     .commit_info .commit_list{grid-template-columns: repeat(3, 1fr); gap: 20px;}
     .commit_info .commit_list.commit_fam {grid-template-columns: repeat(3, 1fr);}
     .commit_info .commit_list div{margin-top: 10px;}
+
+    .about_business ul li .nae{height: 250px;}
 }
 
 @media screen and (max-width:899px) {
@@ -336,6 +340,8 @@
     .top_banner{height: 42px;}
     .top_banner a{font-size: 14px;}
     .top_banner a span::after{width: 14px; height: 14px;}
+
+    .about_business ul li .nae{height: auto;}
 }
 
 @media screen and (max-width:599px) {
@@ -374,7 +380,7 @@
     .sub_tab .board_tab li{font-size: 0.875em;}
 
     .board_gallery .board_gallery_box ul{grid-template-columns: repeat(1, 1fr); gap: 30px 10px;}
-    .board_gallery .board_gallery_box ul li .tit{font-size: 1.25em;margin: 10px 0 20px;}
+    .board_gallery .board_gallery_box ul li .tit{font-size: 1.25em;margin: 10px 0 20px; height: 65px;}
     .board_gallery .board_gallery_box .thumbBox img{height: 200px;}
     .date{font-size: 0.875em;}
 
@@ -730,4 +736,11 @@
     .commit_info .commit_list li{display: flex; align-items: center;gap: 20px;}
 
     .board_list.fr3 ul{grid-template-columns: repeat(1, minmax(0, 1fr))}
+
+    .history_panel a{font-size: 0.875em;}
+    .history_panel .more_btn{text-align: center;}
+    .history_popup .popup_inner{padding: 20px; border-radius: 10px;height: 60vh;}
+    .history_popup .popup_year{font-size: 1.5em;margin-top: 30px;}
+    .history_popup .popup_txt{font-size: 0.875em;}
+    .history_popup .popup_close_btn{font-size: 0.875em;height: 46px; border-radius: 10px;}
 }

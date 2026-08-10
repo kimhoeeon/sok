@@ -20,8 +20,8 @@
                 </div>
             </div>
             <ul class="sub_top_tab">
-                <li><a href="/rules/privacy">개인정보 처리방침</a></li>
-                <li><a href="/rules/terms">이용약관</a></li>
+                <%--<li><a href="/rules/privacy">개인정보 처리방침</a></li>
+                <li><a href="/rules/terms">이용약관</a></li>--%>
                 <li class="on"><a href="/rules/policy">관련규정</a></li>
             </ul>
         </div>

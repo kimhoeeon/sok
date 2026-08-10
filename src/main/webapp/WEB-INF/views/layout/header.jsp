@@ -96,7 +96,7 @@
                     <li class="has-sub">
                         <a href="/sponsor/donate">참여공간</a>
                         <ul class="sub_menu">
-                            <li><a href="/sponsor/donate">후원하기</a></li>
+                            <%--<li><a href="/sponsor/donate">후원하기</a></li>--%>
                             <li><a href="/volunteer/apply">자원봉사 신청</a></li>
                             <li><a href="https://acr.sokorea.or.kr/login.do" target="_blank">선수등록</a></li>
                             <li><a href="/certificate/apply">증명서 신청</a></li>
@@ -132,7 +132,7 @@
                         </div>
                     </li>
                     <li class="utils_item">
-                        <a href="/sponsor/donate" class="donate_btn">후원하기</a>
+                        <%--<a href="/sponsor/donate" class="donate_btn">후원하기</a>--%>
                     </li>
                     <li class="utils_item ml-12">
                         <div>
@@ -226,7 +226,7 @@
                             <li>
                                 <a href="/sponsor/donate"><span>참여공간</span></a>
                                 <ul class="dept2">
-                                    <li><a href="/sponsor/donate"><span>후원하기</span></a></li>
+                                    <%--<li><a href="/sponsor/donate"><span>후원하기</span></a></li>--%>
                                     <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>
                                     <li><a href="https://acr.sokorea.or.kr/login.do" target="_blank"><span>선수등록</span></a></li>
                                     <li><a href="/certificate/apply"><span>증명서 신청</span></a></li>
@@ -267,10 +267,10 @@
 
     <!-- 플로팅 -->
     <div class="floating_menu">
-        <a href="/sponsor/donate">
+        <%--<a href="/sponsor/donate">
             <img src="/img/ico_floating01.png" alt="플로팅 아이콘">
             <span>후원하기</span>
-        </a>
+        </a>--%>
         <a href="/volunteer/apply">
             <img src="/img/ico_floating02.png" alt="플로팅 아이콘">
             <span>자원봉사 신청</span>

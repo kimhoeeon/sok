@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>인식개선</span><span>슈퍼블루 마라톤</span>
+                    <span>사업소개</span><span>인식개선</span><span>슈퍼블루마라톤</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">슈퍼블루 마라톤</div>
+                <div class="sub_top_tit" id="tts_sub_top">슈퍼블루마라톤</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -37,12 +37,12 @@
             <div class="sub_tab">
                 <ul class="board_tab colum2">
                     <li><a href="/business/awareness">슈퍼블루 캠페인</a></li>
-                    <li class="on"><a href="/business/awareness-marathon">슈퍼블루 마라톤</a></li>
+                    <li class="on"><a href="/business/awareness-marathon">슈퍼블루마라톤</a></li>
                 </ul>
             </div>
             <div class="art_info">
                 <div class="txt">
-                    2024년 9주년을 맞이한 슈퍼블루마라톤은 스페셜올림픽코리아와 롯데그룹이 2014년부터 진행하고 있는 <br/>
+                    슈퍼블루마라톤은 스페셜올림픽코리아와 롯데그룹이 2014년부터 진행하고 있는 <br/>
                     장애인 인식개선 사업인 '슈퍼블루 캠페인'의 일환으로 장애인과 비장애인이 함께 달리며 장애에 대한 <br/>
                     우리 사회의 그릇된 인식과 편견의 벽을 낮추자는 취지에서 마련된 행사로 매년 8,000명 이상의 참가자와 함께 달리고 있습니다.
                 </div>
@@ -104,7 +104,7 @@
                         data-taret=tts_2
 
                         -->
-                        <div class="sub_top_tit" id="tts_sub_commu_leadership">슈퍼블루 마라톤 대회일정 <br/>(매년 10월 경)</div>
+                        <div class="sub_top_tit" id="tts_sub_commu_leadership">슈퍼블루마라톤 대회일정 <br/>(매년 10월 경)</div>
                         <div class="sound_btn">
                             <button type="button" class="play" data-target="tts_sub_commu_leadership">
                                 소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">

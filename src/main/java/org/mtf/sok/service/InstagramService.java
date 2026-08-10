@@ -74,7 +74,7 @@ public class InstagramService {
         snsMapper.insertInstagramList(rows);
         snsMapper.deleteInstagram(cutoff);
         cleanupInstagramFilesFromDb();
-        log.info("Instagram rows saved: {}", rows.size());
+        //log.info("Instagram rows saved: {}", rows.size());
     }
 
     /**

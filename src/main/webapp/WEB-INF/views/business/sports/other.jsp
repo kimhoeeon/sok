@@ -47,7 +47,7 @@
             <div class="contest">
                 <ul class="contest_tab column">
                     <li class="on"><a href="/business/sports/other">중증발달장애인 운동프로그램</a></li>
-                    <li><a href="/business/sports/other-hap">선수건강증진프로그램(HAP)</a></li>
+                    <li><a href="/business/sports/other-hap">선수건강증진프로그램(HA)</a></li>
                 </ul>
             </div>
 

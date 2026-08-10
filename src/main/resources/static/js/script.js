@@ -798,10 +798,10 @@ $(document).ready(function () {
             { img: '/img/ico_gangwon.png', name: '조규석', date: '2012년 11월 30일', addr: '강원특별자치도 춘천시 춘천로 188, 822호(효자동, 메가시티)', number: '033-642-2071', fax: '033-642-2074'}
         ],
         chungnam: [
-            { img: '/img/ico_daejeon.png', name: '윤경열', date: '2011년 12월 14일', addr: '대전광역시 중구 당디로6번길 69(문화동)', number: '042-471-2905', fax: '042-587-9229'}
+            { img: '/img/ico_daejeon.png', name: '정찬욱', date: '2011년 12월 14일', addr: '대전광역시 중구 당디로6번길 69(문화동)', number: '042-471-2905', fax: '042-587-9229'}
         ],
         chungbuk: [
-            { img: '/img/ico_chungbuk.png', name: '장병호', date: '2013년 12월 19일', addr: '충청북도 제천시 의병대로 45길 84 더하랑 203호(흑석동)', number: '061-270-2576', fax: '061-270-2576'}
+            { img: '/img/ico_chungbuk.png', name: '장병호', date: '2013년 12월 19일', addr: '충청북도 제천시 의병대로 45길 84 다하랑 203호(흑석동)', number: '061-270-2576', fax: '061-270-2576'}
         ],
         gyeongbuk: [
             { img: '/img/ico_gyeongbuk.png', name: '김춘희', date: '2012년 11월 30일', addr: '경상북도 포항시 북구 용흥동 430-14번지', number: '054-237-4712', fax: '054-254-3636'},
@@ -809,13 +809,11 @@ $(document).ready(function () {
         ],
         gyeongnam: [
             { img: '/img/ico_gyeongnam.png', name: '신석민', date: '2017년 9월 12일', addr: '경상남도 창원시 의창구 소계동 474-2번지 2층', number: '02-447-1179', fax: ''},
-            { img: '/img/ico_ulsan.png', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26 (신정동)', number: '052-220-3525', fax: '052-220-3489'},
+            { img: '/img/ico_ulsan.png', name: '김종길', date: '2025년 4월 29일', addr: '울산광역시 남구 남산로 354번길 26', number: '052-220-3525', fax: '052-220-3489'},
             { img: '/img/ico_busan.png', name: '임준택', date: '2025년 4월 29일', addr: '부산광역시 사하구 다대로 605번길 25', number: '051-255-2332', fax: '051-245-2331'}
         ],
-        jeonbuk: [],
-        jeonnam: [],
         jeju: [
-            { img: '/img/ico_jeju.png', name: '김경님', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510' }
+            { img: '/img/ico_jeju.png', name: '김경보', date: '2018년 8월 24일', addr: '제주특별자치도 제주시 산천단동길 31, 1층(아라일동)', number: '064-724-9500', fax: '064-724-9510' }
         ]
     };
 
@@ -994,4 +992,48 @@ $(document).ready(function () {
 $('.top_banner_close').on('click', function () {
     $('.top_banner').slideUp(250);
     $('body').addClass('banner-hide');
+});
+
+$(function(){
+
+    $('.more_btn a').on('click',function(e){
+
+        e.preventDefault();
+
+        const $li=$(this).closest('li');
+
+        const year=$li.find('.year').html();
+        const text=$li.find('p').html();
+        const img=$li.find('.img').html();
+
+        $('#historyPopup .popup_year').html(year);
+        $('#historyPopup .popup_txt').html(text);
+        $('#historyPopup .popup_img').html(img);
+
+        $('#historyPopup').addClass('on');
+
+        $('body').css('overflow','hidden');
+
+    });
+
+    $('.popup_close, .popup_close_btn').on('click',function(){
+
+        $('#historyPopup').removeClass('on');
+
+        $('body').css('overflow','');
+
+    });
+
+    $('#historyPopup').on('click',function(e){
+
+        if(e.target===this){
+
+            $(this).removeClass('on');
+
+            $('body').css('overflow','');
+
+        }
+
+    });
+
 });

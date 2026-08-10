@@ -376,7 +376,7 @@
                         <div class="gu">2025 토리노 <br/>스페셜올림픽 세계동계대회</div>
                         <div class="txt_box">
                             <div class="venue">개최지 : 토리노(이탈리아)</div>
-                            <div class="scale">대회예정</div>
+                            <div class="scale">대회 규모: 102개국 / 총 4,500명 참가</div>
                         </div>
                     </li>
                 </ul>

@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="executive_table">
-                    <h2>- 클래식</h2>
+                    <h2>클래식</h2>
                     <table>
                         <colgroup>
                             <col width="25%">
@@ -231,7 +231,7 @@
                     </table>
                 </div>
                 <div class="executive_table">
-                    <h2>- 팝</h2>
+                    <h2>팝</h2>
                     <table>
                         <colgroup>
                             <col width="25%">
@@ -288,7 +288,7 @@
                     </table>
                 </div>
                 <div class="executive_table">
-                    <h2>- 아트</h2>
+                    <h2>아트</h2>
                     <table>
                         <colgroup>
                             <col width="25%">

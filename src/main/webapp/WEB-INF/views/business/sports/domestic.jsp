@@ -277,6 +277,14 @@
                             <div class="scale">참가인원 : 2,479</div>
                         </div>
                     </li>
+                    <li>
+                        <span class="badge orange">19회차</span>
+                        <div class="gu">2026 스페셜올림픽코리아 <br />전국하계대회</div>
+                        <div class="txt_box">
+                            <div class="venue">개최지 : 경상남도 창원시</div>
+                            <div class="scale">참가인원 : </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -403,7 +411,7 @@
                         <div class="gu">2025 토리노 <br/>스페셜올림픽 세계동계대회</div>
                         <div class="txt_box">
                             <div class="venue">개최지 : 토리노(이탈리아)</div>
-                            <div class="scale">대회예정</div>
+                            <div class="scale">대회 규모: 102개국 / 총 4,500명 참가</div>
                         </div>
                     </li>
                 </ul>

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 
+<script>
+    window.location.href='/rules/policy';
+</script>
+
 <!-- container -->
 <div id="container">
     <div class="inner">
@@ -35,7 +39,7 @@
                     개인정보 처리방침
                 </div>
                 <div class="nae">
-                    내용입니다.
+                    준비중입니다.
                 </div>
             </div>
         </div>

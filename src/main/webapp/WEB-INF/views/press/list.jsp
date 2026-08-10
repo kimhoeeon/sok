@@ -30,8 +30,7 @@
                 <li><a href="/news/list">스페셜올림픽코리아 소식</a></li>
             </ul>
         </div>
-        <div class="sub_content gallery_wrap">
-
+        <div class="sub_content board_wrap">
             <div class="board_top">
                 <div class="total">총 <span><fmt:formatNumber value="${pageMaker.total}" pattern="#,###"/></span>건</div>
                 <div class="search_box">
@@ -53,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="board_list fr3">
+            <div class="board_list">
                 <ul>
                     <c:choose>
                         <c:when test="${empty list}">
@@ -63,9 +62,17 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="item" items="${list}">
-                                <li class="<c:if test="${item.isNotice eq 'Y'}">import</c:if>" onclick="location.href='/press/detail?brdSeq=${item.brdSeq}'" style="cursor: pointer;">
 
-                                    <div>
+                                <c:url var="detailUrl" value="/press/detail">
+                                    <c:param name="brdSeq" value="${item.brdSeq}" />
+                                    <c:param name="pageNum" value="${pageMaker.cri.pageNum}" />
+                                    <c:param name="searchType" value="${params.searchType}" />
+                                    <c:param name="searchKeyword" value="${params.searchKeyword}" />
+                                </c:url>
+
+                                <li class="<c:if test="${item.isNotice eq 'Y'}">import</c:if>" onclick="location.href='${detailUrl}'" style="cursor: pointer;">
+
+                                    <%--<div>
                                         <c:choose>
                                             <c:when test="${not empty item.thumbPath}">
                                                 <img src="${item.thumbPath}" alt="${item.title} 썸네일">
@@ -81,11 +88,11 @@
                                     </c:if>
                                     <c:if test="${empty item.category}">
                                         <div class="badge" style="visibility: hidden;">-</div>
-                                    </c:if>
+                                    </c:if>--%>
 
                                     <div class="tit <c:if test="${item.fileList.size() > 0}">file</c:if>">${item.title}</div>
 
-                                    <div class="nae">${item.content.replaceAll("<[^>]*>", "")}</div>
+                                    <%--<div class="nae">${item.content.replaceAll("<[^>]*>", "")}</div>--%>
 
                                     <div class="date"><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd"/></div>
                                 </li>

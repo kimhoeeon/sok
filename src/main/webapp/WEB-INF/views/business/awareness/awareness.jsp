@@ -37,7 +37,7 @@
             <div class="sub_tab">
                 <ul class="board_tab colum2">
                     <li class="on"><a href="/business/awareness">슈퍼블루 캠페인</a></li>
-                    <li><a href="/business/awareness-marathon">슈퍼블루 마라톤</a></li>
+                    <li><a href="/business/awareness-marathon">슈퍼블루마라톤</a></li>
                 </ul>
             </div>
             <div class="super_blue_top">
@@ -239,7 +239,7 @@
                                 <div class="timeline_center">
                                 </div>
                                 <div class="timeline_right">
-                                    <div><span class="date">10 .05</span><br>제 5회 슈퍼블루 마라톤 개최</div>
+                                    <div><span class="date">10 .05</span><br>제 5회 슈퍼블루마라톤 개최</div>
                                 </div>
                             </div>
                             <div class="timeline_item">
@@ -249,7 +249,7 @@
                             </div>
                             <div class="timeline_item txt-item l_line">
                                 <div class="timeline_left">
-                                    <div><span class="date">10 .13</span><br>제 4회 슈퍼블루 마라톤 개최</div>
+                                    <div><span class="date">10 .13</span><br>제 4회 슈퍼블루마라톤 개최</div>
                                 </div>
                                 <div class="timeline_center">
                                 </div>
@@ -267,7 +267,7 @@
                                 <div class="timeline_center">
                                 </div>
                                 <div class="timeline_right">
-                                    <div><span class="date">10 .14</span><br>제 3회 슈퍼블루 마라톤 개최</div>
+                                    <div><span class="date">10 .14</span><br>제 3회 슈퍼블루마라톤 개최</div>
                                 </div>
                             </div>
                             <div class="timeline_item">
@@ -277,7 +277,7 @@
                             </div>
                             <div class="timeline_item txt-item l_line">
                                 <div class="timeline_left">
-                                    <div><span class="date">10 .08</span><br>제 2회 슈퍼블루 마라톤 개최</div>
+                                    <div><span class="date">10 .08</span><br>제 2회 슈퍼블루마라톤 개최</div>
                                 </div>
                                 <div class="timeline_center">
                                 </div>
@@ -294,7 +294,7 @@
                                 <div class="timeline_center">
                                 </div>
                                 <div class="timeline_right">
-                                    <div><span class="date">10 .24</span><br>제 1회 슈퍼블루 마라톤 개최</div>
+                                    <div><span class="date">10 .24</span><br>제 1회 슈퍼블루마라톤 개최</div>
                                 </div>
                             </div>
                             <div class="timeline_item">

@@ -63,7 +63,7 @@ public class BlogService {
         snsMapper.insertBlogList(posts);
         snsMapper.deleteBlog(cutoff);
         cleanupBlogFilesFromDb();
-        log.info("Blog Posts Saved: {}", posts.size());
+        //log.info("Blog Posts Saved: {}", posts.size());
     }
 
     /**

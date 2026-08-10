@@ -47,8 +47,8 @@
                     <img src="/img/korea_map_chungbuk.png" alt="" class="map_piece chungbuk">
                     <img src="/img/korea_map_gyeongbuk.png" alt="" class="map_piece gyeongbuk">
                     <img src="/img/korea_map_gyeongnam.png" alt="" class="map_piece gyeongnam">
-                    <img src="/img/korea_map_jeonbuk.png" alt="" class="map_piece jeonbuk">
-                    <img src="/img/korea_map_jeonnam.png" alt="" class="map_piece jeonnam">
+                    <%--<img src="/img/korea_map_jeonbuk.png" alt="" class="map_piece jeonbuk">
+                    <img src="/img/korea_map_jeonnam.png" alt="" class="map_piece jeonnam">--%>
                     <img src="/img/korea_map_jeju.png" alt="" class="map_piece jeju">
 
                     <!-- 클릭용 투명 버튼 -->
@@ -58,8 +58,8 @@
                     <button type="button" class="map_btn chungbuk_btn" data-prov="chungbuk">충북</button>
                     <button type="button" class="map_btn gyeongbuk_btn" data-prov="gyeongbuk">경북</button>
                     <button type="button" class="map_btn gyeongnam_btn" data-prov="gyeongnam">경남</button>
-                    <button type="button" class="map_btn jeonbuk_btn" data-prov="jeonbuk">전북</button>
-                    <button type="button" class="map_btn jeonnam_btn" data-prov="jeonnam">전남</button>
+                    <%--<button type="button" class="map_btn jeonbuk_btn" data-prov="jeonbuk">전북</button>
+                    <button type="button" class="map_btn jeonnam_btn" data-prov="jeonnam">전남</button>--%>
                     <button type="button" class="map_btn jeju_btn" data-prov="jeju">제주</button>
                 </div>
 
