@@ -94,7 +94,8 @@
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a href="/sponsor/donate">참여공간</a>
+                        <%--<a href="/sponsor/donate">참여공간</a>--%>
+                        <a href="/volunteer/apply">참여공간</a>
                         <ul class="sub_menu">
                             <%--<li><a href="/sponsor/donate">후원하기</a></li>--%>
                             <li><a href="/volunteer/apply">자원봉사 신청</a></li>
@@ -224,7 +225,8 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="/sponsor/donate"><span>참여공간</span></a>
+                                <%--<a href="/sponsor/donate"><span>참여공간</span></a>--%>
+                                <a href="/volunteer/apply"><span>참여공간</span></a>
                                 <ul class="dept2">
                                     <%--<li><a href="/sponsor/donate"><span>후원하기</span></a></li>--%>
                                     <li><a href="/volunteer/apply"><span>자원봉사 신청</span></a></li>
