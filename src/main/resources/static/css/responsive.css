@@ -9,6 +9,7 @@
 
 @media screen and (max-width:1400px) {
 
+    .main_slide_wrap{height: auto; aspect-ratio: 1 / 0.6;}
 
     .hd_site_map{top: 145px;}
     body.banner-hide .hd_site_map{top:89px;}
@@ -49,6 +50,8 @@
     .art_info .poster ul{grid-template-columns: repeat(3, 1fr);}
 
     .about_business ul li .nae{height: 200px; display: flex; align-items: center;}
+
+    .info_grid{grid-template-columns: repeat(2, 1fr);}
 }
 
 @media screen and (max-width:1199px) {
@@ -361,9 +364,9 @@
     .main_sns_list .instagram .gu::before{width: 24px; height: 24px; background-size: cover;}
     .main_sns_list .blog .gu::before{width: 24px; height: 24px; background-size: cover;}
 
-    .main_slide_wrap{height: 60vh;}
-    .main_slide_wrap .txt .top_tit{font-size: 1.5em;}
-    .main_slide_wrap .txt a.go_link{flex-shrink: 0;padding: 6px 12px;font-size: 0.875em;}
+    .main_slide_wrap .txt .top_tit{font-size: 1em;}
+    .main_slide_wrap .txt a.go_link{flex-shrink: 0;padding: 6px 12px;font-size: 0.5em;}
+    .main_slide_wrap .txt a.go_link::after{width: 12px; height: 12px; background-size: cover;}
 
     .btn{margin-top: 30px;}
 

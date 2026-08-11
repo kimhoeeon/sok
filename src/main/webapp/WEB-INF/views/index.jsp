@@ -174,7 +174,7 @@
 
     <div class="inner">
         <!-- section -->
-        <div class="main_apply">
+        <%--<div class="main_apply">
             <div class="main_top sub_top">
                 <div class="sub_top_box">
                     <div class="flex">
@@ -222,7 +222,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>--%>
         <!-- //section -->
 
         <!-- section -->

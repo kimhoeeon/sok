@@ -72,6 +72,7 @@
 .sub_tab .board_tab li.on a{ display: block; color: var(--mainColor);font-weight: 700;border-bottom: 2px solid var(--mainColor);}
 
 .board_gallery .board_gallery_box ul{display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px 20px;}
+.board_gallery .board_gallery_box ul.board_sns{gap: 20px;}
 .board_gallery .board_gallery_box a{cursor: pointer;}
 .badge{font-size: 0.875em;font-weight: 700; padding: 5px 20px; background: #F1F1F1; display: inline-block; border-radius: 10px; color: #000; border: 1px solid #000;}
 .badge.player{color: var(--mainColor);background: #FFEEEE; border-color: var(--mainColor);}
@@ -286,10 +287,11 @@
 .jeju_btn {top: 76%;left: 7%;width: 14%;height: 5%;}
 
 .info_map {flex: 1;min-width: 0; width: 100%;}
-.info_grid {display: grid;grid-template-columns: repeat(2, 1fr);gap: 24px;}
+.info_grid {display: grid;grid-template-columns: repeat(3, 1fr);gap: 24px;}
+.info_card{border-bottom: 1px solid #DF0031;}
 .info_card img {width: 100%;max-height: 180px;padding: 20px;background: #FFEEEE;border-radius: 20px;border: 1px solid #DF0031;object-fit: contain;display: block;}
-.info_body {padding: 20px 10px; display: grid; gap: 10px; border-bottom: 1px solid #DF0031;}
-.info_body > div{display: flex; font-weight: 500; font-size: 1.125em;}
+.info_body {padding: 20px 10px; display: grid; gap: 10px; }
+.info_body > div{display: flex; font-weight: 500; font-size: 1em;}
 .info_body span{min-width: 80px;display: inline-block; font-weight: 700;}
 
 /* 후원하기 */
@@ -877,12 +879,17 @@
 .coming{text-align: center; background: #f1f1f1;padding: 120px 0;font-size: 2em;}
 
 /* 위원회 */
-.commit_info .txt{text-align: center;}
+.commit_info .txt{text-align: center; line-height: 1.6;}
 .commit_info .commit_list{display: grid; grid-template-columns: repeat(6, 1fr); align-items: center; text-align: center;margin-top: 60px; color: #444444;}
 .commit_info .commit_list div{margin-top: 20px;}
 .commit_info .commit_list.commit_fam{display: grid; grid-template-columns: repeat(5, 1fr);}
 .hap_table{margin-bottom: 0;}
 .executive_table table tbody td.border{border-right: 1px solid #d5d5d5;}
+
+/* .commit_info{background: #f9f9f9;padding: 30px;} */
+.commit_info .name{display: flex; align-items: center; gap: 20px; justify-content: right;margin-bottom: 40px;padding-right: 50px;}
+.commit_info .name .gu{position: relative;color: #777; font-weight: 400;}
+.commit_info .name .gu::before{content: ''; background: var(--mainColor); width: 2px; height: 70%; position: absolute; top: 50%; transform: translateY(-50%); left: -8px;}
 
 /* 추가영역 */
 .main{padding-top: 0 !important;}
