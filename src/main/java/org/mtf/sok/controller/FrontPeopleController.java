@@ -30,6 +30,9 @@ public class FrontPeopleController {
         // SOK 스토리 게시판 코드 세팅
         params.setBrdType("PEOPLE");
 
+        // SOK 스토리 목록은 한 줄에 3개씩 노출되므로, 디자인을 위해 한 페이지당 9개씩 호출하도록 강제 설정합니다.
+        params.setAmount(9);
+
         // 목록 및 전체 개수 조회
         List<BoardDTO> list = boardMapper.selectBoardList(params);
         int total = boardMapper.selectBoardTotalCount(params);

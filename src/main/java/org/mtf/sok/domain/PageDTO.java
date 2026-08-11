@@ -18,7 +18,7 @@ public class PageDTO {
         this.cri = cri;
         this.total = total;
 
-        // [개선] BoardDTO, MemberDTO 등 모든 DTO가 Criteria를 상속받으므로
+        // BoardDTO, MemberDTO 등 모든 DTO가 Criteria를 상속받으므로
         // 부모 타입인 Criteria 하나로 형변환하여 단번에 처리 (유지보수성 극대화)
         if (cri instanceof Criteria) {
             this.pageNum = ((Criteria) cri).getPageNum();

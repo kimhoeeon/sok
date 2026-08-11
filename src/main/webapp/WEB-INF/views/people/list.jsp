@@ -103,7 +103,9 @@
                     <c:if test="${pageMaker.total > 0}">
                         <div class="paging">
                             <c:if test="${pageMaker.prev}">
-                                <a href="javascript:goPage(1)" class="first"><img src="/img/btn_first.gif" alt="처음"></a>
+                                <a href="javascript:goPage(1)" class="first">
+                                    <img src="/img/btn_first.gif" alt="처음">
+                                </a>
                                 <a href="javascript:goPage(${pageMaker.startPage - 1})" class="prev">
                                     <img src="/img/btn_prev.gif" alt="이전">
                                 </a>
