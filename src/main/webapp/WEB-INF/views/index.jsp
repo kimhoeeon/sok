@@ -139,12 +139,12 @@
                                     <img src="/img/main_banner01.png" class="pc_img" alt="배너 기본 이미지">
                                     <img src="/img/main_banner01_m.png" class="m_img" alt="배너 기본 이미지">
 
-                                    <div class="inner">
+                                    <%--<div class="inner">
                                         <div class="txt">
                                             <div class="top_tit">작은 응원이 일상이 되는 곳 <br>스페셜 올림픽 코리아</div>
                                             <a class="go_link" href="/intro/about">더 보기</a>
                                         </div>
-                                    </div>
+                                    </div>--%>
                                 </li>
                             </c:when>
                             <c:otherwise>
@@ -155,12 +155,12 @@
                                         <img src="/file/img?type=banner&filename=${banner.fileName}" class="pc_img" alt="${banner.title}">
                                         <img src="/file/img?type=banner&filename=${banner.fileName}" class="m_img" alt="${banner.title}">
 
-                                        <div class="inner">
+                                        <%--<div class="inner">
                                             <div class="txt">
                                                 <div class="top_tit">${banner.title} <br>스페셜 올림픽 코리아</div>
                                                 <a href="${banner.linkUrl}" class="go_link" target="${banner.targetType}">더 보기</a>
                                             </div>
-                                        </div>
+                                        </div>--%>
                                     </li>
                                 </c:forEach>
                             </c:otherwise>

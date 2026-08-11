@@ -27,13 +27,9 @@
             </div>
         </div>
         <!-- //section -->
-        <div class="about_bg">
-            <img src="/img/about_bg.png" alt="about 배경">
-        </div>
 
         <!-- section -->
-
-        <div class="sub_content">
+        <div class="sub_content p-0">
             <div class="txt center mb-100">
                 1978년 한국특수올림픽위원회라는 비영리 단체로 대한민국에 첫발을 내디딘 스페셜올림픽코리아는 <br />
                 2015년 대한지적장애인스포츠협회, 사랑나눔위캔과 통합하며 명실상부 발달장애인 스포츠 문화예술 대표기관으로 발돋움하였습니다.<br /><br />
@@ -45,8 +41,8 @@
                 장애에 대한 사회의 인식을 바꾸며 장애인과 비장애인이 차별 없는 통합 사회를 만들어 가고 있습니다.
             </div>
         </div>
-
         <!-- //section -->
+
     </div>
 
     <div class="donation_banner">스페셜올림픽코리아는 지금까지 <br />

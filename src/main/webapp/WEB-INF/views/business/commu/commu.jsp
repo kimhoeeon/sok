@@ -38,7 +38,7 @@
                 <ul class="board_tab colum2">
                     <li class="on"><a href="/business/commu">유아체육프로그램</a></li>
                     <li><a href="/business/commu-academy">선수아카데미</a></li>
-                    <li><a href="/business/commu-volunteer">가족/자원봉사 위원회</a></li>
+                    <%--<li><a href="/business/commu-volunteer">가족/자원봉사 위원회</a></li>--%>
                 </ul>
             </div>
             <div class="art_info">

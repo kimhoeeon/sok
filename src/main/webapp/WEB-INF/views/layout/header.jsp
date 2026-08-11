@@ -85,12 +85,12 @@
                     <li class="has-sub">
                         <a href="/notice/list">알림공간</a>
                         <ul class="sub_menu">
+                            <li><a href="/news/list">스페셜올림픽코리아 소식</a></li>
                             <li><a href="/notice/list">공지사항</a></li>
                             <li><a href="/bidding/list">입찰정보</a></li>
                             <li><a href="/careers/list">채용정보</a></li>
                             <li><a href="/press/list">자료실</a></li>
                             <li><a href="/report/list">활동보고서</a></li>
-                            <li><a href="/news/list">스페셜올림픽코리아 소식</a></li>
                         </ul>
                     </li>
                     <li class="has-sub">
@@ -216,12 +216,12 @@
                             <li>
                                 <a href="/notice/list"><span>알림공간</span></a>
                                 <ul class="dept2">
+                                    <li><a href="/news/list"><span>스페셜올림픽코리아 소식</span></a></li>
                                     <li><a href="/notice/list"><span>공지사항</span></a></li>
                                     <li><a href="/bidding/list"><span>입찰정보</span></a></li>
                                     <li><a href="/careers/list"><span>채용정보</span></a></li>
                                     <li><a href="/press/list"><span>자료실</span></a></li>
                                     <li><a href="/report/list"><span>활동보고서</span></a></li>
-                                    <li><a href="/news/list"><span>스페셜올림픽코리아 소식</span></a></li>
                                 </ul>
                             </li>
                             <li>
