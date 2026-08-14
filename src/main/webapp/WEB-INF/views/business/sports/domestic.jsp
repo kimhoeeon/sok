@@ -52,8 +52,8 @@
             </div>
 
             <div class="contest_info">
-                <div class="txt">스페셜올림픽코리아는 전국 하계대회 개최를 통해 전국의 발달 장애인들에게 다양한 경기 종목의 참여 기회를 제공하고 <br />
-                    우수 선수 발굴 및 육성을 통해 스페셜올림픽 세계대회 및 Virtus 글로벌게임 선발 자료로 활용하고 있습니다. <br />
+                <div class="txt">스페셜올림픽코리아는 전국 하계대회 개최를 통해 전국의 발달 장애인들에게 다양한 경기 종목의 참여 기회를 제공하고 <br/>
+                    우수 선수 발굴 및 육성을 통해 스페셜올림픽 세계대회 및 Virtus 글로벌게임 선발 자료로 활용하고 있습니다. <br/>
                     총 13개 정식 종목(배구, 축구, 탁구, 농구, 배드민턴, 육상, 수영, 골프, 보체, 롤러스케이트, 역도, 태권도(품새), 핸드볼)과 1개 시범종목(MATP)이 있습니다.
                 </div>
                 <div class="video">
@@ -271,7 +271,7 @@
                     </li>
                     <li>
                         <span class="badge orange">18회차</span>
-                        <div class="gu">2025 스페셜올림픽코리아 <br />전국하계대회</div>
+                        <div class="gu">2025 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
                             <div class="venue">개최지 : 경기도 고양시</div>
                             <div class="scale">참가인원 : 2,479</div>
@@ -279,7 +279,7 @@
                     </li>
                     <li>
                         <span class="badge orange">19회차</span>
-                        <div class="gu">2026 스페셜올림픽코리아 <br />전국하계대회</div>
+                        <div class="gu">2026 스페셜올림픽코리아 <br/>전국하계대회</div>
                         <div class="txt_box">
                             <div class="venue">개최지 : 경상남도 창원시</div>
                             <div class="scale">참가인원 : </div>

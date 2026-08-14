@@ -38,7 +38,7 @@
             <div class="ci_wrap">
                 <div class="logo_ci">
                     <div class="tit">LOGO</div>
-                    <div class="txt">심플하고 균형 잡힌 스페셜올림픽코리아 로고는 고객의 신뢰를 바탕으로 <br />미래를 향해 도약하는 우리의 모습을 담고 있습니다.</div>
+                    <div class="txt">심플하고 균형 잡힌 스페셜올림픽코리아 로고는 고객의 신뢰를 바탕으로 <br/>미래를 향해 도약하는 우리의 모습을 담고 있습니다.</div>
                 </div>
                 <div class="symbol_ci">
                     <div class="sub_tit">Symbol</div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="color_ci">
                     <div class="tit">COLOR</div>
-                    <div class="txt">심플하고 균형 잡힌 스페셜올림픽코리아 로고는 고객의 신뢰를 바탕으로 <br />미래를 향해 도약하는 우리의 모습을 담고 있습니다.</div>
+                    <div class="txt">심플하고 균형 잡힌 스페셜올림픽코리아 로고는 고객의 신뢰를 바탕으로 <br/>미래를 향해 도약하는 우리의 모습을 담고 있습니다.</div>
                 </div>
                 <div class="primary_ci">
                     <div class="sub_tit">Primary Color</div>

@@ -28,6 +28,12 @@
                     <li class="${empty params.category ? 'on' : ''}">
                         <a href="/people/list">전체</a>
                     </li>
+                    <li class="${params.category eq '인스타그램' ? 'on' : ''}">
+                        <a href="/people/list?category=인스타그램">인스타그램</a>
+                    </li>
+                    <li class="${params.category eq '블로그' ? 'on' : ''}">
+                        <a href="/people/list?category=블로그">블로그</a>
+                    </li>
                     <li class="${params.category eq '선수' ? 'on' : ''}">
                         <a href="/people/list?category=선수">선수</a>
                     </li>
@@ -63,6 +69,8 @@
 
                                     <c:set var="badgeClass" value="sponsor"/>
                                     <c:choose>
+                                        <c:when test="${item.category eq '인스타그램'}"><c:set var="badgeClass" value="insta"/></c:when>
+                                        <c:when test="${item.category eq '블로그'}"><c:set var="badgeClass" value="blog"/></c:when>
                                         <c:when test="${item.category eq '선수'}"><c:set var="badgeClass" value="player"/></c:when>
                                         <c:when test="${item.category eq '아티스트'}"><c:set var="badgeClass" value="artist"/></c:when>
                                         <c:when test="${item.category eq '패밀리'}"><c:set var="badgeClass" value="family"/></c:when>
@@ -72,8 +80,14 @@
                                     </c:choose>
 
                                     <li>
-                                        <a class="viewGallery"
-                                           href="/people/detail?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&category=${params.category}">
+                                        <c:choose>
+                                            <c:when test="${item.category eq '인스타그램' or item.category eq '블로그'}">
+                                                <a class="viewGallery" href="${item.youtubeUrl}" target="_blank" rel="noopener noreferrer">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="viewGallery" href="/people/detail?brdSeq=${item.brdSeq}&pageNum=${pageMaker.cri.pageNum}&category=${params.category}">
+                                            </c:otherwise>
+                                        </c:choose>
                                             <div class="txtBox">
                                                 <div class="badge ${badgeClass}">${not empty item.category ? item.category : '-'}</div>
                                                 <div class="tit">

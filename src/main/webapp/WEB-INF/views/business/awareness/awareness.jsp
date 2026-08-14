@@ -227,7 +227,21 @@
                     </div>
                     <div class="history">
                         <div class="timeline">
-
+                            <div class="timeline_item">
+                                <div class="timeline_center">
+                                    <span class="year">2025</span>
+                                </div>
+                            </div>
+                            <div class="timeline_item txt-item l_line">
+                                <div class="timeline_left">
+                                    <div><span class="date">11 .08</span><br>10th 슈퍼블루마라톤 </div>
+                                </div>
+                                <div class="timeline_center">
+                                </div>
+                                <div class="timeline_right year2020">
+                                    <img src="/img/timeline_img05.png" alt="블루캠페인 이미지">
+                                </div>
+                            </div>
                             <div class="timeline_item">
                                 <div class="timeline_center">
                                     <span class="year">2019</span>

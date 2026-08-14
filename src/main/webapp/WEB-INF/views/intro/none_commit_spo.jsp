@@ -21,6 +21,7 @@
             </div>
             <ul class="sub_top_tab">
                 <li><a href="/intro/commit_dev">스포츠 위원회</a></li>
+                <li><a href="/intro/dis_commit_tkw">종목별위원회</a></li>
                 <li class="on"><a href="/intro/none_commit_fam">비스포츠 위원회</a></li>
             </ul>
         </div>
@@ -40,8 +41,18 @@
                 </ul>
             </div>
 
-            <div class="coming">
-                업데이트 예정입니다.
+            <div class="commit_info">
+                <div class="name">
+                    <div class="gu">위원장</div>
+                    <div class="nae">김형대</div>
+                </div>
+                <div class="txt">
+                    후원위원회는 스페셜올림픽코리아의 안정적인 후원 기반을 마련하고 사업 확대와 사무국의 운영 자립을 지원하는 위원회입니다. <br/>
+                    후원사업 계획과 정책을 수립하고, SOK 주관 행사와 국내·외 대회에 필요한 지원·후원 협력을 추진합니다. <br/>
+                    개인 모금과 외부 후원자 섭외를 활성화하고 후원조직과 협력 네트워크를 체계적으로 관리합니다. <br/>
+                    후원 관련 자문과 협력을 바탕으로 국내·외 봉사활동을 활성화하고 발달장애인 지원 프로그램을 개발합니다. <br/>
+                    지속 가능한 후원체계를 구축하여 SOK의 자립도 향상과 안정적인 사업 운영에 기여합니다.
+                </div>
             </div>
         </div>
         <!-- //section -->

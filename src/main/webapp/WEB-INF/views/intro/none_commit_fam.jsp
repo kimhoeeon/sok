@@ -21,6 +21,7 @@
             </div>
             <ul class="sub_top_tab">
                 <li><a href="/intro/commit_dev">스포츠 위원회</a></li>
+                <li><a href="/intro/dis_commit_tkw">종목별위원회</a></li>
                 <li class="on"><a href="/intro/none_commit_fam">비스포츠 위원회</a></li>
             </ul>
         </div>
@@ -41,31 +42,17 @@
             </div>
 
             <div class="commit_info">
-                <div class="txt">
-                    가족위원회는 스페셜올림픽 선수가족 관련 협력 업무들을 효율적으로 추진하여 <br />선수와 가족, 스페셜올림픽코리아의 발전을 도모하기 위한 위원회입니다.
+                <div class="name">
+                    <div class="gu">위원장</div>
+                    <div class="nae">송재형</div>
                 </div>
-                <ul class="commit_list commit_fam">
-                    <li>
-                        <img src="/img/ico_commit01.png" alt="아이콘">
-                        <div>대회 개최 및 참가후원</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit02.png" alt="아이콘">
-                        <div>정보 교환 및 네트워크 구성</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit03.png" alt="아이콘">
-                        <div>참가홍보 및 독려</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit04.png" alt="아이콘">
-                        <div>외부 지원자의 섭외</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit05.png" alt="아이콘">
-                        <div>관련 부대사업</div>
-                    </li>
-                </ul>
+                <div class="txt">
+                    가족위원회는 선수 가족 관련 협력 업무를 효율적으로 추진하여 선수와 가족, 스페셜올림픽코리아의 발전을 지원하는 위원회입니다. <br/>
+                    대회의 원활한 개최와 선수 및 가족의 참가를 위한 후원 활동을 추진합니다. <br/>
+                    주요 행사와 프로그램을 홍보하고 가족들의 적극적인 참여를 독려하며 필요한 외부 지원자를 섭외합니다. <br/>
+                    선수 가족 간 정보 교류를 활성화하고 지속적인 소통과 협력이 가능한 네트워크를 구축합니다. <br/>
+                    이와 관련된 다양한 부대사업을 통해 선수 가족의 참여 기반을 확대합니다.
+                </div>
             </div>
         </div>
         <!-- //section -->

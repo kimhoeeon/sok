@@ -35,6 +35,9 @@ public class FrontIntroController {
     @GetMapping("/commit_dev")
     public String commit_dev() { return "intro/commit_dev"; }
 
+    @GetMapping("/dis_commit_tkw")
+    public String dis_commit_tkw() { return "intro/dis_commit_tkw"; }
+
     @GetMapping("/commit_rec")
     public String commit_rec() { return "intro/commit_rec"; }
 
@@ -43,6 +46,12 @@ public class FrontIntroController {
 
     @GetMapping("/commit_ath")
     public String commit_ath() { return "intro/commit_ath"; }
+
+    @GetMapping("/commit_nat")
+    public String commit_nat() { return "intro/commit_nat"; }
+
+    @GetMapping("/commit_spt")
+    public String commit_spt() { return "intro/commit_spt"; }
 
     @GetMapping("/none_commit_fam")
     public String none_commit_fam() { return "intro/none_commit_fam"; }

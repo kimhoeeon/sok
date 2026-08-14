@@ -12,10 +12,10 @@
         <div class="sub_top depth_2">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>사업소개</span><span>커뮤니티</span><span>선수아카데미</span>
+                    <span>사업소개</span><span>커뮤니티</span><span>선수위원회</span>
                 </div>
 
-                <div class="sub_top_tit" id="tts_sub_top">선수아카데미</div>
+                <div class="sub_top_tit" id="tts_sub_top">선수위원회</div>
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -37,16 +37,16 @@
             <div class="sub_tab">
                 <ul class="board_tab colum2">
                     <li><a href="/business/commu">유아체육프로그램</a></li>
-                    <li class="on"><a href="/business/commu-academy">선수아카데미</a></li>
+                    <li class="on"><a href="/business/commu-academy">선수위원회</a></li>
                     <%--<li><a href="/business/commu-volunteer">가족/자원봉사 위원회</a></li>--%>
                 </ul>
             </div>
             <div class="art_info">
                 <div class="txt">
-                    선수아카데미는 스페셜올림픽의 발달장애인과 비장애인 청소년, 성인멘토가 함께 리더십 이론교육, 실기, 통합스포츠를 체험하고 <br/>
+                    선수위원회는 스페셜올림픽의 발달장애인과 비장애인 청소년, 성인멘토가 함께 리더십 이론교육, 실기, 통합스포츠를 체험하고 <br/>
                     공감대를 형성, 소속학교와 지역사회에서 리더십을 발휘하여 장애인 인식개선과 통합사회 구현을 할 수 있는 <br/>
                     역량 강화와 기술향상을 위한 활동입니다. <br/>
-                    선수아카데미는 크게 스페셜올림픽 선수위원회, 국내외 선수리더십 회의, 유스이노베이션 프로젝트 지원금 사업으로 나누어져 있으며, <br/>
+                    선수위원회는 크게 스페셜올림픽 선수위원회, 국내외 선수리더십 회의, 유스이노베이션 프로젝트 지원금 사업으로 나누어져 있으며, <br/>
                     스페셜올림픽 선수로 활동하는 모든 발달장애인과 비장애인 청소년, 그리고 성인멘토가 함께 참가할 수 있습니다.
                 </div>
                 <div class="video">
@@ -113,7 +113,7 @@
                         data-taret=tts_2
 
                         -->
-                        <div class="sub_top_tit" id="tts_sub_academy_img">선수아카데미 사진</div>
+                        <div class="sub_top_tit" id="tts_sub_academy_img">선수위원회 사진</div>
                         <div class="sound_btn">
                             <button type="button" class="play" data-target="tts_sub_academy_img">
                                 소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -124,22 +124,22 @@
                 <div class="img_view">
                     <ul class="img_item">
                         <li>
-                            <img src="/img/img_leadership1.jpg" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership1.jpg" alt="선수위원회 이미지">
                         </li>
                         <li>
-                            <img src="/img/img_leadership2.jpg" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership2.jpg" alt="선수위원회 이미지">
                         </li>
                         <li>
-                            <img src="/img/img_leadership3.png" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership3.png" alt="선수위원회 이미지">
                         </li>
                         <li>
-                            <img src="/img/img_leadership4.jpg" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership4.jpg" alt="선수위원회 이미지">
                         </li>
                         <li>
-                            <img src="/img/img_leadership5.jpg" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership5.jpg" alt="선수위원회 이미지">
                         </li>
                         <li>
-                            <img src="/img/img_leadership6.jpg" alt="선수아카데미 이미지">
+                            <img src="/img/img_leadership6.jpg" alt="선수위원회 이미지">
                         </li>
                     </ul>
                 </div>

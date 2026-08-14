@@ -81,6 +81,8 @@
 .badge.friends{color: #0CC605;background: #EEFFF0; border-color: #0CC605;}
 .badge.sponsor{color: #777777;background: #F9F9F9; border-color: #777777;}
 .badge.news{color: #EB7200;background: #FFF6EE; border-color: #EB7200;}
+.badge.insta{color: #E80298;background: #fff8fc; border-color: #E80298;}
+.badge.blog{color: #066d34;background: #effff6; border-color: #066d34;}
 .board_gallery .board_gallery_box ul li .tit{font-size: 1.5em;font-weight: 700;margin: 10px 0 30px;overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2; height: 80px;}
 .board_gallery .board_gallery_box .thumbBox img{width: 100%;display: block; height: 320px; object-fit: cover;}
 
@@ -886,7 +888,7 @@
 .hap_table{margin-bottom: 0;}
 .executive_table table tbody td.border{border-right: 1px solid #d5d5d5;}
 
-/* .commit_info{background: #f9f9f9;padding: 30px;} */
+.commit_info{background: #f9f9f9;padding: 30px;}
 .commit_info .name{display: flex; align-items: center; gap: 20px; justify-content: right;margin-bottom: 40px;padding-right: 50px;}
 .commit_info .name .gu{position: relative;color: #777; font-weight: 400;}
 .commit_info .name .gu::before{content: ''; background: var(--mainColor); width: 2px; height: 70%; position: absolute; top: 50%; transform: translateY(-50%); left: -8px;}

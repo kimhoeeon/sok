@@ -198,7 +198,7 @@ public class FrontBusinessController {
     @GetMapping("/commu")
     public String commuMain() { return "business/commu/commu"; }
 
-    // [선수아카데미]
+    // [선수위원회]
     @GetMapping("/commu-academy")
     public String commuAcademy() { return "business/commu/commu_academy"; }
 

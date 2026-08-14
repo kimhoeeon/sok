@@ -124,7 +124,7 @@
                 <ul class="img_item">
                     <li>
                         <span class="badge orange">2015</span>
-                        <div class="gu">제 6회 중국 <br />롤러스케이트 대회</div>
+                        <div class="gu">제 6회 중국 <br/>롤러스케이트 대회</div>
                         <div class="txt_box">
                             <div class="venue">개최지 : 중국</div>
                             <div class="scale">참가규모 : 10</div>

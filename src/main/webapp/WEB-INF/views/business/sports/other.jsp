@@ -52,8 +52,8 @@
             </div>
 
             <div class="contest_info">
-                <div class="txt">MATP(Motor Activity Training Program)는 스페셜올림픽 정식 종목 참여에 어려움을 겪는 발달장애인에게 <br />
-                    개인별 맞춤 운동기능 향상프로그램을 제공하여 스포츠 활동 참여 경험 확대를 목적으로 합니다. <br />
+                <div class="txt">MATP(Motor Activity Training Program)는 스페셜올림픽 정식 종목 참여에 어려움을 겪는 발달장애인에게 <br/>
+                    개인별 맞춤 운동기능 향상프로그램을 제공하여 스포츠 활동 참여 경험 확대를 목적으로 합니다. <br/>
                     매년 MATP 교실 사업을 통해 참가자들에게 다양한 기회를 제공하고 있습니다.
                 </div>
                 <div class="video">

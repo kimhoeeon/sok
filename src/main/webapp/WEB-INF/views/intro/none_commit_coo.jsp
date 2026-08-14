@@ -21,6 +21,7 @@
             </div>
             <ul class="sub_top_tab">
                 <li><a href="/intro/commit_dev">스포츠 위원회</a></li>
+                <li><a href="/intro/dis_commit_tkw">종목별위원회</a></li>
                 <li class="on"><a href="/intro/none_commit_fam">비스포츠 위원회</a></li>
             </ul>
         </div>
@@ -41,32 +42,17 @@
             </div>
 
             <div class="commit_info">
-                <ul class="commit_list">
-                    <li>
-                        <img src="/img/ico_commit06.png" alt="아이콘">
-                        <div>행사지원</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit07.png" alt="아이콘">
-                        <div>국내·외 종합대회 개최</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit08.png" alt="아이콘">
-                        <div>관련 부대사업</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit09.png" alt="아이콘">
-                        <div>언론단체 협력</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit10.png" alt="아이콘">
-                        <div>외부 지원자의 섭외</div>
-                    </li>
-                    <li>
-                        <img src="/img/ico_commit11.png" alt="아이콘">
-                        <div>기타사항</div>
-                    </li>
-                </ul>
+                <div class="name">
+                    <div class="gu">위원장</div>
+                    <div class="nae">우진우</div>
+                </div>
+                <div class="txt">
+                    대외협력위원회는 스페셜올림픽코리아가 주관하는 행사와 국내·외 대회의 원활한 운영을 위해 외부 협력 기반을 마련하는 위원회입니다. <br/>
+                    행사 및 대회의 개최와 참가에 필요한 지원·후원 방안을 검토하고 관련 기관·단체와의 협력을 추진합니다. <br/>
+                    스포츠 언론단체와 연계하여 스페셜올림픽의 활동과 가치를 알리고 대외 인지도를 높입니다. <br/>
+                    찬조·후원자 등 외부 지원자를 발굴하고 행사 지원과 관련 부대사업을 추진합니다. <br/>
+                    다양한 대외 네트워크를 구축하여 SOK 사업의 안정적인 운영과 발전에 기여합니다.
+                </div>
             </div>
         </div>
         <!-- //section -->

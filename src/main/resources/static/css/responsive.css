@@ -746,4 +746,9 @@
     .history_popup .popup_year{font-size: 1.5em;margin-top: 30px;}
     .history_popup .popup_txt{font-size: 0.875em;}
     .history_popup .popup_close_btn{font-size: 0.875em;height: 46px; border-radius: 10px;}
+
+    .commit_info{padding: 30px 20px;}
+    .commit_info .name{padding-right: 0; font-size: 0.75em; gap: 10px;margin-bottom: 20px;}
+    .commit_info .txt{font-size: 0.75em;}
+    .commit_info .txt br{display: none;}
 }

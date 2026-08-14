@@ -1,9 +1,8 @@
 package org.mtf.sok.controller;
 
-import org.mtf.sok.domain.BoardDTO;
-import org.mtf.sok.domain.FileDTO;
-import org.mtf.sok.domain.PageDTO;
+import org.mtf.sok.domain.*;
 import org.mtf.sok.mapper.BoardMapper;
+import org.mtf.sok.mapper.SnsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,32 +23,94 @@ public class FrontPeopleController {
     @Autowired
     private BoardMapper boardMapper;
 
+    @Autowired
+    private SnsMapper snsMapper;
+
     // 1. SOK 스토리 목록 화면
     @GetMapping("/list")
     public String list(@ModelAttribute BoardDTO params, Model model) {
-        // SOK 스토리 게시판 코드 세팅
-        params.setBrdType("PEOPLE");
-
-        // SOK 스토리 목록은 한 줄에 3개씩 노출되므로, 디자인을 위해 한 페이지당 9개씩 호출하도록 강제 설정합니다.
+        // SOK 스토리 목록은 한 줄에 3개씩 노출되므로, 디자인을 위해 한 페이지당 9개씩 호출되도록 강제 설정
         params.setAmount(9);
 
-        // 목록 및 전체 개수 조회
-        List<BoardDTO> list = boardMapper.selectBoardList(params);
-        int total = boardMapper.selectBoardTotalCount(params);
+        List<BoardDTO> list = new ArrayList<>();
+        int total = 0;
 
-        // 2. 첨부파일 아이콘 노출을 위해 각 게시글별 첨부파일 존재 여부 확인
-        // N+1 쿼리 성능 최적화: 목록에 있는 모든 게시글의 파일을 단 1번의 쿼리로 가져옴
-        if (list != null && !list.isEmpty()) {
-            List<Long> brdSeqs = list.stream().map(BoardDTO::getBrdSeq).collect(Collectors.toList());
-            List<FileDTO> allFiles = boardMapper.selectFilesByRefSeqs("TB_BOARD", brdSeqs);
+        String category = params.getCategory();
 
-            if (allFiles != null && !allFiles.isEmpty()) {
-                // 게시글 번호(refSeq)를 기준으로 파일들을 그룹화하여 매핑
-                Map<Long, List<FileDTO>> fileMap = allFiles.stream()
-                        .collect(Collectors.groupingBy(FileDTO::getRefSeq));
+        // [A] 인스타그램 탭을 클릭했을 경우
+        if ("인스타그램".equals(category)) {
+            // SnsMapper.xml에 작성된 selectInstagramList 쿼리 호출 (LIMIT 9 내장됨)
+            List<InstagramDTO> instaList = snsMapper.selectInstagramList();
 
-                for (BoardDTO board : list) {
-                    board.setFileList(fileMap.getOrDefault(board.getBrdSeq(), new ArrayList<>()));
+            // 기존 list.jsp 화면 구조를 100% 재사용하기 위해 InstagramDTO를 BoardDTO 형태로 변환
+            for (InstagramDTO insta : instaList) {
+                BoardDTO board = new BoardDTO();
+                board.setBrdSeq(0L); // 외부 링크이므로 내부 시퀀스 불필요
+                board.setCategory(category);
+
+                // 인스타그램 게시글 내용 매핑
+                String title = insta.getTitle();
+                if (title == null || title.trim().isEmpty()) {
+                    title = insta.getDescription(); // 제목이 없을 경우 내용(description)으로 대체
+                }
+                board.setTitle(title);
+
+                // 외부 링크 (BoardDTO의 youtubeUrl 변수를 외부 링크 속성으로 재활용)
+                board.setYoutubeUrl(insta.getLinkUrl());
+
+                // 썸네일 파일 매핑 (저장된 실제 이미지 경로 지정)
+                FileDTO thumb = new FileDTO();
+                thumb.setFilePath("/upload/instagram/" + insta.getFileName());
+                List<FileDTO> files = new ArrayList<>();
+                files.add(thumb);
+                board.setFileList(files);
+
+                list.add(board);
+            }
+            total = instaList.size(); // SnsMapper 쿼리에 LIMIT 9 가 설정되어 있으므로 사이즈를 토탈로 사용
+        }
+        // [B] 블로그 탭을 클릭했을 경우
+        else if ("블로그".equals(category)) {
+            // SnsMapper.xml에 작성된 selectBlogList 쿼리 호출 (LIMIT 9 내장됨)
+            List<BlogDTO> blogList = snsMapper.selectBlogList();
+
+            // 기존 list.jsp 화면 구조를 100% 재사용하기 위해 BlogDTO를 BoardDTO 형태로 변환
+            for (BlogDTO blog : blogList) {
+                BoardDTO board = new BoardDTO();
+                board.setBrdSeq(0L); // 외부 링크이므로 내부 시퀀스 불필요
+                board.setCategory(category);
+                board.setTitle(blog.getTitle());
+                board.setYoutubeUrl(blog.getLinkUrl());
+
+                // 썸네일 파일 매핑 (저장된 실제 이미지 경로 지정)
+                FileDTO thumb = new FileDTO();
+                thumb.setFilePath("/upload/blog/" + blog.getFileName());
+                List<FileDTO> files = new ArrayList<>();
+                files.add(thumb);
+                board.setFileList(files);
+
+                list.add(board);
+            }
+            total = blogList.size(); // SnsMapper 쿼리에 LIMIT 9 가 설정되어 있으므로 사이즈를 토탈로 사용
+        }
+        // [C] 전체 및 기존 SOK 스토리 카테고리일 경우 (TB_BOARD 테이블 연동)
+        else {
+            params.setBrdType("PEOPLE");
+            list = boardMapper.selectBoardList(params);
+            total = boardMapper.selectBoardTotalCount(params);
+
+            // N+1 쿼리 성능 최적화: 첨부파일 일괄 조회 매핑 로직
+            if (list != null && !list.isEmpty()) {
+                List<Long> brdSeqs = list.stream().map(BoardDTO::getBrdSeq).collect(Collectors.toList());
+                List<FileDTO> allFiles = boardMapper.selectFilesByRefSeqs("TB_BOARD", brdSeqs);
+
+                if (allFiles != null && !allFiles.isEmpty()) {
+                    Map<Long, List<FileDTO>> fileMap = allFiles.stream()
+                            .collect(Collectors.groupingBy(FileDTO::getRefSeq));
+
+                    for (BoardDTO board : list) {
+                        board.setFileList(fileMap.getOrDefault(board.getBrdSeq(), new ArrayList<>()));
+                    }
                 }
             }
         }

@@ -31,13 +31,13 @@
         <!-- section -->
         <div class="sub_content p-0">
             <div class="txt center mb-100">
-                1978년 한국특수올림픽위원회라는 비영리 단체로 대한민국에 첫발을 내디딘 스페셜올림픽코리아는 <br />
-                2015년 대한지적장애인스포츠협회, 사랑나눔위캔과 통합하며 명실상부 발달장애인 스포츠 문화예술 대표기관으로 발돋움하였습니다.<br /><br />
+                1978년 한국특수올림픽위원회라는 비영리 단체로 대한민국에 첫발을 내디딘 스페셜올림픽코리아는 <br/>
+                2015년 대한지적장애인스포츠협회, 사랑나눔위캔과 통합하며 명실상부 발달장애인 스포츠 문화예술 대표기관으로 발돋움하였습니다.<br/><br/>
 
-                스페셜올림픽코리아는 스페셜올림픽 국제본부(SOI)와 국제지적장애인스포츠연맹(VIRTUS)에 가입된 가맹단체입니다.<br />
-                한국 대표로 국제 대회에 참가할 수 있는 멤버십과 더불어 국내에서 발달장애인을 위한 스포츠 대회를 개최·운영할 권한을 가지고 있습니다.<br /><br />
+                스페셜올림픽코리아는 스페셜올림픽 국제본부(SOI)와 국제지적장애인스포츠연맹(VIRTUS)에 가입된 가맹단체입니다.<br/>
+                한국 대표로 국제 대회에 참가할 수 있는 멤버십과 더불어 국내에서 발달장애인을 위한 스포츠 대회를 개최·운영할 권한을 가지고 있습니다.<br/><br/>
 
-                스페셜올림픽코리아는 발달장애인들의 체육 문화 활동 지원을 통해 그들이 지닌 재능을 사회에 증명하고<br />
+                스페셜올림픽코리아는 발달장애인들의 체육 문화 활동 지원을 통해 그들이 지닌 재능을 사회에 증명하고<br/>
                 장애에 대한 사회의 인식을 바꾸며 장애인과 비장애인이 차별 없는 통합 사회를 만들어 가고 있습니다.
             </div>
         </div>
@@ -45,8 +45,8 @@
 
     </div>
 
-    <div class="donation_banner">스페셜올림픽코리아는 지금까지 <br />
-        (누적 참가자 수 2011~2025, 누적 후원금 2014~2025기준) <br />
+    <div class="donation_banner">스페셜올림픽코리아는 지금까지 <br/>
+        (누적 참가자 수 2011~2025, 누적 후원금 2014~2025기준) <br/>
         9,278명의 자원봉사자들을 만나고, <span>12,220,651,557원</span> 의 감사한 후원금을 모았습니다.
     </div>
 
@@ -56,28 +56,28 @@
                 <li>
                     <div class="img"><img src="/img/about_ico_list01.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">세계대회 <br />참가선수 수</div>
+                        <div class="gu">세계대회 <br/>참가선수 수</div>
                         <div class="people">915명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list02.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">전국대회 <br />참가선수 수</div>
+                        <div class="gu">전국대회 <br/>참가선수 수</div>
                         <div class="people">22,157명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list03.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">발달장애인 <br />아티스트 수</div>
+                        <div class="gu">발달장애인 <br/>아티스트 수</div>
                         <div class="people">1,275명</div>
                     </div>
                 </li>
                 <li>
                     <div class="img"><img src="/img/about_ico_list04.png" alt="리스트 아이콘"></div>
                     <div class="txt">
-                        <div class="gu">선수건강검진 <br />참가자 수</div>
+                        <div class="gu">선수건강검진 <br/>참가자 수</div>
                         <div class="people">7,225명</div>
                     </div>
                 </li>
@@ -200,8 +200,8 @@
                             <div class="qna_a">
                                 <div class="qna_a_inner">
                                     <span class="a_text">
-                                        1968년, 미국에서 시작된 스페셜올림픽은 현재 전 세계 193개국 약 640만 명의 선수들이 참여하고 있는 세계 최대의 발달장애인 국제 스포츠 기구입니다. <br />
-                                        발달 장애인들을 위해 지속적인 스포츠 훈련 기회를 제공하고 수시로 국내외 주요 스포츠 대회를 개최하여 참여시킴으로써, 발달장애인들의 신체적 적응력을 향상하고 생산적인 사회구성원으로 인정받을 수 있도록 기여하고 있습니다. <br />스페셜올림픽은 1988년 국제올림픽위원회(IOC, International Olympic Committee)와 협약을 통해 IOC 외 ‘올림픽’이라는 명칭 사용을 공식적으로 사용 할 수 있는 유일한 단체로 공식 승인되었습니다.
+                                        1968년, 미국에서 시작된 스페셜올림픽은 현재 전 세계 193개국 약 640만 명의 선수들이 참여하고 있는 세계 최대의 발달장애인 국제 스포츠 기구입니다. <br/>
+                                        발달 장애인들을 위해 지속적인 스포츠 훈련 기회를 제공하고 수시로 국내외 주요 스포츠 대회를 개최하여 참여시킴으로써, 발달장애인들의 신체적 적응력을 향상하고 생산적인 사회구성원으로 인정받을 수 있도록 기여하고 있습니다. <br/>스페셜올림픽은 1988년 국제올림픽위원회(IOC, International Olympic Committee)와 협약을 통해 IOC 외 ‘올림픽’이라는 명칭 사용을 공식적으로 사용 할 수 있는 유일한 단체로 공식 승인되었습니다.
                                     </span>
                                 </div>
                                 <div class="qna_a_tit">
@@ -334,7 +334,7 @@
                             </button>
                             <div class="qna_a">
                                 <div class="qna_a_inner">
-                                    <span class="a_text">Virtus(International Federation for athletes with intellectual impairment)는 지적장애 스포츠를 위한 국제 연맹으로 <br />1986년 네덜란드에서 처음 설립되어 전 세계 발달 장애 선수들을 위한 종목별 엘리트 선수권대회를 개최해오고 있습니다. <br />2026년 현재, 90여 개국이 가입해 있으며, 한국은 1990년 가입하였습니다. <br /> 1989년 국제장애인올림픽위원회(IPC, International Paralympics Committee) 창립 당시 회원단체로 등록되었습니다.</span>
+                                    <span class="a_text">Virtus(International Federation for athletes with intellectual impairment)는 지적장애 스포츠를 위한 국제 연맹으로 <br/>1986년 네덜란드에서 처음 설립되어 전 세계 발달 장애 선수들을 위한 종목별 엘리트 선수권대회를 개최해오고 있습니다. <br/>2026년 현재, 90여 개국이 가입해 있으며, 한국은 1990년 가입하였습니다. <br/> 1989년 국제장애인올림픽위원회(IPC, International Paralympics Committee) 창립 당시 회원단체로 등록되었습니다.</span>
                                 </div>
                                 <div class="qna_a_tit mt-60">
                                     VIRTUS CI
