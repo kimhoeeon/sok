@@ -187,7 +187,7 @@
             content: {
                 title: '스페셜올림픽코리아 기부증서',
                 description: '<c:out value="${sessionScope.userLogin.mbrNm}"/>님의 따뜻한 나눔으로 발달장애인들의 꿈과 희망을 응원해 주셔서 감사합니다.',
-                imageUrl: 'https://meetingtest.store/img/og_img.jpg',
+                imageUrl: 'https://sokorea.or.kr/img/og_img.jpg',
                 link: {
                     mobileWebUrl: window.location.origin,
                     webUrl: window.location.origin,

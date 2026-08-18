@@ -8,11 +8,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="SOK 스페셜올림픽코리아">
+    <meta name="author" content="">
     <meta name="format-detection" content="telephone=no" />
 
+    <meta name="naver-site-verification" content="a993483a1274dd9607e73d3aacabc3743d6c0afe" />
+
+    <meta name="title" content="스페셜올림픽코리아">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="스페셜올림픽코리아">
     <meta property="og:title" content="스페셜올림픽코리아">
+    <meta property="og:description" content="발달장애인 체육 및 문화예술 단체">
+    <meta name="keywords" content="스페셜올림픽코리아, 발달장애인체육, 발달장애인문화예술, 발달장애인스포츠, 발달장애인사회참여">
+    <meta property="og:url" content="sokorea.or.kr">
     <meta property="og:image" content="/img/og_img.jpg">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>

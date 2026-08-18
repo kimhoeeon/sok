@@ -169,6 +169,6 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/.well-known/**");
+        return (web) -> web.ignoring().antMatchers("/.well-known/**", "/sitemap.xml");
     }
 }
