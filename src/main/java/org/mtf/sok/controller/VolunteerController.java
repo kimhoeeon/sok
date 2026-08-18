@@ -73,7 +73,7 @@ public class VolunteerController {
         return "redirect:/mng/volunteer/detail";
     }
 
-    // [신규 추가] 증명서 컨트롤러와 동일하게 모달이나 독립된 상태 변경 버튼을 사용할 경우를 대비한 메서드
+    // 증명서 컨트롤러와 동일하게 모달이나 독립된 상태 변경 버튼을 사용할 경우를 대비한 메서드
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam Long volSeq,
                                @RequestParam String status,

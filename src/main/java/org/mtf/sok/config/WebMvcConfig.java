@@ -30,9 +30,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(visitorInterceptor)
                 .addPathPatterns("/**")
                 // 관리자 페이지, API, 정적 파일(css, js, img 등)은 방문자 카운트에서 제외
-                .excludePathPatterns("/mng/**", "/api/**", "/css/**", "/js/**", "/img/**", "/images/**", "/upload/**", "/favicon.ico", "/error");
+                .excludePathPatterns("/mng/**", "/api/**", "/css/**", "/js/**", "/img/**", "/images/**", "/upload/**", "/favicon.ico", "/error", "/.well-known/**");
 
-        // 3. [신규 추가] 브라우저 뒤로 가기 캐시 무효화 설정 (로그인, 마이페이지, 관리자 페이지)
+        // 3. 브라우저 뒤로 가기 캐시 무효화 설정 (로그인, 마이페이지, 관리자 페이지)
         WebContentInterceptor cacheControlInterceptor = new WebContentInterceptor();
         cacheControlInterceptor.setCacheSeconds(0); // 캐시 미사용 (0초)
         /*cacheControlInterceptor.setUseExpiresHeader(true);
