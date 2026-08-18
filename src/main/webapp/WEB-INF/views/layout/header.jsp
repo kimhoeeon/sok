@@ -54,7 +54,7 @@
 <body>
 
     <div class="top_banner">
-        <a href="" target="_blank">
+        <a href="https://www.superbluemarathon.kr/" target="_blank">
             <span>슈퍼블루마라톤 공식 홈페이지 이동하기</span>
         </a>
 
