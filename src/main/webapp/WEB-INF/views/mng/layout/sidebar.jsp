@@ -36,7 +36,7 @@
 
     <div class="text-center mb-4 mt-3 pb-3 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
         <h4 class="fw-bold m-0 text-dark" style="letter-spacing: 1px;">
-            <i class="bi bi-lightning-charge-fill neon-icon fs-3"></i> SOK ADMIN
+            <i class="bi bi-lightning-charge-fill neon-icon fs-3"></i> <a href="/mng/main" style="text-decoration:none; color: #111111;">SOK ADMIN</a>
         </h4>
     </div>
 
