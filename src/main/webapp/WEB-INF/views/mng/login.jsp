@@ -30,12 +30,12 @@
             width: 100%;
             max-width: 420px;
             padding: 40px;
-            /* [수정됨] 다크 테마 배경을 화이트(#ffffff)로 변경 */
+            /* 다크 테마 배경을 화이트(#ffffff)로 변경 */
             background: #ffffff;
-            /* [수정됨] 테두리를 어두운 선으로 얇게 변경 */
+            /* 테두리를 어두운 선으로 얇게 변경 */
             border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 16px;
-            /* [수정됨] 그림자를 밝은 배경에 맞게 부드럽게 변경 */
+            /* 그림자를 밝은 배경에 맞게 부드럽게 변경 */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 10;
@@ -74,7 +74,7 @@
             height: 300px;
             background: #39ff14;
             filter: blur(150px);
-            /* [수정됨] 라이트 테마에 맞게 투명도 낮춤 */
+            /* 라이트 테마에 맞게 투명도 낮춤 */
             opacity: 0.05;
             border-radius: 50%;
             z-index: 1;
@@ -88,7 +88,7 @@
             height: 250px;
             background: #e61938;
             filter: blur(120px);
-            /* [수정됨] 라이트 테마에 맞게 투명도 낮춤 */
+            /* 라이트 테마에 맞게 투명도 낮춤 */
             opacity: 0.05;
             border-radius: 50%;
             z-index: 1;

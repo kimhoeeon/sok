@@ -98,6 +98,8 @@
     </div>
 
     <form id="batchForm" action="/mng/dev/batchUpdate" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
         <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
         <input type="hidden" name="searchType" value="${params.searchType}">

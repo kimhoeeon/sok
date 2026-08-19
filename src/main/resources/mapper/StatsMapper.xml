@@ -11,8 +11,8 @@
             (SELECT COUNT(DISTINCT MBR_SEQ) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonorCnt,
             (SELECT IFNULL(SUM(PAY_AMT), 0) FROM TB_DONATION_PAYMENT WHERE PAY_STATUS = 'DONE') AS totalDonationAmt,
             (SELECT COUNT(*) FROM TB_DEV_REQUEST WHERE STATUS = 'WAITING' AND DEL_YN = 'N')     AS waitTicketCnt,
-            (SELECT COUNT(*) FROM TB_VISIT_LOG WHERE DATE(VISIT_DT) = CURDATE())                AS todayVisitor,
-            (SELECT COUNT(*) FROM TB_VISIT_LOG)                                                 AS totalVisitor
+            (SELECT COUNT(DISTINCT VISIT_IP) FROM TB_VISIT_LOG WHERE DATE(VISIT_DT) = CURDATE()) AS todayVisitor,
+            (SELECT COUNT(DISTINCT CONCAT(VISIT_IP, DATE(VISIT_DT))) FROM TB_VISIT_LOG)          AS totalVisitor
         FROM DUAL
     </select>
 
@@ -31,19 +31,22 @@
     <select id="selectVisitorTrend" resultType="java.util.Map">
         <choose>
             <when test="periodType == 'DAY'">
-                SELECT CAST(DATE_FORMAT(VISIT_DT, '%m-%d') AS CHAR) as label, COUNT(*) as cnt
+                <!-- 일간 추이: IP 중복 제거 -->
+                SELECT CAST(DATE_FORMAT(VISIT_DT, '%m-%d') AS CHAR) as label, COUNT(DISTINCT VISIT_IP) as cnt
                 FROM TB_VISIT_LOG
                 WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 7 DAY)
                 GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <when test="periodType == 'MONTH'">
-                SELECT CAST(DATE_FORMAT(VISIT_DT, '%Y-%m') AS CHAR) as label, COUNT(*) as cnt
+                <!-- 월간 추이: 하루 기준 IP 중복 제거 -->
+                SELECT CAST(DATE_FORMAT(VISIT_DT, '%Y-%m') AS CHAR) as label, COUNT(DISTINCT CONCAT(VISIT_IP, DATE(VISIT_DT))) as cnt
                 FROM TB_VISIT_LOG
                 WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 12 MONTH)
                 GROUP BY label ORDER BY MIN(VISIT_DT)
             </when>
             <otherwise>
-                SELECT CONCAT(MONTH(VISIT_DT), '월 ', CEILING((DAY(VISIT_DT) + WEEKDAY(VISIT_DT - INTERVAL (DAY(VISIT_DT) - 1) DAY)) / 7), '째주') as label, COUNT(*) as cnt
+                <!-- 주간 추이: 하루 기준 IP 중복 제거 -->
+                SELECT CONCAT(MONTH(VISIT_DT), '월 ', CEILING((DAY(VISIT_DT) + WEEKDAY(VISIT_DT - INTERVAL (DAY(VISIT_DT) - 1) DAY)) / 7), '째주') as label, COUNT(DISTINCT CONCAT(VISIT_IP, DATE(VISIT_DT))) as cnt
                 FROM TB_VISIT_LOG
                 WHERE VISIT_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL 8 WEEK)
                 GROUP BY label ORDER BY MIN(VISIT_DT)

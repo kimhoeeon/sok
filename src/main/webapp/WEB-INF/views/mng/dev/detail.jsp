@@ -75,6 +75,8 @@
                 <hr class="border-secondary my-4">
                 <h6 class="text-danger fw-bold mb-3"><i class="bi bi-tools me-1"></i> [개발사 전용] 진행 상태 업데이트</h6>
                 <form action="/mng/dev/updateStatus" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
                     <input type="hidden" name="reqSeq" value="${request.reqSeq}">
                     <input type="hidden" name="pageNum" value="${params.pageNum}">
                     <input type="hidden" name="amount" value="${params.amount}">
@@ -145,7 +147,7 @@
                         <c:if test="${sessionScope.adminLogin.admId eq cmt.regId}">
                             <div class="text-end mt-2">
                                 <form action="/mng/dev/deleteComment" method="post" class="d-inline" onsubmit="return confirm('코멘트를 삭제하시겠습니까?');">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <input type="hidden" name="cmtSeq" value="${cmt.cmtSeq}">
                                     <input type="hidden" name="reqSeq" value="${request.reqSeq}">
                                     <input type="hidden" name="pageNum" value="${params.pageNum}">
@@ -166,6 +168,8 @@
     <div class="p-4 rounded" style="background-color: #1e1e2d; border: 1px solid #39ff14;">
         <h6 class="text-dark fw-bold mb-3">새 코멘트 남기기 (알림 메일 발송)</h6>
         <form action="/mng/dev/saveComment" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
             <input type="hidden" name="reqSeq" value="${request.reqSeq}">
             <input type="hidden" name="pageNum" value="${params.pageNum}">
             <input type="hidden" name="amount" value="${params.amount}">

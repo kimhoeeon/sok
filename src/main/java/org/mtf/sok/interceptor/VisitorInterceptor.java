@@ -18,12 +18,24 @@ public class VisitorInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String userAgent = request.getHeader("User-Agent");
+
+        // 1. 봇(Bot) 필터링: 검색 엔진 봇이나 스캐너 등의 접근은 DB 로그를 남기지 않음
+        if (userAgent != null) {
+            String agentLower = userAgent.toLowerCase();
+            if (agentLower.contains("bot") || agentLower.contains("spider") ||
+                    agentLower.contains("crawl") || agentLower.contains("yeti") ||
+                    agentLower.contains("google") || agentLower.contains("bing") ||
+                    agentLower.contains("jira") || agentLower.contains("slurp")) {
+                return true; // 봇이면 로그 수집 로직을 건너뛰고 바로 요청 처리
+            }
+        }
+
         HttpSession session = request.getSession();
 
-        // 세션에 'hasVisited' 플래그가 없으면 (새로운 접속이면) DB에 로그를 남김
+        // 2. 세션에 'hasVisited' 플래그가 없으면 (새로운 실제 사용자면) DB에 로그를 남김
         if (session.getAttribute("hasVisited") == null) {
             String clientIp = RequestUtils.getClientIp(request);
-            String userAgent = request.getHeader("User-Agent");
 
             // User-Agent 값이 DB 컬럼 크기를 초과하지 않도록 자르기
             if (userAgent != null && userAgent.length() > 250) {

@@ -192,7 +192,7 @@ public class DirectSendService {
     }
 
     public void sendStatusChangeAlertEmail(DevRequestDTO request) {
-        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+        List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
 
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         String subject = "[SOK - " + reqType + " 업데이트] '" + request.getTitle() + "' 티켓의 상태가 변경되었습니다.";
@@ -221,7 +221,7 @@ public class DirectSendService {
     // --------------------------------------------------------------------
 
     public void sendVolunteerApplyAlert(VolunteerDTO volunteer) {
-        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+        List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
         String subject = "[SOK] 새로운 자원봉사 신청이 접수되었습니다.";
         String body = String.format(
                 "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
@@ -242,7 +242,7 @@ public class DirectSendService {
     }
 
     public void sendCertificateApplyAlert(CertificateDTO cert) {
-        List<String> targetEmails = Arrays.asList("sokorea@sokorea.or.kr");
+        List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
         String subject = "[SOK] 새로운 증명서 발급 신청이 접수되었습니다.";
 
         String typeStr = cert.getCertType() != null ? cert.getCertType() : "미지정";
