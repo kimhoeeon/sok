@@ -150,9 +150,14 @@
                                     <td class="text-muted">#${item.reqSeq}</td>
                                     <td><span class="badge bg-secondary">${item.reqType}</span></td>
                                     <td>
-                                        <c:if test="${item.urgency eq 'Y'}">
-                                            <i class="bi bi-exclamation-triangle-fill text-danger fs-5" title="긴급 요청"></i>
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${item.urgency eq 'Y'}">
+                                                <i class="bi bi-exclamation-triangle-fill text-danger fs-5" title="긴급 요청"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="text-muted" style="font-size: 12px;">일반</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
                                     <td class="text-start">
                                         <a href="${detailUrl}" class="text-dark text-decoration-none fw-bold hover-glow">
@@ -172,7 +177,14 @@
                                         </c:choose>
                                     </td>
                                     <td class="text-info" style="font-size: 13px;">
-                                        ${not empty item.dueDt ? '<fmt:formatDate value="' += item.dueDt += '" pattern="yyyy-MM-dd" />' : '-'}
+                                        <c:choose>
+                                            <c:when test="${not empty item.dueDt}">
+                                                <fmt:formatDate value="${item.dueDt}" pattern="yyyy-MM-dd" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                -
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
                                     <td class="text-muted">${item.regId}</td>
                                     <td><fmt:formatDate value="${item.regDt}" pattern="yyyy-MM-dd" /></td>
@@ -245,7 +257,7 @@
         }
         if (confirm('선택한 ' + checkboxes.length + '개의 티켓 상태를 일괄 변경하시겠습니까?')) {
             document.getElementById('submitStatus').value = selectedStatus;
-            document.getElementById('submitDueDt').value = dueDt;
+            document.getElementById('submitDueDt').value = dueDt ? dueDt : "";
             document.getElementById('batchForm').submit();
         }
     }

@@ -53,7 +53,7 @@
         <div class="premium-card p-4 h-100 glassmorphism-box border-0">
             <h5 class="fw-bold text-dark mb-4"><i class="bi bi-gear-fill me-2 text-warning"></i> 티켓 진행 상태</h5>
 
-            <div class="p-4 rounded text-center mb-4 border border-secondary" style="background-color: #151521;">
+            <div class="p-4 rounded text-center mb-4 border border-secondary">
                 <span class="d-block text-muted mb-2">현재 처리 상태</span>
                 <c:choose>
                     <c:when test="${request.status eq 'WAITING'}"><h2 class="text-warning fw-bold m-0">접수 / 대기중</h2></c:when>
@@ -67,7 +67,14 @@
             <div class="d-flex justify-content-between align-items-center p-3 rounded mb-4" style="background: rgba(255,255,255,0.03); border: 1px dashed #474761;">
                 <span class="text-muted"><i class="bi bi-calendar-check me-2"></i>완료 예정일</span>
                 <span class="${not empty request.dueDt ? 'text-dark fw-bold fs-5' : 'text-muted'}">
-                    ${not empty request.dueDt ? '<fmt:formatDate value="' += request.dueDt += '" pattern="yyyy-MM-dd" />' : '미정'}
+                    <c:choose>
+                        <c:when test="${not empty request.dueDt}">
+                            <fmt:formatDate value="${request.dueDt}" pattern="yyyy-MM-dd" />
+                        </c:when>
+                        <c:otherwise>
+                            미정
+                        </c:otherwise>
+                    </c:choose>
                 </span>
             </div>
 
@@ -165,7 +172,7 @@
         </c:choose>
     </div>
 
-    <div class="p-4 rounded" style="background-color: #1e1e2d; border: 1px solid #39ff14;">
+    <div class="p-4 rounded" style="border: 1px solid #39ff14;">
         <h6 class="text-dark fw-bold mb-3">새 코멘트 남기기 (알림 메일 발송)</h6>
         <form action="/mng/dev/saveComment" method="post" enctype="multipart/form-data">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
