@@ -78,13 +78,14 @@ public class DirectSendService {
                 bodyBuilder.append("\n<br>\n<br>---------------------------------<br>\n");
                 bodyBuilder.append("※ 시스템에 첨부파일이 ").append(files.size()).append("개 등록되어 있습니다. 관리자 페이지에서 확인해 주세요.");
             }
-            String body = bodyBuilder.toString().replaceAll("\"", "'");
+            String body = bodyBuilder.toString();
 
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
 
-            rootNode.put("sender", senderEmail);
+            rootNode.put("sender", senderEmail); // 혹시 몰라 하위호환 유지용
+            rootNode.put("sender_email", senderEmail);
             rootNode.put("sender_name", senderName);
             rootNode.put("username", username);
             rootNode.put("key", apiKey);
@@ -109,7 +110,10 @@ public class DirectSendService {
             wr.flush();
             wr.close();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            int responseCode = con.getResponseCode();
+            java.io.InputStream stream = (responseCode >= 200 && responseCode < 300) ? con.getInputStream() : con.getErrorStream();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -117,16 +121,24 @@ public class DirectSendService {
             }
             in.close();
 
-            JsonNode responseObj = objectMapper.readTree(response.toString());
-            if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
-                responseDto.setResultCode("SUCCESS");
-                responseDto.setResultMessage("성공");
-                log.info("DirectSend 메일 발송 성공");
+            if (responseCode >= 200 && responseCode < 300) {
+                JsonNode responseObj = objectMapper.readTree(response.toString());
+                // status 값이 아예 없거나, 값이 0 이거나 "0" 일 경우 성공 처리
+                if (!responseObj.has("status") || "0".equals(responseObj.get("status").asText())) {
+                    responseDto.setResultCode("SUCCESS");
+                    responseDto.setResultMessage("성공");
+                    log.info("DirectSend 메일 발송 성공");
+                } else {
+                    responseDto.setResultCode("FAIL");
+                    responseDto.setResultMessage("실패");
+                    log.warn("DirectSend 메일 발송 실패 (API 에러): {}", response.toString());
+                }
             } else {
                 responseDto.setResultCode("FAIL");
-                responseDto.setResultMessage("실패");
-                log.warn("DirectSend 메일 발송 실패: {}", response.toString());
+                responseDto.setResultMessage("HTTP 에러: " + responseCode);
+                log.error("DirectSend 메일 발송 실패 (HTTP 에러): {}", response.toString());
             }
+
         } catch (Exception e) {
             log.error("Mail Send Error", e);
             responseDto.setResultCode("FAIL");
