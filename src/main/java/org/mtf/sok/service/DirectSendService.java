@@ -26,7 +26,6 @@ import java.util.*;
 @Service
 public class DirectSendService {
 
-    // application.properties 에서 외부 설정값 주입 (하드코딩 제거)
     @Value("${directsend.api.key}")
     private String apiKey;
 
@@ -47,7 +46,6 @@ public class DirectSendService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    // 문의 유형별 다중 수신자 맵핑
     private final Map<String, List<String>> recipientMap = new HashMap<String, List<String>>() {{
         put("유지보수", Arrays.asList("kyj@meetingfan.com"));
         put("단순문의", Arrays.asList("kyj@meetingfan.com"));
@@ -80,13 +78,27 @@ public class DirectSendService {
             }
             String body = bodyBuilder.toString();
 
+            // application.properties에서 ISO-8859-1로 읽혀 깨진 한글(발신자 이름)을 UTF-8로 안전하게 복원
+            String safeSenderName = "SOK 관리자";
+            if (senderName != null) {
+                String decoded = new String(senderName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                if (decoded.matches(".*[가-힣]+.*")) {
+                    safeSenderName = decoded; // 깨진 문자열 복원 성공
+                } else if (senderName.matches(".*[가-힣]+.*")) {
+                    safeSenderName = senderName; // 이미 정상적인 한글인 경우
+                } else {
+                    safeSenderName = senderName; // 영문인 경우
+                }
+            }
+
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
 
-            rootNode.put("sender", senderEmail); // 혹시 몰라 하위호환 유지용
+            rootNode.put("sender", senderEmail);
             rootNode.put("sender_email", senderEmail);
-            rootNode.put("sender_name", senderName);
+            rootNode.put("sender_name", safeSenderName); // 복원된 발신자 이름 삽입
+
             rootNode.put("username", username);
             rootNode.put("key", apiKey);
 
@@ -123,7 +135,6 @@ public class DirectSendService {
 
             if (responseCode >= 200 && responseCode < 300) {
                 JsonNode responseObj = objectMapper.readTree(response.toString());
-                // status 값이 아예 없거나, 값이 0 이거나 "0" 일 경우 성공 처리
                 if (!responseObj.has("status") || "0".equals(responseObj.get("status").asText())) {
                     responseDto.setResultCode("SUCCESS");
                     responseDto.setResultMessage("성공");
@@ -138,7 +149,6 @@ public class DirectSendService {
                 responseDto.setResultMessage("HTTP 에러: " + responseCode);
                 log.error("DirectSend 메일 발송 실패 (HTTP 에러): {}", response.toString());
             }
-
         } catch (Exception e) {
             log.error("Mail Send Error", e);
             responseDto.setResultCode("FAIL");
