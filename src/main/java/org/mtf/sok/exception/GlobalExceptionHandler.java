@@ -2,12 +2,14 @@
 package org.mtf.sok.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Slf4j
 @ControllerAdvice
@@ -42,6 +44,22 @@ public class GlobalExceptionHandler {
         String referer = request.getHeader("Referer");
 
         return "redirect:" + (referer != null ? referer : "/");
+    }
+
+    /**
+     * 클라이언트 통신 단절 (Broken pipe) 예외 처리
+     * 에러 페이지로 리다이렉트하지 않고 로그만 남기거나 조용히 종료합니다.
+     */
+    @ExceptionHandler({ClientAbortException.class, IOException.class})
+    public void handleClientAbortException(Exception e, HttpServletRequest request) {
+        String message = e.getMessage();
+        if (message != null && (message.contains("Broken pipe") || message.contains("파이프가 깨어짐") || message.contains("ClientAbortException"))) {
+            log.warn("사용자가 다운로드/이미지 로딩 중 연결을 취소했습니다. URI: {}", request.getRequestURI());
+            return; // 아무 응답도 하지 않고 메서드를 종료하여 IllegalStateException을 방지합니다.
+        }
+
+        // 파이프 깨짐이 아닌 다른 진짜 IOException일 경우의 처리 로직
+        log.error("파일 입출력 예외 발생: {}", e.getMessage());
     }
 
 }

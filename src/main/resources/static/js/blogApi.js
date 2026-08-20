@@ -1,11 +1,17 @@
+// HTML의 meta 태그에서 CSRF 토큰과 헤더 이름을 읽어옵니다.
+var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+var csrfToken = $("meta[name='_csrf']").attr("content");
+
 $.ajax({
     type: "POST",
     dataType: "json",
     cache: false,
     url: "/blog/list",
     beforeSend: function(xhr) {
-        // 서버로 요청을 보내기 직전에 CSRF 토큰을 헤더에 장착
-        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        // 읽어온 변수를 헤더에 세팅합니다.
+        if(csrfHeader && csrfToken) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        }
     },
     success: function (response) {
         // 기존 하드코딩된 li 제거 (혹시 남아있을 경우 대비)

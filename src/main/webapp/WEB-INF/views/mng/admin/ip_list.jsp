@@ -98,9 +98,6 @@
 <%@ include file="../layout/footer.jsp" %>
 
 <script>
-    var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
     // 1. 모달 열기 및 초기화
     function openIpModal(admSeq, admId) {
         $('#targetAdmSeq').val(admSeq);
