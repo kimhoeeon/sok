@@ -94,6 +94,7 @@
                                 <td>
                                     <a href="/mng/banner/form?seq=${item.seq}&pageNum=${params.pageNum}&amount=${params.amount}&isActive=${params.isActive}&keyword=${params.keyword}" class="btn btn-sm btn-outline-secondary me-1">수정</a>
                                     <form action="/mng/banner/delete" method="post" style="display:inline;" onsubmit="return confirm('정말 이 배너를 삭제하시겠습니까?');">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                         <input type="hidden" name="seq" value="${item.seq}">
                                         <input type="hidden" name="pageNum" value="${params.pageNum}">
                                         <input type="hidden" name="amount" value="${params.amount}">

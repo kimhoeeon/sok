@@ -69,6 +69,10 @@
             $.ajax({
                 type: "POST",
                 url: "/mypage/leaveProc",
+                beforeSend: function(xhr) {
+                    // 서버로 요청을 보내기 직전에 CSRF 토큰을 헤더에 장착
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
                 success: function (response) {
                     alert(response);
                     location.href = "/"; // 탈퇴 완료 후 메인 페이지로 이동

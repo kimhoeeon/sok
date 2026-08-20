@@ -322,6 +322,10 @@
             data: formData,
             processData: false, // 파일 전송시 필수
             contentType: false, // 파일 전송시 필수
+            beforeSend: function(xhr) {
+                // 서버로 요청을 보내기 직전에 CSRF 토큰을 헤더에 장착
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
             success: function (response) {
                 alert(response);
                 location.href = "/login"; // 성공 시 로그인 화면으로

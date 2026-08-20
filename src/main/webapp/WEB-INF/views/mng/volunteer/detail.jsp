@@ -55,6 +55,7 @@
             <h5 class="fw-bold text-dark mb-4"><i class="bi bi-person-badge me-2 text-info"></i> 신청자 상세 정보 (수정 가능)</h5>
 
             <form action="/mng/volunteer/update" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">
@@ -99,6 +100,7 @@
             </form>
 
             <form action="/mng/volunteer/delete" method="post" class="mt-2" onsubmit="return confirm('해당 자원봉사 신청 내역을 삭제(취소)하시겠습니까? 삭제 후 복구할 수 없습니다.');">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" name="volSeq" value="${volunteer.volSeq}">
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">

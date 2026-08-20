@@ -104,6 +104,10 @@
             dataType: "json",
             cache: false,
             url: "/promoter/list",
+            beforeSend: function(xhr) {
+                // 서버로 요청을 보내기 직전에 CSRF 토큰을 헤더에 장착
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
             success: function (response) {
                 var wrapper = $('#promoter_list');
                 wrapper.empty();

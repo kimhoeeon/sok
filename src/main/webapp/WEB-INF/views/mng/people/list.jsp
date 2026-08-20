@@ -83,6 +83,7 @@
                             <td>
                                 <a href="${detailUrl}" class="btn btn-sm btn-outline-secondary me-1">수정</a>
                                 <form action="/mng/people/delete" method="post" style="display:inline;" onsubmit="return confirm('삭제하시겠습니까?');">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <input type="hidden" name="brdSeq" value="${item.brdSeq}">
                                     <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
                                     <input type="hidden" name="amount" value="${pageMaker.cri.amount}">

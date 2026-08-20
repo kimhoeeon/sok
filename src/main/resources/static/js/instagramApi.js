@@ -3,6 +3,10 @@ $.ajax({
     dataType: "json",
     cache: false,
     url: "/instagram/list",
+    beforeSend: function(xhr) {
+        // 서버로 요청을 보내기 직전에 CSRF 토큰을 헤더에 장착
+        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+    },
     success: function (response) {
         // 기존 하드코딩된 li 제거
         $('#instagram_list').empty();

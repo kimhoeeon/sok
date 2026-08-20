@@ -76,6 +76,7 @@
             <hr class="my-4 text-muted">
 
             <form action="/mng/sponsor/donate/updateStatus" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" name="paySeq" value="${donation.paySeq}">
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">

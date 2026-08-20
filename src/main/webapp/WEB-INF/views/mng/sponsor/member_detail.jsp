@@ -29,6 +29,7 @@
             <h5 class="fw-bold text-dark border-bottom border-secondary pb-3 mb-4"><i class="bi bi-person-lines-fill me-2 text-info"></i> 기본 정보 (수정 가능)</h5>
 
             <form action="/mng/sponsor/member/update" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" name="mbrSeq" value="${member.mbrSeq}">
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">

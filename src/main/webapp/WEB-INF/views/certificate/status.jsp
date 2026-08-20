@@ -29,6 +29,8 @@
                 </div>
                 <form id="statusForm" class="apply_info" action="/certificate/statusResult" method="post"
                       onsubmit="return submitStatusCheck()">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
                     <div class="form_row">
                         <div class="form_box essen">
                             <label><span>증명서 종류</span></label>
