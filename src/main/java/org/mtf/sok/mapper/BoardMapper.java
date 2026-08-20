@@ -37,4 +37,10 @@ public interface BoardMapper {
     // 특정 게시글(refSeq)에 속한 모든 파일의 DEL_YN을 'Y'로 변경
     void deleteFilesByRefTarget(@Param("refTable") String refTable, @Param("refSeq") Long refSeq);
 
+    // 개별 첨부파일 단건 조회 (물리 삭제 시 파일 경로를 얻기 위해 필요)
+    FileDTO selectFile(Long fileSeq);
+
+    // 개별 첨부파일 논리 삭제 (소프트 삭제)
+    void deleteFile(Long fileSeq);
+
 }

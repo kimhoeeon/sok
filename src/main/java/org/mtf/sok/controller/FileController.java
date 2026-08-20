@@ -1,5 +1,8 @@
 package org.mtf.sok.controller;
 
+import org.mtf.sok.domain.FileDTO;
+import org.mtf.sok.mapper.BoardMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,6 +31,9 @@ public class FileController {
 
     @Value("${file.upload.dir}")
     private String uploadDir;
+
+    @Autowired
+    private BoardMapper boardMapper;
 
     // [1] 에디터 이미지 업로드 (관리자 전용 - /mng/ 경로 명시)
     @PostMapping("/mng/file/uploadImage")
@@ -248,5 +254,38 @@ public class FileController {
         out.println("history.back();");
         out.println("</script>");
         out.flush();
+    }
+
+    @PostMapping("/mng/file/delete")
+    @ResponseBody
+    public ResponseEntity<String> deleteAttachment(@RequestParam("fileSeq") Long fileSeq) {
+        try {
+            // 1. fileSeq 로 DB에서 파일 정보 조회
+            FileDTO fileDTO = boardMapper.selectFile(fileSeq);
+
+            if (fileDTO != null) {
+                // 2. DB에서 논리 삭제 (DEL_YN = 'Y')
+                // (만약 물리적으로 행을 지우고 싶다면 delete 쿼리를 따로 구성해야 하지만,
+                // 보통 복구를 위해 논리 삭제를 권장합니다.)
+                boardMapper.deleteFile(fileSeq);
+
+                // 3. (선택사항) 물리 파일 즉시 삭제
+                // 공간 절약을 위해 즉시 지우려면 아래 주석을 해제하세요.
+                /*
+                String relativePath = fileDTO.getFilePath().replaceFirst("^/?upload/", "");
+                File targetFile = Paths.get(uploadDir, relativePath).toFile();
+                if(targetFile.exists()) {
+                    targetFile.delete();
+                }
+                */
+
+                return ResponseEntity.ok("success");
+            } else {
+                return ResponseEntity.badRequest().body("fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+        }
     }
 }

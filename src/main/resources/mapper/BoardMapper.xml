@@ -126,4 +126,19 @@
           AND REF_SEQ = #{refSeq}
     </update>
 
+    <!-- 개별 첨부파일 정보 단건 조회 -->
+    <select id="selectFile" parameterType="long" resultType="org.mtf.sok.domain.FileDTO">
+        SELECT *
+        FROM TB_FILE
+        WHERE FILE_SEQ = #{fileSeq}
+          AND DEL_YN = 'N'
+    </select>
+
+    <!-- 개별 첨부파일 논리 삭제 (소프트 삭제) -->
+    <update id="deleteFile" parameterType="long">
+        UPDATE TB_FILE
+        SET DEL_YN = 'Y'
+        WHERE FILE_SEQ = #{fileSeq}
+    </update>
+
 </mapper>

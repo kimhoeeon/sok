@@ -80,10 +80,10 @@
 
                 <c:if test="${not empty management.fileList}">
                     <div class="mt-3 p-3 border rounded">
-                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드 및 삭제)</span>
                         <ul class="list-unstyled mb-0">
                             <c:forEach var="file" items="${management.fileList}" varStatus="status">
-                                 <li class="${!status.last ? 'mb-2 pb-1 border-bottom' : ''}" ${!status.last ? 'style="border-color: rgba(0,0,0,0.05) !important;"' : ''}>
+                                 <li id="file_${file.fileSeq}" class="d-flex justify-content-between align-items-center ${!status.last ? 'mb-2 pb-2 border-bottom' : ''}" ${!status.last ? 'style="border-color: rgba(0,0,0,0.05) !important;"' : ''}>
                                     <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
                                         <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
                                         <span>${file.orgFileNm}</span>
@@ -91,6 +91,10 @@
                                             (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
                                         </span>
                                     </a>
+
+                                    <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2" style="font-size: 12px;" onclick="deleteFile(${file.fileSeq})">
+                                        <i class="bi bi-trash"></i> 삭제
+                                    </button>
                                  </li>
                             </c:forEach>
                         </ul>
@@ -202,6 +206,35 @@
                 } else {
                     alert('서버 오류로 이미지 업로드에 실패했습니다. (코드: ' + jqXHR.status + ')');
                 }
+            }
+        });
+    }
+
+    function deleteFile(fileSeq) {
+        if (!confirm('이 첨부파일을 정말 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.')) {
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/mng/file/delete", // 백엔드의 파일 삭제 컨트롤러 URL
+            data: { fileSeq: fileSeq },
+            // 보안 토큰 헤더 전송
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            success: function(response) {
+                // 서버에서 반환하는 문자열이나 코드에 맞게 조건 변경 가능
+                if (response === 'success' || response.responseCode === 'success') {
+                    $('#file_' + fileSeq).remove(); // 화면에서 해당 파일 줄만 즉시 제거
+                    alert('파일이 정상적으로 삭제되었습니다.');
+                } else {
+                    alert('파일 삭제에 실패했습니다.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("파일 삭제 에러:", error);
+                alert('파일 삭제 중 서버 오류가 발생했습니다.');
             }
         });
     }
