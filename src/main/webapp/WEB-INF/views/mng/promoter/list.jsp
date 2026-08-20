@@ -303,10 +303,13 @@
 
         $.ajax({
             url: '/mng/promoter/save',
-            type: 'POST',
+            type: "POST",
             data: formData,
             processData: false,
             contentType: false,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
             success: function (res) {
                 if (res.result === 'success') {
                     alert("저장되었습니다.");
@@ -326,8 +329,11 @@
         if (confirm("해당 후원사를 삭제하시겠습니까? 삭제 후 순번이 자동 재정렬됩니다.")) {
             $.ajax({
                 url: '/mng/promoter/delete',
-                type: 'POST',
+                type: "POST",
                 data: {seq: seq},
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
                 success: function (res) {
                     if (res.result === 'success') {
                         alert("삭제되었습니다.");

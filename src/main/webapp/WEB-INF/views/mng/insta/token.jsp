@@ -61,8 +61,11 @@
         if (confirm('토큰 정보를 수정하시겠습니까?')) {
             $.ajax({
                 url: '/mng/insta/saveToken',
-                type: 'POST',
+                type: "POST",
                 data: {token: tokenVal},
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
                 success: function (res) {
                     if (res.result === 'success') {
                         alert('정상적으로 저장되었습니다.');

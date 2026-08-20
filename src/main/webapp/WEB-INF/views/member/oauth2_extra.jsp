@@ -98,8 +98,11 @@
 
             $.ajax({
                 url: '/oauth2/extraProc',
-                type: 'POST',
+                type: "POST",
                 data: formData,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
                 success: function(res) {
                     alert('정보가 성공적으로 등록되었습니다.');
                     location.href = '/';

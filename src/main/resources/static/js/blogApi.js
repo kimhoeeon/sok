@@ -1,5 +1,5 @@
 $.ajax({
-    type: "POST", // 백엔드 매핑에 따라 다를 수 있으나, 일반적으로 GET을 많이 씁니다.
+    type: "POST",
     dataType: "json",
     cache: false,
     url: "/blog/list",

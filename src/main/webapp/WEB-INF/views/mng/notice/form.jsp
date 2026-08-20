@@ -217,7 +217,6 @@
             type: "POST",
             url: "/mng/file/delete", // 백엔드의 파일 삭제 컨트롤러 URL
             data: { fileSeq: fileSeq },
-            // 보안 토큰 헤더 전송
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },

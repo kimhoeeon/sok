@@ -316,15 +316,17 @@
         // 백엔드로 결제 초기화(주문번호 채번 및 WAIT 상태 저장) 요청
         $.ajax({
             url: '/sponsor/donate/init',
-            type: 'POST',
+            type: "POST",
             data: {
                 payAmt: currentAmount,
                 payType: 'ONCE', // 일시결제
-                cheerMsg: cheerMsg,
-                _csrf: getCsrfTokenFromCookie()
+                cheerMsg: cheerMsg
                 <c:if test="${not empty campaign}">
                 ,campSeq: ${campaign.campSeq}
                 </c:if>
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },
             success: function (orderId) {
                 // 서버에서 받아온 검증된 orderId로 토스 결제창 호출

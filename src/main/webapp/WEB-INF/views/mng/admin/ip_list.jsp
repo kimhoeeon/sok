@@ -168,11 +168,10 @@
 
         $.ajax({
             url: '/mng/admin/ip/api/add',
-            type: 'POST',
-            beforeSend: function (xhr) {
-                if (csrfHeader && csrfToken) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                }
+            type: "POST",
+            // 보안 토큰 헤더 전송
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },
             // 비고(description) 데이터 함께 전송
             data: {admSeq: admSeq, allowIp: allowIp, description: description},
@@ -192,11 +191,10 @@
         if (confirm('해당 IP의 접근을 차단(삭제)하시겠습니까?')) {
             $.ajax({
                 url: '/mng/admin/ip/api/delete',
-                type: 'POST',
-                beforeSend: function (xhr) {
-                    if (csrfHeader && csrfToken) {
-                        xhr.setRequestHeader(csrfHeader, csrfToken);
-                    }
+                type: "POST",
+                // 보안 토큰 헤더 전송
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
                 },
                 data: {ipSeq: ipSeq},
                 success: function (res) {
