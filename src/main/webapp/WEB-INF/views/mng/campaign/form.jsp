@@ -49,6 +49,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/campaign/save" method="post" enctype="multipart/form-data" id="campaignForm">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <input type="hidden" name="campSeq" value="${campaign.campSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
@@ -115,6 +117,8 @@
 
     <c:if test="${not empty campaign.campSeq}">
         <form id="deleteForm" action="/mng/campaign/delete" method="post" style="display:none;">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
             <input type="hidden" name="campSeq" value="${campaign.campSeq}">
             <input type="hidden" name="pageNum" value="${params.pageNum}">
             <input type="hidden" name="amount" value="${params.amount}">

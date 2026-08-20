@@ -42,11 +42,13 @@
 
 <div class="premium-card p-4">
     <form action="/mng/management/save" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="brdSeq" value="${management.brdSeq}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
+        <input type="hidden" name="brdSeq" value="${management.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">
+
         <div class="row mb-4 glassmorphism-box p-3">
             <div class="col-md-12 mb-3">
                 <label class="form-label text-muted">분류</label>

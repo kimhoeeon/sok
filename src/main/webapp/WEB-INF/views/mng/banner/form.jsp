@@ -10,6 +10,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/banner/save" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <c:if test="${not empty banner}">
             <input type="hidden" name="seq" value="${banner.seq}">
         </c:if>

@@ -13,6 +13,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/popup/save" method="post" enctype="multipart/form-data" onsubmit="return validatePopup()">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <input type="hidden" name="popSeq" value="${popup.popSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">

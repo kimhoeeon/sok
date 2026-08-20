@@ -81,6 +81,8 @@
 
             <h6 class="text-dark fw-bold mb-3">상태 업데이트</h6>
             <form action="/mng/certificate/updateStatus" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
                 <input type="hidden" name="certSeq" value="${certificate.certSeq}">
                 <input type="hidden" name="pageNum" value="${params.pageNum}">
                 <input type="hidden" name="amount" value="${params.amount}">

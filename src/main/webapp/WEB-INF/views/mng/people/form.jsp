@@ -42,8 +42,9 @@
 
 <div class="premium-card p-4">
     <form action="/mng/people/save" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="brdSeq" value="${people.brdSeq}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
+        <input type="hidden" name="brdSeq" value="${people.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
         <input type="hidden" name="searchKeyword" value="${params.searchKeyword}">

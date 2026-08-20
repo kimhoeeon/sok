@@ -56,7 +56,7 @@ public class DirectSendService {
     // 1. DirectSend API 실제 통신부 (Email)
     // --------------------------------------------------------------------
     public ResponseDTO processMailSend(MailRequestDTO mailRequestDTO) {
-        log.info("DirectSend 메일 발송 시작: {}", mailRequestDTO.getSubject());
+        //log.info("DirectSend 메일 발송 시작: {}", mailRequestDTO.getSubject());
         ResponseDTO responseDto = new ResponseDTO();
 
         try {
@@ -138,19 +138,19 @@ public class DirectSendService {
                 if (!responseObj.has("status") || "0".equals(responseObj.get("status").asText())) {
                     responseDto.setResultCode("SUCCESS");
                     responseDto.setResultMessage("성공");
-                    log.info("DirectSend 메일 발송 성공");
+                    //log.info("DirectSend 메일 발송 성공");
                 } else {
                     responseDto.setResultCode("FAIL");
                     responseDto.setResultMessage("실패");
-                    log.warn("DirectSend 메일 발송 실패 (API 에러): {}", response.toString());
+                    //log.warn("DirectSend 메일 발송 실패 (API 에러): {}", response.toString());
                 }
             } else {
                 responseDto.setResultCode("FAIL");
                 responseDto.setResultMessage("HTTP 에러: " + responseCode);
-                log.error("DirectSend 메일 발송 실패 (HTTP 에러): {}", response.toString());
+                //log.error("DirectSend 메일 발송 실패 (HTTP 에러): {}", response.toString());
             }
         } catch (Exception e) {
-            log.error("Mail Send Error", e);
+            //log.error("Mail Send Error", e);
             responseDto.setResultCode("FAIL");
             responseDto.setResultMessage(e.getMessage());
         }

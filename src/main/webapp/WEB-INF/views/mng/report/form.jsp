@@ -42,6 +42,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/report/save" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <input type="hidden" name="brdSeq" value="${report.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">

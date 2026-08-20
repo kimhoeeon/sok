@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="currentMenu" value="notice" scope="request" />
 <%@ include file="../layout/header.jsp" %>
@@ -44,6 +45,8 @@
 
 <div class="premium-card p-4">
     <form action="/mng/notice/save" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
         <input type="hidden" name="brdSeq" value="${notice.brdSeq}">
         <input type="hidden" name="pageNum" value="${params.pageNum}">
         <input type="hidden" name="amount" value="${params.amount}">
@@ -69,6 +72,25 @@
                 <label class="form-label text-muted">파일 첨부 (다중 선택 가능)</label>
                 <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1"><i class="bi bi-info-circle"></i> Ctrl 키를 누른 상태로 클릭하면 여러 파일을 첨부할 수 있습니다.</div>
+
+                <c:if test="${not empty notice.fileList}">
+                    <div class="mt-3 p-3 border rounded">
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
+                        <ul class="list-unstyled mb-0">
+                            <c:forEach var="file" items="${notice.fileList}" varStatus="status">
+                                 <li class="${!status.last ? 'mb-2 pb-1 border-bottom' : ''}" ${!status.last ? 'style="border-color: rgba(0,0,0,0.05) !important;"' : ''}>
+                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
+                                        </span>
+                                    </a>
+                                 </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </c:if>
             </div>
 
             <div class="col-12 mb-3">

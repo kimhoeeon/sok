@@ -72,6 +72,25 @@
                 <label class="form-label text-muted">참고 파일 첨부 (화면 캡처, 기획서 등)</label>
                 <input type="file" name="uploadFiles" class="form-control search-bar" multiple>
                 <div class="form-text text-secondary mt-1">Ctrl 키를 누르고 여러 파일을 선택할 수 있습니다.</div>
+
+                <c:if test="${not empty request.fileList}">
+                    <div class="mt-3 p-3 border rounded">
+                        <span class="d-block text-muted mb-2"><i class="bi bi-paperclip me-1"></i> 기존 첨부파일 목록 (클릭 시 다운로드)</span>
+                        <ul class="list-unstyled mb-0">
+                            <c:forEach var="file" items="${request.fileList}" varStatus="status">
+                                <li class="${!status.last ? 'mb-2 pb-1 border-bottom' : ''}" ${!status.last ? 'style="border-color: rgba(0,0,0,0.05) !important;"' : ''}>
+                                    <a href="${file.filePath}" target="_blank" class="text-dark text-decoration-none hover-glow d-inline-flex align-items-center">
+                                        <i class="bi bi-file-earmark-arrow-down me-2 text-info fs-5"></i>
+                                        <span>${file.orgFileNm}</span>
+                                        <span class="text-muted ms-2" style="font-size: 12px;">
+                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
+                                        </span>
+                                    </a>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </c:if>
             </div>
 
             <div class="col-12 mb-3">
