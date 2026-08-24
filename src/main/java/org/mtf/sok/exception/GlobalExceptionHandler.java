@@ -3,8 +3,10 @@ package org.mtf.sok.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -60,6 +62,19 @@ public class GlobalExceptionHandler {
 
         // 파이프 깨짐이 아닌 다른 진짜 IOException일 경우의 처리 로직
         log.error("파일 입출력 예외 발생: {}", e.getMessage());
+    }
+
+    /**
+     * 파라미터 타입 변환 실패 예외 처리 (주로 봇/해킹 스캐너의 공격)
+     * 예: 숫자(Long, int) 파라미터에 문자열이나 SQL Injection 특수문자가 들어올 때
+     */
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, BindException.class})
+    public String handleTypeMismatchException(Exception e, HttpServletRequest request) {
+        // ERROR 대신 WARN 레벨로 한 줄만 간단히 남겨 로그 도배를 방지합니다.
+        log.warn("🚨 비정상적인 파라미터 접근 차단 (봇 스캔 의심) URI: {} - {}", request.getRequestURI(), e.getMessage());
+
+        // 사용자는 메인 페이지나 오류 안내 페이지로 돌려보냅니다.
+        return "redirect:/";
     }
 
 }

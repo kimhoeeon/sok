@@ -104,8 +104,6 @@
     .main_news_list{flex-direction: column;}
     .main_news_list .main_img_list{width: 100%;}
     .main_news_list .main_board_list{width: 100%;}
-    .main_news_list .main_img_list .thum img{max-height: 300px;}
-
     /* 앙상블 */
     .ensemble_list ul.col_4 {grid-template-columns: repeat(3, 1fr);}
     .ensemble_list ul.col_5{grid-template-columns: repeat(3, 1fr)}
@@ -751,4 +749,8 @@
     .commit_info .name{padding-right: 0; font-size: 0.75em; gap: 10px;margin-bottom: 20px;}
     .commit_info .txt{font-size: 0.75em;}
     .commit_info .txt br{display: none;}
+    .main_news_item a{flex-direction: column;}
+    .main_news_list .main_img_list .thum img{height: auto !important;}
+    .main_news_item{gap: 30px;}
+    .main_news_item a{gap: 10px;}
 }
