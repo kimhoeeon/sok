@@ -247,21 +247,23 @@
                     </div>
                     <div class="main_news_item">
                         <c:choose>
-                            <c:when test="${not empty mainNews}">
-                                <a href="/news/detail?brdSeq=${mainNews.brdSeq}" style="display:block; color:inherit; text-decoration:none;">
-                                    <div class="thum">
-                                        <img src="${not empty mainNews.thumbPath ? mainNews.thumbPath : '/img/img_default.jpg'}" alt="SOK 소식 썸네일" style="width:100%; height:250px; object-fit:cover; border-radius:20px;">
-                                    </div>
-                                    <div class="desc" style="margin-top:20px; font-size:1.125em; font-weight:500; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
-                                        ${mainNews.title}
-                                    </div>
-                                </a>
+                            <c:when test="${not empty mainNewsList}">
+                                <c:forEach var="news" items="${mainNewsList}">
+                                    <a href="/news/detail?brdSeq=${news.brdSeq}">
+                                        <div class="thum">
+                                            <img src="${not empty news.thumbPath ? news.thumbPath : '/img/img_default.jpg'}" alt="SOK 소식 썸네일">
+                                        </div>
+                                        <div class="desc">
+                                            ${news.title}
+                                        </div>
+                                    </a>
+                                </c:forEach>
                             </c:when>
                             <c:otherwise>
                                 <div class="thum">
                                     <img src="/img/img_default.jpg" alt="썸네일 이미지 기본">
                                 </div>
-                                <div class="desc text-muted" style="margin-top:20px;">등록된 SOK 소식이 없습니다.</div>
+                                <div class="desc text-muted">등록된 SOK 소식이 없습니다.</div>
                             </c:otherwise>
                         </c:choose>
                     </div>

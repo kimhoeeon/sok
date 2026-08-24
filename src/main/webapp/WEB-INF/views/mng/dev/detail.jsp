@@ -7,7 +7,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">유지보수 티켓 상세</h3>
-    <a href="/mng/dev/list?pageNum=${params.pageNum}&amount=${params.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-light">
+    <a href="/mng/dev/list?pageNum=${params.pageNum}&amount=${params.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-dark">
         <i class="bi bi-list"></i> 목록으로
     </a>
 </div>

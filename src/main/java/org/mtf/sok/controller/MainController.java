@@ -73,10 +73,10 @@ public class MainController {
         BoardDTO newsParam = new BoardDTO();
         newsParam.setBrdType("NEWS");
         newsParam.setPageNum(1);
-        newsParam.setAmount(1);
+        newsParam.setAmount(3); // 가져올 개수
         List<BoardDTO> mainNewsList = boardMapper.selectBoardList(newsParam);
         if (!mainNewsList.isEmpty()) {
-            model.addAttribute("mainNews", mainNewsList.get(0));
+            model.addAttribute("mainNewsList", mainNewsList);
         }
 
         // 2-2. 공지사항 (최신 6건)

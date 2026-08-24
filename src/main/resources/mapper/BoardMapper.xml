@@ -27,7 +27,8 @@
         WHERE BRD_TYPE = #{brdType} AND DEL_YN = 'N'
         <include refid="boardSearchCondition"/>
         ORDER BY IS_NOTICE DESC, REG_DT DESC
-        LIMIT #{offset}, #{amount} </select>
+        LIMIT #{offset}, #{amount}
+    </select>
 
     <select id="selectBoardTotalCount" resultType="int">
         SELECT COUNT(*) FROM TB_BOARD
