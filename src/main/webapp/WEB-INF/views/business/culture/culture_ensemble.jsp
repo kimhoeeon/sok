@@ -91,7 +91,7 @@
                             </div>
                             <div class="name">
                                 <div><span>첼로</span> 이재은</div>
-                                <p>덕성여자 대학교 교수</p>
+                                <p>백석대학교 교수</p>
                             </div>
                         </li>
                         <li>

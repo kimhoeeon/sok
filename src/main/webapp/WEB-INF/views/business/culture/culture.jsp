@@ -249,7 +249,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td rowspan="7">클래식</td>
+                            <td rowspan="7">팝</td>
                             <td>베이스</td>
                             <td>황호규</td>
                             <td>전문연주가</td>

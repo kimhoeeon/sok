@@ -3,38 +3,77 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
-    /* 팝업 전용 커스텀 체크박스 스타일 추가 */
-    .popup-footer { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #222; color: #fff; }
+    /* 1. 팝업 전체 영역 스크롤 및 삐져나옴 방지 */
+    .main-popup {
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* 완성도를 높여주는 그림자 효과 추가 */
+    }
+
+    /* 2. 푸터 높이를 45px로 명확히 고정하여 계산 오차 완벽 차단 */
+    .popup-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0 15px;
+        background: #222; color: #fff;
+        height: 45px;
+        box-sizing: border-box;
+    }
     .popup-footer label { display: flex; align-items: center; cursor: pointer; gap: 8px; margin: 0; }
-    .popup-footer input[type="checkbox"] { display: none; } /* appearance:none 으로 숨겨진 기본 인풋 완전히 숨김 */
-    .popup-footer .chk_box { width: 24px; height: 24px; flex-shrink: 0; background: url(/img/pop_check_off.png) no-repeat center; background-size: contain; }
+    .popup-footer input[type="checkbox"] { display: none; }
+    .popup-footer .chk_box { width: 20px; height: 20px; flex-shrink: 0; background: url(/img/pop_check_off.png) no-repeat center; background-size: contain; }
     .popup-footer input[type="checkbox"]:checked + .chk_box { background: url(/img/pop_check_on.png) no-repeat center; background-size: contain; }
-    .popup-footer button { cursor: pointer; background: inherit; border: none; color: #fff; font-weight: bold; font-size: 16px; padding: 0; }
+    .popup-footer button { cursor: pointer; background: inherit; border: none; color: #fff; font-weight: bold; font-size: 15px; padding: 0; }
 
     /* 동적 리스트 텍스트 줄임(Truncate) 스타일 보완 */
     .board_table ul li .gu { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
+
+    /* 모바일 환경(화면 너비 768px 이하) 팝업 반응형 처리 */
+    @media (max-width: 768px) {
+        .main-popup {
+            width: 90vw !important;
+            max-width: 400px !important;
+            height: auto !important;
+            max-height: 80vh !important;
+            /* 모바일 화면에서 완벽한 중앙 정렬을 위해 left와 transform 적용 */
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            top: 10vh !important;
+        }
+
+        .popup-content {
+            height: auto !important;
+            /* 이미지가 길 경우 푸터(45px)를 밀어내지 않도록 내부 스크롤 최대치 지정 */
+            max-height: calc(80vh - 45px) !important;
+        }
+
+        .popup-content img {
+            width: 100% !important;
+            height: auto !important;
+        }
+    }
 </style>
 
 <c:if test="${not empty popupList}">
     <c:forEach var="popup" items="${popupList}">
         <div id="main_popup_${popup.popSeq}" class="main-popup"
-             style="width: ${popup.width}px; height: ${popup.height}px; top: ${popup.topPos}px; left: ${popup.leftPos}px; display: none;">
+             style="width: ${popup.width}px; height: ${popup.height}px; top: ${popup.topPos}px; left: ${popup.leftPos}px; display: none; position: absolute; z-index: 9999;">
 
-            <div class="popup-content" style="height: calc(100% - 40px); overflow-y: auto;">
+            <!-- 3. 콘텐츠 영역의 높이를 (전체 - 푸터 45px)로 정확히 일치시킴 -->
+            <div class="popup-content" style="height: calc(100% - 45px); overflow-y: auto; overflow-x: hidden;">
                 <c:choose>
                     <c:when test="${not empty popup.popupImage and not empty popup.popupImage.filePath}">
                         <!-- 이미지가 있을 경우 -->
                         <c:choose>
                             <c:when test="${not empty popup.linkUrl}">
-                                <!-- 링크가 있으면 a 태그에 링크 적용 (새 창 열기) -->
-                                <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer">
-                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
+                                <!-- 4. a 태그의 기본 하단 여백 제거 (display: block; line-height: 0;) -->
+                                <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer" style="display: block; line-height: 0; height: 100%;">
+                                    <!-- 5. 이미지 높이를 100%로 강제하여 미세한 오차로 인한 스크롤 방지 -->
+                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; height: 100%; display: block; object-fit: fill;">
                                 </a>
                             </c:when>
                             <c:otherwise>
-                                <!-- 링크가 없으면 기존처럼 클릭 불가 처리 -->
-                                <a href="javascript:void(0);" style="cursor: default;">
-                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
+                                <!-- 링크가 없을 경우 -->
+                                <a href="javascript:void(0);" style="cursor: default; display: block; line-height: 0; height: 100%;">
+                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; height: 100%; display: block; object-fit: fill;">
                                 </a>
                             </c:otherwise>
                         </c:choose>
@@ -44,7 +83,7 @@
                         <c:choose>
                             <c:when test="${not empty popup.linkUrl}">
                                 <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
-                                    ${popup.content}
+                                        ${popup.content}
                                 </a>
                             </c:when>
                             <c:otherwise>
@@ -56,7 +95,6 @@
             </div>
 
             <div class="popup-footer">
-                <!-- SOK 프로젝트 전용 chk_box 구조로 완벽 교체 -->
                 <label for="chk_hide_${popup.popSeq}">
                     <input type="checkbox" id="chk_hide_${popup.popSeq}">
                     <div class="chk_box"></div>
