@@ -16,6 +16,7 @@ public class CertificateDTO extends Criteria {
     private String email;
     private String usePurpose;
     private String belongTo;
+    private String competitionName;
     private String remark;
     private String rejectRsn;
     private Date regDt;

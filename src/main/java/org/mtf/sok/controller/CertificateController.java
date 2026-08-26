@@ -95,7 +95,7 @@ public class CertificateController {
 
         List<CertificateDTO> list = certificateMapper.selectCertificateList(params);
 
-        List<String> headers = Arrays.asList("신청번호", "증명서 종류", "신청자명", "연락처", "이메일", "소속", "처리상태", "신청일시");
+        List<String> headers = Arrays.asList("신청번호", "증명서 종류", "신청자명", "연락처", "이메일", "소속", "참가 대회", "처리상태", "신청일시");
 
         List<List<Object>> data = new ArrayList<>();
 
@@ -107,6 +107,7 @@ public class CertificateController {
             row.add(cert.getPhone());
             row.add(cert.getEmail());
             row.add(cert.getBelongTo() != null ? cert.getBelongTo() : "-");
+            row.add(cert.getCompetitionName() != null ? cert.getCompetitionName() : "-");
 
             String statusKr = "";
             if ("WAIT".equals(cert.getIssueStatus())) statusKr = "접수 대기";

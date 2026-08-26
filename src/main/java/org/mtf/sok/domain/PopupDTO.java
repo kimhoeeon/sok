@@ -13,6 +13,7 @@ public class PopupDTO extends Criteria {
     private Long popSeq;
     private String title;
     private String content;
+    private String linkUrl;
     private Integer width;
     private Integer height;
     private Integer topPos;

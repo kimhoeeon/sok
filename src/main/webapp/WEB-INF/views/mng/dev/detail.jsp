@@ -5,6 +5,14 @@
 <c:set var="currentMenu" value="dev" scope="request" />
 <%@ include file="../layout/header.jsp" %>
 
+<style>
+    /* 에디터(썸머노트) 본문 내 이미지가 카드 영역을 벗어나지 않도록 최대 너비 제한 */
+    .editor-content img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+</style>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">유지보수 티켓 상세</h3>
     <a href="/mng/dev/list?pageNum=${params.pageNum}&amount=${params.amount}&searchType=${params.searchType}&searchStatus=${params.searchStatus}&searchKeyword=${params.searchKeyword}" class="btn btn-outline-dark">
@@ -27,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="text-dark lh-lg mb-5" style="font-size: 15px;">
+            <div class="text-dark lh-lg mb-5 editor-content" style="font-size: 15px;">
                 ${request.content}
             </div>
 
@@ -139,7 +147,7 @@
                             </span>
                             <span class="text-muted" style="font-size: 12px;"><fmt:formatDate value="${cmt.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
                         </div>
-                        <div class="text-dark lh-base mb-3" style="white-space: pre-wrap;">${cmt.content}</div>
+                        <div class="text-dark lh-base mb-3 editor-content" style="white-space: pre-wrap;">${cmt.content}</div>
 
                         <c:if test="${not empty cmt.fileList}">
                             <div class="pt-2 border-top border-secondary">

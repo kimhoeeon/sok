@@ -158,6 +158,14 @@
                         </div>
                     </div>
                     <div class="form_row">
+                        <div class="form_box sub_box">
+                            <label><span>참가 대회</span></label>
+                            <div class="input">
+                                <input type="text" name="competitionName" placeholder="ex. 2026 스페셜올림픽 하계대회 (해당자만 입력)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form_row">
                         <div class="form_box sub_box remarks">
                             <label><span>비고</span></label>
                             <div class="input w-100">

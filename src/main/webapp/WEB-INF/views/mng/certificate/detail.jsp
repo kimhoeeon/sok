@@ -35,6 +35,10 @@
                 <div class="col-md-3 text-muted">소속</div>
                 <div class="col-md-9 text-dark">${not empty certificate.belongTo ? certificate.belongTo : '-'}</div>
             </div>
+            <div class="row mb-3">
+                <div class="col-md-3 text-muted">참가 대회</div>
+                <div class="col-md-9 text-dark fw-bold text-primary">${not empty certificate.competitionName ? certificate.competitionName : '-'}</div>
+            </div>
             <div class="row mb-4">
                 <div class="col-md-3 text-muted">신청일시</div>
                 <div class="col-md-9 text-muted"><fmt:formatDate value="${certificate.regDt}" pattern="yyyy-MM-dd HH:mm:ss" /></div>

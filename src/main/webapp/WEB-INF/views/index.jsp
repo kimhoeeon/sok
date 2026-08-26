@@ -23,12 +23,34 @@
             <div class="popup-content" style="height: calc(100% - 40px); overflow-y: auto;">
                 <c:choose>
                     <c:when test="${not empty popup.popupImage and not empty popup.popupImage.filePath}">
-                        <a href="javascript:void(0);">
-                            <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
-                        </a>
+                        <!-- 이미지가 있을 경우 -->
+                        <c:choose>
+                            <c:when test="${not empty popup.linkUrl}">
+                                <!-- 링크가 있으면 a 태그에 링크 적용 (새 창 열기) -->
+                                <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer">
+                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- 링크가 없으면 기존처럼 클릭 불가 처리 -->
+                                <a href="javascript:void(0);" style="cursor: default;">
+                                    <img src="${popup.popupImage.filePath}" alt="${popup.title}" style="width: 100%; display: block;">
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
                     </c:when>
                     <c:otherwise>
-                        ${popup.content}
+                        <!-- 에디터 본문(텍스트/HTML)만 있을 경우 -->
+                        <c:choose>
+                            <c:when test="${not empty popup.linkUrl}">
+                                <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+                                    ${popup.content}
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                ${popup.content}
+                            </c:otherwise>
+                        </c:choose>
                     </c:otherwise>
                 </c:choose>
             </div>

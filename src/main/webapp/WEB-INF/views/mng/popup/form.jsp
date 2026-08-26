@@ -27,6 +27,10 @@
                     <label class="form-label text-muted">팝업 제목</label>
                     <input type="text" name="title" class="form-control search-bar fs-5 fw-bold" value="${popup.title}" required placeholder="관리용 제목을 입력하세요">
                 </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted">팝업 클릭 시 이동할 링크 (선택)</label>
+                    <input type="text" name="linkUrl" class="form-control search-bar" value="${popup.linkUrl}" placeholder="예: https://www.sok.or.kr (입력 시 새 창 열림)">
+                </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-4">
@@ -119,10 +123,25 @@
         const start = new Date($('#startDt').val());
         const end = new Date($('#endDt').val());
 
+        // 1. 게시 기간 유효성 검사
         if (start >= end) {
             alert('종료 일시는 시작 일시보다 늦어야 합니다.');
             return false;
         }
+
+        // 2. 링크 URL 유효성 검사 (입력된 값이 있을 경우에만 검사)
+        const linkUrl = $('input[name="linkUrl"]').val();
+        if (linkUrl && linkUrl.trim() !== '') {
+            // http:// 또는 https:// 로 시작하는 올바른 웹 주소 형식인지 확인하는 정규식
+            const urlPattern = /^(http|https):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,}(?:[\/].*)?$/;
+
+            if (!urlPattern.test(linkUrl.trim())) {
+                alert('유효한 링크 URL 형식이 아닙니다.\n반드시 http:// 또는 https:// 를 포함한 전체 주소를 입력해 주세요.\n(예: https://www.sok.or.kr)');
+                $('input[name="linkUrl"]').focus(); // 잘못된 입력 칸으로 포커스 이동
+                return false; // 폼 전송 중단
+            }
+        }
+
         return true;
     }
 </script>
