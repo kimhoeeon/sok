@@ -33,6 +33,18 @@
         -webkit-backdrop-filter: none !important;
         transform: none !important;
     }
+
+    /* 3. 에디터 내부 기본 글꼴 및 크기를 실제 홈페이지(프론트)와 완벽 동기화 */
+    .note-editor .note-editable {
+        font-family: 'NanumSquareNeo', '맑은 고딕', sans-serif !important;
+        font-size: 16px !important; /* 프론트엔드 기준 폰트 크기 16px로 강제 */
+        line-height: 1.6 !important;
+        color: #000 !important;
+        word-break: break-all !important;
+    }
+    .note-editor .note-editable p {
+        margin-bottom: 0.5em !important; /* 프론트 문단 간격과 동일하게 맞춤 */
+    }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">

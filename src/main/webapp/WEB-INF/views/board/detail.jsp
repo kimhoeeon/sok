@@ -44,6 +44,9 @@
     .view_detail .editor-content {
         display: block !important;
         width: 100% !important;
+        font-family: 'NanumSquareNeo', '맑은 고딕', sans-serif !important; /* 폰트 동기화 */
+        font-size: 16px !important; /* 기준 크기 동기화 */
+        color: #000 !important; /* 색상 동기화 */
         line-height: 1.6;
         word-break: break-all;
     }
