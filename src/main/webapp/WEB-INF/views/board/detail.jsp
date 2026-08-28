@@ -44,11 +44,19 @@
     .view_detail .editor-content {
         display: block !important;
         width: 100% !important;
-        font-family: 'NanumSquareNeo', '맑은 고딕', sans-serif !important; /* 폰트 동기화 */
-        font-size: 16px !important; /* 기준 크기 동기화 */
-        color: #000 !important; /* 색상 동기화 */
+        font-family: 'NanumSquareNeo', '맑은 고딕', sans-serif !important;
+        font-size: 16px !important;
+        color: #000 !important;
+        font-weight: 600 !important; /* [수정됨] 굵기 600 추가 */
         line-height: 1.6;
         word-break: break-all;
+    }
+
+    /* 내부의 p, span, div 등의 텍스트 요소도 굵기 강제 상속 */
+    .view_detail .editor-content p,
+    .view_detail .editor-content span,
+    .view_detail .editor-content div {
+        font-weight: 600 !important;
     }
 
     /* 2. 문단(p, h) 태그 가로폭 100% 확보 -> 가운데/우측 정렬이 정상 작동하게 됨 */

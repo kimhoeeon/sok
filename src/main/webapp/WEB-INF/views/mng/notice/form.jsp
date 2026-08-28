@@ -37,13 +37,16 @@
     /* 3. 에디터 내부 기본 글꼴 및 크기를 실제 홈페이지(프론트)와 완벽 동기화 */
     .note-editor .note-editable {
         font-family: 'NanumSquareNeo', '맑은 고딕', sans-serif !important;
-        font-size: 16px !important; /* 프론트엔드 기준 폰트 크기 16px로 강제 */
-        line-height: 1.6 !important;
-        color: #000 !important;
-        word-break: break-all !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #000 !important; /* font.css와 동일한 색상 적용 */
+        line-height: 1.4 !important; /* font.css와 동일한 자간 적용 */
+        word-break: keep-all !important;
     }
+
+    /* detail_4.jsp 의 프론트 문단 간격과 동일하게 맞춤 */
     .note-editor .note-editable p {
-        margin-bottom: 0.5em !important; /* 프론트 문단 간격과 동일하게 맞춤 */
+        margin-bottom: 0.5em !important;
     }
 </style>
 
