@@ -83,7 +83,7 @@
                         <c:choose>
                             <c:when test="${not empty popup.linkUrl}">
                                 <a href="${popup.linkUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
-                                        ${popup.content}
+                                    ${popup.content}
                                 </a>
                             </c:when>
                             <c:otherwise>

@@ -26,7 +26,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+    <!-- 최신 브라우저용 PNG 파비콘 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png">
+    <!-- 과거 브라우저가 루트(favicon.ico)를 자동 탐색하는 것을 막고 PNG로 강제 연결 -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <title>스페셜올림픽코리아</title>
 
     <!-- 폰트 Preload 추가 (CSS보다 먼저 로드되도록 최상단에 배치) -->
