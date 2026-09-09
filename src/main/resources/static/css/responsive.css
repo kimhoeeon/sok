@@ -362,11 +362,11 @@
     .main_sns_list .instagram .gu::before{width: 24px; height: 24px; background-size: cover;}
     .main_sns_list .blog .gu::before{width: 24px; height: 24px; background-size: cover;}
 
-    .main_slide_wrap{height: auto; aspect-ratio: 1 / 1.1;}
+    .main_slide_wrap{height: auto; aspect-ratio: 1 / 1.1; max-height: 420px; width: 100%;}
     .main_slide_wrap .txt .top_tit{font-size: 1em;}
     .main_slide_wrap .txt a.go_link{flex-shrink: 0;padding: 6px 12px;font-size: 0.5em;}
     .main_slide_wrap .txt a.go_link::after{width: 12px; height: 12px; background-size: cover;}
-    .main_slide_wrap .swiper-slide img{object-position:8% center}
+    .main_slide_wrap .swiper-slide img{object-position:8% center; max-height: 420px;}
 
     .btn{margin-top: 30px;}
 
@@ -755,4 +755,7 @@
     .main_news_list .main_img_list .thum img{height: auto !important;}
     .main_news_item{gap: 30px;}
     .main_news_item a{gap: 10px;}
+
+    .main_sns_list ul li img{max-height: 170px;}
+
 }

@@ -50,7 +50,7 @@ public class PrincipalDetailsService implements UserDetailsService {
                 String clientIp = RequestUtils.getClientIp(request);
 
                 // DB에 등록된 허용 IP가 1개 이상 존재하는 경우에만 검사 수행
-                if (admin.getAllowedIpList() != null && !admin.getAllowedIpList().isEmpty() && admin.getAllowedIpList().get(0) != null) {
+                /*if (admin.getAllowedIpList() != null && !admin.getAllowedIpList().isEmpty() && admin.getAllowedIpList().get(0) != null) {
                     boolean isAllowed = false;
 
                     for (String allowedIp : admin.getAllowedIpList()) {
@@ -65,7 +65,7 @@ public class PrincipalDetailsService implements UserDetailsService {
                         //throw new BadCredentialsException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
                         throw new UsernameNotFoundException("접근이 허용되지 않은 IP입니다. (" + clientIp + ")");
                     }
-                }
+                }*/
 
                 // 검증 통과 시 로그인 시간 업데이트 및 객체 리턴
                 adminMapper.updateLoginTime(admin.getAdmId());

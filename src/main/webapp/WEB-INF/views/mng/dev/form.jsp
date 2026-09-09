@@ -143,6 +143,19 @@
                     for (var i = 0; i < files.length; i++) {
                         uploadSummernoteImage(files[i], this);
                     }
+                },
+                // 붙여넣기 시 외부 서식(웹, 워드 등)을 제거하고 순수 텍스트만 입력되도록 강제
+                onPaste: function (e) {
+                    var clipboardData = e.originalEvent.clipboardData;
+                    if (clipboardData && clipboardData.getData) {
+                        var text = clipboardData.getData('text/plain');
+
+                        // 기본 붙여넣기 동작(서식 포함) 막기
+                        e.preventDefault();
+
+                        // 순수 텍스트만 에디터에 삽입하여 기본 CSS를 온전히 상속받게 함
+                        document.execCommand('insertText', false, text);
+                    }
                 }
             }
         });
