@@ -46,8 +46,8 @@
                         <img src="/img/symbol.png" alt="심볼">
                     </div>
                     <div class="down">
-                        <a href="">AI 다운로드</a>
-                        <a href="">pdf 다운로드</a>
+                        <a href="javascript:void(0);" onclick="alert('업데이트 예정입니다');">AI 다운로드</a>
+                        <a href="javascript:void(0);" onclick="alert('업데이트 예정입니다');">pdf 다운로드</a>
                     </div>
                 </div>
                 <div class="color_ci">
