@@ -40,3 +40,12 @@ out/
 # Spring Boot Application Properties (보안)
 # ==========================================
 src/main/resources/application.properties
+
+# 정적 리소스 디렉토리 무시 (이미지, 폰트, 파일, 오디오 등)
+src/main/resources/static/audio/
+src/main/resources/static/file/
+src/main/resources/static/fonts/
+src/main/resources/static/img/
+
+# Mac OS 숨김 파일 무시 (해당 폴더 내에 생성될 수 있는 시스템 파일)
+.DS_Store
