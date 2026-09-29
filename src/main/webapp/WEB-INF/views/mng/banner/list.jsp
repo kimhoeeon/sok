@@ -72,7 +72,12 @@
                                     </div>
                                 </td>
                                 <td class="text-start">
-                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">${item.title}</div>
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">
+                                        <c:choose>
+                                            <c:when test="${empty item.title}">제목 없음</c:when>
+                                            <c:otherwise>${item.title}</c:otherwise>
+                                        </c:choose>
+                                    </div>
                                     <div class="text-muted" style="font-size: 12px;">
                                         <i class="bi bi-link-45deg"></i>
                                         <c:choose>

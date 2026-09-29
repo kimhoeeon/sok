@@ -22,6 +22,7 @@
                 <div class="badge ${badgeClass}">${not empty board.category ? board.category : '-'}</div>
 
                 <div class="sub_top_tit" id="tts_sub_top">${board.title}</div>
+
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_sub_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
@@ -30,6 +31,10 @@
 
                 <div class="date">
                     <fmt:formatDate value="${board.regDt}" pattern="yyyy-MM-dd"/>
+                </div>
+
+                <div class="views">
+                    ${board.viewCnt}
                 </div>
             </div>
         </div>

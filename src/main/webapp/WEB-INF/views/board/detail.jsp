@@ -126,16 +126,20 @@
 
         <div class="sub_top view_top">
             <div class="sub_top_box">
-                <div class="sub_top_tit" id="tts_title_top">
-                    <c:out value="${board.title}"/>
-                </div>
+                <div class="sub_top_tit" id="tts_title_top"><c:out value="${board.title}"/></div>
+
                 <div class="sound_btn">
                     <button type="button" class="play" data-target="tts_title_top">
                         소리듣기 <img src="/img/ico_sound.png" alt="소리 듣기">
                     </button>
                 </div>
+
                 <div class="date">
                     <fmt:formatDate value="${board.regDt}" pattern="yyyy-MM-dd"/>
+                </div>
+
+                <div class="views">
+                    ${board.viewCnt}
                 </div>
             </div>
         </div>
