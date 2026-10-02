@@ -54,6 +54,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Aligo SMS API 연동을 위한 Apache HttpMime (MultipartEntityBuilder 사용)
+    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
+
     // 5. Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

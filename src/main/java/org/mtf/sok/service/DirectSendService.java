@@ -4,13 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.mtf.sok.domain.CertificateDTO;
-import org.mtf.sok.domain.DevRequestDTO;
-import org.mtf.sok.domain.FileDTO;
-import org.mtf.sok.domain.MailRequestDTO;
-import org.mtf.sok.domain.ResponseDTO;
-import org.mtf.sok.domain.VolunteerDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.mtf.sok.domain.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -26,23 +29,26 @@ import java.util.*;
 @Service
 public class DirectSendService {
 
+    // [DirectSend 메일 설정]
     @Value("${directsend.api.key}")
-    private String apiKey;
-
+    private String dsApiKey;
     @Value("${directsend.username}")
-    private String username;
-
+    private String dsUsername;
     @Value("${directsend.sender.email}")
     private String senderEmail;
-
-    @Value("${directsend.sender.phone}")
-    private String senderPhone;
-
     @Value("${directsend.sender.name:SOK 관리자}")
     private String senderName;
 
-    private final String API_URL = "https://directsend.co.kr/index.php/api_v2/mail_change_word";
-    private final String SMS_API_URL = "https://directsend.co.kr/index.php/api_v2/sms_change_word";
+    // [Aligo SMS 설정]
+    @Value("${aligo.api.key}")
+    private String aligoApiKey;
+    @Value("${aligo.username}")
+    private String aligoUsername;
+    @Value("${aligo.sender.phone}")
+    private String aligoSenderPhone;
+
+    private final String DS_MAIL_URL = "https://directsend.co.kr/index.php/api_v2/mail_change_word";
+    private final String ALIGO_SMS_URL = "https://apis.aligo.in/send/";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -53,19 +59,17 @@ public class DirectSendService {
     }};
 
     // --------------------------------------------------------------------
-    // 1. DirectSend API 실제 통신부 (Email)
+    // 1. DirectSend API 실제 통신부 (Email) - 변경 없음
     // --------------------------------------------------------------------
     public ResponseDTO processMailSend(MailRequestDTO mailRequestDTO) {
-        //log.info("DirectSend 메일 발송 시작: {}", mailRequestDTO.getSubject());
         ResponseDTO responseDto = new ResponseDTO();
 
         try {
-            URL obj = new URL(API_URL);
+            URL obj = new URL(DS_MAIL_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
-
             con.setRequestProperty("Cache-Control", "no-cache");
             con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             con.setRequestProperty("Accept", "application/json");
@@ -78,29 +82,26 @@ public class DirectSendService {
             }
             String body = bodyBuilder.toString();
 
-            // application.properties에서 ISO-8859-1로 읽혀 깨진 한글(발신자 이름)을 UTF-8로 안전하게 복원
             String safeSenderName = "SOK 관리자";
             if (senderName != null) {
                 String decoded = new String(senderName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
                 if (decoded.matches(".*[가-힣]+.*")) {
-                    safeSenderName = decoded; // 깨진 문자열 복원 성공
+                    safeSenderName = decoded;
                 } else if (senderName.matches(".*[가-힣]+.*")) {
-                    safeSenderName = senderName; // 이미 정상적인 한글인 경우
+                    safeSenderName = senderName;
                 } else {
-                    safeSenderName = senderName; // 영문인 경우
+                    safeSenderName = senderName;
                 }
             }
 
             ObjectNode rootNode = objectMapper.createObjectNode();
             rootNode.put("subject", mailRequestDTO.getSubject());
             rootNode.put("body", body);
-
             rootNode.put("sender", senderEmail);
             rootNode.put("sender_email", senderEmail);
-            rootNode.put("sender_name", safeSenderName); // 복원된 발신자 이름 삽입
-
-            rootNode.put("username", username);
-            rootNode.put("key", apiKey);
+            rootNode.put("sender_name", safeSenderName);
+            rootNode.put("username", dsUsername);
+            rootNode.put("key", dsApiKey);
 
             ArrayNode receiverArray = objectMapper.createArrayNode();
             if (mailRequestDTO.getReceiver() != null) {
@@ -154,12 +155,11 @@ public class DirectSendService {
             responseDto.setResultCode("FAIL");
             responseDto.setResultMessage(e.getMessage());
         }
-
         return responseDto;
     }
 
     // --------------------------------------------------------------------
-    // 2. 비즈니스 로직부 (라우팅 및 메세지 조립)
+    // 2. 비즈니스 로직부 (라우팅 및 메세지 조립) - 변경 없음
     // --------------------------------------------------------------------
 
     private List<String> getTargetEmails(String reqType) {
@@ -169,12 +169,9 @@ public class DirectSendService {
     public void sendRequestAlertEmail(DevRequestDTO request) {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
-
         String urgencyTag = "Y".equals(request.getUrgency()) ? "(🚨긴급)" : "";
         String subject = "[SOK - " + reqType + urgencyTag + "] " + request.getTitle();
-
         String safeContent = (request.getContent() != null) ? request.getContent().replaceAll("\n", "<br>") : "내용 없음";
-
         String body = String.format(
                 "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
                         "<h3 style='color:#333;'>새로운 티켓이 등록되었습니다.</h3>" +
@@ -191,16 +188,13 @@ public class DirectSendService {
                 request.getRegId(),
                 safeContent
         );
-
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
     public void sendCommentAlertEmail(DevRequestDTO request, String commentContent, String writerId) {
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         List<String> targetEmails = getTargetEmails(reqType);
-
         String subject = "[SOK - " + reqType + " 피드백] '" + request.getTitle() + "' 티켓에 새 댓글이 달렸습니다.";
-
         String body = String.format(
                 "<div style='background-color:#f8f9fa; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
                         "<p><b>%s</b> 님이 아래와 같은 코멘트를 남겼습니다.</p>" +
@@ -209,19 +203,15 @@ public class DirectSendService {
                         "</div>",
                 writerId, commentContent
         );
-
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
     public void sendStatusChangeAlertEmail(DevRequestDTO request) {
         List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
-
         String reqType = request.getReqType() != null ? request.getReqType() : "유지보수";
         String subject = "[SOK - " + reqType + " 업데이트] '" + request.getTitle() + "' 티켓의 상태가 변경되었습니다.";
-
         String statusStr = convertStatusToKorean(request.getStatus());
         String dueDtStr = request.getDueDt() != null ? request.getDueDt().toString() : "미정";
-
         String body = String.format(
                 "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
                         "<h3 style='color:#333;'>티켓 진행 상태 업데이트 안내</h3>" +
@@ -234,14 +224,12 @@ public class DirectSendService {
                         "</div>",
                 statusStr, dueDtStr
         );
-
         sendMailToMultipleReceivers(targetEmails, subject, body);
     }
 
     // --------------------------------------------------------------------
     // 발주사 관리자(sokadmin)용 접수 알림 연동
     // --------------------------------------------------------------------
-
     public void sendVolunteerApplyAlert(VolunteerDTO volunteer) {
         List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
         String subject = "[SOK] 새로운 자원봉사 신청이 접수되었습니다.";
@@ -266,10 +254,8 @@ public class DirectSendService {
     public void sendCertificateApplyAlert(CertificateDTO cert) {
         List<String> targetEmails = Arrays.asList("yeonsoo24@sokorea.or.kr");
         String subject = "[SOK] 새로운 증명서 발급 신청이 접수되었습니다.";
-
         String typeStr = cert.getCertType() != null ? cert.getCertType() : "미지정";
         String belongToStr = cert.getBelongTo() != null && !cert.getBelongTo().isEmpty() ? cert.getBelongTo() : "소속 없음";
-
         String body = String.format(
                 "<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>" +
                         "<h3 style='color:#333;'>신규 증명서 발급 신청 안내</h3>" +
@@ -290,14 +276,12 @@ public class DirectSendService {
     // --------------------------------------------------------------------
     // 사용자용 결과 알림 (메일 + SMS)
     // --------------------------------------------------------------------
-
     public void sendCertificateResultAlert(CertificateDTO cert) {
         String statusStr = "DONE".equals(cert.getIssueStatus()) ? "발급 완료" : "발급 반려(거절)";
         String colorCode = "DONE".equals(cert.getIssueStatus()) ? "#198754" : "#dc3545";
 
         if (cert.getEmail() != null && !cert.getEmail().trim().isEmpty()) {
             String subject = "[스페셜올림픽코리아] 요청하신 증명서의 처리 결과 안내 (" + statusStr + ")";
-
             StringBuilder bodyBuilder = new StringBuilder();
             bodyBuilder.append("<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>")
                     .append("<h3 style='color:#333;'>증명서 처리 결과 안내</h3>")
@@ -309,7 +293,6 @@ public class DirectSendService {
             if ("REJECT".equals(cert.getIssueStatus()) && cert.getRejectRsn() != null && !cert.getRejectRsn().isEmpty()) {
                 bodyBuilder.append("<li><b>반려 사유 :</b> ").append(cert.getRejectRsn()).append("</li>");
             }
-
             bodyBuilder.append("</ul>")
                     .append("<p>자세한 사항은 홈페이지 '신청/참여 > 증명서 신청 > 발급상태 확인' 메뉴에서 조회하실 수 있습니다.</p>")
                     .append("</div>");
@@ -319,8 +302,7 @@ public class DirectSendService {
 
         if (cert.getPhone() != null && !cert.getPhone().trim().isEmpty()) {
             String smsMsg = String.format("[SOK]\n%s님의 증명서 신청 건이 [%s] 처리되었습니다.\n홈페이지에서 확인해주세요.", cert.getApplyNm(), statusStr);
-            String cleanPhone = cert.getPhone().replaceAll("-", "");
-            processSmsSend(cleanPhone, smsMsg);
+            processSmsSend(cert.getPhone(), smsMsg);
         }
     }
 
@@ -331,7 +313,6 @@ public class DirectSendService {
 
         if (volunteer.getEmail() != null && !volunteer.getEmail().trim().isEmpty()) {
             String subject = "[스페셜올림픽코리아] 신청하신 자원봉사의 처리 결과 안내 (" + statusStr + ")";
-
             StringBuilder bodyBuilder = new StringBuilder();
             bodyBuilder.append("<div style='border:1px solid #ddd; padding:20px; border-radius:5px; font-family:sans-serif;'>")
                     .append("<h3 style='color:#333;'>자원봉사 신청 결과 안내</h3>")
@@ -344,7 +325,6 @@ public class DirectSendService {
             if ("REJECT".equals(currentStatus) && volunteer.getRejectRsn() != null && !volunteer.getRejectRsn().isEmpty()) {
                 bodyBuilder.append("<li><b>반려 사유 :</b> ").append(volunteer.getRejectRsn()).append("</li>");
             }
-
             bodyBuilder.append("</ul>")
                     .append("<p>스페셜올림픽코리아에 보내주신 따뜻한 관심과 참여에 감사드립니다.</p>")
                     .append("</div>");
@@ -354,8 +334,7 @@ public class DirectSendService {
 
         if (volunteer.getPhone() != null && !volunteer.getPhone().trim().isEmpty()) {
             String smsMsg = String.format("[SOK]\n%s님의 자원봉사 신청 건이 [%s] 처리되었습니다.\n감사합니다.", volunteer.getApplyNm(), statusStr);
-            String cleanPhone = volunteer.getPhone().replaceAll("-", "");
-            processSmsSend(cleanPhone, smsMsg);
+            processSmsSend(volunteer.getPhone(), smsMsg);
         }
     }
 
@@ -369,7 +348,6 @@ public class DirectSendService {
             receivers.add(new MailRequestDTO.Receiver("SOK 담당자", email));
         }
         mailReq.setReceiver(receivers);
-
         processMailSend(mailReq);
     }
 
@@ -388,7 +366,6 @@ public class DirectSendService {
     // --------------------------------------------------------------------
     // 프론트엔드 비밀번호 찾기 (이메일 & SMS) 로직
     // --------------------------------------------------------------------
-
     public void sendTempPwMail(String toEmail, String tempPw) {
         String subject = "[스페셜올림픽코리아] 임시 비밀번호 발급 안내";
         String body = String.format(
@@ -409,80 +386,76 @@ public class DirectSendService {
 
     public void sendTempPwSms(String toPhone, String tempPw) {
         String message = String.format("[스페셜올림픽코리아]\n요청하신 임시 비밀번호는 [%s] 입니다. 로그인 후 변경해 주세요.", tempPw);
-        String cleanPhone = toPhone.replaceAll("-", "");
-        processSmsSend(cleanPhone, message);
+        processSmsSend(toPhone, message);
     }
 
     // --------------------------------------------------------------------
-    // DirectSend API 실제 통신부 (SMS)
+    // Aligo API 통신부 (SMS) - MultipartEntityBuilder 사용
     // --------------------------------------------------------------------
     public ResponseDTO processSmsSend(String receiver, String message) {
-        log.info("DirectSend SMS 발송 시작: 수신자 {}", receiver);
+        log.info("Aligo SMS 발송 시작: 수신자 {}", receiver);
         ResponseDTO responseDto = new ResponseDTO();
 
+        // 발신자 및 수신자 번호의 하이픈 제거
+        String receiverParam = receiver.replaceAll("-", "");
+        String result = "";
+
         try {
-            URL obj = new URL(SMS_API_URL);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            final String encodingType = "UTF-8";
+            final String boundary = "____boundary____";
 
-            con.setConnectTimeout(5000);
-            con.setReadTimeout(5000);
-            con.setRequestProperty("Cache-Control", "no-cache");
-            con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-            con.setRequestProperty("Accept", "application/json");
+            // Aligo API 필수 파라미터 매핑
+            Map<String, String> smsParams = new HashMap<>();
+            smsParams.put("user_id", aligoUsername);
+            smsParams.put("key", aligoApiKey);
+            smsParams.put("msg", message);
+            smsParams.put("receiver", receiverParam);
+            smsParams.put("sender", aligoSenderPhone);
+            smsParams.put("testmode_yn", "N"); // 실 서버 발송 ("Y"로 세팅 시 발송 테스트만 진행됨)
 
-            ObjectNode rootNode = objectMapper.createObjectNode();
-            rootNode.put("message", message);
+            // MultipartEntityBuilder 생성 및 설정
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setBoundary(boundary);
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            builder.setCharset(Charset.forName(encodingType));
 
-            rootNode.put("sender", senderPhone);
-            rootNode.put("username", username);
-            rootNode.put("key", apiKey);
-
-            ArrayNode receiverArray = objectMapper.createArrayNode();
-            ObjectNode receiverNode = objectMapper.createObjectNode();
-            receiverNode.put("mobile", receiver);
-            receiverArray.add(receiverNode);
-
-            rootNode.set("receiver", receiverArray);
-
-            String urlParameters = objectMapper.writeValueAsString(rootNode);
-
-            System.setProperty("jsse.enableSNIExtension", "false");
-            con.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8);
-            wr.write(urlParameters);
-            wr.flush();
-            wr.close();
-
-            int responseCode = con.getResponseCode();
-            java.io.InputStream stream = (responseCode >= 200 && responseCode < 300) ? con.getInputStream() : con.getErrorStream();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            // 파라미터를 builder에 추가
+            for (Map.Entry<String, String> entry : smsParams.entrySet()) {
+                builder.addTextBody(entry.getKey(), entry.getValue(),
+                        ContentType.create("Multipart/related", Charset.forName(encodingType)));
             }
-            in.close();
 
-            if (responseCode >= 200 && responseCode < 300) {
-                JsonNode responseObj = objectMapper.readTree(response.toString());
-                if (responseObj.has("status") && "0".equals(responseObj.get("status").asText())) {
-                    responseDto.setResultCode("SUCCESS");
-                    responseDto.setResultMessage("성공");
-                    log.info("DirectSend SMS 발송 성공");
-                } else {
-                    responseDto.setResultCode("FAIL");
-                    responseDto.setResultMessage("실패");
-                    log.warn("DirectSend SMS 발송 실패: {}", response.toString());
+            HttpClient client = HttpClients.createDefault();
+            HttpPost post = new HttpPost(ALIGO_SMS_URL);
+            post.setEntity(builder.build());
+
+            // API 호출
+            HttpResponse res = client.execute(post);
+
+            if (res != null) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(res.getEntity().getContent(), encodingType));
+                String buffer;
+                while ((buffer = in.readLine()) != null) {
+                    result += buffer;
                 }
+                in.close();
+            }
+
+            // 응답 결과 파싱 (Aligo는 성공 시 result_code: "1" 반환)
+            JsonNode responseObj = objectMapper.readTree(result);
+
+            if (responseObj.has("result_code") && "1".equals(responseObj.get("result_code").asText())) {
+                responseDto.setResultCode("SUCCESS");
+                responseDto.setResultMessage("성공");
+                log.info("Aligo SMS 발송 성공");
             } else {
                 responseDto.setResultCode("FAIL");
-                responseDto.setResultMessage("HTTP 에러: " + responseCode);
-                log.error("DirectSend SMS 발송 실패 (HTTP 에러): {}", response.toString());
+                responseDto.setResultMessage("실패: " + (responseObj.has("message") ? responseObj.get("message").asText() : "알 수 없는 오류"));
+                log.warn("Aligo SMS 발송 실패: {}", result);
             }
 
         } catch (Exception e) {
-            log.error("SMS Send Error", e);
+            log.error("Aligo SMS Send Error", e);
             responseDto.setResultCode("FAIL");
             responseDto.setResultMessage(e.getMessage());
         }
