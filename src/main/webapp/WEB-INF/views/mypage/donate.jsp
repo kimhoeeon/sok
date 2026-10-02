@@ -25,8 +25,8 @@
 
                 <!-- 1. 상단 기부 요약 (총 기부금, 총 기부 횟수) -->
                 <div class="situation_box">
-                    <div>총 기부금 <span class="fw-bold"><fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/></span>원</div>
-                    <div>총 기부 횟수 <span class="fw-bold"><fmt:formatNumber value="${summary.totalCount}" pattern="#,###"/></span>회</div>
+                    <div>총 기부금 <span><fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/></span>원</div>
+                    <div>총 기부 횟수 <span><fmt:formatNumber value="${summary.totalCount}" pattern="#,###"/></span>회</div>
                 </div>
 
                 <!-- 2. 필터 및 정렬 영역 -->
@@ -43,9 +43,9 @@
                         </ul>
 
                         <!-- 전체 기부증서 다운로드 및 정렬 드롭다운 -->
-                        <div class="d-flex align-items-center" style="gap: 15px;">
+                        <div style="gap: 15px; margin-left: auto;">
                             <c:if test="${summary.totalCount > 0}">
-                                <div class="all_donation mb-0">
+                                <div class="all_donation">
                                     <span style="cursor:pointer;" onclick="openAllDonationPopup(${summary.totalAmt})">전체 기부증서</span>
                                 </div>
                             </c:if>

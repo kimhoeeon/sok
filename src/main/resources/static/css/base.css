@@ -113,7 +113,7 @@ button{font-size: 1em; cursor: pointer;}
 .h_search_btn img{max-width: 24px;vertical-align: middle;}
 .profile_btn{padding: 8px 0;}
 .profile_btn img{max-width: 24px; vertical-align: middle;}
-.dropdown {position: absolute;top: 100%;right: 0;margin-top: 10px;padding: 16px;min-width: 180px;background: #fff;border:1px solid #d5d5d5; border-radius: 10px;box-shadow: 0 10px 20px rgba(0,0,0,0.1);display: none;}
+.dropdown {position: absolute;top: 100%;right: 0;margin-top: 10px;padding: 16px;min-width: 180px;background: #fff;border:1px solid #d5d5d5; border-radius: 10px;box-shadow: 0 10px 20px rgba(0,0,0,0.1);display: none; z-index: 99;}
 .dropdown a{display: block; padding-bottom: 12px;}
 .dropdown a:last-child{padding-bottom: 0;}
 .h_search_btn img.search_w{display: none;}

@@ -28,13 +28,13 @@
 
                     <div class="login_box">
                         <div class="id">
-                            <input type="text" name="username" placeholder="아이디를 입력해 주세요." required>
+                            <input type="text" name="username" placeholder="아이디를 입력해 주세요." onkeyup="handleEnter(event)" required>
                         </div>
                         <div class="passward">
-                            <input type="password" name="password" placeholder="비밀번호를 입력해 주세요." required>
+                            <input type="password" name="password" placeholder="비밀번호를 입력해 주세요." onkeyup="handleEnter(event)" required>
                         </div>
                         <div class="btn">
-                            <a href="javascript:void(0);" onclick="document.getElementById('loginForm').submit(); return false;" class="login">로그인</a>
+                            <a href="javascript:void(0);" onclick="executeLogin();" class="login">로그인</a>
                             <a href="/join" class="join">회원가입</a>
                         </div>
                         <a href="/findPw" class="find_pass">비밀번호가 기억나지 않습니다. <span>비밀번호 찾기</span></a>
@@ -52,3 +52,34 @@
         alert("${errorMessage}");
     </script>
 </c:if>
+
+<script>
+    // 엔터키 입력 감지 함수
+    function handleEnter(event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            executeLogin();
+        }
+    }
+
+    // 로그인 유효성 검사 및 전송 함수
+    function executeLogin() {
+        var form = document.getElementById('loginForm');
+        var username = form.username.value.trim();
+        var password = form.password.value.trim();
+
+        if (username === '') {
+            alert('아이디를 입력해 주세요.');
+            form.username.focus();
+            return false;
+        }
+
+        if (password === '') {
+            alert('비밀번호를 입력해 주세요.');
+            form.password.focus();
+            return false;
+        }
+
+        // 유효성 검사를 통과하면 폼 전송
+        form.submit();
+    }
+</script>

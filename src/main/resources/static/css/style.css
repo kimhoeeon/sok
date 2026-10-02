@@ -943,5 +943,5 @@ body.banner-hide #container{padding: 120px 0;}
 .donation_item.on {display: block;}
 .donation_diff{display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;}
 .donation_diff .select{max-width: 130px; }
-.donation_diff .select select{font-size: 0.875em;}
+.donation_diff .select select{font-size: 0.875em; width: 130px;}
 
