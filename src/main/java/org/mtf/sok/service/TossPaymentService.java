@@ -142,6 +142,7 @@ public class TossPaymentService {
     // 정기기부: 3. 정기결제 취소(빌링키 해지) API 호출
     // ==========================================
     public void expireBillingKey(String billingKey) throws Exception {
+        // [주의] 토스페이먼츠 최신 API 규격: POST /v1/billing/{billingKey}/expire
         String url = "https://api.tosspayments.com/v1/billing/" + billingKey + "/expire";
         String authHeader = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
 
@@ -149,10 +150,10 @@ public class TossPaymentService {
         headers.setBasicAuth(authHeader);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        // expire API는 별도의 body 파라미터가 필요 없습니다.
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         try {
-            // POST 요청으로 빌링키 만료 처리
             restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         } catch (HttpStatusCodeException e) {
             JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());

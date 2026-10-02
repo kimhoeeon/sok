@@ -115,19 +115,28 @@
     <update id="updateDonationStatus" parameterType="org.mtf.sok.domain.DonationDTO">
         UPDATE TB_DONATION_PAYMENT
         <set>
-            PAY_STATUS = #{payStatus},
-            <if test="payStatus == 'CANCEL'">
+            PAY_STATUS  = #{payStatus},
+            PAY_DT      = NOW(),
+            <if test="payMethod != null">PAY_METHOD = #{payMethod},</if>
+            <if test="paymentKey != null">PAYMENT_KEY = #{paymentKey},</if>
+
+            <!-- 상태가 CANCEL 이나 REFUND 가 아닐 때만 넘어온 BILLING_KEY 를 저장 -->
+            <if test="billingKey != null and payStatus != 'CANCEL' and payStatus != 'REFUND'">
+                BILLING_KEY = #{billingKey},
+            </if>
+
+            <if test="payStatus == 'CANCEL' or payStatus == 'FAIL'">
                 CANCEL_DT = NOW(),
                 CANCEL_RSN = #{cancelRsn},
-                BILLING_KEY = NULL, <!-- 정기결제 해지 시 빌링키 무효화 -->
+                BILLING_KEY = NULL, <!-- 정기결제 해지 시 빌링키 완전 무효화 -->
             </if>
             <if test="payStatus == 'REFUND'">
                 REFUND_DT = NOW(),
                 REFUND_RSN = #{refundRsn},
-                BILLING_KEY = NULL, <!-- 환불(해지) 시 빌링키 무효화 -->
+                BILLING_KEY = NULL, <!-- 환불(해지) 시 빌링키 완전 무효화 -->
             </if>
         </set>
-        WHERE PAY_SEQ = #{paySeq}
+        WHERE ORDER_ID = #{orderId}
     </update>
 
 </mapper>
