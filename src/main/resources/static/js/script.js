@@ -915,3 +915,22 @@ $(function(){
     });
 
 });
+
+/*
+$(function () {
+
+    $('.donation_tab li').on('click', function () {
+
+        const tab = $(this).data('tab');
+
+        $('.donation_tab li').removeClass('on');
+        $(this).addClass('on');
+
+        $('.donation_item').removeClass('on');
+        $('.donation_item[data-tab="' + tab + '"]').addClass('on');
+
+    });
+
+    $('.donation_tab li').eq(0).trigger('click');
+
+});*/

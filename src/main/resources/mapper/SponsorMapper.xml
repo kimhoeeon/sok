@@ -119,10 +119,12 @@
             <if test="payStatus == 'CANCEL'">
                 CANCEL_DT = NOW(),
                 CANCEL_RSN = #{cancelRsn},
+                BILLING_KEY = NULL, <!-- 정기결제 해지 시 빌링키 무효화 -->
             </if>
             <if test="payStatus == 'REFUND'">
                 REFUND_DT = NOW(),
                 REFUND_RSN = #{refundRsn},
+                BILLING_KEY = NULL, <!-- 환불(해지) 시 빌링키 무효화 -->
             </if>
         </set>
         WHERE PAY_SEQ = #{paySeq}

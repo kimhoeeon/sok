@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -89,20 +90,26 @@ public class FrontMypageController {
 
     // 3. 마이페이지 (기부현황 화면 - donate.jsp 와 DonationMapper 완벽 일치)
     @GetMapping("/donate")
-    public String mypageDonate(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+    public String mypageDonate(@ModelAttribute DonationDTO params, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         if (principalDetails == null || principalDetails.getMemberDTO() == null) {
             return "redirect:/login/basic";
         }
 
         MemberDTO loginUser = principalDetails.getMemberDTO();
 
-        // DonationMapper.xml 에 정의된 파라미터(mbrSeq)와 정확히 일치하는 메서드 호출
+        // 검색 폼 유지를 위해 DTO에 회원 PK 세팅
+        params.setMbrSeq(loginUser.getMbrSeq());
+
+        // 전체 총괄 요약(총 횟수, 총 금액)은 필터(탭)와 무관하게 항상 전체 값을 보여주기 위해 기존 메서드 사용
         DonationDTO summary = donationMapper.selectDonationSummary(loginUser.getMbrSeq());
-        List<DonationDTO> list = donationMapper.selectDonationList(loginUser.getMbrSeq());
+
+        // 하단 리스트는 탭(payType)과 드롭다운(sortOrder)이 반영된 동적 쿼리 호출
+        List<DonationDTO> list = donationMapper.selectDonationList(params);
 
         // donate.jsp 가 요구하는 ${summary} 와 ${list} 변수 바인딩
         model.addAttribute("summary", summary);
         model.addAttribute("list", list);
+        model.addAttribute("params", params);
 
         return "mypage/donate";
     }

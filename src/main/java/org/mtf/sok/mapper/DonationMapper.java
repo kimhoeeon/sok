@@ -8,7 +8,10 @@ import java.util.List;
 @Mapper
 public interface DonationMapper {
     // 1. 개인 기부 내역 리스트 조회
-    List<DonationDTO> selectDonationList(Long mbrSeq);
+    List<DonationDTO> selectDonationList(DonationDTO params);
+
+    // 특정 회원의 정기기부 중 가장 높은 회차 번호 조회
+    int selectMaxRegularRound(Long mbrSeq);
 
     // 2. 개인 누적 기부 총액 및 횟수 조회
     DonationDTO selectDonationSummary(Long mbrSeq);

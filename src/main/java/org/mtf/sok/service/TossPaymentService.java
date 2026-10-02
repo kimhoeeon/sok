@@ -83,4 +83,81 @@ public class TossPaymentService {
             throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "결제 취소 중 오류가 발생했습니다.");
         }
     }
+
+    // ==========================================
+    // 정기기부: 1. 빌링키 발급 API 호출
+    // ==========================================
+    public JsonNode issueBillingKey(String authKey, String customerKey) throws Exception {
+        String url = "https://api.tosspayments.com/v1/billing/authorizations/issue";
+        String authHeader = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(authHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("authKey", authKey);
+        params.put("customerKey", customerKey);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(params, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return objectMapper.readTree(response.getBody());
+        } catch (HttpStatusCodeException e) {
+            JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+            throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "빌링키 발급 중 오류가 발생했습니다.");
+        }
+    }
+
+    // ==========================================
+    // 정기기부: 2. 빌링키를 이용한 결제 승인 API 호출
+    // ==========================================
+    public JsonNode confirmBilling(String billingKey, String customerKey, String orderId, Long amount) throws Exception {
+        String url = "https://api.tosspayments.com/v1/billing/" + billingKey;
+        String authHeader = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(authHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("customerKey", customerKey);
+        params.put("orderId", orderId);
+        params.put("amount", amount);
+        params.put("orderName", "스페셜올림픽코리아 정기후원금");
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(params, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return objectMapper.readTree(response.getBody());
+        } catch (HttpStatusCodeException e) {
+            JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+            throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "정기결제 승인 중 오류가 발생했습니다.");
+        }
+    }
+
+    // ==========================================
+    // 정기기부: 3. 정기결제 취소(빌링키 해지) API 호출
+    // ==========================================
+    public void expireBillingKey(String billingKey) throws Exception {
+        String url = "https://api.tosspayments.com/v1/billing/" + billingKey + "/expire";
+        String authHeader = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(authHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            // POST 요청으로 빌링키 만료 처리
+            restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        } catch (HttpStatusCodeException e) {
+            JsonNode errorNode = objectMapper.readTree(e.getResponseBodyAsString());
+            throw new Exception(errorNode.has("message") ? errorNode.get("message").asText() : "빌링키(정기결제) 해지 중 오류가 발생했습니다.");
+        }
+    }
+
 }

@@ -126,27 +126,32 @@ public class SponsorController {
         try {
             DonationDTO originData = sponsorMapper.selectDonation(donation.getPaySeq());
 
-            // 토스페이먼츠 실제 취소/환불 API 호출
+            // 취소나 환불 처리일 경우 PG사 연동
             if (("CANCEL".equals(donation.getPayStatus()) || "REFUND".equals(donation.getPayStatus()))) {
-                // 이미 결제가 완료된 건(DONE)에 대해서만 토스 취소 호출
-                if ("DONE".equals(originData.getPayStatus()) && originData.getPaymentKey() != null) {
 
+                // [1] 이미 결제가 완료된 건(DONE)에 대해 결제 금액 자체를 취소(환불) 처리
+                if ("DONE".equals(originData.getPayStatus()) && originData.getPaymentKey() != null) {
                     tossPaymentService.cancelPayment(originData.getPaymentKey(), donation.getCancelRsn());
 
-                    // 환불이 성공적으로 승인되면, 해당 캠페인의 누적 모금액을 차감합니다.
+                    // 환불이 승인되면 캠페인 누적 모금액 차감
                     if (originData.getCampSeq() != null) {
                         campaignMapper.addCurrentAmount(originData.getCampSeq(), originData.getPayAmt().negate());
                     }
                 }
+
+                // [2] 신규 로직: 정기결제(REGULAR)인 경우 빌링키를 함께 파기하여 다음 달 결제를 원천 차단
+                if ("REGULAR".equals(originData.getPayType()) && originData.getBillingKey() != null) {
+                    tossPaymentService.expireBillingKey(originData.getBillingKey());
+                }
             }
 
-            // 취소/환불 성공 시 혹은 단순 상태 변경 시 우리 DB 상태 업데이트
+            // [3] 취소/환불 완료 및 빌링키 해지 성공 시 우리 DB 업데이트
             sponsorMapper.updateDonationStatus(donation);
-            rttr.addFlashAttribute("successMessage", "상태가 정상적으로 변경되었습니다.");
+            rttr.addFlashAttribute("successMessage", "상태가 정상적으로 변경 및 해지되었습니다.");
 
         } catch (Exception e) {
             e.printStackTrace();
-            rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 중 오류가 발생했습니다: " + e.getMessage());
+            rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 또는 해지 중 오류가 발생했습니다: " + e.getMessage());
             return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
         }
 

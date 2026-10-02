@@ -82,7 +82,18 @@ public class FrontSponsorController {
             String orderId = UUID.randomUUID().toString().replace("-", "") + System.currentTimeMillis();
             donation.setOrderId(orderId);
 
-            // 대기 상태로 DB 인서트 (campSeq도 폼에서 넘어왔다면 함께 저장됨)
+            // 정기결제 시 회차(Round) 이력 누적 계산
+            // =========================================================
+            if ("REGULAR".equals(donation.getPayType())) {
+                // 이전까지 진행했던 정기기부 중 가장 높은 회차를 가져와서 + 1
+                int maxRound = donationMapper.selectMaxRegularRound(loginUser.getMbrSeq());
+                donation.setRegularRound(maxRound + 1);
+            } else {
+                // 일회성 기부는 회차 개념이 없으므로 0 세팅
+                donation.setRegularRound(0);
+            }
+
+            // 대기 상태로 DB 인서트
             donationMapper.insertDonation(donation);
 
             // 프론트엔드로 주문번호 응답
@@ -174,5 +185,67 @@ public class FrontSponsorController {
         model.addAttribute("errorCode", code != null ? code : "UNKNOWN_ERROR");
         model.addAttribute("errorMessage", message != null ? message : "결제가 취소되었거나 비정상적으로 종료되었습니다.");
         return "sponsor/donate_fail";
+    }
+
+    // ==========================================
+    // 정기결제(빌링) 성공 리다이렉트 콜백
+    // ==========================================
+    @GetMapping("/donate/billing/success")
+    public String donateBillingSuccess(@RequestParam(required = false) String customerKey,
+                                       @RequestParam(required = false) String authKey,
+                                       @RequestParam(required = false) String orderId,
+                                       @RequestParam(required = false) Long amount,
+                                       Model model) {
+        try {
+            // 1. 필수 파라미터 누락 방어
+            if (customerKey == null || authKey == null || orderId == null || amount == null) {
+                throw new Exception("정기결제 인증 정보가 누락되었습니다.");
+            }
+
+            // 2. DB 검증 및 멱등성 체크
+            DonationDTO donation = donationMapper.selectDonationByOrderId(orderId);
+            if (donation == null) throw new Exception("존재하지 않는 주문 정보입니다.");
+            if ("DONE".equals(donation.getPayStatus())) {
+                return "redirect:/mypage/donate?success=true";
+            }
+            if (donation.getPayAmt().compareTo(BigDecimal.valueOf(amount)) != 0) {
+                throw new Exception("결제 금액이 일치하지 않습니다.");
+            }
+
+            // 3. 토스 API 호출: 빌링키 발급
+            JsonNode billingResult = tossPaymentService.issueBillingKey(authKey, customerKey);
+            String billingKey = billingResult.get("billingKey").asText();
+
+            // 4. 토스 API 호출: 발급받은 빌링키로 최초 1회차 결제 승인
+            JsonNode paymentResult = tossPaymentService.confirmBilling(billingKey, customerKey, orderId, amount);
+
+            // 5. DB 업데이트 (빌링키 포함)
+            donation.setPayStatus("DONE");
+            donation.setPaymentKey(paymentResult.get("paymentKey").asText());
+            donation.setPayMethod(paymentResult.get("method").asText());
+            donation.setBillingKey(billingKey); // 핵심: 다음 달 스케줄러 결제를 위해 저장
+            donationMapper.updateDonationStatus(donation);
+
+            // 6. 캠페인 누적 모금액 증가
+            if (donation.getCampSeq() != null) {
+                campaignMapper.addCurrentAmount(donation.getCampSeq(), new BigDecimal(amount));
+            }
+
+            return "redirect:/mypage/donate?success=true";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorCode", "BILLING_CONFIRM_ERROR");
+            model.addAttribute("errorMessage", "정기결제 등록 중 오류가 발생했습니다: " + e.getMessage());
+
+            if (orderId != null) {
+                DonationDTO failDonation = new DonationDTO();
+                failDonation.setOrderId(orderId);
+                failDonation.setPayStatus("FAIL");
+                failDonation.setCancelRsn(e.getMessage());
+                donationMapper.updateDonationStatus(failDonation);
+            }
+            return "sponsor/donate_fail";
+        }
     }
 }

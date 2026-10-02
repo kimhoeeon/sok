@@ -10,7 +10,7 @@
         <div class="sub_top">
             <div class="sub_top_box">
                 <div class="sub_top_nav">
-                    <span>기부내역</span>
+                    <span>마이페이지</span><span>기부내역관리</span>
                 </div>
                 <div class="sub_top_tit" id="tts_sub_top"><span><c:out value="${sessionScope.userLogin.mbrNm}"/> 님</span></div>
                 <div class="sound_btn">
@@ -22,54 +22,89 @@
         </div>
         <div class="sub_content">
             <div class="donation_wrap">
-                <div class="all_donation">
-                    <c:if test="${summary.totalCount > 0}">
-                        <span onclick="openAllDonationPopup(${summary.totalAmt})">전체 기부증서</span>
-                    </c:if>
+
+                <!-- 1. 상단 기부 요약 (총 기부금, 총 기부 횟수) -->
+                <div class="situation_box">
+                    <div>총 기부금 <span class="fw-bold"><fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/></span>원</div>
+                    <div>총 기부 횟수 <span class="fw-bold"><fmt:formatNumber value="${summary.totalCount}" pattern="#,###"/></span>회</div>
                 </div>
 
+                <!-- 2. 필터 및 정렬 영역 -->
+                <!-- 폼이 변경될 때마다 자동 Submit 되도록 스크립트 연결 -->
+                <form id="searchForm" action="/mypage/donate" method="get">
+                    <input type="hidden" name="payType" id="payType" value="${params.payType}">
+
+                    <div class="donation_diff">
+                        <!-- 일회성 / 정기기부 탭 -->
+                        <ul class="donation_tab">
+                            <li class="${empty params.payType ? 'on' : ''}" onclick="changePayType('')">전체보기</li>
+                            <li class="${params.payType eq 'ONCE' ? 'on' : ''}" onclick="changePayType('ONCE')">일회성 기부</li>
+                            <li class="${params.payType eq 'REGULAR' ? 'on' : ''}" onclick="changePayType('REGULAR')">정기기부</li>
+                        </ul>
+
+                        <!-- 전체 기부증서 다운로드 및 정렬 드롭다운 -->
+                        <div class="d-flex align-items-center" style="gap: 15px;">
+                            <c:if test="${summary.totalCount > 0}">
+                                <div class="all_donation mb-0">
+                                    <span style="cursor:pointer;" onclick="openAllDonationPopup(${summary.totalAmt})">전체 기부증서</span>
+                                </div>
+                            </c:if>
+                            <div class="select">
+                                <select name="sortOrder" onchange="document.getElementById('searchForm').submit();">
+                                    <option value="DESC" ${params.sortOrder ne 'ASC' ? 'selected' : ''}>최신순</option>
+                                    <option value="ASC" ${params.sortOrder eq 'ASC' ? 'selected' : ''}>오래된순</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 3. 기부 내역 리스트 -->
                 <div class="donation_list">
                     <c:choose>
                         <c:when test="${empty list}">
-                            <div style="text-align: center; padding: 60px 0; color: #777;">
+                            <div style="text-align: center; padding: 60px 0; color: #777; border: 1px solid #d5d5d5; border-radius: 20px;">
                                 등록된 기부 내역이 없습니다.
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="item" items="${list}" varStatus="status">
-                                <div class="donation_item">
+                            <c:forEach var="item" items="${list}">
+                                <div class="donation_item on">
                                     <div class="donation_top">
                                         <div class="tit">기부내역</div>
-                                        <div class="border" style="cursor:pointer;" onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd"/>', ${item.payAmt})">
-                                            기부증서
-                                        </div>
+                                        <div class="border" style="cursor:pointer;" onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd"/>', ${item.payAmt})">기부증서</div>
                                     </div>
                                     <div class="donation_content">
                                         <ul>
                                             <li>
-                                                <div class="gu">기부횟수</div>
-                                                <div class="nae">${summary.totalCount - status.index}회</div>
+                                                <div class="gu">결제일시</div>
+                                                <div class="nae"><fmt:formatDate value="${item.payDt}" pattern="yyyy.MM.dd"/></div>
+                                            </li>
+                                            <li>
+                                                <div class="gu">기부회차</div>
+                                                <!-- 일회성 기부는 회차 숨김, 정기기부만 회차 표기 -->
+                                                <c:choose>
+                                                    <c:when test="${item.payType eq 'REGULAR'}">
+                                                        <div class="nae">${item.regularRound}회차</div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="nae">-</div>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </li>
                                             <li>
                                                 <div class="gu">직접기부</div>
-                                                <div class="nae">
-                                                    <fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="gu">누적기부</div>
-                                                <div class="nae">
-                                                    <fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/>원
-                                                </div>
+                                                <div class="nae"><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원</div>
                                             </li>
                                         </ul>
                                         <div class="donation_cost">
                                             <div class="total_dona">
-                                                누적 기부금 <fmt:formatNumber value="${summary.totalAmt}" pattern="#,###"/>
+                                                <c:choose>
+                                                    <c:when test="${item.payType eq 'REGULAR'}">월 기부금</c:when>
+                                                    <c:otherwise>일회성 기부금</c:otherwise>
+                                                </c:choose>
                                             </div>
-                                            <div class="current_dona">
-                                                <fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
-                                            </div>
+                                            <div class="current_dona"><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원</div>
                                         </div>
                                     </div>
                                 </div>
@@ -77,13 +112,14 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
+
             </div>
 
         </div>
     </div>
 </div>
 
-<div class="popup donations_pop" id="donationsPopup" style="display: none;">
+<div class="popup donations_pop" id="donationsPopup" style="display: none; z-index: 9999;">
     <div class="pop_wrap">
         <div class="pop_tit">
             <div class="tit">기부증서</div>
@@ -91,6 +127,8 @@
                 <img src="/img/ico_close.png" alt="닫기">
             </button>
         </div>
+
+        <!-- 캡처를 위한 영역 id="certificateArea" 부여 -->
         <div class="donations_card" id="certificateArea">
             <div class="card_tit">기부증서</div>
             <div class="card_name"><c:out value="${sessionScope.userLogin.mbrNm}"/></div>
@@ -113,8 +151,9 @@
             </div>
             <jsp:useBean id="now" class="java.util.Date"/>
             <div class="card_date"><fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일"/></div>
-            <div class="company">스페셜코리아올림픽</div>
+            <div class="company">스페셜올림픽코리아</div>
         </div>
+
         <div class="btn down_btn">
             <button type="button" class="down" onclick="downloadCertificate()">이미지 다운로드</button>
             <button type="button" class="share" onclick="shareKakao()">카카오톡 공유</button>
@@ -129,15 +168,21 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"></script>
 
 <script>
+    // 카카오톡 SDK 초기화 (본인 앱 키가 있으면 교체)
     if (!Kakao.isInitialized()) {
         Kakao.init('96c765806d01c47a180599a9f9d158b6');
     }
 
-    // 단일 기부증서 팝업 열기
+    // 탭 클릭 시 검색 조건 변경 후 Submit
+    function changePayType(type) {
+        document.getElementById('payType').value = type;
+        document.getElementById('searchForm').submit();
+    }
+
+    // 1. 단일 기부증서 팝업 열기 (결제일시 및 금액 세팅)
     function openDonationPopup(dateStr, amt) {
         var d = new Date(dateStr);
         var formatted = d.getFullYear() + '년 ' + ('0' + (d.getMonth() + 1)).slice(-2) + '월 ' + ('0' + d.getDate()).slice(-2) + '일';
@@ -147,9 +192,9 @@
         $('#donationsPopup').fadeIn(200);
     }
 
-    // 전체 기부증서 팝업 열기 (누적)
+    // 2. 전체(누적) 기부증서 팝업 열기
     function openAllDonationPopup(totalAmt) {
-        var d = new Date(); // 전체 내역은 오늘 기준
+        var d = new Date();
         var formatted = d.getFullYear() + '년 ' + ('0' + (d.getMonth() + 1)).slice(-2) + '월 ' + ('0' + d.getDate()).slice(-2) + '일';
 
         $('#popupDate').text(formatted + " (누적)");
@@ -157,22 +202,20 @@
         $('#donationsPopup').fadeIn(200);
     }
 
-    // 팝업 닫기
+    // 팝업 닫기 공통 이벤트
     $('.popup_close_btn').on('click', function () {
         $('#donationsPopup').fadeOut(200);
     });
 
-    // 이미지 다운로드 기능
+    // 3. 기부증서 이미지 다운로드
     function downloadCertificate() {
         var target = document.getElementById('certificateArea');
 
-        // 고해상도(scale: 2)로 캡처 진행
         html2canvas(target, {
-            scale: 2,
+            scale: 2, // 고해상도 캡처
             useCORS: true,
             backgroundColor: null
         }).then(function(canvas) {
-            // 가상 <a> 태그를 만들어 다운로드 트리거
             var el = document.createElement("a");
             el.href = canvas.toDataURL("image/png");
             el.download = "스페셜올림픽코리아_기부증서.png";
@@ -180,7 +223,7 @@
         });
     }
 
-    // 카카오톡 공유 기능
+    // 4. 카카오톡 공유 기능
     function shareKakao() {
         Kakao.Share.sendDefault({
             objectType: 'feed',

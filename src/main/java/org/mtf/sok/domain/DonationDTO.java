@@ -26,6 +26,9 @@ public class DonationDTO extends Criteria {
     private String paymentKey;
     private Long campSeq;       // 기부한 캠페인 번호
     private String campTitle;   // JOIN으로 가져올 캠페인 제목 (목록 노출용)
+    private BigDecimal cumulativeAmt;
+    private String sortOrder; // 정렬 방식 (DESC: 최신순, ASC: 오래된순)
+    private String billingKey; // 정기결제 빌링키
 
     // 조회를 위한 가상 필드 (누적 기부금, 총 횟수 등)
     private Integer totalAmt;

@@ -236,11 +236,95 @@
             </ul>
             <div class="txt">기부는 1천원부터 가능합니다.</div>
         </div>
+
         <div class="support_textarea">
             <textarea id="cheerMsg" placeholder="응원하는 따뜻한 한마디를 남겨주세요."></textarea>
         </div>
+
+        <!-- 약관 영역: 기본적으로 숨김 처리 -->
+        <div class="support_agree" id="supportAgreeArea" style="display: none;">
+            <label>
+                <input type="checkbox" id="agreeRegTerms" value="Y">
+                <span class="chk_box"></span>
+                <div>자동결제 및 정기기부 약관에 동의합니다.</div>
+            </label>
+            <div class="agree_txt">
+                <div>정기기부 안내</div>
+                <ul>
+                    <li>· 선택한 금액이 매월 자동 결제됩니다. </li>
+                    <li>· 정기기부는 마이페이지에서 조회 및 관리할 수 있습니다.</li>
+                </ul>
+            </div>
+            <textarea readonly>
+정기기부 이용약관
+
+제1조 (목적)
+본 약관은 정기기부 신청자가 정기적인 기부금 납부를 신청함에 있어 필요한 사항과 기부금 결제, 변경, 해지 등에 관한 내용을 정하는 것을 목적으로 합니다.
+
+제2조 (정기기부 신청)
+정기기부는 신청자가 지정한 금액을 매월 자동으로 결제하는 방식으로 진행됩니다.
+정기기부 신청 시 신청자는 본인 명의의 유효한 결제수단을 등록해야 합니다.
+정기기부 금액 및 결제수단은 운영 정책에 따라 변경할 수 있습니다.
+등록된 결제수단의 정보가 변경되거나 결제가 불가능한 경우 정기기부가 정상적으로 처리되지 않을 수 있습니다.
+
+제3조 (자동결제)
+신청자는 정기기부 신청과 동시에 등록한 결제수단을 통한 자동결제에 동의한 것으로 봅니다.
+정기기부금은 최초 신청 시 안내된 결제일 또는 정해진 정기결제일에 자동으로 결제됩니다.
+결제일이 휴일이거나 결제사의 사정 등에 따라 실제 결제일이 변경될 수 있습니다.
+카드정보 등 결제수단의 세부 정보는 전자결제대행사(PG사)를 통해 처리될 수 있습니다.
+
+제4조 (결제 실패)
+카드 한도 초과, 유효기간 만료, 잔액 부족, 결제수단 오류 등으로 정기결제가 실패할 수 있습니다.
+결제 실패 시 재결제가 시도될 수 있으며, 재결제 일정 및 횟수는 결제대행사 및 운영 정책에 따라 달라질 수 있습니다.
+지속적으로 결제가 실패하는 경우 정기기부가 중단될 수 있습니다.
+
+제5조 (정기기부 금액 변경)
+신청자는 정기기부 금액의 변경을 요청할 수 있습니다.
+변경 신청 시점에 따라 당월 결제에는 반영되지 않고 다음 결제일부터 적용될 수 있습니다.
+금액 변경 방법 및 적용 시점은 홈페이지 또는 별도 안내를 통해 확인할 수 있습니다.
+
+제6조 (정기기부 해지)
+신청자는 언제든지 정기기부 해지를 신청할 수 있습니다.
+해지 신청이 완료된 이후부터는 다음 정기결제가 진행되지 않습니다.
+이미 결제가 완료된 기부금은 단순 변심에 따른 취소 또는 환불이 제한될 수 있습니다.
+부득이한 사유로 환불이 필요한 경우 별도의 기부금 취소 및 환불 기준에 따라 처리됩니다.
+
+제7조 (기부금 영수증)
+기부금 영수증 발급을 원하는 경우 발급에 필요한 정보를 정확하게 입력해야 합니다.
+입력 정보가 정확하지 않은 경우 기부금 영수증 발급이 제한되거나 지연될 수 있습니다.
+기부금 영수증 발급 방법 및 일정은 관련 법령 및 기관의 운영 기준에 따릅니다.
+
+제8조 (개인정보 및 결제정보 처리)
+정기기부 신청 및 관리를 위해 필요한 개인정보는 개인정보처리방침에 따라 수집·이용됩니다.
+카드번호, 유효기간 등 주요 결제정보는 결제대행사(PG사)를 통해 직접 처리될 수 있으며, 홈페이지에서 직접 저장하지 않을 수 있습니다.
+정기결제에 필요한 결제수단 식별정보 또는 빌링키 등은 정기기부 유지 및 결제 처리를 위해 사용될 수 있습니다.
+
+제9조 (서비스 변경 및 중단)
+천재지변, 시스템 장애, 결제대행사 장애, 기타 불가피한 사유가 발생하는 경우 정기기부 결제 또는 관련 서비스가 일시적으로 중단될 수 있습니다.
+
+제10조 (기타)
+본 약관에서 정하지 않은 사항은 관련 법령, 개인정보처리방침, 결제대행사 정책 및 기관의 운영 기준에 따릅니다.
+            </textarea>
+        </div>
         <div class="support_btn">
-            <button type="button" class="btn sup_btn" onclick="requestTossPayment()">기부하기</button>
+            <button type="button" class="btn one_btn" onclick="openConfirmPopup('ONCE')">일회성기부</button>
+            <button type="button" class="btn sup_btn" onclick="openConfirmPopup('REGULAR')">정기기부</button>
+        </div>
+    </div>
+</div>
+
+<!-- 센터 팝업 -->
+<div class="popup center_pop" id="confirmPopup" style="display: none; z-index: 9999;">
+    <div class="pop_wrap" style="text-align: center; padding: 20px;">
+        <div class="center-popup_body">
+            <h3 class="center-popup_title" style="margin-bottom: 25px; font-size: 1.25em;">결제 확인</h3>
+            <p id="confirmMessage" style="font-size: 1.125em; line-height: 1.6; color: #444; font-weight: 500;">
+                <!-- 이 곳에 JS로 동적 메시지 삽입 -->
+            </p>
+        </div>
+        <div class="center-popup_footer" style="padding-top: 10px;">
+            <button type="button" class="btn btn-gray" onclick="$('#confirmPopup').fadeOut(150);" style="background-color: #eee; color: #444;">취소</button>
+            <button type="button" class="btn btn-primary" onclick="executePayment()">후원하기</button>
         </div>
     </div>
 </div>
@@ -249,6 +333,7 @@
 
 <script>
     let currentAmount = 0;
+    let selectedPayType = 'ONCE'; // 현재 선택된 결제 방식 저장
 
     // 1. Controller에서 전달받은 실제/테스트 클라이언트 키 주입 (중복 선언 제거)
     const tossClientKey = '${tossClientKey}';
@@ -256,6 +341,8 @@
 
     function openDonatePopup() {
         $('#supportPopup').fadeIn(200);
+        $('#supportAgreeArea').hide(); // 창을 열 때 약관은 숨김 상태로 시작
+        $('#agreeRegTerms').prop('checked', false);
     }
 
     function closeDonatePopup() {
@@ -287,63 +374,90 @@
         $('#displayAmount').text(currentAmount.toLocaleString() + ' 원');
     }
 
-    // 2. 토스 페이먼츠 결제창 호출 로직 (HTML의 기부하기 버튼과 연결됨)
-    function requestTossPayment() {
-        // 로그인 체크
+    // '일회성기부' / '정기기부' 버튼 클릭 시 최종 팝업 띄우기
+    function openConfirmPopup(payType) {
+        selectedPayType = payType;
+
+        // 1. 공통 유효성 검사 (로그인 및 금액)
         const isLogin = ${not empty sessionScope.userLogin};
         if (!isLogin) {
             alert("로그인 후 기부가 가능합니다. 로그인 페이지로 이동합니다.");
             location.href = "/login/basic?redirect=/sponsor/donate";
             return;
         }
-
-        // 금액 체크
         if (currentAmount < 1000) {
             alert("기부 금액은 1,000원 이상이어야 합니다.");
             return;
         }
 
-        // 팝업창 내 데이터 수집
-        var cheerMsg = $('#cheerMsg').val();
-        var isAnon = $('#isAnon').is(':checked') ? 'Y' : 'N';
-
-        // 익명 체크 시 토스 결제창에 표시될 이름 변경 (DB의 TB_MEMBER와 무관하게 결제 영수증 표기용)
-        var customerName = '${sessionScope.userLogin.mbrNm}';
-        if (isAnon === 'Y') {
-            customerName = '익명후원자';
+        // 2. 정기기부일 경우 약관 동의 검증 및 UI 제어
+        if (payType === 'REGULAR') {
+            if ($('#supportAgreeArea').is(':hidden')) {
+                // 약관 영역이 안 보이면 보여주고 리턴 (사용자가 약관을 읽고 동의할 기회 제공)
+                $('#supportAgreeArea').slideDown(250);
+                return;
+            }
+            if (!$('#agreeRegTerms').is(':checked')) {
+                alert("정기기부 이용약관에 동의해 주세요.");
+                return;
+            }
+            $('#confirmMessage').html(`<span style="color:var(--mainColor); font-weight:700;">매월 \${currentAmount.toLocaleString()}원</span>씩 정기기부를 진행하시겠습니까?`);
+        } else {
+            // 일회성 기부일 경우 약관 영역 다시 숨김
+            $('#supportAgreeArea').slideUp(200);
+            $('#confirmMessage').html(`<span style="color:var(--mainColor); font-weight:700;">\${currentAmount.toLocaleString()}원</span>을 일회성으로 후원하시겠습니까?`);
         }
 
-        // 백엔드로 결제 초기화(주문번호 채번 및 WAIT 상태 저장) 요청
+        // 최종 확인 팝업 노출
+        $('#confirmPopup').fadeIn(200);
+    }
+
+    // 2. 토스 페이먼츠 결제창 호출 로직 (HTML의 기부하기 버튼과 연결됨)
+    function executePayment() {
+        $('#confirmPopup').fadeOut(100); // 확인 팝업 닫기
+
+        var cheerMsg = $('#cheerMsg').val();
+        var isAnon = $('#isAnon').is(':checked') ? 'Y' : 'N';
+        var customerName = '${sessionScope.userLogin.mbrNm}';
+        if (isAnon === 'Y') customerName = '익명후원자';
+
+        // 백엔드 요청
         $.ajax({
             url: '/sponsor/donate/init',
             type: "POST",
             data: {
                 payAmt: currentAmount,
-                payType: 'ONCE', // 일시결제
+                payType: selectedPayType, // ONCE 또는 REGULAR 전송
                 cheerMsg: cheerMsg
-                <c:if test="${not empty campaign}">
-                ,campSeq: ${campaign.campSeq}
-                </c:if>
+                <c:if test="${not empty campaign}">,campSeq: ${campaign.campSeq}</c:if>
             },
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
             },
             success: function (orderId) {
-                // 서버에서 받아온 검증된 orderId로 토스 결제창 호출
-                tossPayments.requestPayment('카드', {
-                    amount: currentAmount,
-                    orderId: orderId,
-                    orderName: '스페셜올림픽코리아 후원금',
-                    customerName: customerName,
-                    successUrl: window.location.origin + '/sponsor/donate/success',
-                    failUrl: window.location.origin + '/sponsor/donate/fail'
-                }).catch(function (error) {
-                    if (error.code === 'USER_CANCEL') {
-                        // 사용자가 창을 닫은 경우 조용히 넘어감
-                    } else {
-                        alert('결제창 호출 중 오류가 발생했습니다: ' + error.message);
-                    }
-                });
+                // 1. 일시 결제 처리
+                if (selectedPayType === 'ONCE') {
+                    tossPayments.requestPayment('카드', {
+                        amount: currentAmount,
+                        orderId: orderId,
+                        orderName: '스페셜올림픽코리아 후원금 (일시)',
+                        customerName: customerName,
+                        successUrl: window.location.origin + '/sponsor/donate/success',
+                        failUrl: window.location.origin + '/sponsor/donate/fail'
+                    }).catch(function (error) {
+                        if (error.code !== 'USER_CANCEL') alert('결제창 호출 중 오류가 발생했습니다: ' + error.message);
+                    });
+                }
+                // 2. 정기 결제 (빌링) 처리
+                else {
+                    tossPayments.requestBillingAuth('카드', {
+                        customerKey: '${sessionScope.userLogin.mbrId}', // 정기결제는 고객 식별키(mbrId) 필수
+                        successUrl: window.location.origin + '/sponsor/donate/billing/success?orderId=' + orderId + '&amount=' + currentAmount,
+                        failUrl: window.location.origin + '/sponsor/donate/fail'
+                    }).catch(function (error) {
+                        if (error.code !== 'USER_CANCEL') alert('정기결제창 호출 중 오류가 발생했습니다: ' + error.message);
+                    });
+                }
             },
             error: function () {
                 alert('서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');

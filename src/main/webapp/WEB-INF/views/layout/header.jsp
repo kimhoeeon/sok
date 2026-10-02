@@ -195,7 +195,7 @@
                         </div>
                         <div class="site_map_top_link">
                             <a href="/mypage/info" class="hd_top_sns">마이페이지</a>
-                            <a href="/mypage/donate" class="hd_top_sns">기부현황</a>
+                            <a href="/mypage/donate" class="hd_top_sns">기부내역관리</a>
                         </div>
                     </div>
 

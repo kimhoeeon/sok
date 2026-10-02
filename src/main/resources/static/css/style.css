@@ -364,8 +364,19 @@
 .support_pop .pop_wrap .support_textarea textarea{width: 100%;font-size: 1em; min-height: 120px; border: 1px solid #d5d5d5; border-radius: 20px; padding: 20px;}
 .support_pop .pop_wrap .support_textarea textarea:focus{outline: none;}
 .support_pop .pop_wrap .support_textarea textarea::placeholder{font-weight: 500;font-family: 'NanumSquareNeoBold';}
-.support_pop .pop_wrap .support_btn{margin-top: 30px;}
+.support_pop .pop_wrap .support_btn{margin-top: 30px; display: flex; align-items: center; gap: 10px;}
 .support_pop .pop_wrap .support_btn .btn{margin-top: 0; width: 100%; background: var(--mainColor); color: #fff;padding: 12px 0;border:none; border-radius: 20px; font-size: 1.25em; cursor: pointer;}
+.support_pop .pop_wrap .support_btn .btn.one_btn{background: inherit; border: 2px solid var(--mainColor); color:var(--mainColor);}
+
+.support_pop .support_agree{margin: 10px 0;}
+.support_pop .support_agree label{display: flex; align-items: center;margin: 10px 0; cursor: pointer;}
+.support_pop .support_agree .chk_box {width: 24px;height: 24px;flex-shrink: 0;position: relative;background: url(/img/pop_check_off.png) no-repeat;margin-right: 10px;}
+.support_pop .support_agree input:checked + .chk_box::after {content: '';position: absolute;top: 50%;left: 50%;width: 24px;height: 24px;background: url(/img/pop_check_on.png) no-repeat;transform: translate(-50%, -50%);}
+.support_pop .pop_wrap .support_agree textarea{width: 100%;font-size: 0.75em; min-height: 120px; border: 1px solid #d5d5d5; border-radius: 20px; padding: 20px;resize: none;line-height: 1.7;white-space: pre-wrap;}
+.support_pop .pop_wrap .support_agree textarea:focus{outline: none;}
+
+.support_pop .support_agree .agree_txt{font-size: 0.75em; margin: 10px; border-top: 1px solid #ddd;padding-top: 10px;}
+.support_pop .support_agree .agree_txt div{font-size: 1.2em;margin-bottom: 5px;}
 
 /* 기부증서 팝업 */
 .donations_pop{position: fixed;inset: 0;z-index: 977;background: rgba(0, 0, 0, .52);opacity: 1;display: flex;    align-items: flex-end;justify-content: center;}
@@ -373,7 +384,7 @@
 .donations_pop .pop_wrap .pop_tit {display: flex; align-items: center;justify-content: center;}
 .donations_pop .pop_wrap .pop_tit .tit{font-size: 1.5em; font-family: 'NanumSquareNeoExtraBold';border-bottom: 1px solid #d5d5d5; width: 100%; text-align: center;padding-bottom: 15px;}
 .donations_pop .pop_wrap .pop_tit button{background: inherit;cursor: pointer; position: absolute; right: 43px;top: 43px; border: none; width: 36px;height: 36px;}
-.donations_pop .donations_card{background: url(/img/card_img.png) no-repeat; text-align: center; width: 100%; height: 630px;background-size: contain; background-position: center; padding: 120px 0 50px; margin: 30px 0 20px}
+.donations_pop .donations_card{background: url(/img/card_img.png) no-repeat; text-align: center; width: 100%; height: 700px;background-size: contain; background-position: center; padding: 120px 0 50px; margin: 30px 0 20px}
 .donations_pop .donations_card .card_tit{font-size: 2em;}
 .donations_pop .donations_card .card_name{font-size: 1.5em;margin-top: 20px;}
 .donations_pop .donations_card ul{margin: 30px 0; display: grid; gap: 10px;}
@@ -402,17 +413,17 @@
 /* 기부현황 */
 .all_donation { color: #777;text-align: right;margin-bottom: 30px;}
 .all_donation span{cursor: pointer;display: inline-block; border: 1px solid #d5d5d5;padding: 9px 20px; border-radius: 10px;}
-.donation_item{border: 1px solid #000; border-radius:40px; padding: 40px;margin-bottom: 60px;}
+.donation_item{border: 1px solid #000; border-radius:40px; padding: 40px;margin-bottom: 30px;}
 .donation_item:last-child{margin-bottom: 0;}
 .donation_item .donation_top{display: flex; justify-content: space-between; align-items: center;margin-bottom: 30px;}
 .donation_item .donation_top .tit{font-size: 1.75em;}
-.donation_item .donation_top .border{border: 1px solid #d5d5d5; padding: 9px 20px;border-radius: 10px;color: #777;}
+.donation_item .donation_top .border{border: 1px solid #d5d5d5; padding: 9px 20px;border-radius: 10px;color: #777; cursor: pointer;}
 .donation_item .donation_content{padding: 40px; background: #F9F9F9; border-radius: 20px; display: flex; align-items: center; justify-content: space-between;}
 .donation_item .donation_content ul {display: grid;gap: 10px;}
 .donation_item .donation_content ul li{display: flex;gap: 20px; font-size: 1.25em;}
 .donation_item .donation_content ul li .gu{color: #777}
 .donation_item .donation_content .donation_cost {text-align: right;}
-.donation_item .donation_content .donation_cost .total_dona{font-size: 1.5em; color: var(--mainColor);}
+.donation_item .donation_content .donation_cost .total_dona{font-size: 1.25em; color: var(--mainColor);}
 .donation_item .donation_content .donation_cost .current_dona{font-size: 2.5em; font-family: 'NanumSquareNeoExtraBold';}
 
 /* 마이페이지 */
@@ -921,7 +932,16 @@ body.banner-hide #container{padding: 120px 0;}
 .main_news_item{display: flex;margin-top: 40px; gap: 10px; flex-direction: column;}
 .main_news_item a{display: flex; align-items: center; gap: 20px;}
 
+.donation_wrap .situation_box{display: flex;align-items: center; width: 100%; background: #FFEEEE; border: 2px solid var(--mainColor);padding: 60px 0; border-radius: 40px;margin-bottom: 50px;}
+.donation_wrap .situation_box > div{width: 50%; text-align: center; font-size:1.25em;}
+.donation_wrap .situation_box > div span{font-size: 1.75em;margin: 0 5px; color:  var(--mainColor);}
 
-
-
+.donation_tab {display: flex;align-items: center;gap: 10px}
+.donation_tab li {min-width: 180px;padding: 16px 30px;border: 1px solid #d5d5d5;border-radius: 50px;background: #fff;color: #777;font-size: 1em;font-weight: 600;text-align: center;cursor: pointer;transition:background .3s ease,color .3s ease,border-color .3s ease;}
+.donation_tab li.on {border-color: var(--mainColor);background: var(--mainColor);color: #fff;}
+.donation_item {display: none;}
+.donation_item.on {display: block;}
+.donation_diff{display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;}
+.donation_diff .select{max-width: 130px; }
+.donation_diff .select select{font-size: 0.875em;}
 

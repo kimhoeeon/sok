@@ -10,18 +10,39 @@
           AND PAY_STATUS = 'DONE'
     </select>
 
-    <select id="selectDonationList" resultType="org.mtf.sok.domain.DonationDTO">
+    <select id="selectDonationList" parameterType="org.mtf.sok.domain.DonationDTO" resultType="org.mtf.sok.domain.DonationDTO">
         SELECT *
         FROM TB_DONATION_PAYMENT
         WHERE MBR_SEQ = #{mbrSeq}
-          AND PAY_STATUS = 'DONE'
-        ORDER BY PAY_DT DESC
+        AND PAY_STATUS = 'DONE'
+        <!-- 일회성(ONCE) / 정기(REGULAR) 탭 선택 시 필터링 -->
+        <if test="payType != null and payType != ''">
+            AND PAY_TYPE = #{payType}
+        </if>
+        <!-- 최신순/오래된순 정렬 -->
+        <choose>
+            <when test="sortOrder == 'ASC'">
+                ORDER BY PAY_DT ASC
+            </when>
+            <otherwise>
+                ORDER BY PAY_DT DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 2. 해당 회원의 정기기부 최대 회차 조회 -->
+    <select id="selectMaxRegularRound" parameterType="long" resultType="int">
+        SELECT IFNULL(MAX(REGULAR_ROUND), 0)
+        FROM TB_DONATION_PAYMENT
+        WHERE MBR_SEQ = #{mbrSeq}
+        AND PAY_TYPE = 'REGULAR'
+        AND PAY_STATUS IN ('DONE', 'WAIT')
+        <!-- WAIT(진행중)이나 DONE(완료)인 내역을 기준으로 가장 높은 회차를 찾음 -->
     </select>
 
     <insert id="insertDonation" parameterType="org.mtf.sok.domain.DonationDTO">
-        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT,
-                                         REGULAR_ROUND)
-        VALUES (#{orderId}, #{mbrSeq}, #{campSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), 1)
+        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT, REGULAR_ROUND)
+        VALUES (#{orderId}, #{mbrSeq}, #{campSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), #{regularRound})
     </insert>
 
     <select id="selectDonationByOrderId" parameterType="string" resultType="org.mtf.sok.domain.DonationDTO">
@@ -32,10 +53,21 @@
 
     <update id="updateDonationStatus" parameterType="org.mtf.sok.domain.DonationDTO">
         UPDATE TB_DONATION_PAYMENT
-        SET PAY_STATUS  = #{payStatus},
-            PAY_METHOD  = #{payMethod},
-            PAYMENT_KEY = #{paymentKey},
-            PAY_DT      = NOW()
+        <set>
+            PAY_STATUS  = #{payStatus},
+            PAY_DT      = NOW(),
+            <if test="payMethod != null">PAY_METHOD = #{payMethod},</if>
+            <if test="paymentKey != null">PAYMENT_KEY = #{paymentKey},</if>
+            <if test="billingKey != null">BILLING_KEY = #{billingKey},</if>
+            <if test="payStatus == 'CANCEL' or payStatus == 'FAIL'">
+                CANCEL_DT = NOW(),
+                CANCEL_RSN = #{cancelRsn},
+            </if>
+            <if test="payStatus == 'REFUND'">
+                REFUND_DT = NOW(),
+                REFUND_RSN = #{refundRsn},
+            </if>
+        </set>
         WHERE ORDER_ID = #{orderId}
     </update>
 
