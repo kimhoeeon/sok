@@ -83,6 +83,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return null;
+        // [핵심 수정] OAuth2LoginAuthenticationProvider가 토큰을 생성할 때
+        // 이 값이 null이면 IllegalArgumentException을 터뜨리므로, 반드시 식별자를 반환해야 합니다.
+        if (attributes != null && attributes.get("id") != null) {
+            return String.valueOf(attributes.get("id"));
+        }
+        return memberDTO != null ? memberDTO.getMbrId() : null;
     }
+
 }

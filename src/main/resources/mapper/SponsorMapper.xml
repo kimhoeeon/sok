@@ -116,7 +116,9 @@
         UPDATE TB_DONATION_PAYMENT
         <set>
             PAY_STATUS  = #{payStatus},
-            PAY_DT      = NOW(),
+            <if test="payStatus == 'DONE'">
+                PAY_DT = NOW(),
+            </if>
             <if test="payMethod != null">PAY_METHOD = #{payMethod},</if>
             <if test="paymentKey != null">PAYMENT_KEY = #{paymentKey},</if>
 

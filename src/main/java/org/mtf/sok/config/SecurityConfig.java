@@ -2,7 +2,7 @@ package org.mtf.sok.config;
 
 import org.mtf.sok.domain.AdminDTO;
 import org.mtf.sok.domain.MemberDTO;
-import org.mtf.sok.security.CustomLogoutSuccessHandler; // 핸들러 임포트 추가
+import org.mtf.sok.security.CustomLogoutSuccessHandler;
 import org.mtf.sok.security.PrincipalDetails;
 import org.mtf.sok.security.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher; // 매처 임포트 추가
-import org.springframework.security.web.util.matcher.OrRequestMatcher;      // 매처 임포트 추가
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
@@ -47,11 +47,12 @@ public class SecurityConfig {
                 .loginPage("/mng/login")
                 .loginProcessingUrl("/common/loginProc")
                 .successHandler(customSuccessHandler())
-                .failureHandler(customFailureHandler())
+                .failureHandler(customFailureHandler()) // 일반 로그인 실패 핸들러
                 .and()
                 .oauth2Login()
                 .loginPage("/login/basic")
                 .successHandler(customSuccessHandler())
+                .failureHandler(customFailureHandler()) // [추가] 카카오 로그인 실패 시에도 동일한 핸들러 적용
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 
@@ -150,10 +151,15 @@ public class SecurityConfig {
     public AuthenticationFailureHandler customFailureHandler() {
         return (request, response, exception) -> {
             String referer = request.getHeader("Referer");
-            String errorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
+            String errorMessage = "로그인에 실패했습니다. 다시 시도해 주세요.";
 
-            if (exception.getMessage() != null && exception.getMessage().contains("허용되지 않은 IP")) {
+            // [수정 포인트] 시큐리티에서 발생한 모든 에러 메시지를 그대로 추출
+            if (exception.getMessage() != null && !exception.getMessage().isEmpty()) {
                 errorMessage = exception.getMessage();
+                // 단, 가장 흔한 영문 에러는 한글로 순화
+                if (errorMessage.equals("Bad credentials")) {
+                    errorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
+                }
             }
 
             String encodedMsg = URLEncoder.encode(errorMessage, "UTF-8");
@@ -161,7 +167,7 @@ public class SecurityConfig {
             if (referer != null && referer.contains("/mng/login")) {
                 response.sendRedirect("/mng/login?error=true&exception=" + encodedMsg);
             } else {
-                response.sendRedirect("/login/basic?error=true&exception=" + encodedMsg);
+                response.sendRedirect("/login/basic?error=true&errorMessage=" + encodedMsg);
             }
         };
     }

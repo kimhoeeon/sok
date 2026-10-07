@@ -459,8 +459,13 @@
                     });
                 }
             },
-            error: function () {
-                alert('서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+            error: function (xhr) {
+                if (xhr.status === 401) {
+                    alert('로그인 세션이 만료되었습니다. 다시 로그인해 주세요.');
+                    location.href = '/login/basic';
+                } else {
+                    alert('서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+                }
             }
         });
     }

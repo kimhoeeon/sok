@@ -144,6 +144,8 @@ public class SponsorController {
                 }
             }
 
+            donation.setOrderId(originData.getOrderId());
+
             // 2. 취소/환불 완료 및 빌링키 해지 성공 시 우리 DB 업데이트
             sponsorMapper.updateDonationStatus(donation);
             rttr.addFlashAttribute("successMessage", "상태가 정상적으로 변경 및 해지되었습니다.");

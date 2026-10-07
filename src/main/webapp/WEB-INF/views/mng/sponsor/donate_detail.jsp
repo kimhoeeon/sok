@@ -83,7 +83,7 @@
                 <input type="hidden" name="payType" value="${params.payType}">
                 <input type="hidden" name="searchStatus" value="${params.searchStatus}">
 
-                <label class="form-label text-muted mb-2" style="font-size: 13px;">상태 변경 (PG사 API 연동 필요)</label>
+                <label class="form-label text-muted mb-2" style="font-size: 13px;">상태 변경</label>
                 <select name="payStatus" id="payStatusSelect" class="form-select mb-3 border-danger" onchange="toggleCancelReason()">
                     <option value="WAIT" ${donation.payStatus eq 'WAIT' ? 'selected' : ''}>입금 대기 (무통장)</option>
                     <option value="DONE" ${donation.payStatus eq 'DONE' ? 'selected' : ''}>결제 완료 처리</option>

@@ -47,9 +47,9 @@
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
-<c:if test="${not empty errorMessage}">
+<c:if test="${not empty param.errorMessage}">
     <script>
-        alert("${errorMessage}");
+        alert("${param.errorMessage}");
     </script>
 </c:if>
 
