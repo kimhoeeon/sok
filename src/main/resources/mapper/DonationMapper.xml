@@ -14,7 +14,7 @@
         SELECT *
         FROM TB_DONATION_PAYMENT
         WHERE MBR_SEQ = #{mbrSeq}
-        AND PAY_STATUS = 'DONE'
+        AND PAY_STATUS IN ('DONE', 'CANCEL', 'REFUND')
         <!-- 일회성(ONCE) / 정기(REGULAR) 탭 선택 시 필터링 -->
         <if test="payType != null and payType != ''">
             AND PAY_TYPE = #{payType}

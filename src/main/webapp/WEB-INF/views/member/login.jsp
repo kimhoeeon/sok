@@ -39,3 +39,10 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
+<c:if test="${not empty param.errorMessage}">
+    <script>
+        // 백틱(`)을 사용하여 JSON 등 특수문자 충돌 방지
+        alert(`${param.errorMessage}`);
+    </script>
+</c:if>

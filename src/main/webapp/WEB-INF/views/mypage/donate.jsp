@@ -72,13 +72,31 @@
                                 <div class="donation_item on">
                                     <div class="donation_top">
                                         <div class="tit">기부내역</div>
-                                        <div class="border" style="cursor:pointer;" onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd"/>', ${item.payAmt})">기부증서</div>
+                                        <c:if test="${item.payStatus eq 'DONE'}">
+                                            <div class="border" style="cursor:pointer;" onclick="openDonationPopup('<fmt:formatDate value="${item.payDt}" pattern="yyyy-MM-dd"/>', ${item.payAmt})">기부증서</div>
+                                        </c:if>
                                     </div>
                                     <div class="donation_content">
                                         <ul>
                                             <li>
+                                                <div class="gu">결제상태</div>
+                                                <div class="nae">
+                                                    <c:choose>
+                                                        <c:when test="${item.payStatus eq 'DONE'}"><span style="color:var(--mainColor); font-weight:bold;">결제완료</span></c:when>
+                                                        <c:when test="${item.payStatus eq 'CANCEL'}"><span style="color:#dc3545; font-weight:bold;">결제취소</span></c:when>
+                                                        <c:when test="${item.payStatus eq 'REFUND'}"><span style="color:#dc3545; font-weight:bold;">환불완료</span></c:when>
+                                                        <c:otherwise><span>${item.payStatus}</span></c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </li>
+                                            <li>
                                                 <div class="gu">결제일시</div>
-                                                <div class="nae"><fmt:formatDate value="${item.payDt}" pattern="yyyy.MM.dd"/></div>
+                                                <div class="nae">
+                                                    <c:choose>
+                                                        <c:when test="${not empty item.payDt}"><fmt:formatDate value="${item.payDt}" pattern="yyyy.MM.dd HH:mm"/></c:when>
+                                                        <c:otherwise>-</c:otherwise>
+                                                    </c:choose>
+                                                </div>
                                             </li>
                                             <li>
                                                 <div class="gu">기부회차</div>
@@ -94,7 +112,12 @@
                                             </li>
                                             <li>
                                                 <div class="gu">직접기부</div>
-                                                <div class="nae"><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원</div>
+                                                <div class="nae">
+                                                    <!-- 취소건은 마이너스 기호나 취소선 처리 없이 원래 금액 노출 후 회색 처리 -->
+                                                    <span style="${item.payStatus ne 'DONE' ? 'text-decoration: line-through; color: #999;' : ''}">
+                                                        <fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
+                                                    </span>
+                                                </div>
                                             </li>
                                         </ul>
                                         <div class="donation_cost">
@@ -104,7 +127,9 @@
                                                     <c:otherwise>일회성 기부금</c:otherwise>
                                                 </c:choose>
                                             </div>
-                                            <div class="current_dona"><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원</div>
+                                            <div class="current_dona" style="${item.payStatus ne 'DONE' ? 'color: #dc3545;' : ''}">
+                                                <c:if test="${item.payStatus ne 'DONE'}">-</c:if><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/>원
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

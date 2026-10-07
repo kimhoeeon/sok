@@ -50,9 +50,9 @@ public class SecurityConfig {
                 .failureHandler(customFailureHandler()) // 일반 로그인 실패 핸들러
                 .and()
                 .oauth2Login()
-                .loginPage("/login/basic")
+                .loginPage("/login") // [수정] OAuth2 로그인 진입점을 통합 로그인 페이지로 변경
                 .successHandler(customSuccessHandler())
-                .failureHandler(customFailureHandler()) // [추가] 카카오 로그인 실패 시에도 동일한 핸들러 적용
+                .failureHandler(customFailureHandler()) // 카카오 로그인 실패 시에도 동일한 핸들러 적용
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 
@@ -91,7 +91,7 @@ public class SecurityConfig {
                 if (requestURI != null && requestURI.startsWith("/mng")) {
                     response.getWriter().println("<script>alert('관리자 로그인이 필요한 서비스입니다.'); location.replace('/mng/login');</script>");
                 } else {
-                    response.getWriter().println("<script>alert('로그인이 필요한 서비스입니다.'); location.replace('/login/basic?redirect=" + requestURI + "');</script>");
+                    response.getWriter().println("<script>alert('로그인이 필요한 서비스입니다.'); location.replace('/login?redirect=" + requestURI + "');</script>");
                 }
                 response.getWriter().flush();
             }
@@ -153,10 +153,8 @@ public class SecurityConfig {
             String referer = request.getHeader("Referer");
             String errorMessage = "로그인에 실패했습니다. 다시 시도해 주세요.";
 
-            // [수정 포인트] 시큐리티에서 발생한 모든 에러 메시지를 그대로 추출
             if (exception.getMessage() != null && !exception.getMessage().isEmpty()) {
                 errorMessage = exception.getMessage();
-                // 단, 가장 흔한 영문 에러는 한글로 순화
                 if (errorMessage.equals("Bad credentials")) {
                     errorMessage = "아이디 또는 비밀번호가 일치하지 않습니다.";
                 }
@@ -165,9 +163,14 @@ public class SecurityConfig {
             String encodedMsg = URLEncoder.encode(errorMessage, "UTF-8");
 
             if (referer != null && referer.contains("/mng/login")) {
+                // 관리자 로그인 실패 시
                 response.sendRedirect("/mng/login?error=true&exception=" + encodedMsg);
-            } else {
+            } else if (referer != null && referer.contains("/login/basic")) {
+                // 단체회원(폼) 로그인 실패 시 -> 다시 폼 화면으로 유지
                 response.sendRedirect("/login/basic?error=true&errorMessage=" + encodedMsg);
+            } else {
+                // 카카오 로그인(소셜) 등 기타 실패 시 -> 통합 로그인 메인 화면으로
+                response.sendRedirect("/login?error=true&errorMessage=" + encodedMsg);
             }
         };
     }
