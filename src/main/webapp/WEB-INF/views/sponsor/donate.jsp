@@ -428,7 +428,8 @@
             data: {
                 payAmt: currentAmount,
                 payType: selectedPayType, // ONCE 또는 REGULAR 전송
-                cheerMsg: cheerMsg
+                cheerMsg: cheerMsg,
+                isAnon: isAnon
                 <c:if test="${not empty campaign}">,campSeq: ${campaign.campSeq}</c:if>
             },
             beforeSend: function(xhr) {

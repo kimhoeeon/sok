@@ -41,8 +41,8 @@
     </select>
 
     <insert id="insertDonation" parameterType="org.mtf.sok.domain.DonationDTO">
-        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT, REGULAR_ROUND)
-        VALUES (#{orderId}, #{mbrSeq}, #{campSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), #{regularRound})
+        INSERT INTO TB_DONATION_PAYMENT (ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS, CHEER_MSG, REG_DT, REGULAR_ROUND, IS_ANON)
+        VALUES (#{orderId}, #{mbrSeq}, #{campSeq}, #{payType}, #{payAmt}, 'WAIT', #{cheerMsg}, NOW(), #{regularRound}, #{isAnon})
     </insert>
 
     <select id="selectDonationByOrderId" parameterType="string" resultType="org.mtf.sok.domain.DonationDTO">
@@ -73,17 +73,17 @@
 
     <!-- 1. 오늘 결제해야 할 대상자 찾기 (결제일이 정확히 1개월(INTERVAL 1 MONTH) 전인 유효한 빌링키 보유자) -->
     <select id="selectBillingTargets" resultType="org.mtf.sok.domain.DonationDTO">
-        SELECT D1.MBR_SEQ, D1.BILLING_KEY, D1.PAY_AMT, D1.CAMP_SEQ, M.MBR_ID, D1.REGULAR_ROUND
+        SELECT D1.MBR_SEQ, D1.BILLING_KEY, D1.PAY_AMT, D1.CAMP_SEQ, M.MBR_ID, D1.REGULAR_ROUND, D1.IS_ANON
         FROM TB_DONATION_PAYMENT D1
-        JOIN TB_MEMBER M ON D1.MBR_SEQ = M.MBR_SEQ
+                 JOIN TB_MEMBER M ON D1.MBR_SEQ = M.MBR_SEQ
         WHERE D1.PAY_TYPE = 'REGULAR'
-        AND D1.PAY_STATUS = 'DONE'
-        AND D1.BILLING_KEY IS NOT NULL
-        AND D1.PAY_SEQ = (
-        SELECT MAX(PAY_SEQ)
-        FROM TB_DONATION_PAYMENT D2
-        WHERE D2.BILLING_KEY = D1.BILLING_KEY
-        AND D2.PAY_STATUS = 'DONE'
+          AND D1.PAY_STATUS = 'DONE'
+          AND D1.BILLING_KEY IS NOT NULL
+          AND D1.PAY_SEQ = (
+            SELECT MAX(PAY_SEQ)
+            FROM TB_DONATION_PAYMENT D2
+            WHERE D2.BILLING_KEY = D1.BILLING_KEY
+              AND D2.PAY_STATUS = 'DONE'
         )
         AND DATE(DATE_ADD(D1.PAY_DT, INTERVAL 1 MONTH)) &lt;= CURDATE()
     </select>
@@ -92,7 +92,7 @@
     <insert id="insertRegularDonationHistory" parameterType="org.mtf.sok.domain.DonationDTO">
         INSERT INTO TB_DONATION_PAYMENT (
         ORDER_ID, MBR_SEQ, CAMP_SEQ, PAY_TYPE, PAY_AMT, PAY_STATUS,
-        PAY_METHOD, PAYMENT_KEY, BILLING_KEY, REGULAR_ROUND, REG_DT, PAY_DT, CANCEL_RSN
+        PAY_METHOD, PAYMENT_KEY, BILLING_KEY, REGULAR_ROUND, REG_DT, PAY_DT, CANCEL_RSN, IS_ANON
         ) VALUES (
         #{orderId}, #{mbrSeq}, #{campSeq}, 'REGULAR', #{payAmt}, #{payStatus},
         #{payMethod}, #{paymentKey}, #{billingKey}, #{regularRound}, NOW(),
@@ -100,7 +100,7 @@
             <when test="payStatus == 'DONE'">NOW()</when>
             <otherwise>NULL</otherwise>
         </choose>,
-        #{cancelRsn}
+        #{cancelRsn}, #{isAnon}
         )
     </insert>
 

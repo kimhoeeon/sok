@@ -43,4 +43,6 @@ public class DonationDTO extends Criteria {
     private String searchType;
     private String searchStatus;
     private String searchKeyword;
+
+    private String isAnon;
 }
