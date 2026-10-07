@@ -22,4 +22,10 @@ public interface DonationMapper {
 
     void updateDonationStatus(DonationDTO donationDTO); // 최종 승인/실패 처리
 
+    // 매일 오전 결제일이 도래한(정확히 1달 전 결제) 정기기부 대상자 목록 조회
+    List<DonationDTO> selectBillingTargets();
+
+    // 스케줄러를 통해 자동 결제가 일어난 후 새로운 회차의 결제 내역(이력) 추가
+    void insertRegularDonationHistory(DonationDTO donation);
+
 }

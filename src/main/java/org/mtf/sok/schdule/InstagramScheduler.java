@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class InstagramSchedule {
+public class InstagramScheduler {
 
     private final InstagramService instagramService;
 

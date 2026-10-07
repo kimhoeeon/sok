@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class BlogSchedule {
+public class BlogScheduler {
 
     private final BlogService blogService;
 
