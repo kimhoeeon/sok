@@ -122,6 +122,13 @@ public class SponsorController {
             }
         }
 
+        // [안전장치 1] 토스 API는 취소 사유를 필수로 요구하므로, 빈 값일 경우 기본값 강제 세팅
+        if ("CANCEL".equals(donation.getPayStatus()) || "REFUND".equals(donation.getPayStatus())) {
+            if (donation.getCancelRsn() == null || donation.getCancelRsn().trim().isEmpty()) {
+                donation.setCancelRsn("관리자 직권 취소 (사유 미입력)");
+            }
+        }
+
         try {
             DonationDTO originData = sponsorMapper.selectDonation(donation.getPaySeq());
 
@@ -130,29 +137,50 @@ public class SponsorController {
 
                 // [1-A] 이미 결제가 완료된 건(DONE)에 대해 결제 금액 자체를 취소(환불) 처리
                 if ("DONE".equals(originData.getPayStatus()) && originData.getPaymentKey() != null) {
-                    tossPaymentService.cancelPayment(originData.getPaymentKey(), donation.getCancelRsn());
+                    try {
+                        tossPaymentService.cancelPayment(originData.getPaymentKey(), donation.getCancelRsn());
 
-                    // 환불이 승인되면 캠페인 누적 모금액 차감
-                    if (originData.getCampSeq() != null) {
-                        campaignMapper.addCurrentAmount(originData.getCampSeq(), originData.getPayAmt().negate());
+                        // 환불이 승인되면 캠페인 누적 모금액 차감
+                        if (originData.getCampSeq() != null) {
+                            campaignMapper.addCurrentAmount(originData.getCampSeq(), originData.getPayAmt().negate());
+                        }
+                    } catch (Exception pgEx) {
+                        // 토스에서 '이미 취소된 결제'라고 응답할 경우 중단하지 않고 통과시킴
+                        if (pgEx.getMessage() != null && (pgEx.getMessage().contains("취소") || pgEx.getMessage().contains("ALREADY"))) {
+                            System.out.println("▶ PG사에는 이미 취소되어 있으므로 DB 상태 동기화를 강행합니다.");
+                        } else {
+                            throw pgEx; // 다른 실제 에러일 경우에만 상위 catch 로 던져 중단
+                        }
                     }
                 }
 
-                // [1-B] 신규 로직: 정기결제(REGULAR)인 경우, 빌링키를 토스 서버에서 만료시켜 다음 달 결제를 원천 차단
+                // [1-B] 정기결제(REGULAR)인 경우, 빌링키를 토스 서버에서 만료
                 if ("REGULAR".equals(originData.getPayType()) && originData.getBillingKey() != null) {
-                    tossPaymentService.expireBillingKey(originData.getBillingKey());
+                    try {
+                        tossPaymentService.expireBillingKey(originData.getBillingKey());
+                    } catch (Exception pgEx) {
+                        // [반영 완료] 어떤 에러가 나더라도 무조건 통과시키고 DB 동기화 강행
+                        System.out.println("▶ 정기결제 빌링키 해지 중 에러 발생 (무시하고 DB 동기화 강행): " + pgEx.getMessage());
+                    }
                 }
             }
 
             donation.setOrderId(originData.getOrderId());
 
-            // 2. 취소/환불 완료 및 빌링키 해지 성공 시 우리 DB 업데이트
+            // 2. 취소/환불 완료 및 빌링키 해지 성공(또는 기취소 확인) 시 우리 DB 업데이트
             sponsorMapper.updateDonationStatus(donation);
             rttr.addFlashAttribute("successMessage", "상태가 정상적으로 변경 및 해지되었습니다.");
 
         } catch (Exception e) {
-            e.printStackTrace();
-            rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 또는 해지 중 오류가 발생했습니다: " + e.getMessage());
+            e.printStackTrace(); // 콘솔에 실제 에러 로그 출력
+
+            // [안전장치 2] e.getMessage()가 null일 경우를 대비해 안전한 에러 메시지 생성
+            String errorMsg = e.getMessage();
+            if (errorMsg == null || errorMsg.trim().isEmpty()) {
+                errorMsg = "내부 데이터 처리 오류 (서버 콘솔의 붉은색 로그를 확인해 주세요)";
+            }
+
+            rttr.addFlashAttribute("errorMessage", "PG사(토스) 결제 취소 또는 해지 중 오류가 발생했습니다: " + errorMsg);
             return "redirect:/mng/sponsor/donate/detail?paySeq=" + donation.getPaySeq();
         }
 
